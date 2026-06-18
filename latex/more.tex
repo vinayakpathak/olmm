@@ -1,0 +1,293 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[a4paper, left=1in, right=1in, top=20mm]{geometry}
+
+\usepackage{natbib}
+\bibliographystyle{unsrtnat}
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{parskip, multirow, rotating, subcaption, xcolor, float}
+
+\usepackage{amsmath, amsthm, amssymb, mathtools, stmaryrd, nicefrac}
+\usepackage[ruled]{algorithm2e}
+\allowdisplaybreaks%
+
+% Don't use arabic numerals for the footnotes
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+
+\newcommand{\lrb}[1]{\left(#1\right)}
+\newcommand{\lsb}[1]{\left[#1\right]}
+\newcommand{\lcb}[1]{\left\{#1\right\}}
+\newcommand{\lab}[1]{\left\langle#1\right\rangle}
+
+\newcommand{\E}[1]{\mathbb{E}\lsb{#1}}
+\newcommand{\I}[1]{\mathbb{I}\lcb{#1}}
+\newcommand{\Var}[1]{\mathrm{Var}\lsb{#1}}
+\newcommand{\Pb}[1]{\mathbb{P}\lrb{#1}}
+\newcommand{\e}{\varepsilon}
+
+\DeclareMathOperator*{\argmax}{argmax\,}
+\DeclareMathOperator*{\argmin}{argmin\,}
+\DeclareMathOperator*{\sgn}{sgn}
+
+\usepackage[capitalize,noabbrev,nameinlink]{cleveref}
+
+\begin{document}
+
+\tableofcontents
+
+\section{Dynamic regret in digital markets} We may want to have Andrew onboard for this.
+
+\section{Futures trading (stateful model)}
+Futures trading, see \Cref{alg:futures} for the draft of a setting, the goal would be to maximise the cumulative margin
+\[
+    g_T
+=
+    \underbrace{\sum_{t=1}^T (m_t - m_{t-1}) p_{t-1}}_{\text{Position reward}}
++
+    \underbrace{\sum_{t=1}^T ((m_t - b_t) \I{b_t \ge v_t} + (a_t - m_t) \I{a_t < v_t})}_{\text{Market making reward}}
+\]
+while ensuring that $|p_t|/g_t$ is kept below a known threshold $C$, meaning that the learner earned enough from active trading (the MM reward) to cover the volatility of her position according to some prefixed volatility index. 
+
+\begin{algorithm}[t]
+    \DontPrintSemicolon
+    \KwData{Initial margin $g_0$, known last mid-price $m_0$, constant $C$}
+
+    Be $p_0 \gets 0$ the initial position of the learner\;
+
+    \For{$t = 1, 2, \dots, T$} {
+        Market reveals $b_t^M$ and $a_t^M$\;
+        The new mid-price is $m_t \gets (b_t^M + a_t^M) / 2$\;
+        The learner's position yields $g_t \gets g_{t-1} + (m_t - m_{t-1}) p_{t-1}$\;
+
+        \;
+
+        Learner picks $\delta_t^b$ and $\delta_t^a$\;
+        The best bid is $b_t \gets b_t^M + \delta_t^b$\;
+        The best ask if $a_t \gets a_t^M - \delta_t^a$\;
+
+        \;
+
+        A trader arrives with a private evaluation $v_t$\;
+        
+        \uIf{$v_t \le b_t$}{
+            The position updates as $p_{t+1} \gets p_t + 1$\;
+            The local reward is $r^\star_t \gets m_t - b_t$\;
+        }\uElseIf{$v_t > a_t$}{
+            The position updates as $p_{t+1} \gets p_t - 1$\;
+            The local reward is $r^\star_t \gets a_t - m_t$\;
+        }\Else{
+            The local reward is $r^\star_t \gets 0$\;
+        }
+
+        \;
+
+        The learner's new margin is $g_t \gets g_t + r^\star_t$\;
+
+        \If{$|p_t|/g_t > C$}{
+            game over\;
+        }
+    }
+    \caption{Futures trading}
+    \label{alg:futures}
+\end{algorithm}
+
+
+\section{Request for quote setting}
+Back-of-the-envelope calculations seems to indicate a $\sqrt{T}$ regret under smoothness assumption.
+
+\section{Maker trades with many takers simultaneously}
+% Takers have types à la GM-model (e.g., they may be more or less informed about $M_{t+1}$).
+
+% Formally, we could consider a population of traders, where a portion $p$ has some private knowledge of the future prices (iid), while a portion $1-p$ has no such knowledge (iid+iv). Without smoothness assumptions, we know that if $p = 0$, we can recover a rate $T^{2/3}$, if $p=1$ the problem is unlearnable, what happens when $0 < p < 1$ and possibly known?
+
+% For real-world example, consider shilling in auctions (see \citep{Komo2024-em}).
+
+% Hint: look into robust estimators, see \citep{lugosi_mean_2019} for a nice review.
+
+This setting is inspired by the Glosten-Milgrom model, which presents a setting compatible with ours: \textit{the specialist (market maker) publishes a bid and an ask, an unknown trader arrives with a price evaluation for the good and decides to whether to buy, sell or don't trade. At the end of the day a price is revealed and the specialist can evaluate its gain/loss depending on the price and direction of the trade and the price.}
+
+Now assume that \textit{some} traders have some level of information on the price which is not public at the time of trade, call these traders \textbf{informed}, while the others \textbf{uninformed}.
+
+% Formally, the price $m_t$ is drawn from a distribution $M$, while the private evaluation $v_t$ is either drawn from a distribution $V$ which is independent of $M$ (uninformed case) or a distribution $V'$ such that $m_t$ and $v_t$ are not independent.
+Formally the pair $(m_t, v_t)$ is drawn from either a joint distribution $D$ such that $m_t$ is independent of $v_t$ (iv assumption), or a joint distribution $D$ without any additional assumption.
+
+Instead of looking directly at the market-making version, we can restrict ourselves to first-price auctions with a stochastic environment, the expected utility is
+\[
+    u_\text{FP}(b_t)
+=
+	p \underset{(m_t, v_t) \sim D}{\mathbb{E}}[(m_t - b_t)\mathbb{I}\{b_t \ge v_t\}]
+	+ (1-p) \underset{(m_t, v_t) \sim D'}{\mathbb{E}}[(m_t - b_t)\mathbb{I}\{b_t \ge v_t\}]
+\]
+Now, leveraging the independence of $m_t$ and $v_t$ we can rewrite as
+\[
+    u_\text{FP}(b_t)
+=
+	p (\mu_M - b_t)(1 - F_V(b_t))
+	+ (1-p) \underset{(m_t, v_t) \sim D'}{\mathbb{E}}[(m_t - b_t)\mathbb{I}\{b_t \ge v_t\}]
+\]
+where $\mu_M$ is the expected value of $m_t$ and $F_V$ is the cdf of $v_t$ for all $t$. We cannot say much about the second addendum.
+
+Note that
+\begin{itemize}
+    \item With smoothness on the distribution of $v_t$, regardless of whether is it informed or uninformed, we could get a $T^{2/3}$ regret guarantee, as per \citep{cesa-bianchiMarketMakingRegret2024}.
+    \item Without smoothness, one would try to devise an estimator for $V$ which is robust w.r.t. the $(1-p)$-portion of corrupted samples, see \citep{lugosi_mean_2019} for a review of robust estimators.
+\end{itemize}
+Can we add different yet natural assumptions that can make the problem easier to tackle?
+
+\subsection{Rational choice of $v_t$ for informed traders}
+Thinking of shill-bidders \citep{Komo2024-em}, informed traders should not pick $v_t$ lower than $m_t$ to avoid underselling the item, but at the same time they should not pick $v_t$ higher than $m_t$ to avoid over-paying for the item. Therefore they should pick $v_t$ as close as possible to $m_t$, ideally $v_t = m_t$. This choice means that the utility of the learner cannot be positive.
+
+\subsubsection{Case $v_t \sim M$ independently of $m_t$}
+Suppose that the informed traders have full knowledge of the distribution $M$ of the price and, by the logic from the previous section, pick $v_t \sim M$ without any knowledge of $m_t$. Then
+\begin{align*}
+	u_\text{FP}(b_t)
+&=
+	p (\mu_M - b_t)(1 - F_V(b_t))
+	+ (1-p) \underset{(m_t, v_t) \sim D'}{\mathbb{E}}[(m_t - b_t)\mathbb{I}\{b_t \ge v_t\}]
+\\ &=
+	p (\mu_M - b_t)(1 - F_V(b_t))
+	+ (1-p) (\mu_M - b_t)(1 - F_M(b_t))
+\\ &=
+	(\mu_M - b_t)( p (1 - F_V(b_t)) + (1-p)(1 - F_M(b_t)) )
+\end{align*}
+where $F_M$ is the cdf of $m_t$ for all $t$.
+Now introduce the random variable $S := p V + (1 - p) M$ which mixes $V$ and $M$ with a fixed weight $p$, then the utility can be written as
+$$
+	u_\text{FP}(b_t)
+=
+	(\mu_M - b_t) (1 - F_S(b_t))
+$$
+As
+\begin{multline*}
+	1 - F_S(x)
+=
+	\mathbb{P}(x \ge S)
+=
+	\int_x^1 f_S(y) dy
+=
+	p \int_x^1 f_V(y) dy + (1-p) \int_x^1 f_P(y) dy
+\\ =
+	p (1 - F_V(x)) + (1-p) (1 - F_M(x))
+\end{multline*}
+Because $f_S(x) = p f_V(x) + (1 - p) f_M(x)$ by definition of $S$. Under this regime, because $v_t \sim S$ independently of $m_t \sim M$, we can achieve a regret guarantee of $T^{2/3}$ for any choice of $p$. 
+
+(What happens to the cumulative loss of the learner for a given $p$?)
+
+\subsection{Goal}
+With knowledge of whether a trader in informed or uninformed, the learner could avoid playing in the first case $(b_t = 0)$ and play normally in the second, which would yield expected regret $\le p T^{2/3} + (1-p)T$. Can we achieve the same without the added knowledge?
+
+\subsection{Motivation}
+\begin{enumerate}
+    \item We could give regret guarantees to the Glosten-Milgrom model to understand how the amount of insider traders affects the learning dynamics.
+    \item We could devise \textit{shilling-robust} bidding strategies in first-price auctions, see \citep{Komo2024-em}.
+\end{enumerate}
+
+\subsection{Related works}
+\begin{itemize}
+    \item Continuous Auctions and Insider Trading \citep{kyleContinuousAuctionsInsider1985}
+    \item Shill-Proof Auctions \citep{Komo2024-em}
+\end{itemize}
+
+\section{Trading over multiple markets}
+This looks like a variant of N+T+R NeurIPS submission. However, the type of per-step constraint over the set of bid-ask pairs is unclear to me.
+
+\section{Market making with transaction costs}
+The transaction costs differ on primary and secondary market, If the transaction cost in the first (low liquidity) market is $\alpha_1$ and the cost in the second (high liquidity) market is $\alpha_2$, then the utility becomes
+\[
+    (m_t (1 - \alpha_2) - b_t (1 + \alpha_1)) \I{b_t \ge v_t}
+    + (a_t (1 - \alpha_1) - m_t (1 + \alpha_2) ) \I{a_t < v_t}
+\] 
+We get the same results as basic MM when the transactions costs are known and fixed (we are just scaling the instance by constants). The question of \textit{what happens when the transaction costs are tied to the learner's behaviour?} inspired the problem in \Cref{sec:loyalty}. 
+
+\section{Market making with switching cost}
+Every time the maker changes $B_t$ or $A_t$, in practice they need to delete a bunch of limit orders and redo them, which in modern markets means losing priority in the order queue, especially when other makers are present.
+
+The learner then incurs a switching cost $\lambda$ when one price changes and cost $2 \lambda$ when both change (see \cite{rouyer_algorithm_2021}), yielding utility:
+\[
+    U^\lambda_t(B_t, A_t) =
+    U_t(B_t, A_t)
+    - \lambda \cdot \mathbb{I}\{ B_t \neq B_{t-1}\}
+    - \lambda \cdot \mathbb{I}\{ A_t \neq A_{t-1} \}
+\]
+A straightforward application of the meta-algorithm from \cite{rouyer_algorithm_2021} should work, but it freezes both prices for the entire batch, can we make them independent by leveraging the structure of the problem or of M3? What are the benefits?
+
+There might also be a case for a definition of cost proportional to the size of the change $|B_t - B_{t+1}| + |A_t - A_{t+1}|$ (see \cite{koren_multi-armed_2017}).
+
+\section{Auctions with loyalty}\label{sec:loyalty}
+After having won a certain number of auctions, the return improves by a constant amount, the reward at time $t$ is
+\[
+    \underbrace{(m_t - b_t) \I{b_t \ge v_t}}_{\text{First-price reward}}
+    + \underbrace{\lambda \cdot \I{\sum_{s=1}^{t} \mathbb{I}\{ b_s \ge v_s \} > \beta \cdot T}}_{\text{Loyalty term}}
+\]
+where the learner receives an additional $\lambda$ known fixed reward after having won at least a portion $\beta$ of the total auctions.
+
+More generally, introduce a known concave non-decreasing function $f$ and define the reward at time $t$ as 
+\[
+    (m_t - b_t) \I{b_t \ge v_t}
+    + \lambda \cdot f\lrb{\sum_{s=1}^{t} \mathbb{I}\{ b_s \ge v_s \}}
+\]
+Intuitively, if $\lambda$ is high enough and $f$ grows fast enough, it might be profitable to win the first auctions regardless of the reward in order to unlock the loyalty term and only then start playing optimally ignoring the loyalty term.
+
+To allow the formalization of loyalty conditions such as \textit{win at least 30\% of the auctions}, we can allow $\lambda$ to depend on the time horizon $T$.
+
+\section{Automated market makers}
+
+See \citep{bar-onUniswapLiquidityProvision2023} for the setting. What's an interesting question we can ask ourselves?
+
+\section{Delayed market making}
+
+The \textit{making} and \textit{clearing} markets could be out of sync. If the former is slower than the latter, then publishing prices $(A_t, B_t)$ yields reward after an unknown (randomized) number of rounds, while clearing is immediate. If the former is faster than the latter, then trading is immediate, while clearing would need to wait, meaning that the learner accumulates risk between clearing rounds.
+
+\section{Market making with dynamic regret}
+
+Consider a markets in which the best bid and ask pair is not fixed over time. Some modeling assumptions need to be added, but essentially we compete against a family of evolving policies. 
+
+Common assumptions on the market include bounded variation, some stochastic model for the prices or \dots
+
+Because we are trading the same asset across two markets, a realistic assumption we be that a fluctuation in one market would imply a similar fluctuation in the other, in a \textit{leader} and \textit{follower} fashion. Of course, one market is made by the learner, so we would need to be careful about how to model it.
+
+\clearpage
+
+\section{Related papers}\label{sec:papers}
+
+\paragraph{Budget}
+
+\begin{enumerate}
+    \item No-Regret Learning in Bilateral Trade via Global Budget Balance \citep{Bernasconi2023-ze}
+
+    \item Online Learning with Knapsacks: the Best of Both Worlds
+    \citep{Celli2022-te}
+
+    \item Bandits with Replenishable Knapsacks: the Best of both Worlds
+    \citep{Bernasconi2023-qm}
+
+    \item A Unifying Framework for Online Optimization with Long-Term Constraints
+    \citep{Castiglioni2022-ci}
+\end{enumerate}
+
+\paragraph{Market making}
+
+\begin{enumerate}
+    \item Adaptive Market Making via Online Learning
+    \citep{NIPS2013_995e1fda}
+\end{enumerate}
+
+\paragraph{Contexts}
+
+\begin{enumerate}
+    \item Improved Algorithms for Contextual Dynamic Pricing
+    \citep{Tullii2024-bn}
+\end{enumerate}
+
+\bibliography{references}
+
+\end{document}
+

@@ -1,0 +1,2684 @@
+\documentclass[final,12pt]{colt2025}
+\pdfoutput=1
+
+\usepackage{times} 
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{booktabs} % fancy tables
+
+\usepackage{amsmath, mathrsfs, amsfonts, nicefrac}
+\usepackage{thmtools,thm-restate} % to reference a lemma in the appendix
+\usepackage{aligned-overset}
+\usepackage{enumitem}
+\allowdisplaybreaks[2]
+
+% Proof sketch environment
+\newenvironment{proofsketch}{\paragraph{Proof sketch}}{\hfill$\blacksquare$}
+
+% Algorithm2e stuff
+\SetKwInput{Init}{initialization}
+\SetKwInput{Input}{input}
+
+\usepackage[capitalize,noabbrev,nameinlink]{cleveref}
+
+\crefalias{learningprotocol}{algocf}
+\crefname{learningprotocol}{learning protocol}{learning protocols}
+\Crefname{learningprotocol}{Learning protocol}{Learning protocols}
+
+\crefalias{tradingprotocol}{algocf}
+\crefname{tradingprotocol}{trading protocol}{trading protocols}
+\Crefname{tradingprotocol}{Trading Protocol}{Trading protocols}
+
+%% macros
+% cal
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\cJ}{\mathcal{J}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cW}{\mathcal{W}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\cZ}{\mathcal{Z}}
+
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathbb{G}}
+\newcommand{\bbH}{\mathbb{H}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\J}{\mathbb{J}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\bbL}{\mathbb{L}}
+\newcommand{\M}{\mathbb{M}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\bbO}{\mathbb{O}}
+\newcommand{\Pb}{\mathbb{P}}
+% \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbS}{\mathbb{S}}
+% \newcommand{\T}{\mathbb{T}}
+\newcommand{\bbU}{\mathbb{U}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\W}{\mathbb{W}}
+\newcommand{\X}{\mathbb{X}}
+\newcommand{\Y}{\mathbb{Y}}
+% \newcommand{\Z}{\mathbb{Z}}
+% greek
+\newcommand{\e}{\varepsilon}
+\newcommand{\ve}{\varepsilon}
+\newcommand{\fhi}{\varphi}
+\newcommand{\tht}{\vartheta}
+% round brackets
+\newcommand{\lrb}[1]{\left(#1\right)}
+\newcommand{\brb}[1]{\bigl(#1\bigr)}
+\newcommand{\Brb}[1]{\Bigl(#1\Bigr)}
+\newcommand{\bbrb}[1]{\biggl(#1\biggr)}
+% square brackets
+\newcommand{\lsb}[1]{\left[#1\right]}
+\newcommand{\bsb}[1]{\bigl[#1\bigr]}
+\newcommand{\Bsb}[1]{\Bigl[#1\Bigr]}
+\newcommand{\bbsb}[1]{\biggl[#1\biggr]}
+% curly brackets
+\newcommand{\lcb}[1]{\left\{#1\right\}}
+\newcommand{\bcb}[1]{\bigl\{#1\bigr\}}
+\newcommand{\Bcb}[1]{\Bigl\{#1\Bigr\}}
+\newcommand{\bbcb}[1]{\biggl\{#1\biggr\}}
+%indicator
+\newcommand{\one}[1]{\mathbb{I}\{#1\}}
+\newcommand{\onec}[1]{\mathbb{I}^c\{#1\}}
+% ceiling
+\newcommand{\lce}[1]{\left\lceil#1\right\rceil}
+\newcommand{\bce}[1]{\bigl\lceil#1\bigr\rceil}
+\newcommand{\Bce}[1]{\Bigl\lceil#1\Bigr\rceil}
+\newcommand{\bbce}[1]{\biggl\lceil#1\biggr\rceil}
+% floor
+\newcommand{\lfl}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\bfl}[1]{\bigl\lfloor#1\bigr\rfloor}
+\newcommand{\Bfl}[1]{\Bigl\lfloor#1\Bigr\rfloor}
+\newcommand{\bbfl}[1]{\biggl\lfloor#1\biggr\rfloor}
+% abs
+\newcommand{\labs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\babs}[1]{\bigl\lvert#1\bigr\rvert}
+\newcommand{\Babs}[1]{\Bigl\lvert#1\Bigr\rvert}
+\newcommand{\bbabs}[1]{\biggl\lvert#1\biggr\rvert}
+% norm
+\newcommand{\lno}[1]{\left\lVert#1\right\rVert}
+\newcommand{\bno}[1]{\bigl\lVert#1\bigr\rVert}
+\newcommand{\Bno}[1]{\Bigl\lVert#1\Bigr\rVert}
+\newcommand{\bbno}[1]{\biggl\lVert#1\biggr\rVert}
+% angle
+\newcommand{\lan}[1]{\left\langle#1\right\rangle}
+\newcommand{\ban}[1]{\bigl\langle#1\bigr\rangle}
+\newcommand{\Ban}[1]{\Bigl\langle#1\Bigr\rangle}
+\newcommand{\bban}[1]{\biggl\langle#1\biggr\rangle}
+% text
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand{\dif}{\,\mathrm{d}}
+\newcommand{\interior}{\mathrm{int}}
+\newcommand{\lip}{Lipschitz}
+\newcommand{\leb}{Lebesgue}
+% various
+\newcommand{\fracc}[2]{#1/#2}
+\newcommand{\s}{\subset}
+\newcommand{\m}{\setminus}
+\newcommand{\iop}{\infty}
+\newcommand{\nhphantom}[1]{\sbox0{#1}\hspace{-\the\wd0}}
+\newcommand{\bisect}{\mathrm{Bisect}}
+\newcommand{\length}{\mathrm{length}}
+\newcommand{\level}{\mathrm{level}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\ceq}{\coloneqq}
+\newcommand{\eqc}{\eqqcolon}
+\newcommand{\mypapertitle}{Market Making without Regret}
+\newcommand{\util}{u}
+\newcommand{\Util}{U}
+\newcommand{\vin}{\texttt{M3}}
+\newcommand{\db}{\texttt{Discretized Bandits for First Price Auctions}}
+\newcommand{\dbdp}{\texttt{Discretized Bandits for Dynamic Pricing}}
+\newcommand{\itemm}{\item[$\bullet$]}
+\newcommand{\Rfpa}{R^{\mathrm{fpa}}}
+\newcommand{\cRfpa}{\cR^{\mathrm{fpa}}}
+\newcommand{\Rdp}{R^{\mathrm{dp}}}
+\newcommand{\cRdp}{\cR^{\mathrm{fpa}}}
+\newcommand{\conversionname}{\texttt{CONVERSION}}
+\newcommand{\ftrl}{\texttt{FTRL}}
+\newcommand{\ftbp}{\texttt{FTABP}}
+
+
+% % % % Notation
+
+\newcommand{\nP}{M}
+\newcommand{\np}{m}
+\newcommand{\nZ}{V}
+\newcommand{\nz}{v}
+\newcommand{\nB}{B}
+\newcommand{\ncB}{\cB} 
+\newcommand{\nb}{b}
+\newcommand{\nS}{A}
+\newcommand{\ncS}{\cS}
+\newcommand{\ns}{a}
+\newcommand{\nX}{X}
+\newcommand{\nx}{x}
+\newcommand{\nPdp}{P}
+\newcommand{\npdp}{p}
+
+\newcommand{\nV}{Z}
+\newcommand{\nv}{z}
+\newcommand{\nM}{H}
+\newcommand{\nm}{h}
+
+\newcommand{\nC}{C}
+\newcommand{\nc}{c}
+\newcommand{\nW}{W}
+\newcommand{\nw}{w}
+
+\newcommand{\nY}{P}
+\newcommand{\ny}{p}
+
+\renewcommand{\tilde}{\widetilde}
+
+\newcommand{\RK}{3}
+\newcommand{\TK}{3}
+\newcommand{\Tk}{2}
+
+
+\title{\mypapertitle}
+\date{}
+
+\coltauthor{%
+    \Name{Nicol\`o {Cesa-Bianchi}} \Email{nicolo.cesa-bianchi@unimi.it}\\
+    \addr{Universit\`a degli Studi di Milano and Politecnico di Milano, Milan, Italy}
+    \AND%
+    \Name{Tommaso Cesari} \Email{tcesari@uottowa.ca}\\
+    \addr{University of Ottawa, Ottawa, Canada}
+    \AND%
+    \Name{Roberto Colomboni} \Email{roberto.colomboni@polimi.it}\\
+    \addr{Politecnico di Milano and Universit\`a degli Studi di Milano, Milan, Italy}
+    \AND%
+    \Name{Luigi Foscari} \Email{luigi.foscari@unimi.it}\\
+    \addr{Universit\`a degli Studi di Milano, Milan, Italy}
+    \AND%
+    \Name{Vinayak Pathak} \Email{path.vinayak@gmail.com}\\
+    \addr{Independent researcher}
+}
+
+\begin{document}
+
+\maketitle 
+
+% Add some padding in-between paragraphs
+% Play with the multiplier to gain space on the last page
+% \setlength{\parskip}{.29\baselineskip}
+% \setlength{\parindent}{0pt}
+
+\begin{abstract}
+We consider a sequential decision-making setting where, at every round $t$, the learner (a \emph{market maker}) posts a \emph{bid} price $\nB_t$ and an \emph{ask} price $\nS_t$ to an incoming trader (the \emph{taker}) with a private valuation for some asset. 
+If the trader's valuation is lower than the bid price, or higher than the ask price, then a trade (sell or buy) occurs. 
+Letting $\nP_t$ be the market price (observed only at the end of round $t$), the maker's utility is $\nP_t-\nB_t$ if the maker bought the asset, it is $\nS_t-\nP_t$ if they sold it, and it is $0$ if no trade occurred. 
+We characterize the maker's regret with respect to the best fixed choice of bid and ask pairs under a variety of assumptions (adversarial, i.i.d., and their variants) on the sequence of market prices and valuations. 
+Our upper bound analysis unveils an intriguing connection relating market making to first-price auctions and dynamic pricing. 
+Our main technical contribution is a lower bound for the i.i.d.\ case with Lipschitz distributions and independence between market prices and takers' valuations.
+The difficulty in the analysis stems from a unique relationship between the reward and feedback functions that allows learning algorithms to trade off reward for information in a continuous way.
+\end{abstract}
+
+\begin{keywords}
+Regret minimization, online learning, market making, first-price auctions, dynamic pricing.
+\end{keywords}
+
+% \thispagestyle{empty}
+
+% \clearpage
+% \tableofcontents
+% \thispagestyle{empty}
+
+% \clearpage
+% \setcounter{page}{1}
+
+\section{Introduction}
+Trading in financial markets is a crucial activity that helps keep the world's economy running, and several players, including hedge funds, prop trading firms, investment banks, central banks, and retail traders participate in it daily. While every actor has their own objective function (for example, a hedge fund wants to maximize profit whereas a central bank wants to keep inflation in check), at a fundamental level, trading can be viewed as a stochastic control problem where agents want the state to evolve so as to maximize their objective function.
+In this work we focus on market makers, i.e., traders whose job is to facilitate other trades to happen.
+One way to do so is by broadcasting, at all times, a price (\emph{bid}) at which they are willing to buy, and a price (\emph{ask}) at which they are willing to sell the asset being traded.
+This way when a buyer (resp., seller) arrives, they do not have to wait for a seller (resp., buyer) to be able to perform a transaction.
+A market where it is easy to make trades is called \emph{liquid}, and liquidity is a desirable property for any kind of market. A market maker thus provides an essential service by increasing the liquidity of the market. %, and collects compensation for it by (among other ways) ensuring that the bid is always smaller than the ask, thus making a profit proportional to the difference between the bid and the ask. 
+%
+Market making is challenging, and a lot of thought goes into making it profitable, see~\citet{harris2003trading} for an overview. A major risk that a market maker has to deal with, called adverse selection, is the risk that your counterpart is an \emph{informed} trader who knows something about the future direction of the price movement. 
+For example, an informed trader who knows that an asset is soon about to become cheaper will sell it to you thus forcing you to buy something whose price will crash. 
+One way to mitigate this risk is to immediately offload your positions elsewhere. More generally, a market maker does not specialize in predicting the future movements of prices, and thus dislikes holding assets for too long. Market making desks often have limits on how much inventory they are allowed to hold at a time \citep{fender2015early}.
+
+% The strategy of immediately offloading your position, though simple, is profitable if one does it strategically. 
+% Consider, for example, the case where you can trade the same asset on two exchanges, where its bid-ask spread on the first is much smaller than its bid-ask spread on the second. You can then make a market on the second while offloading your positions in the first. While such a situation may not arise often for the same asset at two different exchanges, it does frequently arise for two closely related assets. For example, a futures contract on an asset is often more liquid than the asset itself and their price movements are highly correlated. In the present work, we focus on the setting where the market maker has access to a market where they can quickly offload their positions. We call this strategy ``market making with instant clearing.'' 
+
+The strategy of immediately offloading your position, though simple, is profitable if one does it strategically. 
+Consider, for example, the case where one can trade the same asset on two exchanges, where its bid-ask spread on the first is smaller than its bid-ask spread on the second. 
+In this case, one can make a market on the second while offloading their positions on the first. 
+% While such a situation may not arise often for the same asset at two different exchanges, 
+This situation arises frequently for two closely related assets.
+For example, a \emph{futures} contract on an asset is often more liquid than the asset itself and their price movements are highly correlated. 
+For these reasons, we focus on a setting where the market maker offloads their positions shortly after each transaction. 
+% We call this strategy ``market making with instant clearing.'' 
+
+
+
+\subsection{Related works}
+% Perhaps closest to our work is the one by \citet{abernethy2013adaptive}, where they compete against a class of $N$ constant-spread dynamic strategies. Although we also compete with constant-spread (static) strategies, their results are not directly comparable to ours for several reasons. First, in their model the only unknown parameter is the market price, whose change from step to step is adversarial yet bounded by a known quantity. As the market price is revealed at the end of each step, their utility function at time $t$ is fully known at the end of step $t$. This implies that their model has a full information feedback, which yields a regret of order $\sqrt{T\ln N}$ against the best constant-spread strategy. In our setting, instead, we compete against a continuum of strategies parametrized by ask-bid pairs. This forces us to simultaneously control estimation and approximation error. Moreover, and crucially, our market model does not have a full information feedback, as our reward function depends on the takers' private valuations which remain unknown. Hence, we need to carefully exploit the structure of the reward function to compensate for the missing information. 
+
+\paragraph{Online market making.}
+Our work is closely related to that of \citet{abernethy2013adaptive}, which analyzes competition against $N$ constant-spread dynamic strategies. While we also consider constant-spread (static) strategies, key differences make their results non-comparable to ours. Their model assumes full information feedback, with an adversarial yet bounded market price change and a fully known utility function at each step, leading to a regret of $\sqrt{T\ln N}$. In contrast, we compete against a continuum of ask-bid strategies while managing both estimation and approximation errors. Crucially, our model lacks full information feedback, as rewards depend on private valuations, requiring structural exploitation of the reward function to mitigate uncertainty.
+
+Our work is also related to the classic Glosten-Milgrom model \citep{glostenBidAskTransaction1985}, which introduced the concept of a market \textit{specialist} (maker) providing liquidity to the market within an exchange. 
+The specialist interacts with both informed traders (whose valuations are influenced by future market prices) and uninformed ones.
+% (who place without any private valuation).
+The specialist's objective is to distinguish between informed and uninformed traders via interactions in an online fashion and optimize the bid-ask spread accordingly. 
+In \citeyear{learnigmarketmakerGlostenMilgrom2005}, \citeauthor{learnigmarketmakerGlostenMilgrom2005} considers a learning algorithm in an extended version of the Glosten-Milgrom model for the market maker with a third type of ``noisy-informed'' trader, whose current valuation is a noisy version of the future market price. However, to the best of our knowledge, they do not provide any regret guarantees.
+
+\paragraph{Smoothed adversary.}
+Popularized by \citet{spielman2004smoothed,rakhlin2011online,haghtalab2020smoothed}, smoothness analysis provides a framework for analyzing algorithms in problems parameterized by distributions that are not ``too'' concentrated. 
+Recent advancements in the smoothed analysis of online learning algorithms include contributions by \citet{kannan2018smoothed,haghtalaboracle,HaghtalabRS21,block2022smoothed,DurvasulaHZ23,cesa2021regret,cesa2023repeated,bolic2024online,JMLR:v25:23-1627}.
+In this work, we exploit the connection between the smoothness of the takers' valuations distributions (i.e., the Lipschitzness of the corresponding cumulative distribution function, or, equivalently, the boundedness of the corresponding probability density function) and Lipschitzness of the expected utility. 
+This property is crucial to achieving sublinear regret guarantees in adversarial settings and
+% Our work considers environments exhibiting Lipschitz continuity 
+% \citep{Kleinberg2004NearlyTB,agrawalContinuumArmedBanditProblem1995,AuerImprovedRatesStochastic2007} and how this property
+affects learning depending on different assumptions on the level of information shared with the learner while bidding.
+
+Please see \Cref{sec:additional} for further related works.
+
+
+
+
+
+
+\paragraph{Online learning in digital markets.}
+Our work unveils a connection between market making and first-price auctions/dynamic pricing, thus contributing to the existing body of research on
+% within the online learning paradigm, specifically
+the multi-armed bandit framework, which boasts a substantial literature base across statistics, operations research, computer science, and economics \citep{auerFinitetimeAnalysisMultiarmed2002,lattimore2020bandit,badanidiyuru_bandits_2018,Kleinberg2004NearlyTB}.
+% {\color{orange}
+% The multi-armed bandit framework already proved to be an effective method to tackle well-known problems in finance under uncertainty, such as repeated first-price auctions \citep{cesabianchiRoleTransparencyRepeated2024,han2024optimalnoregretlearningrepeated,pmlr-v157-achddou21a,NIPS2017_0bed45bd} and dynamic pricing \citep{cesa2019dynamic,babaioffDynamicPricingLimited2015,kleinberg2003value}, which are closely related to online market making, for more information see \Cref{sec:additional}.
+% Related to the pricing problem is the optimal taxation problem \citep{taxation2025}, where the goal of the learner is to maximize social welfare.
+% %% some nice way to connect the paragraphs..
+% Similar kind of auctions include repeated Vickrey auctions, either from the perspective of the bidder \citep{weedOnlineLearningRepeated2015} or the seller \citep{cesaSecondPrice}, which differ from first-price auctions because bidders are incentivized to bid their true valuation, a property called \textit{truthfulness}, under which the goal of the bidder is to learn the true \textit{value} of the goods (which is witnessed only after winning the auction).
+% %%
+% Another recently explored problem where online learning meets digital markets is the bilateral trade problem.
+% Here, the learner acts as a broker by proposing pairs of prices to a sequence of traders with unknown valuations.
+% Starting from the seminal works \citep{cesa2021regret,cesa2024bilateral} where the i.i.d.\ assumption together with the smoothness and independence valuations between sellers and buyers have been used to obtain optimal regret rates when the reward function is the gain from trade and the mechanisms are strongly-budget balanced, \cite{azar2022alpha} explored the use of weakly-budget balanced mechanisms to obtained optimal $2$-regret rates for the adversarial case while \citep{cesa-bianchiRepeatedBilateralTrade2023,cesa2024regret} obtained optimal regret rates under only the smoothness assumption, and \citep{bernasconi2024no} explored globally budget balanced mechanisms to obtain sublinear regret rates also for the adversarial case.
+% \citep{GaucherBCCP25} also explored the contextual version of this problem, while \citep{fairgainfromtrade} proposed a different reward function to ensure fairness between traders obtaining optimal regret rates for strongly-budget balanced mechanism,
+% A recent stream of literature considered also the case where traders do not have definite buyer/seller roles.
+% For this case, \citep{bolic2024online} obtain faster optimal regret rates with respect to the standard bilateral trade problem using strongly budget balanced mechanisms under the same assumption of \citep{cesa2021regret}, while \citep{bachoc2025contextualLinear} obtained fast optimal regret rates for the noisy-linear contextual version of the problem, while \cite{bachoc2025contextual} obtained optimal regret rates for the contextual non-parametric setting.
+% Also, \citep{cesari2025volumeFairnesss} obtained blazing fast regret rates for this problem when the goal of the learner is to maximize the number of trades.
+% %%
+The multi-armed bandit framework has proven to be an effective tool for addressing key problems in finance under uncertainty, including repeated first-price auctions \citep{cesabianchiRoleTransparencyRepeated2024,han2024optimalnoregretlearningrepeated,pmlr-v157-achddou21a,NIPS2017_0bed45bd} and dynamic pricing \citep{cesa2019dynamic,babaioffDynamicPricingLimited2015,kleinberg2003value}. These settings are closely related to online market making (see \Cref{sec:additional} for further discussion).
+
+Closely related to dynamic pricing is the problem of optimal taxation \citep{taxation2025}, where the interaction between the learner and the environment follows a similar structure, but the objective shifts from revenue maximization to the design of pricing mechanisms that maximize social welfare.
+
+Beyond first-price auction settings, related auction formats include repeated Vickrey auctions, studied from both the bidder’s perspective \citep{weedOnlineLearningRepeated2015} and the seller’s perspective \citep{cesaSecondPrice}.
+% Vickrey auctions differ from first-price auctions in that they are truthful: bidders are incentivized to reveal their true valuations.
+% In this setting, the bidder’s learning task becomes one of inferring the actual value of goods, which is only observed upon winning the auction.
+
+Another important problem at the intersection of online learning and digital markets is repeated bilateral trade.
+In this setting, the learner acts as a broker, proposing price pairs to a sequence of traders with unknown private valuations.
+The foundational works of \citet{cesa2021regret,cesa2024bilateral} established optimal regret rates under i.i.d.\ valuations, assuming smoothness and independence between buyer and seller values, using the gain from trade as reward function, and mechanisms that are strongly budget balanced.
+This line of work has been extended in multiple directions: \citet{azar2022alpha} proposed weakly budget-balanced mechanisms achieving optimal $2$-regret in adversarial settings; \citet{cesa2023repeated,JMLR:v25:23-1627} relaxed the i.i.d.\ and the independence between sellers and buyers assumptions while maintaining optimal regret guarantees under smoothness alone; and \citet{bernasconi2024no} introduced globally budget-balanced mechanisms with sublinear regret even in adversarial settings.
+
+Contextual versions of bilateral trade have also been studied by \citet{GaucherBCCP25}, while \citet{fairgainfromtrade} took a different perspective by proposing a fairness-oriented reward function establishing optimal regret bounds under the i.i.d.\ assumption with independent buyer and seller valuations, using strongly budget-balanced mechanisms.
+
+Recent work has also considered scenarios in which agents are not assigned fixed roles as buyers or sellers. In this more general setting, \citet{bolic2024online} achieved faster regret rates than in standard bilateral trade using strongly budget-balanced mechanisms under the same assumptions as \citet{cesa2021regret}. In the contextual setting, \citet{bachoc2025contextualLinear} obtained optimal fast rates under a noisy-linear model, and \citet{bachoc2025contextual} extended these results to nonparametric contexts. Finally, \citet{cesari2025volumeFairnesss} studied the objective of maximizing the volume of trade, achieving accelerated regret rates in this setting.
+% }
+
+
+
+
+
+
+
+
+\subsection{Our contributions}
+We study the question of market making in an online learning setup.
+Here, trading happens in discrete time steps and an unknown stochastic process governs the prices of the asset being traded as well as the private valuations assigned to the asset by market participants (see details in~\cref{sec:setting}).
+The market maker is an online learning algorithm that posts a bid and an ask at the beginning of each time step and receives some feedback at the end of the time step. 
+We are interested in controlling the regret suffered by this learner at the end of $T$ time steps.
+At the end of each round, the learner observes the market price, i.e., the price at which they are able to offload their position. Additionally, they see whether their bid or their ask (or neither) got successfully traded.
+We consider settings where the unknown stochastic process is independent and identically distributed (iid), as well as the adversarial setting (adv), where no such assumption is made on the process. We also consider settings where the cumulative distribution functions of takers' valuations are Lipschitz (lip)%, or where on top of this the cumulative distribution functions of the market prices are Lipschitz (2xlip)
+, as well as settings where at each time step $t$ the corresponding market price and taker's valuation are independent of each other (iv).
+Our results are summarized in \Cref{tab:our-results}.
+\begin{table}
+    \centering
+    \begin{tabular}{l|c c|c c c c}
+        \toprule
+        % & \multicolumn{2}{c}{Adversarial} & \multicolumn{4}{|c}{IID} \\
+        % \midrule
+        Setting &  (adv) &  (adv+lip) &  (iid) &  (iid+lip) &  (iid+iv) & (iid+lip+iv) \\
+        \midrule
+        Regret & $T$ & $T^{\nicefrac{2}{3}}$ & $T$ &  $T^{\nicefrac{2}{3}}$ & $T^{\nicefrac{2}{3}}$ & $T^{\nicefrac{2}{3}}$ \\
+        \iffalse
+        Full & $T$ & $\sqrt{T}$ & $\sqrt{T}$ & $\sqrt{T}$ & $\sqrt{T}$ & $\sqrt{T}$ \\
+        \fi
+        \bottomrule
+    \end{tabular}
+    \caption{A summary of the regret guarantees we prove for each variant of the online market-making problem. All the rates are optimal up to constant factors.\label{tab:our-results}}
+\end{table}
+
+We make the following contributions.
+\begin{enumerate}[noitemsep]
+    \item We design the \vin{} (meta-)algorithm (\Cref{a:meta-vin}) and prove a $\cO(T^{\nicefrac{2}{3}})$ upper bound on its regret under the assumption that either the cumulative distribution functions of the takers' valuations are Lipschitz (lip) or the sequence of market prices and takers' valuations are independent and identically distributed (iid) with market prices being independent of takers' valuations (iv) (\Cref{t:upper-bound-vin}).
+    \item Our main technical contribution is a lower bound of order $\Omega(T^{\nicefrac{2}{3}})$ that matches \vin{}'s upper bound, and holds even under the simultaneous assumptions that the sequence of market prices and takers' valuations is independent and identically distributed (iid), market prices are independent of takers' valuations (iv), the cumulative distribution function of the takers' valuations is Lipschitz (lip), and the cumulative distribution function of the market prices is Lipschitz (\Cref{t:lower-bound-lip-iv}).
+    \item We then investigate the necessity of assuming either Lipschitzness of the cumulative distribution function of the takers' valuations (lip) or the independence of market prices and takers' valuations (iv). We prove that, if both assumptions are dropped, learning is impossible in general, even when market prices and takers' valuations are independent and identically distributed (iid)\ (\Cref{t:minimal-lower-bound-iid}).
+\end{enumerate}
+
+We can interpret the independence between takers' valuation and market prices (iv) as the taker being an uninformed trader (in the same spirit as the Glosten-Milgrom model). If we consider the (iid) setting, and contrast the impossibility of learning when neither Lipschitzness (lip) nor independence (iv) is assumed with the $\cO(T^{\nicefrac{2}{3}})$ upper bound when the market prices are independent of takers' valuations (iv), we get evidence for the practitioner's intuition that the existence of uninformed traders is good for the market maker.
+
+\iffalse
+Lastly, we discuss the full-feedback case to flesh out the impact of limited feedback on learning rates and learnability. 
+We show that learning is impossible in the adversarial setting (\Cref{t:lower-full-info-adv}), while it is possible to achieve an $\cO(\sqrt{T})$ regret rate when market prices and takers' valuations are i.i.d.\ (\Cref{s:upper-bound-full}), or when the cumulative distribution functions of takers' valuations are Lipschitz (\Cref{t:upper-bound-adv-smooth}). 
+This rate is unimprovable, even if the three previous assumptions hold at the same time (\Cref{t:sqrtT-lower-full}).
+\fi
+
+
+
+
+
+
+\section{Setting}\label{sec:setting}
+\begin{algorithm2e}[t]
+    \renewcommand*{\algorithmcfname}{Trading protocol}
+
+    \For {time $t=1,2,\ldots$
+    }{
+        Taker arrives with a private valuation $\nZ_t \in [0,1]$\;
+        Maker posts bid/ask prices $(\nB_t , \nS_t) \in \cU$\;
+        Feedback $\one{ \nB_t \ge \nZ_t }$ and $\one{ \nS_t < \nZ_t }$ is revealed\;
+        \lIf{$\nB_t \ge \nZ_t$}{%
+            Maker buys and pays $\nB_t$ to Taker%
+        } \lElseIf{$\nS_t < \nZ_t$}{%
+            Maker sells (short)\hyperlink{footnote1}{\textsuperscript{1}} and is paid $\nS_t$ by Taker%
+        } \lElse {no trade happens}
+        The market price $\nP_t\in[0,1]$ is revealed\;
+
+        \lIf{Maker bought from Taker}{%
+            Maker offloads to Market at price $\nP_t$%
+        }\lElseIf{Maker sold (short) to Taker}{%
+            Maker buys from Market at price $\nP_t$%
+        }
+        Maker's utility is $\Util_t(\nB_t,\nS_t) \ceq \util(\nB_t,\nS_t,\nP_t,\nZ_t)$\;
+    }
+    \caption{Online market making}
+    \label[tradingprotocol]{a:trading-protocol}
+\end{algorithm2e}
+%
+\hypertarget{footnote1}{\footnotetext[1]{We remark that in most markets, traders can sell assets they do not currently own (\emph{short-selling}; see, e.g., the classic \citealt{black1973pricing}). For this reason, we do not assume that the market maker owns a unit of the asset before selling it. If the market maker sells short, they will buy the asset at the market price at the end of the interaction.}}%
+\setcounter{footnote}{1}%
+%
+In online market making, the action space of the maker is the upper triangle $\cU \coloneqq \bcb{ (\nb, \ns) \in [0,1]^2 \,:\, \nb \le \ns } $, enforcing the constraint that a bid price $\nb$ is never larger than the corresponding ask price $\ns$.
+For an overview of the notation, see \Cref{tab:notation}, in \Cref{s:appe-notation}.
+The utility of the market maker, for all $(\nb,\ns) \in \cU$ and $\np,\nz\in[0,1]$, is
+\begin{equation}
+\label{e:utility-of-market-maker}    
+    \util(\nb,\ns,\np,\nz) 
+\ceq
+    \underbrace{ (\np-\nb) }_{\text{market-bid spread}} \!\!\!\!\times\; \underbrace{ \one{ \nb \ge \nz } }_{\text{Maker buys}}
+    \;\;\; +
+    \underbrace{ (\ns-\np) }_{\text{ask-market spread}} \!\!\!\!\times\; \underbrace{ \one{ \ns < \nz } }_{\text{Maker sells}}
+    \; ,
+\end{equation}
+where $\nz$ is the taker's private valuation and $\np$ is the market price.\footnote{%
+The choice of buying when $\nb\ge \nz$ and selling when $\ns<\nz$ models a taker that is slightly more inclined to sell rather than buy: in this case, the taker is willing to sell even when their valuation is exactly equal to the bid. 
+This choice is completely immaterial for the results that follow and is merely done for the sake of simplicity. 
+All the results we present still hold if trades happen according to a similar rule but with a taker that is slightly more inclined to buy rather than sell (i.e., if a trade occurs whenever $\nb > \nz$ or $\ns\le\nz$) or if this inclination changes arbitrarily whenever a new taker comes at any new time step.}
+%
+Our online market making protocol is specified in \Cref{a:trading-protocol}.
+At every round $t$, a taker arrives with a private valuation $\nZ_t \in [0,1]$ and the maker posts bid/ask prices $(\nB_t, \nS_t) \in \cU$.
+If $\nB_t < \nZ_t \le \nS_t$ (i.e., if the taker is not willing to sell nor to buy at the proposed bid/ask prices), then no trade happens.
+If $\nB_t \ge \nZ_t$ (buy) or $\nS_t < \nZ_t$ (sell), a trade happens.
+At the end of each round, the maker observes the market price $\nP_t$ and the type of trade (buy, sell, none) that took place in that round.
+For each $(b,a) \in \cU$ and each round $t$, defining $U_t(b,a) \coloneqq u(b,a,\nP_t,\nZ_t)$, the maker's utility at round $t$ is  $\Util_t(\nB_t,\nS_t) = \util(\nB_t,\nS_t,\nP_t,\nZ_t)$. 
+Hence, any (possibly randomized) learning strategy for the maker at time $t$ is a map that takes as input past feedback $\big\{ \big(\one{\nB_{\tau} \ge \nZ_{\tau}}, \one{\nS_{\tau} < \nZ_{\tau}}, \nP_{\tau} \big)\big\}_{\tau < t}$, plus some optional random seeds, and returns as output a (random) pair $(\nB_t,\nS_t)$ of bid/ask prices in $\cU$.
+
+The maker's goal is to minimize, for any time horizon $T\in\N$, the regret after $T$ time steps:
+\[
+    R_T 
+\ceq
+    \sup_{(\nb, \ns)\in \cU} 
+    \E\lsb{ \sum_{t=1}^T \Util_t(\nb, \ns) }
+    -
+    \E\lsb{ \sum_{t=1}^T \Util_t(\nB_t, \nS_t) } \;,
+\]
+where the expectations are with respect to the (possible) randomness of the market prices, takers' valuations, and (possibly) the internal randomization of the algorithm.
+% Note that the supremum is not attained in general, because of the strict inequality in one of the two indicator functions in \Cref{e:utility-of-market-maker}.
+
+
+\iffalse
+\paragraph{Types of feedback} We call the feedback received in the protocol above ``realistic feedback''. In a real market, we very rarely have access to the private valuation $\nZ_t$ of the taker and thus it is safe to assume that the learner only gets to observe $\I\{\nB_t \ge \nZ_t\}$ and $\I\{\nS_t < \nZ_t\}$. Still, one can imagine scenarios where additional information about $\nZ_t$ is sometimes available. 
+In this spirit and with the goal of contrasting the effect of partial feedback on learnability and learning rates, it is of theoretical interest 
+to study what happens in the other extreme, the full feedback scenario, where the learner gets to observe the value of $\nZ_t$ (in addition to $\nP_t$) at the end of each time step $t$. There might be other interesting feedback models between realistic and full that we leave for future work.
+\fi
+
+% {\color{orange}
+We study this problem under a mix of several standard assumptions on the underlying process $(\nZ_t, \nP_t)_{t\in\N}$ modeling private valuations and market prices.
+\begin{itemize}
+    \item[(adv)] $(\nZ_t, \nP_t)_{t\in\N}$ is a stochastic process.
+    \item[(iid)] $(\nZ_t, \nP_t)_{t\in\N}$ is an i.i.d.\ stochastic process.\footnote{Note that this assumption alone does not require that, for any $t\in\N$, $\nZ_t$ is independent of $\nP_t$.}
+    \item[(iv)] $(\nZ_t, \nP_t)_{t\in\N}$ is a stochastic process such that, for all $t \in \N$, $\nZ_t$ is independent of $\nP_t$.\footnote{Note that this assumption alone does not require that $(\nZ_t, \nP_t)_{t\in\N}$ is an independent stochastic process.}
+    \item[(lip)] $(\nZ_t, \nP_t)_{t\in\N}$ is a stochastic process such that, there exists $L > 0$ such that, for all $t \in \N$, the cumulative distribution function of $\nZ_t$ is $L$-Lipschitz.
+\end{itemize}
+% }
+
+The variables $\nS_t,\nB_t,\nZ_t,\nP_t$ can be thought of as relative to a global reference value revealed at the beginning of each time step, aligning with the convention of quoting in ``points" (or ``ticks") above or below a benchmark. 
+With this interpretation, in the regret definition, the benchmark strategy maintains a constant distance from a reference throughout the trading period (as opposed to a constant absolute level).
+These observations greatly broaden the scope of application of our setting. 
+
+
+
+
+
+
+\section{\texorpdfstring{$T^{2/3}$}{T 2/3} Upper Bound (adv+lip) or (iid+iv)}
+
+\label{s:upper}
+
+
+Since the learner's action space contains a continuum of actions, 
+% (i.e., the set of ask/bid pairs) is the two-dimensional set $\cU \ceq \{(\nb,\ns) \in [0,1]^2 \mid \nb \le \ns\}$,
+%If market prices and takers' valuations are both generated adversarially,
+standard bandit approaches require Lipschitzness (or the weaker one-side Lipschitzness) of the reward function, a property that is unfortunately missing in our setting, even when the environment is stable (iid) and the takers are uninformed (iv).
+One way to recover Lipschitzness (although only in expectation) is by assuming the takers' valuations are smoooth, i.e., by assuming that their cumulative distribution functions are Lipschitz (lip).
+Under the (lip) assumption, recalling that our action space $\cU$ is the set of bid/ask pairs $\{(\nb,\ns) \in [0,1]^2 \mid \nb \le \ns\}$, and noticing that the feedback the learner receives at the end of each time step is sufficient to reconstruct bandit feedback, the market making problem can be seen as an instance of $2$-dimensional Lipschitz bandits.
+However, a black-box application of existing $d$-dimensional Lipschitz bandits techniques \citep[with $d=2$]{slivkins2019introduction} would give only a suboptimal regret rate of $\cO(T^{\nicefrac{(d+1)}{(d+2)}}) = \cO(T^{\nicefrac{3}{4}})$.
+
+Using a different approach that exploits the structure of our feedback and reward functions, we manage not only to solve the non-Lipschitz (iid+iv) setting, but also to effectively reduce the dimensionality of the problem by $1$ under the smoothness assumption, obtaining an optimal $\cO(T^{\nicefrac{2}{3}})$ regret rate in all cases.
+%
+% The previous result is based on discretizing the action space and exploiting the Lipschitzness of the expected reward function provided by the smoothness assumption, together with the available feedback (which is sufficient to reconstruct bandit feedback). Can discretization be used to obtain the same rate when smoothed adversarial valuations are replaced by a different, yet natural, assumption? In \Cref{s:upper-boud-T-two-thirds} we consider an i.i.d.\ setting with independence between market prices and private valuations. Although this assumption does not provide Lipschitzness (not even in expectation), we show that the same algorithm as before has a regret again bounded by $\cO(T^{\nicefrac{2}{3}})$. However, the analysis relies on a different observation: although we cannot guarantee that the reward of \emph{all} actions is well approximated by that of a corresponding point in the grid, we can guarantee the weaker property that the expected reward of the \emph{best} actions are approximated by the expected reward of a point in the grid, which is sufficient to prove the desired rate.
+%
+To do so, we first note that the utility of our market-making problem can be viewed as the sum of the utilities of two related sub-problems: the first addend in~\eqref{e:utility-of-market-maker} corresponds to the utility in a repeated first-price auction problem with unknown valuations, while the second addend corresponds to the utility in a dynamic pricing problem with unknown costs (see below).
+This suggests trying to use two algorithms for the two problems to solve our market-making problem.
+However, in our problem we have the further constraint that the bid we propose in the first-price auction is no greater than the price we propose in the dynamic pricing problem.
+This constraint prevents us from running directly two independent no-regret algorithms for the two different problems because the bid/ask pair produced this way may violate the constraint.
+To get around this roadblock, we present a meta-algorithm (\Cref{a:meta-vin}) that takes as input two algorithms for the two sub-problems and combines them to post pairs in $\cU$ while preserving the respective guarantees.
+%
+We now formally introduce the two related problems and build the explicit reduction.
+
+\paragraph{Repeated first-price auctions with unknown valuations (FPA).}
+Consider the following online problem (denoted by FPA) of repeated first-price auctions where the learner only learns the valuation of the good they are bidding on \emph{after} the auction is cleared. 
+At any time $t$, two $[0,1]$-valued random variables $\nV_t$ and $\nM_t$ are generated and hidden from the learner: $\nV_t$ is the current valuation of the good and $\nM_t$ is the highest competing bid for the good, both unknown to the learner at the time of bidding.
+Then, the learner bids an amount $\nX_t \in [0,1]$ and wins the bid if and only if their bid is higher than or equal to the highest competing bid. 
+The utility of the learner is $\nV_t - \nX_t$ if they win the auction and zero otherwise.
+Finally, the valuation of the good $\nV_t$ and the indicator function $\one{ \nX_t \ge \nM_t }$ (representing whether or not the learner won the auction) are revealed to the learner.
+
+The goal is to minimize, for any time horizon $T\in\N$, the regret after $T$ time steps
+\[
+    \Rfpa_T
+\ceq
+    \sup_{\nx \in [0,1] } 
+    \E\lsb{ \sum_{t=1}^T (\nV_t - \nx)\,\one{\nx \ge \nM_t } }
+    -
+    \E\lsb{ \sum_{t=1}^T (\nV_t - \nX_t)\,\one{\nX_t \ge \nM_t } } \;,
+\]
+where the expectations are taken with respect to the (possible) randomness of $(\nV_1, \nM_1), \dots, (\nV_T, \nM_T)$ and the (possible) internal randomization of the algorithm that outputs the bids $\nX_1, \dots, \nX_T$.
+
+
+The same setting was studied by~\citet{cesabianchiRoleTransparencyRepeated2024}, but with different feedback models.
+
+
+\paragraph{Dynamic pricing with unknown costs (DP).}
+
+Consider the following online problem (denoted by DP) of dynamic pricing where the learner only learns the current cost of the item they are selling \emph{after} interacting with the buyer. 
+At any time $t$, two $[0,1]$-valued random variables $\nC_t$ and $\nW_t$ are generated and hidden from the learner: $\nC_t$ is the current cost of the item, and $\nW_t$ is the buyer's valuation for the item.
+Then, the learner posts a price $\nY_t \in [0,1]$ and the buyer buys the item if and only if their valuation is higher than the posted price. 
+The utility of the learner is $\nY_t - \nC_t$ if the buyer bought the item and zero otherwise.
+Finally, the cost of the item $\nC_t$ and the indicator function $\one{\nY_t < \nW_t }$ (representing whether or not the buyer bought the item) are revealed to the learner.
+
+The goal is to minimize, for any time horizon $T\in\N$, the regret after $T$ time steps
+\[
+    \Rdp_T
+\ceq
+    \sup_{\ny \in [0,1] } 
+    \E\lsb{ \sum_{t=1}^T (\ny - \nC_t) \, \one{ \ny < \nW_t } }
+    -
+    \E\lsb{ \sum_{t=1}^T ( \nY_t - \nC_t) \, \one{ \nY_t < \nW_t } } \;,
+\]
+where expectations are with respect to the (possible) randomness of $( \nC_1,  \nW_1), \dots, ( \nC_T,  \nW_T)$ and the (possible) internal randomization of the algorithm that outputs the posted prices $ \nY_1, \dots,  \nY_T$.
+
+Dynamic pricing is generally studied under the assumption that costs are known and all equal to zero, and assuming that the buyer buys whenever their evaluation is greater than \emph{or equal to} the posted price---see, e.g.,~\citep{kleinberg2003value,cesa2019dynamic,leme2021learning,luo2024distribution}. 
+
+
+\paragraph{Solving FPA and DP solves market making.}
+In this section, we introduce a meta-algorithm that combines two sub-algorithms, one for repeated first-price auctions with unknown valuations and one for dynamic pricing with unknown costs.
+We thus obtain an algorithm for market-making and we show in \Cref{t:upper-bound-vin} that its regret can be upper bounded by the sum of the regrets of the two sub-algorithms for the two corresponding sub-problems.
+The idea of our meta-algorithm \vin{} (\Cref{a:meta-vin}) begins with the observation that the utility of the market maker is a sum of two terms that correspond to the utilities of the learner in first-price auctions and dynamic pricing, respectively.
+This suggests maintaining two algorithms in parallel, one to determine bid prices and one to determine ask prices.
+\vin{} then enforces the constraint that bid prices should be no larger than ask prices by swapping the recommendations of the two sub-algorithms whenever they generate corresponding bid/ask prices that would violate the constraint.
+Finally, \vin{} leverages the available feedback $\lrb{ \one{\nB_t \ge \nZ_t}, \one{\nS_t < \nZ_t}, \nP_t }$ at time $t$ to reconstruct and relay back to the two sub-algorithms the counterfactual feedback they would have observed if the swap didn't happen (i.e., if the learner always posted the prices determined by the sub-algorithms).
+\begin{algorithm2e}[t]
+    \Input{Algorithm $\cA^{\mathrm{fpa}}$ for FPA and algorithm $\cA^{\mathrm{dp}}$ for DP}
+    \For{%
+        time $t=1,2,\ldots$
+    }{
+        Let $\nX_t$ be the output of $\cA^{\mathrm{fpa}}$ at time $t$ and let $\nY_t$ be the output of $\cA^{\mathrm{dp}}$ at time $t$\;
+        \lIf{$\nX_t \le \nY_t$}{%
+            let $\nB_t := \nX_t$ and $\nS_t := \nY_t$%
+        } \lElseIf{$\nX_t > \nY_t$}{%
+            let $\nB_t := \nY_t$ and $\nS_t := \nX_t$%
+        }
+        Post bid/ask prices $(\nB_t, \nS_t)$ and
+        observe feedback $\one{\nB_t \ge \nZ_t}$, $\one{\nS_t < \nZ_t}$, and $\nP_t$\;
+        \lIf{$\nX_t \le \nY_t$}{%
+            feed $(\one{ \nB_t \ge \nZ_t }, \nP_t)$ to $\cA^{\mathrm{fpa}}$ and $(\one{ \nS_t < \nZ_t }, \nP_t)$ to $\cA^{\mathrm{dp}}$%
+        } \lElseIf{$\nX_t > \nY_t$}{%
+            feed $(1 - \one{\nS_t < \nZ_t}, \nP_t)$ to $\cA^{\mathrm{fpa}}$ and $(1-\one{\nB_t \ge \nZ_t}, \nP_t)$ to $\cA^{\mathrm{dp}}$%
+        }
+    }
+    \caption{ \vin{} (Meta Market Making) \label{a:meta-vin}}
+\end{algorithm2e}
+
+The next result shows that the regret of \vin{} is upper bounded by the sum of the regrets of the two sub-algorithms, which in turn leads to optimal regret guarantees for the market making problem. 
+\begin{theorem}\label{t:upper-bound-vin}
+    % Let $T \in \N$. Suppose that $(\nP_t,\nZ_t)_{t \in [T]}$ is a $[0,1]^2$-valued stochastic process.
+    % \begin{itemize}
+    %     \itemm Let $\cA^{\mathrm{fpa}}$ be an algorithm for repeated first-price auctions with unknown valuations and let $\Rfpa_T$ be its regret over the sequence $(\nV_t,\nM_t)_{t\in[T]} \ceq (\nP_t,\nZ_t)_{t\in[T]}$ of unknown valuations and highest competing bids.
+    %     \itemm Let $\cA^{\mathrm{dp}}$ be an algorithm for dynamic pricing with unknown costs and let $\Rdp_T$ be its regret over the sequence $(\nC_t,\nW_t)_{t\in[T]} \ceq (\nP_t,\nZ_t)_{t\in[T]}$ of unknown costs and buyers' valuations.
+    % \end{itemize}
+    % Then, in the realistic-feedback online market-making problem, the regret of \vin{} run with parameters $\cA^{\mathrm{fpa}}$ and $\cA^{\mathrm{dp}}$ over the sequence $(\nP_t,\nZ_t)_{t \in [T]}$ of market prices and takers' valuations satisfies
+    % \[
+    %     R_T
+    % \le
+    %     \Rfpa_T + \Rdp_T\;.
+    % \]
+    In the online market-making problem, the regret of \vin{} run with parameters $\cA^{\mathrm{fpa}}$ and $\cA^{\mathrm{dp}}$ over the sequence $(\nP_t,\nZ_t)_{t \in [T]}$ of market prices and takers' valuations satisfies, for all $T$,
+    $
+        R_T
+    \le
+        \Rfpa_T + \Rdp_T
+    $,
+    where $\Rfpa_T$ (resp., $\Rdp_T$) is the regret of $\cA^{\mathrm{fpa}}$ (resp., $\cA^{\mathrm{dp}}$) in the FPA (resp., DP) problem over the sequence $(\nV_t,\nM_t)_{t\in[T]} \ceq (\nP_t,\nZ_t)_{t\in[T]}$ (resp., $(\nC_t,\nW_t)_{t\in[T]} \ceq (\nP_t,\nZ_t)_{t\in[T]}$).
+%
+    Furthermore, for any horizon $T$, there exist $\cA^{\mathrm{fpa}}$ and $\cA^{\mathrm{dp}}$ such that, for any sequence $(\nP_t,\nZ_t)_{t \in [T]}$ of market prices and takers' valuations, if one of the two following conditions holds:
+    \begin{enumerate}
+        \item \label{t:assOnePrime}
+        For each $t \in [T]$, the cumulative distribution function of $\nZ_t$ is $L$-Lipschitz, for some $L>0$. 
+        \item \label{t:assTwoPrime}
+        The process $( \nP_t , \nZ_t )_{t \in [T]}$ is i.i.d.\ and, for each $t \in [T]$, $\nP_t$ is independent of $\nZ_t$.
+    \end{enumerate}
+    Then, the regret of \vin{} run with parameters $\cA^{\mathrm{fpa}}$ and $\cA^{\mathrm{dp}}$ satisfies
+    $
+        R_T
+    \le
+        c T^{\nicefrac{2}{3}}
+    $,
+    with $c \le 2L+100$ (resp., $c \le 102$) if \Cref{t:assOnePrime} (resp., \Cref{t:assTwoPrime}) holds.
+\end{theorem}
+
+\begin{proofsketch}%[Proof sketch]
+     First, notice that the feedback received by the two algorithms is equal to the feedback they would have retrieved in the corresponding instances regardless of whether or not the prices were swapped. 
+     Hence, the regret guarantees of the prices posted by the two algorithm on the original sequence still hold true.
+     Notice that, for each $t \in \N$, we have that
+     \[
+        (\textrm{I}_t) \coloneqq U_t(\nB_t,\nS_t)
+    \ge
+        (\nP_t - \nX_t) \I\{\nX_t \ge \nZ_t \} + (\nY_t - \nP_t) \I\{\nZ_t > \nY_t \} \eqqcolon (\textrm{II}_t)\;.
+     \]
+    In fact, if $\nX_t \le \nY_t$ the two quantities are equal because $\nB_t = \nX_t$ and $\nS_t = \nY_t$.
+    Instead, if $\nY_t < \nX_t$\iffalse(\Cref{fig:relative-positioning})\fi, then $\nB_t = \nY_t$ and $\nS_t = \nX_t$, and a direct computation shows that if $\nZ_t \le \nY_t$ then
+            $
+                (\textrm{I}_t) 
+                 =
+                \nP_t - \nY_t
+                >
+                \nP_t - \nX_t
+                =
+                (\textrm{II}_t)
+            $;
+        if $\nY_t < \nZ_t \le \nX_t$ then
+            $
+                (\textrm{I}_t) 
+                 =
+                0
+                >
+                \nY_t - \nX_t
+                =
+                (\textrm{II}_t)
+            $;
+        and if $\nX_t < \nZ_t$ then
+            $
+                (\textrm{I}_t) 
+                =
+                \nX_t - \nP_t
+                >
+                \nY_t - \nP_t
+                =
+                (\textrm{II}_t)
+            $.
+    % \begin{itemize}
+    %     \item if $\nZ_t \le \nY_t$ then
+    %         $
+    %             (\textrm{I}_t) 
+    %              =
+    %             \nP_t - \nY_t
+    %             >
+    %             \nP_t - \nX_t
+    %             =
+    %             (\textrm{II}_t)
+    %         $
+    %     \item if $\nY_t < \nZ_t \le \nX_t$ then
+    %         $
+    %             (\textrm{I}_t) 
+    %              =
+    %             0
+    %             >
+    %             \nY_t - \nX_t
+    %             =
+    %             (\textrm{II}_t)
+    %         $
+    %     \item if $\nX_t < \nZ_t$ then
+    %         $
+    %             (\textrm{I}_t) 
+    %             =
+    %             \nX_t - \nP_t
+    %             >
+    %             \nY_t - \nP_t
+    %             =
+    %             (\textrm{II}_t)\;.
+    %         $
+    % \end{itemize}
+    It follows that 
+    \begin{align*}
+        R_T
+    &=
+        \sup_{(b,a) \in \cU} \E\lsb{ \sum_{t=1}^T U_t(b,a)} - \E\lsb{\sum_{t=1}^T (\mathrm{I}_t) }
+    \le
+        \sup_{(b,a) \in \cU} \E\lsb{ \sum_{t=1}^T U_t(b,a)} - \E\lsb{\sum_{t=1}^T (\mathrm{II}_t) }
+    \\
+    &\le
+         \sup_{b \in [0,1]} \E\lsb{ \sum_{t=1}^T (\nP_t - b) \I\{b \ge \nZ_t \} } - \E\lsb{\sum_{t=1}^T (\nP_t - \nX_t) \I\{\nX_t \ge \nZ_t \} }
+    \\
+    &\qquad+
+          \sup_{a \in [0,1]} \E\lsb{ \sum_{t=1}^T (a - \nP_t) \I\{a < \nZ_t \}} - \E\lsb{\sum_{t=1}^T (\nY_t - \nP_t) \I\{\nY_t < \nZ_t\} }
+    =
+        \Rfpa_T + \Rdp_T\;. %\qedhere
+    \end{align*}
+    \iffalse
+    \begin{figure}\label{fig:relative-positioning}
+        \centering
+        \includegraphics[page=6, width=.75\linewidth]{plots.pdf}
+        \caption{Possible relative positioning of $\nZ_t$ with respect to $\nY_t$ and $\nX_t$, when $\nY_t < \nX_t$.}
+    \end{figure}
+    \fi
+    For the second part of the result, $\cA^{\mathrm{fpa}}$ and $\cA^{\mathrm{dp}}$ can be chosen by designing discretized versions of appropriately defined bandit algorithms. 
+    In the Lipschitz case, the proof follows from standard arguments showing that the expected reward of any price can be controlled by one of the closest points in the discretization grid.
+    The (iid+iv) case is more subtle and it is based on the fact that, although we cannot accurately approximate the expected reward of all prices, under these assumptions, it is possible to approximate the expected rewards of near-optimal prices, which turns out to be sufficient to obtain the result.
+    For all missing details, see \Cref{s:missing-details-VIN}.
+\end{proofsketch}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{\texorpdfstring{$T^{2/3}$}{T 2/3} Lower Bound (iid+lip+iv)}
+\label{s:lowah}
+
+
+% \textbf{Upper bounds.}
+% First observe that the learner's action space (i.e., the set of ask/bid pairs) is the two dimensional set $\{(\nb,\ns) \in [0,1]^2 \mid \nb \le \ns\}$.
+% If market prices and takers' valuations are both generated adversarially, standard bandit approaches typically require Lipschitzness (or the weaker one-side Lipschitzness) of the reward function, a property that is unfortunately missing in our setting. We can recover Lipschitzness (in expectation) by smoothing\footnote{I.e., by assuming that their cumulative distribution function is Lipschitz.} the takers' valuations, while the market prices remain adversarial.
+% Under the smoothness assumption, the problem can be seen as an instance of $2$-dimensional Lipschitz bandits, and a black-box application of existing continuous bandits techniques~\citep{slivkins2019introduction} would give us only a suboptimal regret rate $\cO(T^{\nicefrac{3}{4}})$.
+% Using a different approach that exploits the structure of our feedback and reward functions, we manage to effectively reduce the dimensionality of the problem by $1$, thus obtaining an improved (and optimal, as discussed later) $\cO(T^{\nicefrac{2}{3}})$ regret rate, see~\Cref{lemma:upperbound-discretizedbandits}.
+
+% The previous result is based on discretizing the action space and exploiting the Lipschitzness of the expected reward function provided by the smoothness assumption, together with the available feedback (which is sufficient to reconstruct bandit feedback). Can discretization be used to obtain the same rate when smoothed adversarial valuations are replaced by a different, yet natural, assumption? In \Cref{s:upper-boud-T-two-thirds} we consider an i.i.d.\ setting with independence between market prices and private valuations. Although this assumption does not provide Lipschitzness (not even in expectation), we show that the same algorithm as before has a regret again bounded by $\cO(T^{\nicefrac{2}{3}})$. However, the analysis relies on a different observation: although we cannot guarantee that the reward of \emph{all} actions is well approximated by that of a corresponding point in the grid, we can guarantee the weaker property that the expected reward of the \emph{best} actions are approximated by the expected reward of a point in the grid, which is sufficient to prove the desired rate.
+
+
+In this section, we present the main result of this work, a lower bound showing that no algorithm can achieve a worst-case regret better than $\Omega(T^{\nicefrac{2}{3}})$ even when the sequence of market prices and takers' valuations is i.i.d.\ with a smooth distribution, and market prices and takers' valuations are independent of each other.
+
+
+To give the reader some intuition on the nuances and peculiarities of this lower bound, we begin by comparing the trade-offs between regret and the amount of received feedback in hard instances of our setting and those of other (better-known) related settings.
+The three main ingredients in the standard lower bound approach for online learning with partial feedback are:
+\begin{itemize}
+    \item \emph{Hard instances}, constructed as ``$\e$-perturbations'' of a base instance obtained by slightly altering the base distributions of some of the random variables drawn by the environment.
+    \item The \emph{amount of information} acquired when playing an action, quantified by the Kullback-Leibler (KL) divergence between the distribution of the feedback obtained when selecting the action in the perturbed instance and the corresponding feedback distribution when selecting the action in the base instance---the higher, the better for the learner.
+    \item The \emph{regret} of an action, simply measured by the expected instantaneous regret of the action in the perturbed instance---the smaller, the better for the learner.
+\end{itemize}
+
+In hard instances of $K$-armed bandits, an arm is drawn uniformly at random from a $K$-sized set and assigned an expected reward $\e$-higher than the other arms in the set. Selecting an optimal arm costs zero regret and provides $\Theta(\e^2)$ bits of information. Selecting a non-optimal arm, instead, provides no information and costs $\e$ regret \citep{auer2002nonstochastic}.
+This implies that any algorithm has only one way to acquire information about an arm: playing that arm. A similar situation occurs in other settings, including those with continuous decision spaces.
+For example, to acquire information about a bid in a standard hard instance of first-price auctions (or dynamic pricing), the only reasonable option is to bid that amount, incurring regret $\Theta(\e)$ if the bid is non-optimal and acquiring $\Theta(\e^2)$ bits of information if the arm is optimal \citep{cesabianchiRoleTransparencyRepeated2024}. See \Cref{fig:fp-kl-utility} for a pictorial representation of the expected reward and KL divergence in said hard instances.
+\begin{figure}[t]
+    \centering
+    \includegraphics[page=2, scale=0.8]{plots.pdf}
+    \caption{Utility (in red) and amount of acquired information (in blue) in a hard instance of the classic multi-armed bandit problem with a finite set of arms (on the left) and in a hard instance of the first-price auctions problem with a continuous set of bids (on the right)---a similar picture can be drawn for the dynamic pricing problem. 
+    Both quantities are maximized at the same point.
+    In particular where there is no perturbation, there is no information and some amount of reward, otherwise the KL can grow up to a quantity of order $\e^2$ and the utility can grow by a quantity of order at least $\e$.}
+    \label{fig:fp-kl-utility}
+\end{figure}
+
+Analogously, to build hard instances of market-making, we begin by drawing a price $\tilde{\nb}$ uniformly at random from a known finite set of bid prices and the bid/ask pair $(\tilde{\nb}, 1)$ is given a reward $\e$-higher than the other (potentially optimal) bid/ask pairs of the form $(\nb',1)$.
+However, in the market-making problem, there is a trade-off between reward and feedback that is completely absent in the aforementioned classical problems.
+The amount of information and corresponding regret of each pair of prices $(\nb, \ns)$ can be visualized by looking at the qualitative plots in  \Cref{fig:mm-kl-utility}.
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{utility-and-kl-plot.png}
+    \caption{The heat maps of the amount of information (on the left) and the expected utilities (on the right) obtained by selecting pairs of prices in a hard instance we constructed in our $\Omega(T^{\nicefrac{2}{3}})$ lower bound for i.i.d.\ smooth instances with market prices independent of takers' valuations (\Cref{t:lower-bound-lip-iv}). 
+    To distinguish the optimal region with reward of (at least) $\nicefrac{1}{8} + c_{\mathrm{spike}}\e_K$ (the yellow region at the top of the right plot) from the suboptimal region with reward $\nicefrac{1}{8}$, one could play any point in the non-blue horizontal and vertical regions on the left plot.
+    Note that the pairs that yield the highest amount of feedback (the two small yellow neighborhoods close to the diagonal on the left plot) give highly suboptimal rewards, which are at least $c_{\textrm{plat}} = \Omega(1)$ below $\nicefrac{1}{8}$.
+    For explicit definitions of $\e_K, c_{\mathrm{spike}}, c_{\mathrm{plat}}$, see \Cref{s:kl-bounds}.
+    }
+    \label{fig:mm-kl-utility}
+\end{figure}
+Here, there are uncountably many ways to determine if a pair of prices $(\nb, 1)$ is optimal: 
+playing any pair in the non-blue area of the left plot in \Cref{fig:mm-kl-utility} allows to modulate the amount of exploration, with the points that yield the highest quality feedback being the ones with low reward and high regret (for a plot representing the growth of the amount of feedback and the corresponding reward as a function of the pair $(\nb,\ns)$ taken along a representative path, see \Cref{fig:mm-line-kl-utility}).
+Consequently, the exploration-exploitation trade-off consists in \emph{first} choosing whether to exploit with some pair $(\nb,1)$ or instead to explore another potentially optimal pair $(\nb', 1)$, and \emph{then}, in the second case, choosing from an uncountable set of options $(\nb'',\ns'')$ how much regret one is willing to suffer in order to acquire more information about the (potential) optimality of $(\nb',1)$.\footnote{%
+The situation is even more complex because pairs $(\nb, \ns)$ allow to test for the optimality not just of the pair $(\nb,1)$, but also of the pair $(\ns,1)$.} 
+To build a lower bound, we then need to consider \emph{all} possible ways a learner can decide to leverage these multiple trade-offs between information and regret that arise in the market making problem.
+
+\begin{theorem}\label{t:lower-bound-lip-iv}
+    In the online market-making problem, 
+    for each $L \ge 8$, each time horizon $T \ge 42$, and each (possibly randomized) algorithm for online market making, there exists a $[0,1]^2$-valued i.i.d.\ sequence $(\nP_t,\nZ_t)_{t \in [T]}$ of market prices and takers' valuations such that for each $t \in [T]$ the two random variables $\nP_t$ and $\nZ_t$ are independent of each other, they admit $L$-Lipschitz cumulative distribution functions, and the regret of the algorithm over the sequence $(\nP_t,\nZ_t)_{t \in [T]}$ is lower bounded by
+    $
+        R_T \ge c T^{\nicefrac{2}{3}}
+    $
+    where $c \ge 10^{-6}$ is a constant.
+\end{theorem}
+
+We present here a proof sketch and defer the full proof of this result to \Cref{s:kl-bounds}.
+
+\begin{proofsketch}%[Proof sketch]
+The first step is to build a base joint distribution over market prices and takers' valuations such that the expected utility function of the learner is maximized over an entire segment of pairs of prices $(\nb,1)$, for $\nb$ that belongs to some interval---note that these are instances where it is never optimal to sell.
+Then, we partition this set of maximizers into $K $ %= \Theta ( T^{\nicefrac{1}{3}} )$ 
+segments with the same size and build $K$ perturbations of the base distribution such that, in each one of these perturbations, the corresponding expected utilities have a small $\e = \Theta ( 1/K )$-spike inside one of these subsegments.
+% For the details on how to obtain this construction see \Cref{s:kl-bounds}.
+% To obtain this construction, we draw market prices uniformly on $\bsb{\frac78,1}$ and define a more involved distribution for the takers' valuations. %(see \Cref{fig:pertburbed-density} for the plot of one of these perturbed distributions over takers' valuations).
+
+We then make a simple observation:
+If we content ourselves with proving a lower bound for algorithms that play exclusively bid/ask pairs of the form $(\nb, 1)$, our problem reduces to repeated first-price auctions with unknown valuations. 
+In this simplified problem, the learner has to essentially locate an $\e$-spike among one of $\nicefrac{1}{\e}$ locations. 
+Therefore, the learner can either refuse to locate the spike, and pay an overall $\Theta (\e T)$ regret, or invest $\Omega (\nicefrac{1}{\e^2})$ rounds\footnote{Given that the KL divergence between the base distribution of the feedback of points in a perturbed region and the perturbed distribution of the feedback of the same points is $O(\e^2)$, an information-theoretic argument shows that a sample of size $\Omega(\nicefrac{1}{\e^2})$ in any region is needed to determine whether the spike occurs in that region.} in trying to locate each one of the $\nicefrac{1}{\e}$ potential spikes, paying $\Omega (\e)$ each time a point in the wrong region is sampled, for an overall regret of $\Omega \brb{ \frac{1}{\e^2} \cdot \frac{1}{\e} \cdot \e } = \Omega ( \nicefrac{1}{\e^2} )$. 
+The hardest instance is when $\e T = \Theta ( \nicefrac{1}{\e^2} )$, i.e., when $\e = \Theta ( T^{\nicefrac{1}{3}} )$.
+In this case, no matter what the learner decides, they will always pay at least $\Omega ( \e T ) = \Omega( \nicefrac{1}{\e^2} ) = \Omega (T^{\nicefrac{2}{3}} )$ regret.
+
+However, the problem is substantially more delicate in the general case where, to explore a potentially optimal action $(\nb, 1)$, the learner has access to uncountably many options $(\nb', \ns')$ (see \Cref{fig:mm-kl-utility}).
+This also leads to another complication.
+In standard online learning lower bounds, the worst-case regret of an algorithm is analyzed by counting how many times the algorithm plays exploring vs.\ exploiting arms, then quantifying how much information was gathered from the exploration, and finally summing over all exploring arms.
+This strategy is hardly implementable in our setting because each exploiting pair $(b, 1)$ can be explored with uncountably many other arms $(\nb', \ns')$, where each arm trades off reward with feedback in a different way (see \Cref{fig:mm-line-kl-utility})---for example, one could post two prices $(\nb, \nb + \theta)$, for some small $\theta>0$ paying $\Omega(1)$ regret to obtain much higher quality feedback than if they played $(\nb, 1)$ ($\e$ vs.\ $\e^2$ bits of information).
+\begin{figure}[t]
+    \centering
+    \includegraphics[page=1, scale=0.8]{plots.pdf}
+    \caption{
+    The amount of information (on the left) and the corresponding expected utility (on the right) as a function of pairs of prices $(\nb,\ns)$, with $(\nb,\ns)$ following the red dotted line in \Cref{fig:mm-kl-utility} starting at the left boundary of the horizontal non-blue region at the point $(0,\tilde{\nb})$, moving horizontally up to the diagonal, then vertically up to the optimal pair $(\tilde{\nb},1)$, parameterized by a real number $x$.
+    The points $(\tilde \nb, \tilde \ns)$ and $(\tilde \nb, p_\mathrm{exploit})$ illustrate how regions of high reward and regions of high information do not coincide, in fact the cost of gathering more information (e.g., play $(\tilde \nb, \tilde a)$ instead of $(\tilde \nb, p_\mathrm{exploit})$) can be a constant $\Theta(1)$ in the reward. On the other hand, a high-reward play gathers only $\Theta(\varepsilon^2)$ amount of information, hence costing $\Theta(\varepsilon)$ with respect to the maximum amount of information that can be gathered.
+    }
+    \label{fig:mm-line-kl-utility}
+\end{figure}
+
+We circumvent this problem by clustering the action set $\cU$ into a growing (with the time horizon $T$) number of disjoint subsets of non-uniform sizes that we further group in three macro-categories: ``suffer high regret but (potentially) obtain a large amount of information'', ``suffer little (or potentially no) regret but also obtain little information'', and clearly suboptimal actions where we ``suffer some regret and obtain no information''.
+We then analyze the regret of any algorithm in terms of how many times it selects an action from each cluster, using similar techniques for all clusters belonging to the same macro-category.
+By doing so, we can prove that no matter how an algorithm decides to play, there will always be instances where it has to pay a regret of order at least $\Omega (T^{\nicefrac{2}{3}})$.
+\end{proofsketch}
+
+We conclude this section by remarking that, to the best of our knowledge, this is the first lower bound for a problem exhibiting such a continuum of trade-offs between reward and feedback.
+As our setting is arguably simple, we expect this phenomenon to occur in other applications of online learning to digital markets. 
+Therefore, we believe the lower bound techniques developed in this work could be of independent interest.
+
+% Instead, we now give an extended overview of the challenges that this lower bound posed and the corresponding techniques we developed to overcome them, and contrast them with better-known online learning techniques.
+% We hope this would be of interest for future researchers working on lower bounds online learning problems coming from economics or partial monitoring where the action set is uncountable and reward and information can be traded-off in arbitrary (continuous) ways by learning algorithm.
+%
+%
+%
+%
+% \paragraph{A discussion about the techniques and challenges in our $T^{2/3}$ lower bound}
+%
+%
+%
+%
+% A first roadblock in constructing a regret lower bound for our problem is that, in contrast to standard multi-armed bandits problems,
+% we can control the distribution of the feedback and the expected reward functions only indirectly, through the joint distribution of market prices and valuations.
+% In particular, there are constraints on the types of reward functions we can design, and it is non-trivial to design underlying joint distributions of market prices and valuations whose corresponding expected reward functions have the desired properties.
+%
+%
+%
+%
+% Another challenge is that the learner's feedback in our setting is richer than bandit feedback. Therefore, even if we could encode our expected reward functions in hard multi-armed bandit instances, we would not be able to rely on the same arguments.
+% A similar reason prevents us from applying the known $\Omega(T^{\nicefrac{2}{3}})$ lower bounds for dynamic pricing and first-price auctions, two problems that, as discussed in \Cref{s:upper}, are closely related to ours.
+% Proving the optimality of the $T^{\nicefrac{2}{3}}$ rate in the i.i.d.\ setting under the assumptions of smoothness and independence of market prices and takers' valuations
+% is a highly nontrivial task and represents 
+% the main technical contribution of this work.
+%
+%
+%
+%
+% Instead, %to understand the complexity of proving this lower bound
+ %for tackling similar lower bounds that we believe will appear in online learning settings for digital market problems.
+
+% We solve the problem by partitioning the action space into finitely many elements (or clusters) that can be further grouped in three macro-categories: 
+% ``suffer high regret but (potentially) obtain a large amount of information'', ``suffer little (or potentially no) regret but also obtain little information'', and clearly suboptimal actions where we ``suffer some regret and obtain no information''.
+% We then analyze an algorithm in terms of how many times it selects an action from each cluster, using similar techniques for all clusters belonging to the same macro-category.
+
+
+% We close this section with a last remark. When investigating the necessity of the assumptions of smoothness and independence of valuations and prices, if both these assumptions are dropped, an intriguing \emph{needle-in-a-haystack} phenomenon arises: by devising discrete entangled takers' valuations and market prices distributions, we show that it becomes impossible for the learner to determine an optimal action within a finite horizon in a continuum of potentially optimal actions.
+
+
+
+
+
+
+
+
+
+\section{Unlearnability without (lip) or (iv) Assumptions}
+%
+
+In this section, we show that, even under the (iid) assumption, without smoothness (lip) or independence between market prices and takers' valuations (iv), learning is impossible in general.
+
+\begin{theorem}\label{t:minimal-lower-bound-iid}
+In the online market-making problem, 
+for each time horizon $T$ and each $\delta \in (0, \nicefrac{1}{2})$ and each (possibly randomized) algorithm for online market making, there exists a $[0,1]^2$-valued i.i.d.\ sequence $(\nP_t,\nZ_t)_{t \in [T]}$ of market prices and takers' valuations such that the regret of the algorithm over the sequence $(\nP_t,\nZ_t)_{t \in [T]}$ is lower bounded by
+$
+    R_T \ge \lrb{\frac{1}{2} - \delta} \cdot T
+$.
+\end{theorem}
+
+We present here a proof sketch and defer the full proof of this result to \Cref{s:liner-lower-bound-appe}.
+
+\begin{proofsketch}%[Proof sketch]
+In an i.i.d.\ setting, without any loss of generality, we can assume that the learning algorithm is deterministic.
+Notice that, if market prices are always equal to $0$ or $1$, a deterministic algorithm can only generate finitely many points over a finite time horizon.
+Therefore, for any fixed deterministic algorithm and any small $0< \e \approx 0$, there exists a small interval $[c,d]$ included in $\bsb{ \frac12 - \e, \frac12 + \e }$ where the algorithm never plays over a finite time horizon.
+By building an i.i.d.\ family of market prices and takers' valuations such that $(\nP_t,\nZ_t) = (0,d)$ or $(\nP_t,\nZ_t) = (1,c)$ with probability $\nicefrac{1}{2}$ each, one can prove that (i) the best fixed bid/ask pair belongs to the open interval $(c,d)$, (ii) that this pair always wins (roughly) at least $1/2$ reward in expectation, while (iii) the learning algorithm (roughly) gains $0$ in expectation.   
+\end{proofsketch}
+
+
+
+
+
+
+
+
+
+
+\iffalse
+\section{Full feedback}
+Recall the full feedback scenario where, at the end of every round $t$, the learner gets to observe the value of $\nZ_t$ (in addition to $\nP_t$). In this section we prove tight upper and lower bounds of order $T$ (for the adversarial case) and of order $\sqrt{T}$ for the smooth adversarial and the i.i.d.\ setting. Although this feedback model is not very plausible, the characterization of its regret rates allows us to quantify the cost of realistic feedback (i.e., how much we lose in the rate when moving from full to realistic feedback).
+
+\subsection{Linear lower bound  (Adversarial)}
+In this section we show that in the oblivious adversarial feedback model, when the sequence of market prices and takers' valuations is an arbitrary and unknown deterministic sequence, any (possibly randomized) algorithm is bound to suffer linear regret.
+\begin{theorem}
+    \label{t:lower-full-info-adv}
+    In the full-feedback online market-making problem, 
+    for each time horizon $T \in \N$, each $\delta \in (0,\nicefrac{1}{8})$, and each (possibly randomized) algorithm for full-feedback online market making, there exists a $[0,1]^2$-valued deterministic sequence $(\np_t,\nz_t)_{t \in [T]}$ of market prices and takers' valuations such that the regret of the algorithm over the sequence $(\np_t,\nz_t)_{t \in [T]}$ is lower bounded by
+    \[
+        R_T \ge \lrb{\frac{1}{4}-\delta} T \;.  
+    \]
+\end{theorem}
+{
+\begin{proof}
+\renewcommand{\cA}{\mathscr{A}}
+\renewcommand{\cS}{\mathcal{A}}
+Fix a randomized algorithm $(\ncB_t,\ncS_t)_{t \in \N}$ for the full-feedback setting, i.e., a sequence of pairs of maps such that, for each time $t \in \N$, it holds that $(\ncB_t, \ncS_t) \colon [0,1]^t\times \brb{[0,1] \times [0,1]}^{t-1} \to \cU$. Let $(Y_t)_{t \in \N}$ be the $\Pb$-i.i.d.\ sequence of $[0,1]$-uniform random seeds used by the algorithm for randomization purposes.
+Then, if at the beginning of time $t$ the feedback received by the algorithm so far is $(\nP_1,\nZ_1),\dots,(\nP_{t-1},\nZ_{t-1}) \in [0,1]^2$, while the sequence of uniform random seeds in $[0,1]$ (used for randomization purposes) are $Y_1,\dots,Y_t$, the algorithm posts a pair of buying/selling prices $(\nB_t,\nS_t) \in \cU$, where $\nB_t \coloneqq \ncB_t(Y_1,\dots,Y_t,\nP_1,\nZ_1,\dots,\nP_{t-1},\nZ_{t-1})$ and $\nS_t \coloneqq \ncS_t(Y_1,\dots,Y_t,\nP_1,\nZ_1,\dots,\nP_{t-1}, \nZ_{t-1})$.
+
+We recall that if $(\cX,\cF)$ is a measurable space and $X$ is a $\cX$-valued random variable, we denote by $\Pb_X$ the push-forward probability measure of $\Pb$ induced by $X$ on $\cX$, i.e., $\Pb_X [E] \coloneqq \Pb [X \in E] $, for any $E \in \cF$.
+
+Fix $\e \in (0, 1/18)$ and define $c_0 \coloneqq \frac{1-3\e}{2}$ and $d_0 \coloneqq \frac{1+3 \e}{2}$.
+Recursively for $t = 0,1,2,\dots$, define 
+\[
+\bar{\ncB}_{t+1} : [0,1]^{t+1} \to [0,1], (y_1,\dots,y_{t+1}) \mapsto \ncB_{t+1} \brb{ y_1, \dots, y_{t+1} \underbrace{, (\np_1,\nz_1), \dots, (\np_t,\nz_t) }_{\text{doesn't appear when } t = 0} }, 
+\]
+call the induced push-forward probability measure $\nu_{t+1} \coloneqq \Pb_{\bar{\ncB}_{t+1}(Y_1,\dots,Y_{t+1})}$, and
+\[
+    \begin{cases}
+        c_{t+1}\coloneqq c_{t}, \ d_{t+1}\coloneqq d_{t}-\frac{2\e}{3^{t}}, \ \np_{t+1}\coloneqq 0, \ \nz_{t+1}\coloneqq d_{t+1},
+    &
+        \text{if } \nu_{t+1}\Bsb{ \bsb{\frac{\nc_t+d_t}{2},1} }\ge\frac{1}{2} \;,
+    \\
+        c_{t+1}\coloneqq c_{t}+\frac{2\e}{3^{t}}, \ d_{t+1}\coloneqq d_{t}, \ \np_{t+1} \coloneqq 1, \ \nz_{t+1}\coloneqq c_{t+1},
+    &
+        \text{otherwise}.
+    \end{cases}
+\]
+Then $(\bar{\ncB}_t)_{t \in \N}, (\nu_t)_{t \in \N}, (\nc_t)_{t \in \N}, (d_t)_{t \in \N}, (\np_t)_{t \in \N}, (\nz_t)_{t \in \N}$ are well-defined, and hence also the sequence of pair of random (the randomness is induced by the sequence of uniform random seeds $(Y_t)_{t \in \N}$) prices $(\nB_t,\nS_t)_{t\in\N}$ when the underlying instance is $(\nP_t, \nZ_t)_{t \in \N} \coloneqq (\np_t,\nz_t)_{t\in\N}$ , and satisfy:
+\begin{itemize}
+    \itemm For each $t \in \N$, $d_t-\nc_t = \nicefrac{\varepsilon}{3^{t-1}}$.
+    \itemm For each $t \in \N$, $\nicefrac{(1-3\e)}{2} = c_0 \le \nc_1 \le \dots \le \nc_t \le \nz_t \le d_t \le \dots \le  d_1 \le d_0 = \nicefrac{(1+3\e)}{2}$.
+    \itemm There exists (a unique) $x^\star$ in $\bigcap_{t=0}^{\infty}[\nc_t,d_t]$.
+    \itemm For each $t \in \N$, $\util\lrb{x^\star,x^\star, \np_t,\nz_t} \ge \min (x^\star, 1-x^\star) \ge \nicefrac{(1-3\e)}{2}$.
+    \itemm For each $t \in \N$, $\Pb\bsb{ \nB_t > \nz_t }\ge\nicefrac{1}{2}$ or $\Pb\bsb{ \nB_t < \nz_t }\ge\nicefrac{1}{2}$.
+    \itemm For each $t\in \N$, if $\Pb\bsb{ \nB_t > \nz_t }\ge\nicefrac{1}{2}$ then $\np_t = 0$.
+    \itemm For each $t\in \N$, if $\Pb\bsb{ \nB_t < \nz_t }\ge\nicefrac{1}{2}$ then $\np_t = 1$.
+\end{itemize}
+Now, if $\Pb\bsb{ \nB_t > \nz_t }\ge\nicefrac{1}{2}$, given that $\nS_t \ge \nB_t$ and $\np_t = 0$, it follows that
+\begin{align*}
+    \E\bsb{\util (\nB_t,\nS_t,\np_t,\nz_t) }
+&=
+    \E\bsb{ - \nB_t \one{\nB_t \ge \nz_t } + \nS_t \one{\nS_t < \nz_t} }
+\le
+    \E\bsb{ - \nB_t \one{\nB_t > \nz_t } + \nS_t \one{\nS_t < \nz_t} }
+\\ &\le 
+    \E\bsb{ - \nz_t \one{\nB_t > \nz_t } + \one{\nB_t < \nz_t} }
+\le
+    \frac{1-\nz_t}{2}
+\le
+    \frac{1}{2}\lrb{\frac{1}{2} + \frac{3\e}{2}}\;.
+\end{align*}
+On the other hand, if $\Pb\bsb{ \nB_t < \nz_t }\ge\frac{1}{2}$, given that $\nS_t \ge \nB_t$ and $\np_t = 1$, we have
+\begin{align*}
+    \E\bsb{\util (\nB_t,\nS_t,\np_t,\nz_t) }
+&=
+    \E\bsb{ (1 - \nB_t) \one{\nB_t \ge \nz_t } + (\nS_t - 1) \one{\nS_t < \nz_t} }
+\\
+&\le
+    \E\bsb{ (1- \nz_t) \one{\nB_t \ge \nz_t }}
+\le
+    \frac{1-\nz_t}{2}
+\le
+\frac{1}{2}\lrb{\frac{1}{2} + \frac{3\e}{2}}\;.
+\end{align*}
+In any case, it follows that, for each $T \in \N$,
+\[
+    \sum_{t=1}^T\E\bsb{\util(x^\star,x^\star,\np_t,\nz_t) - \util(\nB_t,\nS_t,\np_t,\nz_t)}
+\ge
+    \lrb{\frac{1-3 \e}{2} - \frac{1}{2} \lrb{\frac{1}{2} + \frac{3 \e}{2}}} \cdot T
+\ge
+    \lrb{\frac{1}{4} - \frac{9}{4} \e} \cdot T \;.
+\]
+Since $\e$ was chosen arbitrarily in the interval $(0, \nicefrac{1}{18})$, the conclusion follows.
+\end{proof}
+}
+
+
+\subsection{\texorpdfstring{$\sqrt{T}$}{√T} lower bound (IID+IV+Lip)}
+%
+We now state and prove the analogue of \Cref{t:lower-bound-lip-iv} in the full-feedback model. Namely, that in the i.i.d.\ case, when market prices and takers' valuations are also independent between each other, and their distribution is Lipschitz, the regret of any algorithm is $\Omega(\sqrt{T})$.
+\begin{theorem}
+    \label{t:sqrtT-lower-full}
+    In the full-feedback online market-making problem, 
+    for each $L \ge 8$, each time horizon $T \ge 3$, and each (possibly randomized) algorithm for full-feedback online market making, there exists a $[0,1]^2$-valued i.i.d.\ sequence $(\nP_t,\nZ_t)_{t \in \N}$ of market prices and takers' valuations such that for each $t \in [T]$ the two random variables $\nP_t$ and $\nZ_t$ are independent of each other, they admit a $L$-Lipschitz cumulative distribution function, and the regret of the algorithm over the sequence $(\nP_t,\nZ_t)_{t \in [T]}$ is lower bounded by
+    \[
+        R_T \ge \frac{1}{200} \sqrt{T}\;.
+    \] 
+\end{theorem}
+
+{
+\begin{proof}
+\renewcommand{\cA}{\mathscr{A}}
+\renewcommand{\cS}{\mathcal{A}}
+    Define the density
+\[
+    f \colon [0,1] \to [0,\infty)\;, \quad x \mapsto \frac{8}{9} \cdot \I_{[0, \frac{3}{16}]}(x) + \frac{1}{8}\frac{1}{\lrb{\frac{15}{16}-x}^2}\cdot\I_{(\frac{3}{16},\frac{3}{4}]}(x) + \frac{8}{3} \cdot \I_{(\frac{3}{4},\frac{7}{8}]}(x)\;,
+\]
+so that the corresponding cumulative distribution function $F$ satisfies, for each $x \in [0,1]$,
+\[
+    F(x)
+=
+    \frac{8}{9}x \cdot \I_{[0, \frac{3}{16}]}(x) + \frac{1}{8}  \frac{1}{\frac{15}{16}-x} \cdot \I_{(\frac{3}{16},\frac{3}{4}]}(x) + \frac{8}{3}\lrb{x-\frac{1}{2}}\cdot \I_{(\frac{3}{4},\frac{7}{8}]}(x) + \I_{(\frac{7}{8},1]}(x)\;.
+\]
+For each $\e \in [-\frac{1}{2},\frac{1}{2}]$, define
+$
+    g_\e
+\coloneqq
+    \e \cdot \I_{[\frac{1}{16},\frac{3}{16}]} - \e \cdot \I_{(\frac{3}{4},\frac{7}{8}]}
+$
+and $f_\e \coloneq f + g_\e$.
+Notice that for each $\e \in [-\frac{1}{2},\frac{1}{2}]$ the function $f_\e$ is still a density function whose probability distribution $\nu_\e$ has a corresponding cumulative distribution functions $F_\e$ satisfies, for each $x \in [0,1]$,
+\[
+    F_\e(x)
+=
+    F(x)
+    +
+    \e \lrb{x - \frac{1}{16}} \cdot \I_{[\frac{1}{16}, \frac{3}{16}]}(x)
+    +
+    \frac{\e}{8} \cdot \I_{(\frac{3}{16},\frac{3}{4}]}(x)
+    +
+    \e \lrb{\frac{1}{8} - \lrb{x-\frac{3}{4}}} \cdot \I_{(\frac{3}{4},\frac{7}{8}]}(x)\;.
+\]
+Consider an independent family $\{\nP_t, \nZ_{\e,t}\}_{t \in \N, \e\in [-\frac{1}{2},\frac{1}{2}]}$ such that for each $t \in \N$ the distribution $\mu$ of $\nP_t$ is a uniform on $\lsb{\frac{7}{8},1}$, while for each $\e \in [-\frac{1}{2},\frac{1}{2}]$ and each $t \in \N$ the distribution of $\nZ_{\e,t}$ has $f_\e$ as density.
+Then, notice that, for each $\e \in [-\frac{1}{2},\frac{1}{2}]$, each $t \in \N$, and each $(\nb, \ns) \in \cU$, given that $\Pb [ \nZ_{\e,t} \le \nP_t ] = 1$, it holds that
+\begin{align*}
+    \E\bsb{\util(\nb,\ns,\nP_t, \nZ_{\e,t})}
+& \le
+    \E\bsb{\util(\nb,1,\nP_t, \nZ_{\e,t})}
+\\ & =
+    \E\bsb{(\nP_t-\nb) \one{\nb \ge \nZ_{\e,t}}}
+=
+    \lrb{\frac{15}{16}-\nb}F_\e(\nb)
+\\ &=
+    \frac{8}{9}\nb\lrb{\frac{15}{16}-\nb} \cdot \I_{[0, \frac{1}{16}]}(\nb)
+\\ & \qquad
+    + \lrb{\lrb{\frac{8}{9}+\e}\nb-\frac{\e}{16}}\lrb{\frac{15}{16}-\nb} \cdot \I_{(\frac{1}{16},\frac{3}{16}]} (\nb)
+\\ & \qquad
+    + \lrb{\frac{1}{8}+\lrb{\frac{15}{16}-\nb}  \frac{\e}{8}} \cdot \I_{(\frac{3}{16},\frac{3}{4}]}(\nb)
+\\ & \qquad
+    + \lrb{\e\lrb{\frac{7}{8} - \nb} + \frac{8}{3} \lrb{\nb - \frac{1}{2}}} \lrb{\frac{15}{16}-\nb} \cdot \I_{(\frac{3}{4},\frac{7}{8}]}(\nb)
+\\ & \qquad
+    + \lrb{\frac{15}{16}-\nb} \cdot \I_{(\frac{7}{8},1]}(\nb)\;,
+\end{align*}
+and consequently, if $\e > 0$ then
+\begin{itemize}
+    \itemm $\max_{(\nb, \ns) \in \cU} \E\bsb{\util(\nb,\ns,\nP_t, \nZ_{\e,t})} = \E\lsb{\util\lrb{\frac{3}{16},1,\nP_t, \nZ_{\e,t}}} = \frac{1}{8} + \frac{3\e}{32}$
+    \itemm $\max_{(\nb, \ns) \in \cU, \nb \ge \frac{15}{32}} \E\lsb{\util(\nb,\ns,\nP_t, \nZ_{\e,t})} = \E\lsb{\util\lrb{\frac{15}{32},1,\nP_t, \nZ_{\e,t}}} = \frac{1}{8} +  \frac{15\e}{256}$
+    \itemm $\E\lsb{\util\lrb{\frac{3}{16},1,\nP_t, \nZ_{\e,t}}} - \E\lsb{\util\lrb{\frac{15}{32},1,\nP_t, \nZ_{\e,t}}} = \frac{9\e}{256} \ge \frac{1}{32} \cdot |\e|$
+\end{itemize}
+while if $\e < 0$ then
+\begin{itemize}
+    \itemm $\max_{(\nb, \ns) \in \cU} \E\lsb{\util(\nb,\ns,\nP_t, \nZ_{\e,t})} = \E\lsb{\util\lrb{\frac{3}{4},1,\nP_t, \nZ_{\e,t}}} = \frac{1}{8} + \frac{3\e}{128}$
+    \itemm $\max_{(\nb, \ns) \in \cU, \nb \le \frac{15}{32}} \E\lsb{\util(\nb,\ns,\nP_t, \nZ_{\e,t})} = \E\lsb{\util\lrb{\frac{15}{32},1,\nP_t, \nZ_{\e,t}}} = \frac{1}{8} +  \frac{15\e}{256}$
+    \itemm $\E\lsb{\util\lrb{\frac{3}{4},1,\nP_t, \nZ_{\e,t}}} - \E\lsb{\util\lrb{\frac{15}{32},1,\nP_t, \nZ_{\e,t}}} =  -\frac{9\e}{256} \ge \frac{1}{32} \cdot |\e|$
+\end{itemize}
+Given that we are in a stochastic i.i.d.\ setting, without loss of generality we can consider only deterministic algorithms.
+Fix a deterministic algorithm for the full-feedback setting $(\ncB_t,\ncS_t)_{t \in \N}$, i.e., a sequence of pairs of maps such that, for each time $t \in \N$, it holds that $(\ncB_t, \ncS_t) \colon \brb{[0,1] \times [0,1]}^{t-1} \to \cU$ (with the convention that $(\ncB_1,\ncS_1)$ is just an element of $\cU$). Then, if at the beginning of time $t$ the feedback received by the algorithm so far is $(\nP_1,\nZ_1),\dots,(P_{t-1},\nZ_{t-1}) \in [0,1]^2$, the algorithm posts a pair of buying/selling prices $(\nB_t,\nS_t) \in \cU$, where $\nB_t \coloneqq \ncB_t(\nP_1,\nZ_1,\dots,P_{t-1},\nZ_{t-1})$ and $\nS_t \coloneqq \ncS_t(\nP_1,\nZ_1,\dots,P_{t-1},\nZ_{t-1})$.
+
+Fix a time horizon $T \ge 3$.
+For any $\e \in [-\nicefrac{1}{2},\nicefrac{1}{2}]$, let $N^{\e}_T$ be the (random) number of times that the algorithm has played in $\{(\nb, \ns) \in \cU \mid \nb \ge \nicefrac{15}{32}\}$ up to time $T$ when the underlying instance is $(\nP_t,\nZ_{\e,t})_{t \in \N}$.
+In what follows, if $\mathbb{Q}$ and $\mathbb{Q}'$ are two probability measures, we denote by $\mathbb{Q} \otimes \mathbb{Q}'$ their product probability measure.
+Now, for any $\e \in \lrb{0, \nicefrac{1}{2}}$, leveraging Pinsker's inequality \cite[Lemma 2.5]{Tsybakov2008} that upper bounds the difference in the total variation $\lno{\cdot}_{\text{TV}}$ of two probability measures using their Kullback-Leibler divergence $\cD_{\text{KL}}$, the chain rule for the Kullback-Leibler divergence \cite[Theorem 2.5.3]{ThomasM.Cover2006}, and the fact that the Kullback-Leibler divergence is upper bounded by the $\chi^2$ divergence $\cD_{\chi^2}$ \cite[Lemma 2.7]{Tsybakov2008}, we have that
+\begin{align*}
+&
+    \E\bsb{N_T^{-\e} - N_T^{\e}} \\
+&=
+    \sum_{t=1}^{T-1} \lrb{ \Pb_{(\nP_1,\nZ_{-\e,1},\dots,\nP_t,\nZ_{-\e,t})} \lsb{ \ncB_{t+1}^{-1} \lrb{\lsb{\frac{15}{32}, 1} }} - \Pb_{(\nP_1,\nZ_{\e,1},\dots,\nP_t,\nZ_{\e,t})} \lsb{ \ncB_{t+1}^{-1} \lrb{\lsb{\frac{15}{32}, 1} }}}
+\\
+&\le
+    \sum_{t=1}^{T-1} \lno{ \Pb_{(\nP_1,\nZ_{-\e,1},\dots,\nP_t,\nZ_{-\e,t})} - \Pb_{(\nP_1,\nZ_{\e,1},\dots,\nP_t,\nZ_{\e,t})}}_{\text{TV}}
+\\
+&=
+    \sum_{t=1}^{T-1} \lno{ \bigotimes_{s=1}^t (\mu \otimes \nu_{-\e}) -\bigotimes_{s=1}^t (\mu \otimes \nu_{\e})}_{\text{TV}}
+\\
+&\le
+    \sum_{t=1}^{T-1} \sqrt{\frac{1}{2} \cD_{\text{KL}} \lrb{\bigotimes_{s=1}^t (\mu \otimes \nu_{-\e}),\bigotimes_{s=1}^t (\mu \otimes \nu_{\e})}}
+\\
+&=
+    \sum_{t=1}^{T-1} \sqrt{\frac{t}{2} \cD_{\text{KL}} \lrb{\nu_{-\e}, \nu_{\e}}}
+\le
+    \sum_{t=1}^{T-1} \sqrt{\frac{t}{2} \cD_{\chi^2} \lrb{\nu_{-\e}, \nu_{\e}}}
+\\
+&=
+    \sum_{t=1}^{T-1} \sqrt{\frac{t}{2} \int_0^1 \labs{ \frac{f_{\e}(x)}{f_{-\e}(x)} -1 }^2 f_{-\e}(x) \dif x}
+\\
+&\le
+    \e\sum_{t=1}^{T-1} \sqrt{t}
+\le
+    \frac{2\e}{3} T^{3/2}\;. 
+\end{align*}
+Now, notice that, for each $\e \in \lrb{0, \nicefrac{1}{2}}$, the regret when the underlying instance is determined by $(\nP_t,\nZ_{\e,t})_{t \in [T]}$ is lower bounded by $\E[N^{\e}_T] \frac{1}{32} |\e|$, while the regret when the underlying instance is determined by $(\nP_t,\nZ_{-\e,t})_{t \in [T]}$ is lower bounded by $\brb{T-\E[N^{\e}_T]} \frac{1}{32} |\e|$.
+Hence, by setting $\e \coloneqq \nicefrac{3}{4\sqrt{T}}$ (and noticing that $\e \le \nicefrac{1}{2}$ given that $T \ge 3$), we have
+\begin{align*}
+    \max \lrb{ \E\bsb{N^{\e}_T}\frac{1}{32} \e, \brb{ T - \E\bsb{N^{-\e}_T} }\frac{1}{32} \e }
+&\ge
+    \frac{1}{2} \lrb{\E\bsb{N^{\e}_T}\frac{1}{32} \e + \brb{T-\E\bsb{N^{-\e}_T}} \frac{1}{32} \e}
+\\
+&\ge
+    \frac{1}{64}\e\lrb{T - \E\bsb{N^{-\e}_T - N^{\e}_T}}
+\\
+&\ge
+    \frac{1}{64}\e \lrb{T -  \frac{2\e}{3} T^{3/2}}
+=
+    \frac{1}{64} \frac{3}{8} \sqrt{T}
+\ge
+   \frac{1}{200}\sqrt{T}\;,
+\end{align*}
+and hence the algorithm regrets at least $\frac{1}{200} \sqrt{T}$ in one of the two instances $(\nP_t,\nZ_{\e,t})_{t \in [T]}$ or $(\nP_t,\nZ_{-\e,t})_{t \in [T]}$.
+\end{proof}
+}
+
+\subsection{\texorpdfstring{$\sqrt{T}$}{√T} upper bound (IID)}
+%
+Next, we prove a $\cO(\sqrt{T})$ upper bound matching \Cref{t:sqrtT-lower-full} up to constants in the standard i.i.d.\ case; i.e., without assuming neither independence between market prices and takers' valuations nor smoothness of the joint distributions of these values.
+This is in sharp contrast with the realistic setting, for which we proved in \Cref{t:minimal-lower-bound-iid} a linear $\Omega(T)$ lower bound on the regret.
+To do so, we introduce the Follow The Approximately Best Prices (\ftbp) algorithm, which at any time step posts a pair of bid/ask prices that nearly maximizes the empirical reward observed so far.
+The reason why we play an approximate maximum instead of the maximum stems from the fact that, given that our expected reward function is \emph{not} upper semicontinuous, said maximum may not exist.
+\begin{algorithm2e}[t]
+    \Init{let $\nB_1 \gets 1/2, \nS_1 \gets 1/2$}
+    \For{$t = 1, 2, \dots$}{
+        Post prices $(\nB_t, \nS_t)$\;
+        Receive feedback $(\nP_t, \nZ_t)$\;
+        Pick $(\nB_{t+1}, \nS_{t+1}) \in \cU$ such that $\displaystyle{\frac{1}{t} \sum_{i=1}^t \Util_i(\nB_{t+1}, \nS_{t+1}) \ge \sup_{(\nb, \ns) \in \cU} \frac{1}{t} \sum_{i=1}^t \Util_i(\nb, \ns) - \frac{1}{t(t+1)}}$\;
+    }
+    \caption{\ftbp{} (Follow The Approximately-Best Prices)}
+    \label{a:fbps}
+\end{algorithm2e}
+
+\begin{theorem}
+\label{s:upper-bound-full}
+    In the full-feedback online market-making problem, 
+    let $T \in \N$ be the time horizon and assume that the sequence $(\nP_t,\nZ_t)_{t \in [T]}$ of market prices and takers' valuations is an i.i.d.\ $[0,1]^2$-valued stochastic process.
+    Then, the regret of \ftbp{} satisfies
+    \[
+        R_T
+    \le
+        3 + c \cdot \sqrt{T-1} \;,
+    \]
+    where $c \le 4590152$.
+\end{theorem}
+
+\begin{proof}
+    To prove this result, we draw ideas from the somewhat related problem of online bilateral trade (see, e.g., \cite[Theorem 1]{cesa2024bilateral}). 
+    Assume without loss of generality that $T > 2$.
+    For any $t \in [T - 1]$ and all $(\nb,\ns)\in \cU$, a direct verification shows the validity of the following decomposition:
+    \begin{align*}
+        \Util_t(\nb, \ns)
+    &= 
+        \int_{\nb}^{\nP_t} \one{ \nZ_t \le \nb } \dif\lambda
+            + \int_{\nP_t}^{\ns} \mathbb{I}\{ \nZ_t > \ns \} \dif \lambda \\
+    &=
+        \int_\nb^1 \one{ \nP_t \ge \lambda, \nZ_t \le \nb } \dif\lambda
+        - \int_0^\nb \one{ \nP_t \le \lambda, \nZ_t \le \nb } \dif\lambda
+    \\ & \qquad
+        + \int_0^\ns \one{ \nP_t \le \lambda, \nZ_t > \ns } \dif\lambda
+        - \int_\ns^1 \one{ \nP_t \ge \lambda, \nZ_t > \ns } \dif\lambda \;,
+    \end{align*}
+    which, by Fubini's theorem, further implies that
+    \begin{align*}
+        \E\bsb{ \Util_t(\nb, \ns) }
+    &=
+        \int_\nb^1 \Pb[ \nP_t \ge \lambda, \nZ_t < \nb ] \dif\lambda
+        - \int_0^\nb \Pb[ \nP_t \le \lambda, \nZ_t < \nb ] \dif\lambda \\
+    & \qquad + \int_0^\ns \Pb[ \nP_t \le \lambda, \nZ_t > \ns ] \dif\lambda
+        - \int_\ns^1 \Pb[ \nP_t \ge \lambda, \nZ_t > \ns ] \dif\lambda \;.
+    \end{align*}
+    Now, fix any $t \in [T - 1]$ and define, for any $(\nb, \ns) \in \cU$, the random variable
+    \[
+        L_t(\nb, \ns) \coloneq \frac{1}{t} \sum_{i=1}^t \Util_i(\nb, \ns) - \E \bsb{ \Util_1( \nb, \ns ) } \;.
+    \]
+    Noting that the pair of prices $(\nB_{t+1}, \nS_{t+1})$  computed by \Cref{a:fbps} at time $t$ are independent of $(\nZ_{t+1}, \nP_{t+1})$ by our i.i.d.\ assumption, 
+    and that, for all $(\nb,\ns) \in \cU$ and $i\in[T]$, by the same assumption, $\E\bsb{ \Util_{i}(\nb,\ns) } = \E\bsb{ \Util_{1}(\nb,\ns) }$,
+    we have, for all $(\nb,\ns)\in\cU$,
+    \begin{align*}
+        &
+            \E\bsb{ \Util_{t+1}(\nb, \ns) } - \E\bsb{ \Util_{t+1}(\nB_{t+1}, \nS_{t+1}) }
+        \\ &\le
+            \frac{1}{t(t+1)} + \E \lsb{ \frac{1}{t} \sum_{i=1}^t \Util_i(\nB_{t+1}, \nS_{t+1}) }
+            - \E \bsb{ \Util_{t+1}(\nB_{t+1}, \nS_{t+1}) }
+        \\ &\le
+            \frac{1}{t(t+1)} + \E \lsb{ \frac{1}{t} \sum_{i=1}^t \Util_i(\nB_{t+1}, \nS_{t+1})
+            - \E \bsb{ \Util_{t+1}(\nB_{t+1}, \nS_{t+1}) | \nB_{t+1}, \nS_{t+1} } }
+        \\ & =
+            \frac{1}{t(t+1)} + \E \bsb{ L_t(\nB_{t+1}, \nS_{t+1}) } \;.
+    \end{align*}
+    Using the decomposition we proved earlier, we get
+    \begin{align*}
+        L_t(\nB_{t+1}, \nS_{t+1})
+    &\le
+        \sup_{(\nb,\ns)\in\cU} L_t(\nb, \ns)
+    \\
+    &=
+        \sup_{(\nb,\ns)\in\cU}
+        \lrb{
+            \frac{1}{t} \sum_{i=1}^t \Util_{i}(\nb, \ns) - \E[\Util_1(\nb, \ns)]
+        } 
+    \\
+    &=
+        \sup_{(\nb,\ns)\in\cU}
+        \Bigg(
+            \int_{\nb}^{1} \lrb{
+                \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \ge \lambda, \nZ_i \le \nb }
+                - \Pb[ \nP_i \ge \lambda, \nZ_i \le \nb ]
+            } \dif\lambda
+        \\ & \qquad\qquad -
+            \int_{0}^{\nb} \lrb{
+                \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \le \lambda, \nZ_i \le \nb }
+                - \Pb[ \nP_i \le \lambda, \nZ_i \le \nb ]
+            } \dif\lambda
+        \\ & \qquad\qquad +
+            \int_{0}^{\ns} \lrb{
+                \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \le \lambda, \nZ_i > \ns }
+                - \Pb[ \nP_i \le \lambda, \nZ_i > \ns ]
+            } \dif\lambda
+        \\ & \qquad\qquad -
+            \int_{\ns}^{1} \lrb{
+                \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \ge \lambda, \nZ_i > \ns }
+                - \Pb[ \nP_i \ge \lambda, \nZ_i > \ns ]
+            } \dif\lambda
+        \Bigg)
+    \end{align*}
+    We now upper bound each of the four addends inside the supremum on the right-hand side.
+    For any $(\nb,\ns) \in\cU$, the first term can be upper bounded by
+    \begin{multline*}
+        \sup_{\nb'\in[0,1]} \int_{\nb'}^{1} \lrb{
+            \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \ge \lambda, \nZ_i \le \nb' }
+            - \Pb[ \nP_i \ge \lambda, \nZ_i \le \nb' ] } \dif\lambda \\
+    =
+        \sup_{\nb'\in[0,1]} \int_{\nb'}^{1} \lrb{
+            \frac{1}{t} \sum_{i=1}^t \one{ -\nP_i \le -\lambda, \nZ_i \le \nb' }
+            - \Pb[ -\nP_i \le -\lambda, \nZ_i \le \nb' ] } \dif\lambda \\
+    \le
+        \sup_{\nb'\in[0,1], x\in[-1,-b']}
+            \left| \frac{1}{t} \sum_{i=1}^t \one{ -\nP_i \le x, \nZ_i \le \nb' }
+            - \Pb[ -\nP_i \le x, \nZ_i \le \nb' ] \right| \\
+    \le
+        \sup_{(x,y)\in \bbR^2}
+            \left| \frac{1}{t} \sum_{i=1}^t \one{ -\nP_i \le x, \nZ_i \le y }
+            - \Pb[ -\nP_i \le x, \nZ_i \le y ] \right| \;,
+    \end{multline*}
+    the second term can be upper bounded by
+    \begin{multline*}
+        \sup_{\nb'\in[0,1]} \lrb{
+            - \int_{0}^{\nb'} \lrb{
+            \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \le \lambda, \nZ_i \le \nb' }
+            - \Pb[ \nP_i \le \lambda, \nZ_i \le \nb' ] } \dif\lambda 
+        } \\
+    \le \sup_{(x,y)\in\bbR^2} \left|
+            \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \le x, \nZ_i \le y }
+            - \Pb[ \nP_i \le x, \nZ_i \le y ]
+        \right| \;,
+    \end{multline*}
+    the third term can be upper bounded by
+    \begin{multline*}
+        \sup_{\ns'\in[0,1]}\int_{0}^{\ns'} \lrb{
+                \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \le \lambda, \nZ_i > \ns' }
+                - \Pb[ \nP_i \le \lambda, \nZ_i > \ns' ]
+            } \dif\lambda
+    \\
+    \le
+        \sup_{(x,y)\in\bbR^2 }
+        \labs{
+                \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \le x, \, - \nZ_i < y }
+                - \Pb[ \nP_i \le x, \, - \nZ_i < y ]
+            } \;,
+    \end{multline*}
+    and the fourth term can be upper bounded by
+    \begin{multline*}
+        \sup_{\ns'\in[0,1]}
+        \lrb{
+        -
+        \int_{\ns'}^{1} \lrb{
+                \frac{1}{t} \sum_{i=1}^t \one{ \nP_i \ge \lambda, \nZ_i > \ns' }
+                - \Pb[ \nP_i \ge \lambda, \nZ_i > \ns' ]
+            } \dif\lambda
+        }
+    \\
+    \le
+        \sup_{(x,y)\in\bbR^2 }
+        \labs{
+                \frac{1}{t} \sum_{i=1}^t \one{ - \nP_i \le x, \, - \nZ_i < y }
+                - \Pb[ - \nP_i \le x, \, - \nZ_i < y ]
+            } \;.
+    \end{multline*}
+    Each of the terms can be upper bounded with high probability using some version of the bivariate DKW inequalities (see \Cref{s:dkwinequalities}).
+    Considering as an example the first term, define $m_0$, $\nc_1$, $c_2$ as in \Cref{t:dkwbivariate} and, for each $t \in [T]$, let $\e_t \coloneq \sqrt{m_0/t}$.
+    Then, for each $t \in \N$, after taking expectation, and using Fubini theorem, we get
+    \begin{multline*}
+        \E \lsb{
+            \sup_{(x, y) \in \bbR^2}
+            \left| \frac{1}{t} \sum_{i=1}^t \one{ -\nP_i \le x, \nZ_i < y }
+            - \Pb[ -\nP_i \le x, \nZ_i < y ] \right|
+        } \\
+    \le
+        \e_t + \int_{\e_t}^1
+            \Pb \lsb{
+                \sup_{(x, y) \in \bbR^2} \left|
+                    \frac{1}{t} \sum_{i=1}^t \one{ -\nP_t \le x, \nZ_t < y } - \Pb[ -\nP_t \le x, \nZ_t < y ]
+                \right| > \e
+            } \dif \e \\
+    \le
+        \e_t + \int_{\e_t}^1 \nc_1 e^{-c_2 t \e^2} \dif \e
+    \le
+        \e_t + \frac{c_1}{\sqrt{c_2 t}} \int_{0}^{\infty} e^{-u}u^{-1/2} \dif u
+    =
+        \lrb{ \sqrt{m_0} + \nc_1 \sqrt{\frac{\pi}{c_2}}} \frac{1}{\sqrt{t} }\;.
+    \end{multline*}
+    The same bound also holds for all the other terms.
+    Finally, knowing that $\sum_{t=1}^{T-1} t^{-\nicefrac{1}{2}} \le 2\sqrt{T - 1}$, we can upper bound the the regret as follows
+    \begin{align*}
+        R_T
+    &=
+        2 + \sup_{(\nb,\ns) \in \cU}\sum_{t=1}^{T-1} \Brb{\E\bsb{\Util_{t+1}(\nb, \ns)} - \E\bsb{\Util_{t+1}(B_{t+1}, S_{t+1})}}
+    \\
+    &\le
+        2 + \sum_{t=1}^T \frac{1}{t(t+1)} + \sum_{t=1}^{T-1} \E[L_t(B_{t+1}, S_{t+1})]
+    \le
+        3 + 4 \lrb{ \sqrt{m_0} + \nc_1 \sqrt{\frac{\pi}{c_2}}} \sum_{t=1}^{T-1} \frac{1}{\sqrt{t}}
+    \\
+    &\le
+        3 + 8 \lrb{ \sqrt{m_0} + \nc_1 \sqrt{\frac{\pi}{c_2}}} \sqrt{T - 1}
+    \le
+        3 + 4590152 \cdot \sqrt{T - 1} \;.
+        % \qedhere
+    \end{align*}
+\end{proof}
+
+\subsection{\texorpdfstring{$\sqrt{T}$}{√T} upper bound (Adversarial+Lip)}
+We conclude with a last upper bound for the smoothed adversarial case. 
+\begin{theorem}
+\label{t:upper-bound-adv-smooth}
+    In the full-feedback online market-making problem, 
+    for any time horizon $T \ge 2$, if the sequence $(\nP_t,\nZ_t)_{t \in \N}$ of market prices and takers' valuations is such that there exists $L \ge 2$ such that for each $t \in [T]$ the cumulative distribution function of $\nZ_t$ is $L$-Lipschitz, then, the regret of the Hedge-in-the-continuum algorithm satisfies
+    \[
+        R_T
+    \le
+        c \sqrt{T \ln(T)} \ln(L) \;,
+    \]
+    where $c \le \sqrt{2\cdot (e-2)}$.
+\end{theorem}
+\begin{proof}
+    This is an immediate application of \cite[Corollary 1 in Appendix A]{JMLR:v25:23-1627}.
+\end{proof}
+
+\fi
+
+
+\section{Conclusions and Future Directions}
+We initiated an investigation of market making under an online learning framework and provided tight bounds on the regret under various natural assumptions. 
+While the regret of various problems related to financial trading was previously investigated, most of these results are from the viewpoint of a liquidity seeker. 
+Liquidity providers are crucial for the functioning of markets, giving practical impact to our theoretical findings.
+
+%\section{Future works}
+% Our work explores a \textit{realistic} level of feedback.
+% while the study of the regret under different types of feedback, like the ones studied for first-price auctions \citep{cesabianchiRoleTransparencyRepeated2024}, is left for future developments. In particular the case of
+% As far as future work is concerned, e
+Extending our analysis to full feedback, in which the learner observes the private valuations at the end of each round, would shed light on the cost of the more realistic feedback studied in this paper.
+% In a different direction, we could relax the assumption that the market maker has unlimited inventory, which would make our setting more closely related to \textit{bandits-with-knapsacks} \citep{badanidiyuru_bandits_2018}, which is known to be unsolvable in the adversarial setting \citep{immorlica_adversarial_2023}.
+In a different direction, we could consider market makers that could clear their position at a later time, which would make our setting more closely related to \textit{bandits-with-knapsacks} \citep{badanidiyuru_bandits_2018}, which is known to be unsolvable in the adversarial setting \citep{immorlica_adversarial_2023}.
+% An analysis with bounded inventory in our setting would be an interesting follow-up to our work.
+    % Finally, our feedback and reward structure aligns with a variant of the Glosten–Milgrom model \citep{glostenBidAskTransaction1985} in which traders are either all informed or all uninformed.
+% Under the assumption that all traders are uninformed, the regret guarantees established in case (iv) of \Cref{t:upper-bound-vin} transfer to the GM model. Conversely, if all traders are informed, the (iv) assumption no longer holds, and due to the absence of a Lipschitzness condition
+% in the original work,
+% the regret grows linearly, as characterized in \Cref{t:minimal-lower-bound-iid}.
+% The analysis of how the presence of both informed and uninformed traders affects regret guarantees is an interesting extension. To the best of our knowledge, such an investigation would yield the first regret analysis of the Glosten–Milgrom model.
+    % It would be interesting to understand whether nontrivial regret guarantees are possible in the presence of both types of traders, which would bring us closer to the spirit of the original GM model.
+% \textit{AN APPROACH: If the regret of the algorithm for uninformed traders degrades gracefully when informed traders are introduced, one might study how the ratio between informed and uninformed traders affects the regret. Alternatively, if we can construct an algorithm with good guarantees for such ratio, one might employ a corralling solution with different instances of this algorithm.}
+
+% There are many future directions worth exploring and we list a few of them here.
+% \begin{itemize}
+%     \item What other feedback models are interesting? In this paper, we studied two extremes: when the private valuations of the market participants are never available and when they are always available. What can be done when they are sometimes available?
+%     \item What happens if we are unable to offload our positions immediately? What if we are allowed to hold onto them for multiple rounds? Can we manage our inventory in a way that we come out profitable in the end?
+%     \item Can we make a market in several related assets at the same time? How do we exploit the relationship between assets to increase the liquidity of the market?
+% \end{itemize}
+
+% \acks{
+%     NCB, RC, and LF are partially supported by the MUR PRIN grant 2022EKNE5K (Learning in Markets and Society), the FAIR (Future Artificial Intelligence Research) project, funded by the NextGenerationEU program within the PNRR{-}PE{-}AI scheme, and the EU Horizon CL4{-}2022{-}HUMAN{-}02 research and innovation action under grant agreement 101120237, project ELIAS (European Lighthouse of AI for Sustainability).
+
+%     TC gratefully acknowledges the support of the University of Ottawa through grant GR002837 (Start-Up Funds) and that of the Natural Sciences and Engineering Research Council of Canada (NSERC) through grants RGPIN{-}2023{-}03688 (Discovery Grants Program) and DGECR2023{-}00208 (Discovery Grants Program, DGECR $-$ Discovery Launch Supplement).
+% }
+
+\acks{
+    NCB is partially supported by the EU Horizon CL4-2021-HUMAN-01 research and innovation action under grant agreement 101070617, project ELSA (European Lighthouse on Secure and Safe AI), by the MUR PRIN grant 2022EKNE5K (Learning in Markets and Society), and by the One Health Action Hub, University Task Force for the resilience of territorial ecosystems, funded by Università degli Studi di Milano (PSR 2021-GSA-Linea 6).
+    
+    RC is partially supported by the FAIR (Future Artificial Intelligence Research) project, funded by the NextGenerationEU program within the PNRR{-}PE{-}AI scheme  (M4C2, investment 1.3, line on Artificial Intelligence).
+    
+    LF is partially supported by the EU Horizon CL4{-}2022{-}HUMAN{-}02 research and innovation action under grant agreement 101120237, project ELIAS (European Lighthouse of AI for Sustainability).
+
+    TC gratefully acknowledges the support of the University of Ottawa through grant GR002837 (Start-Up Funds) and that of the Natural Sciences and Engineering Research Council of Canada (NSERC) through grants RGPIN{-}2023{-}03688 (Discovery Grants Program) and DGECR2023{-}00208 (Discovery Grants Program, DGECR $-$ Discovery Launch Supplement).
+}
+
+
+\clearpage
+
+%\bibliographystyle{alpha}
+\bibliography{mybibliography}
+
+\clearpage
+
+\appendix
+
+\section{Notation}\label{s:appe-notation}
+In this section, we collect the main pieces of notation used in this paper.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{c|l}
+        \toprule
+        $T$ & Time horizon \\
+        $K$ & Step of the grid over $[0, 1]$ \\
+        $\cU$ & Upper triangle over $[0, 1]^2$ \\
+        \bottomrule
+        \addlinespace
+        
+        \toprule        
+        \multicolumn{2}{c}{Market making} \\
+        \midrule
+        $\nP_t$ & Market price \\
+        $\nZ_t$ & Taker's valuation \\
+        $\nB_t$ & Bid presented by the learner \\
+        $\nS_t$ & Ask presented by the learner \\
+        \bottomrule
+        \addlinespace
+
+        \toprule        
+        \multicolumn{2}{c}{First-price auction with unknown valuations} \\
+        \midrule
+        $\nV_t$ & Unknown valuation of the auctioned item \\
+        $\nM_t$ & Highest competing bid in the auction \\
+        $\nX_t$ & Bid presented by the learner \\
+        \bottomrule
+        \addlinespace
+        
+        \toprule        
+        \multicolumn{2}{c}{Dynamic pricing with unknown costs} \\
+        \midrule
+        $\nC_t$ & Unknown cost of the item for sale \\
+        $\nW_t$ & Buyer's valuation of the item \\
+        $\nY_t$ & Price presented by the learner \\
+        \bottomrule
+    \end{tabular}
+    \caption{Notation}
+    \label{tab:notation}
+\end{table}
+
+
+
+
+
+
+
+
+
+\section{Additional Related Works}
+\label{sec:additional}
+There exists a vast literature that treats various trading-related tasks as specific stochastic control problems and solves them using techniques from stochastic control theory~\citep{shreve2004stochastic,shreve2005stochastic,cartea2015algorithmic,gatheral2011volatility}. However, most of that work assumes that the parameters of the underlying stochastic process are known or have been fitted to historical data in a previous ``calibration'' step. 
+%
+Fitting a distribution to data is challenging, especially in a market with hundreds of thousands of assets. Moreover, the distribution-fitting process is typically unaware of the downstream optimization problem the distribution is going to be fed into, and thus is unlikely to minimize generalization error on the downstream task. The field of online learning~\citep{10.5555/1137817,shalev2012online,hazan2016introduction,orabona2019modern} provides adversarial or distribution-free approaches for solving exactly the kinds of sequential decision making problems that are common in financial trading, and even though some recent research does apply these approaches to trading, they are still far from being widely adopted. 
+%
+An early contribution to this area is Cover's model of ``universal portfolios'' \citep{coverUniversalPortfolios1991}, where a problem of portfolio construction is solved in the case where asset returns are generated by an adversary. Cover showed that one can still achieve logarithmic regret with respect to the best ``constantly rebalanced portfolio'', that ensures the fraction of wealth allocated to each asset remains constant through time. A long line of work has built up on his model to handle transaction costs~\citep{blum1997universal} and side information~\citep{cover1996universal}, as well as optimizing the trade-off between regret and computation~\citep{helmbold1998line,borodin2000competitive,borodin2003can,zimmert2022pushing}. The problem of pricing derivatives such as options has also been tackled using online learning, where the prices are generated by an adversary as opposed to a geometric Brownian motion~\citep{demarzo2006online,abernethy2012minimax,abernethy2013hedge}.
+%
+However, most of the problems considered in the online learning framework are from the point of view of a liquidity seeker as opposed to a liquidity provider, such as a market maker. 
+
+\paragraph{First-price auctions with unknown evaluations.}
+When restricted solely to the option of buying stock, our problem can be viewed as a series of repeated first-price auctions with unknown valuations. This scenario has received prior attention within the context of regret minimization \citep{cesabianchiRoleTransparencyRepeated2024,pmlr-v157-achddou21a}. The present work leverages these existing results but applies them within a more intricate setting. 
+\citet{cesabianchiRoleTransparencyRepeated2024} explored this problem with varying degrees of transparency, defined as the information revealed by the auctioneer, and provide a comprehensive characterization. 
+In our framework, the level of transparency is higher than that encountered in the \textit{bandit} case, orthogonal to the \textit{semi-transparent} case, and less informative that the \textit{transparent} case; this positioning offers a novel perspective on the problem.
+\citet{pmlr-v157-achddou21a} investigated the repeated first-price auction problem within a fixed stochastic environment with independence assumptions and provide instance-dependent bounds, we tackle a similar problem in Lemma \ref{lemma:upperbound-discretizedbandits} and present distribution-free guarantees.
+Other types of feedback have been considered, e.g., the case where the maximum bids $(\nZ_t)_{t \in [T]}$ form an i.i.d.\ process and are observed only when the auction is lost \citep{han2024optimalnoregretlearningrepeated}, for the case where the private evaluations $(\nP_t)_{t \in [T]}$ are i.i.d.\ it is possible to achieve regret $\tilde O(\sqrt{T})$.
+
+\paragraph{Dynamic pricing with unknown costs.}
+When considering solely the option of selling stock, our problem aligns with the well-established field of dynamic pricing with unknown costs. This area boasts a rich body of research, prior research analyzed the setting in which the learner has $I$ items to sell to $N$ independent buyers and, with regularity assumptions of the underlying distributions, can achieve a $O((I\log T)^{\nicefrac{2}{3}})$ regret bound against an offline benchmark with knowledge of the buyer's distribution \citep{babaioffDynamicPricingLimited2015}. It is known that in the stochastic setting and, under light assumptions on the reward function, achieve regret $O(\sqrt{T\log{T}})$ \citep{kleinberg2003value}; this result has been expanded upon by considering discrete price distributions supported on a set of prices of unknown size $K$ and it has been shown to be possible to achieve regret of order $O(\sqrt{KT})$ \citep{cesa2019dynamic}. 
+Our work on dynamic pricing focuses on a scenario where the learner maintains an unlimited inventory and must incur an unknown cost per trade before realizing any profit. 
+
+\paragraph{Traditional finance.}
+Traditionally, the finance literature first fits the parameters of a stochastic process to the market and then optimizes trading based on those parameters. For example, the Nobel prize-winning Black-Scholes-Merton formula~\citep{black1973pricing} assumes that the price of a stock follows a geometric Brownian motion with known volatility and prices an option on the stock by solving a Hamilton-Jacobi-Bellman equation to compute a dynamic trading strategy whose value at any time matches the value of the option. Many similar formulae have since been derived for more exotic derivatives and for more complex underlying stochastic processes---see~\citep{hull2017options} for an overview. A stochastic control approach has also been taken to solve the problem of ``optimal trade execution,'' which involves trading a large quantity of an asset over a specified period of time while minimizing market impact~\citep{almgren2001optimal,bertsimas1998optimal}, to compute a sequence of trades such that the total cost matches a pre-specified benchmark~\citep{konishi2002optimal}, and also for the problem of market making~\citep{cartea2015algorithmic}. Once again, the underlying stochastic process is assumed to be known.
+%
+The two-step approach of first fitting a distribution and then optimizing a function over the fitted distribution is very popular even for simpler questions. For example, the problem of ``portfolio optimization/construction'' deals with computing the optimal allocation of your wealth into various assets in order to maximize some notion of future utility. The celebrated Kelly criterion~\citep{shalunov2020calculated,thorp1975portfolio,breiman1961optimal,hakansson1975optimal,maclean2011kelly} recommends one to use the allocation that maximizes the expected log return, and the mean-variance theory~\citep{markowitz} (another Nobel prize-winning work) says one should maximize a sum of expected return and the variance of returns (scaled by some measure of your risk tolerance). However both assume that one knows the underlying distribution over returns.
+
+
+
+
+
+
+
+
+
+
+\section{Missing details in the Proof of Theorem \ref{t:upper-bound-vin}}
+\label{s:missing-details-VIN}
+
+To guide the reader through the proof of \Cref{t:upper-bound-vin}, we split it in several steps.
+
+First, consider the problem of repeated first-price auctions with unknown valuations. %
+Since the feedback received at the end of each round allows to compute the utility of the learner, a natural strategy is to simply discretize the interval $[0,1]$ and run a bandit algorithm on the discretization.
+The pseudo-code of this simple meta-algorithm can be found in \Cref{a:meta-discretized-bandits}. 
+The following result shows its guarantees.
+
+\begin{algorithm2e}[t]
+    \Input{Number of arms $K\in \{2,3,\dots\}$, Algorithm $\cA$ for $K$-armed bandits}
+    \Init{Let $q_k \ceq \frac{k-1}{K-1}$, for all $k\in[K]$}
+    \For {time $t=1,2,\ldots$}{
+        Let $I_t \in [K]$ be the output of $\cA$ at time $t$\;
+        Post bid $\nX_t \ceq q_{ I_t }$ and observe feedback $\nV_t$ and $\one{ \nX_t \geq \nM_t }$\;
+        Compute utility $(\nV_t - \nX_t) \cdot \one{ \nX_t \geq \nM_t }$ and feed it back to $\cA$\;
+    }
+    \caption{\db{}}
+    \label{a:meta-discretized-bandits}
+\end{algorithm2e}
+
+
+\begin{lemma}\label{lemma:upperbound-discretizedbandits}
+    In the repeated first-price auctions with unknown valuations problem,
+    let $T \in \N$ be the time horizon and let $( \nV_t, \nM_t )_{t \in [T]}$ be the $[0,1]^2$-valued stochastic process representing the sequence of valuations and highest competing bids. 
+    Assume that one of the two following conditions is satisfied:
+    \begin{enumerate}
+        \item \label{t:assOneSec} For each $t \in [T]$, the cumulative distribution function of $\nM_t$ is $L$-Lipschitz, for some $L>0$. 
+        \item \label{t:assTwoSec} The process $( \nV_t , \nM_t )_{t \in [T]}$ is i.i.d.\ and, for each $t \in [T]$, the two random variables $\nV_t$ and $\nM_t$ are independent of each other.
+    \end{enumerate}
+    Then, for any $K \ge 2$ and any $K$-armed bandit algorithm $\cA$, letting $R^K_T$ be the regret of $\cA$ when the reward at any time $t\in[T]$ of any arm $k\in[K]$ is $(\nV_t-q_k)\one{q_k \ge \nM_t}$,
+    the regret of~\Cref{a:meta-discretized-bandits} run with parameters $K$ and $\cA$ satisfies
+    $
+        R_T
+    \le
+        R_T^K + \frac{\tilde L + 1}{2(K-1)} T \;,
+    $
+    with $\tilde L = L$ (resp., $\tilde L = 1$) if \Cref{t:assOneSec} (resp., \Cref{t:assTwoSec}) holds. In particular, if $T \ge 2$, by choosing $K \coloneqq \lceil T^{\nicefrac{1}{3}} \rceil + 1$ and, as the underlying learning procedure $\cA$, an adapted version of Poly INF~\citep{audibert10a}, the regret of~\cref{a:meta-discretized-bandits} run with parameters $K$ and $\cA$ satisfies
+    $
+        R_T \le c \cdot T^{\nicefrac{2}{3}} \;,
+    $ where $c \le L + 50$ (resp. $c \le 51$) if \Cref{t:assOne} (resp., \Cref{t:assTwo}) holds.
+\end{lemma}
+
+\begin{proof}
+The regret $R_T^K$ of $\cA$, when the reward at any time $t\in[T]$ of an arm $k\in[K]$ is $(\nV_t-q_k)\one{q_k \ge \nM_t}$, is defined by
+\[
+    R_T^K
+=
+    \max_{k\in[K]} \E\lsb{ \sum_{t=1}^T ( \nV_t - q_k ) \cdot \one{ q_k \geq \nM_t } }
+    -
+    \E\lsb{ \sum_{t=1}^T ( \nV_t - q_{ I_t } ) \cdot \one{ q_{ I_t } \geq \nM_t } }.
+\]
+The regret $R_T$ of \cref{a:meta-discretized-bandits} when the unknown valuations are $\nV_1,\dots,\nV_T$ and the highest competing bids are $\nM_1,\dots,\nM_T$ is
+\[
+    R_T
+=
+    \sup_{x \in [0,1] } 
+    \E\lsb{ \sum_{t=1}^T ( \nV_t - x ) \cdot \one{ x \geq \nM_t } }
+    -
+    \E\lsb{ \sum_{t=1}^T (\nV_t - q_{ I_t } ) \cdot \one{ q_{ I_t } \geq \nM_t } }.
+\]
+Hence $R_T = R_T^K + \delta_K $, where $\delta_K$ is the discretization error
+\[
+    \delta_K
+\ceq
+    \sup_{x \in [0,1] } 
+    \E\lsb{ \sum_{t=1}^T ( \nV_t - x ) \cdot \one{ x \geq \nM_t } }
+    -
+    \max_{k\in[K]} \E\lsb{ \sum_{t=1}^T ( \nV_t - q_k ) \cdot \one{ q_k \geq \nM_t } }
+    .
+\]
+We now proceed to bound the discretization error $\delta_K$ in the two cases:
+\begin{enumerate}
+    \item If the cumulative distribution function of $\nM_t$ is $L$-Lipschitz, for some $L > 0$, then for all $t \in [T]$ the expected utility is $\phi(q) = \E\bsb{ ( \nV_t - q ) \cdot \one{ q \geq \nM_t } }$ is $(L+1)$-Lipschitz; indeed, for all $q,q'\in[0,1]$, if (without loss of generality) $q>q'$, then
+    \begin{multline*}
+        \labs{ \phi(q) - \phi(q') }
+    =
+        \Babs{\E \bsb{(\nV_t-q)\one{\nM_t\le q} - (\nV_t-q')\one{\nM_t\le q'} } }
+    \\ \qquad\qquad =
+        \Babs{\E \bsb{(\nV_t-q) \one{q' < \nM_t \le q} + (q'-q) \one{\nM_t \le q'} }}
+    \\ \le
+        \brb{ \Pb[\nM_t \le q] - \Pb[\nM_t \le q'] } + (q-q')
+    \le 
+        (L+1) (q-q') .
+    \end{multline*}
+    Define the supremum $x^\star \in [0, 1]$ in the definition of $\delta_K$, which exists because $\phi$ is continuous and $[0, 1]$ is compact. Let $k^\star = \argmin_{k \in [K]} |q_{k} - x^\star|$ be the point in the grid closest to $x^\star$. Since
+    \[
+        \max_{k\in[K]} \E\lsb{ \sum_{t=1}^T ( \nV_t - q_k ) \cdot \one{ q_k \geq \nM_t } }
+    \ge
+        \E\lsb{ \sum_{t=1}^T ( \nV_t - q_{k^\star} ) \cdot \one{ q_{k^\star} \geq \nM_t } } \;,
+    \]
+    the function $\phi$ is $(L+1)$-Lipschitz, and $\labs{ x^\star - q_{k^\star} } \le \nicefrac{1}{2(K-1)}$ we obtain
+    \[
+        \delta_K
+    \le
+        \sum_{t=1}^T \Brb{ 
+            \E\bsb{ ( \nV_t - x^\star ) \cdot \one{ x^\star \geq \nM_t } }
+            -
+            \E\bsb{ ( \nV_t - q_{k^\star} ) \cdot \one{ q_{k^\star} \geq \nM_t } }
+        }
+    \le
+        \frac{L+1}{2(K-1)} T \;.
+    \]
+
+    \item If the process $(\nV_t,\nM_t)_{t \in [T]}$ is i.i.d.\ and for each $t \in [T]$ the two random variables $ \nV_t$ and $ \nM_t$ are independent of each other, then for all $t \in [T]$ the expected utility is $\psi(x) \coloneqq (\mu - x)F(x)$ where $\mu := \mathbb{E}[\nV_t]$ and $F(x) \coloneqq \Pb[\nM_t \leq x]$.
+    Fix $\eta>0$.
+    If $\sup_{x \in [0,1]}\psi(x) \le \eta$, set $k^\star = K$ and note that for each $x \in [0,1]$ we have that $\psi (x) \le \eta \le \psi(1) + \eta = \psi(q_{k^\star}) + \eta$, which means $\delta_K\leq\eta T$.
+    Otherwise, let $x^\star_\eta$ be such that $\sup_{x \in [0,1]}\psi(x) - \psi(x^\star_\eta) \le \eta$ and notice that we can assume that $x^\star_\eta \le \mu$ because otherwise $\psi(x^\star_\eta) \le 0$, hence we would have been in the first case when $\sup_{x \in [0,1]}\psi(x) \le \eta$.
+    The expected reward achieved by playing bid $x^\star_\eta$ can be controlled with any point $q_k$ on the grid such that $q_k \ge x^\star_\eta$ as
+   \[
+        \psi(x^\star_\eta) - \psi(q_k)
+        = (\mu - x^\star_\eta)F(x_\eta^\star) - (\mu - q_k)F(q_k)
+        \le (\mu - x^\star_\eta)F(q_k) - (\mu - q_k)F(q_k)
+        \le q_k - x^\star_\eta
+    \; .
+    \]
+    Call $k^\star \in [K]$ the index of the arm closest to $x_\eta^\star$ such that $q_{k^\star} \ge x^\star_\eta$, note that $q_{k^\star} - x^\star_\eta \le \nicefrac{1}{(K-1)}$. Thus
+    \[
+        \delta_K
+    \le
+        \eta T + \sum_{t=1}^T \lrb{ \psi(x^\star_\eta) - \psi(q_{k^\star}) }
+    \le
+        \eta T + \sum_{t=1}^T |x^\star_\eta - q_{k^\star}|
+    \le
+        \eta T + \frac{T}{K-1}\;.
+    \]
+    Given that $\eta$ was chosen arbitrarily, taking the limit as $\eta \rightarrow 0$, we have that
+    \[
+        \delta_K \le \frac{T}{K-1}\;.
+    \]
+\end{enumerate}
+Define $\tilde L \coloneqq L$ in the first case and $\tilde L \coloneqq 1$ in the second case.
+ Next, pick the Poly INF algorithm~\citep{audibert10a} as the underlying learning procedure $\cA$ and apply the appropriate rescaling of the utilities $x \mapsto \frac{x+1}{2}$, which is necessary because the utility yields values in $[-1, 1]$, while Poly INF was designed for rewards in $[0, 1]$, this costs a multiplicative factor of 2 in the regret guarantee.
+The regret $R_T$ of \cref{a:meta-discretized-bandits} can be upper bounded by
+\[
+    R_T
+    \le R^K_T + \frac{\tilde L}{K - 1} \cdot T
+    \le 50 \cdot T^{\nicefrac{2}{3}} + \frac{\tilde L}{K - 1} \cdot T
+    \le (50 + \tilde L) \cdot T^{\nicefrac{2}{3}}
+\]
+whenever $K = \lceil T^{\nicefrac{1}{3}} \rceil + 1$ and the second inequality comes from the regret guarantees of the rescaled version of Poly INF~\cite[Theorem 11]{audibert10a}.
+\end{proof}
+
+
+
+A completely analogous result can be proved for \Cref{a:meta-discretized-bandits-dp} for the problem of dynamic pricing with unknown costs.
+%
+%
+\begin{algorithm2e}[t]
+    \Input{Number of arms $K\in \{2,3,\dots\}$, Algorithm $\cA$ for $K$-armed bandits}
+    \Init{Let $q_k \ceq \frac{k-1}{K-1}$, for all $k\in[K]$}
+    \For{time $t=1,2,\ldots$}{
+        Let $I_t \in [K]$ be the output of $\cA$ at time $t$\;
+        Post price $\nY_t \ceq q_{ I_t }$ and observe feedback $\nC_t$ and $\one{ \nY_t < \nW_t }$\;
+        Compute utility $(\nY_t - \nC_t) \cdot \one{ \nY_t < \nW_t }$ and feed it back to $\cA$\;
+    }
+    \caption{\dbdp{}\label{a:meta-discretized-bandits-dp}}
+\end{algorithm2e}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{lemma}\label{lemma:upperbound-discretizedbandits-dp}
+    In the repeated dynamic pricing with unknown costs problem,
+    let $T \in \N$ be the time horizon and let $( \nC_t, \nW_t )_{t \in [T]}$ be the $[0,1]^2$-valued stochastic process representing the sequence of costs and buyer's valuations. 
+    Assume that one of the two following conditions is satisfied:
+    \begin{enumerate}
+        \item \label{t:assOne}
+        For each $t \in [T]$, the cumulative distribution function of $\nW_t$ is $L$-Lipschitz, for some $L>0$. 
+        \item \label{t:assTwo}
+        The process $( \nC_t , \nW_t )_{t \in [T]}$ is i.i.d.\ and, for each $t \in [T]$, the two random variables $\nC_t$ and $\nW_t$ are independent of each other.
+    \end{enumerate}
+    Then, for any $K \ge 2$ and any $K$-armed bandit algorithm $\cA$, letting $R^K_T$ be the regret of $\cA$ when the reward at any time $t\in[T]$ of any arm $k\in[K]$ is $(q_k - \nC_t)\one{q_k < \nW_t}$,
+    the regret of~\Cref{a:meta-discretized-bandits-dp} run with parameters $K$ and $\cA$ satisfies
+    \[
+        R_T
+    \le
+        R_T^K + \frac{\tilde L + 1}{2(K-1)} T \;,
+    \]
+    with $\tilde L = L$ (resp., $\tilde L = 1$) if \Cref{t:assOne} (resp., \Cref{t:assTwo}) holds. In particular, if $T \ge 2$, by choosing $K \coloneqq \lceil T^{\nicefrac{1}{3}} \rceil + 1$ and, as the underlying learning procedure $\cA$, an adapted version of Poly INF~\citep{audibert10a}, the regret of~\cref{a:meta-discretized-bandits-dp} run with parameters $K$ and $\cA$ satisfies
+    \[
+        R_T \le c \cdot T^{\nicefrac{2}{3}} \;,
+    \] where $c \le L + 50$ (resp. $c \le 51$) if \Cref{t:assOne} (resp., \Cref{t:assTwo}) holds.
+\end{lemma}
+\begin{proof}
+    As in Lemma \ref{lemma:upperbound-discretizedbandits}, we can bound $R_T$ for the two cases by controlling the discretization error $\delta_K$ on the grid via Lipschitzness (Item 1) or leveraging the structure of the expected utility around the maximum (Item 2). The bound on the regret $\cR_T$ of $\cA$ follows from the same guarantees on Poly INF~\citep{audibert10a}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+Next, we use Lemma \ref{lemma:upperbound-discretizedbandits} and Lemma \ref{lemma:upperbound-discretizedbandits-dp} to show that the regret of an appropriately tuned \vin{} is bounded by $\cO(T^{\nicefrac{2}{3}})$.
+This implies is the second part of \Cref{t:upper-bound-vin}, fully concluding its proof.
+
+\begin{lemma}\label{t:upper-T23-VIN}
+    In the online market-making problem,
+    let $T \in \N$ be the time horizon and let $(\nP_t,\nZ_t)_{t \in [T]}$ be the $[0,1]^2$-valued stochastic process representing the sequence of market prices and takers' valuations.
+    Assume that one of the two following conditions is satisfied:
+    \begin{enumerate}
+        \item \label{t:assOnePrimeAppe}
+        For each $t \in [T]$, the cumulative distribution function of $\nZ_t$ is $L$-Lipschitz, for some $L>0$. 
+        \item \label{t:assTwoPrimeAppe}
+        The process $( \nP_t , \nZ_t )_{t \in [T]}$ is i.i.d.\ and, for each $t \in [T]$, the two random variables $\nP_t$ and $\nZ_t$ are independent of each other.
+    \end{enumerate}
+    Then, let $K \coloneqq \lceil T^{\nicefrac{1}{3}} \rceil + 1$, let $\cA^{\mathrm{fpa}}$ be the instance of \cref{a:meta-discretized-bandits} that uses Poly INF as described in Lemma \ref{lemma:upperbound-discretizedbandits}, and $\cA^{\mathrm{dp}}$ be the instance of \cref{a:meta-discretized-bandits-dp} that uses Poly INF as described in Lemma \ref{lemma:upperbound-discretizedbandits-dp}. Then the regret of \vin{} (\Cref{a:meta-vin}) run with parameters $\cA^{\mathrm{fpa}}$ and $\cA^{\mathrm{dp}}$ satisfies
+    $
+        R_T
+    \le
+        c T^{\nicefrac{2}{3}}
+    $
+    with $c \le 2L+100$ (resp., $c \le 102$) if \Cref{t:assOnePrimeAppe} (resp., \Cref{t:assTwoPrimeAppe}) holds.
+\end{lemma}
+\begin{proof}
+    By \Cref{a:meta-vin}, the regret of \vin{} is upper bounded by the regret of a repeated first-price auctions problem with unknown valuations plus a dynamic pricing problem with unknown costs. Plugging in the bounds from Lemma \ref{lemma:upperbound-discretizedbandits} and Lemma \ref{lemma:upperbound-discretizedbandits-dp}, we get the required result.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Proof of Theorem \ref{t:lower-bound-lip-iv}}
+\label{s:kl-bounds}
+
+
+
+
+
+
+
+
+
+
+
+The following is the proof of our $T^{2/3}$ lower bound (\Cref{t:lower-bound-lip-iv}). 
+% The proof construction underscores the fundamental trade-off between acquiring information and maximizing reward. 
+% It begins by formulating a hard instance of the market-making problem, defined through designing a density function subjected to specific perturbations. The instance is then discretized into a multi-armed bandit instance, where each arm corresponds to a distinct region within the upper triangle, offering heterogeneous amounts of reward and information, the extent of which is analyzed in Lemma \ref{lemma:kl-upperbounds} through upper bounds on the KL divergence and is used to show that distinguishing between a perturbed and a non-perturbed instance is challenging, leading to the proposed lower bound.
+
+
+
+{
+\begin{proof}
+\renewcommand{\cA}{\mathscr{A}}
+\renewcommand{\cS}{\mathcal{A}}
+Fix $T \ge 42$.
+We define the following constants that will be used in the proof.
+\begin{align*}
+    K & \coloneqq \bigl\lceil T^{\nicefrac{1}{3}} \bigr\rceil 
+& 
+    \e_K & \coloneqq \nicefrac{1}{16 K} 
+&
+     \forall k\in[K], \ r_{K}^k & \coloneqq \nicefrac{3}{16} + \lrb{k - \nicefrac{1}{2}}\e_K
+\\ 
+    p_{\textbf{left}} & \coloneqq \nicefrac{3}{16} 
+& 
+    p_{\textbf{right}} & \coloneqq \nicefrac{1}{4} 
+& 
+    p_{\textbf{exploit}} & \coloneqq \nicefrac{3}{4}
+\\
+    c_{\textbf{plat}} & \coloneqq \nicefrac{1}{32}
+&
+    c_{\textbf{spike}} & \coloneqq \nicefrac{1}{72}
+&
+\end{align*}
+
+Define the density
+\[
+   f \colon [0,1] \to [0,\infty)
+    \;, \qquad
+    x \mapsto 
+    \frac{8}{9} \cdot \I_{\lsb{0, \frac{3}{16}}}(x) + 
+    \frac{1}{8} \frac{1}{\lrb{ \frac{15}{16} - x}^2 } \cdot 
+        \I_{ \left( \frac{3}{16}, \frac{3}{4} \right] } (x) +
+    \frac{8}{3} \cdot \I_{ \left( \frac{3}{4}, \frac{7}{8} \right] } (x)
+    \;,
+\]
+\begin{figure}[t]
+    \centering
+    \includegraphics[page=3]{plots.pdf}
+    \includegraphics[page=4]{plots.pdf}
+    \caption{Above, the perturbed density $f_{r^k_K,\e_K}(x)$ and below, the perturbed \textit{cumulative} density $F_{r^k_K,\e_K}(x)$ with $K = \TK$, $k = \Tk$, the highlighted portions show the effects of the perturbation $\Lambda_{r^k_K, \e_K}$ on the density function $f(x)$ and on the cumulative distribution function $F(x)$ respectively. The dotted lines represent the base functions.}
+    \label{fig:pertburbed-density}
+\end{figure}
+so that the corresponding cumulative distribution function $F$ satisfies, for each $x \in [0,1]$,
+\begin{equation}\label{eq:lowerbound-cdf}
+    F(x)
+=
+    \frac{8}{9} x \cdot 
+    \I_{ \lsb{ 0, \frac{3}{16} } } (x)
+    + \frac{1}{8} \frac{1}{\frac{15}{16} - x} \cdot
+    \I_{ \left( \frac{3}{16},\frac{3}{4} \right] } (x) +
+    \frac{8}{3} \lrb{ x - \frac{1}{2} } \cdot
+    \I_{ \left( \frac{3}{4}, \frac{7}{8} \right] } (x) +
+    \I_{ \left( \frac{7}{8}, 1 \right] } (x) \; .
+\end{equation}
+We define a family of perturbations parameterized by the set $\Xi \coloneqq \{ (r,\e) \in [\frac{3}{16},\frac{11}{16}] \times [0,1] \mid  \frac{3}{16} \le r-\frac{\e}{2} \le r+\frac{\e}{2} \le \frac{11}{16}\}$;
+for each $(r,\e) \in \Xi$, define
+$
+    g_{r,\e}
+\coloneqq
+    \frac{1}{9}\cdot \I_{[r-\frac{\e}{2},r]} - \frac{1}{9} \cdot \I_{(r,r+\frac{\e}{2}]}
+$
+and $f_{r,\e} \coloneq f + g_{r,\e}$ (see \Cref{fig:pertburbed-density}).
+Notice that for each $(r,\e) \in  \Xi $ the function $f_{r, \e}$ is still a density function whose corresponding cumulative distribution function $F_{r,\e}$ satisfies, for each $x \in [0,1]$,
+\[
+    F_{r,\e}(x)
+=
+    F(x)
+    +
+    \frac{\e}{18}\Lambda_{r,\e}(x)\;,
+\]
+where $\Lambda_{r,\e}$ is the tent function of height $1$ and width $\e$ centered in $r$, i.e., the function defined, for each $x \in \bbR$, by
+\[
+    \Lambda_{r,\e}(x)
+\coloneqq
+    \lrb{ 1 - \frac{2}{\e}(r-x) } \cdot \I_{\lsb{r-\frac{\e}{2},r}}(x)
+    +
+    \lrb{ 1 - \frac{2}{\e} (x-r) } \cdot \I_{\left(r,r+\frac{\e}{2}\right]}(x) \;.
+\]
+Note that $F_{r,\e}$ is $4$-Lipschitz;
+indeed, for each $(\nb, \ns) \in \cU$,
+\begin{multline*}
+    \labs{ F_{r,\e}(\ns) - F_{r,\e}(\nb) }
+    = \int^\ns_\nb f_{r, \e}(x) \, \dif x
+    = \max_{c \in [\nb,\ns]}f_{r, \e}(c) (\ns - \nb)
+\\
+    \le \left( \max_{c' \in [0, 1]} f(c') + \frac{1}{9} \right) (\ns - \nb)
+    = 4 (\ns - \nb) \, ,
+\end{multline*}
+where $f$ is maximized in $\nicefrac{3}{4}$.
+Consider an independent family $\{\nP_t,\nZ_t,\nZ_{r,\e,t}\}_{t \in \N, (r,\e)\in \Xi}$ such that for each $t \in \N$ the distribution $\mu$ of $\nP_t$ is a uniform on $\lsb{\frac{7}{8},1}$ (therefore, $M_t$ admits an $8$-Lipschitz cumulative distribution function), for each $t \in \N$ the distribution $\nu$ of $\nZ_t$ has $f$ as density, while for each $(r,\e) \in \Xi$ and each $t \in \N$ the distribution $\nu_{r,\e}$ of $\nZ_{r,\e,t}$ has $f_{r,\e}$ as density.
+Notice that for each $k \in [K]$ we have that $(r_K^k,\e_K) \in \Xi$.
+Now, partition $\cU$ in the following regions (see \Cref{fig:density-regions-lower-bound} for a not-to-scale illustration).
+\begin{align*}
+    R^{\textbf{left}}_1
+&\coloneqq
+    \lcb{ (\nb, \ns) \in \cU \mid (\nb \le p_{\textbf{left}}) \land \lrb{p_{\textbf{right}} - \e_K \le \ns \le p_{\textbf{right}}}}
+\\
+    R^{\textbf{left}}_{2}
+&\coloneqq
+    \lcb{ (\nb, \ns) \in \cU \mid (\nb \le p_{\textbf{left}}) \land \lrb{p_{\textbf{right}} - 2 \e_K \le \ns < p_{\textbf{right}} -\e_K}}
+\\
+&\vdots
+\\
+R^{\textbf{left}}_{K-1}
+&\coloneqq
+    \lcb{ (\nb, \ns) \in \cU \mid (\nb \le p_{\textbf{left}}) \land \lrb{p_{\textbf{left}} + \e_K \le \ns < p_{\textbf{left}} + 2\e_K}}
+\\
+    R^{\textbf{left}}_K
+&\coloneqq
+    \lcb{ (\nb, \ns) \in \cU \mid (\nb \le p_{\textbf{left}}) \land \lrb{p_{\textbf{left}} \le \ns < p_{\textbf{left}} + \e_K}}
+\end{align*}
+and
+\begin{align*}
+    R^{\textbf{top}}_1
+&\coloneqq
+    \lcb{ (\nb, \ns) \in \cU \mid (p_{\textbf{left}} \le \nb \le p_{\textbf{left}} + \e_K) \land \lrb{p_{\textbf{right}} \le \ns \le p_{\textbf{exploit}}}}
+\\
+    R^{\textbf{top}}_2
+&\coloneqq
+    \lcb{ (\nb, \ns) \in \cU \mid (p_{\textbf{left}} + \e_K < \nb \le p_{\textbf{left}} + 2 \e_K) \land \lrb{p_{\textbf{right}} \le \ns \le p_{\textbf{exploit}}}}
+\\
+&\vdots
+\\
+    R^{\textbf{top}}_{K-1}
+&\coloneqq
+    \lcb{ (\nb, \ns) \in \cU \mid (p_{\textbf{right}} - 2 \e_K < \nb \le p_{\textbf{right}} - \e_K) \land \lrb{p_{\textbf{right}} \le \ns \le p_{\textbf{exploit}}}}
+\\
+    R^{\textbf{top}}_K
+&\coloneqq
+    \lcb{ (\nb, \ns) \in \cU \mid (p_{\textbf{right}} - \e_K < \nb \le p_{\textbf{right}} ) \land \lrb{p_{\textbf{right}} \le \ns \le p_{\textbf{exploit}}}}
+\end{align*}
+and, for each $i,j\in [K]$ such that $i+j \le K$
+\begin{align*}
+    R^{\textbf{square}}_{i,j}
+    \coloneqq
+    \{
+        (\nb, \ns) \in \cU
+        & \mid
+        (p_{\textbf{left}} + (i - 1) \e_K < \nb \le p_{\textbf{left}} + i \e_K) \land \\
+        & \quad 
+        (p_{\textbf{right}} - j \e_K < \ns \le p_{\textbf{right}} - (j - 1) \e_K)
+    \}
+\end{align*}
+and, for each $k \in [K]$
+\begin{align*}
+    R^{\textbf{triangle}}_{k}
+    \coloneqq
+    \{
+        (\nb, \ns) \in \cU
+        & \mid
+        (p_{\textbf{left}} + (k - 1) \e_K < \nb \le p_{\textbf{left}} + k \e_K) \land \\
+        & \quad 
+        (p_{\textbf{left}} + (k - 1) \e_K < \ns \le p_{\textbf{left}} - k \e_K)
+    \}
+\end{align*}
+and
+\begin{align*}
+    R^{\textbf{exploit}}_{1}
+    &\coloneqq
+    \{
+        (\nb, \ns) \in \cU
+        \mid
+        \lcb{ (\nb, \ns) \in \cU \mid (p_{\textbf{left}} \le \nb \le p_{\textbf{left}} + \e_K) \land \lrb{p_{\textbf{exploit}} < \ns}}
+    \} \\
+    R^{\textbf{exploit}}_{2}
+    &\coloneqq
+    \{
+        (\nb, \ns) \in \cU
+        \mid
+        \lcb{ (\nb, \ns) \in \cU \mid (p_{\textbf{left}} + \e_K < \nb \le p_{\textbf{left}} + 2\e_K) \land \lrb{p_{\textbf{exploit}} < \ns}}
+    \} \\
+    \vdots \\
+    R^{\textbf{exploit}}_{K - 1}
+    &\coloneqq
+    \{
+        (\nb, \ns) \in \cU
+        \mid
+        \lcb{ (\nb, \ns) \in \cU \mid (p_{\textbf{right}} - 2 \e_K < \nb \le p_{\textbf{right}} - \e_K) \land \lrb{p_{\textbf{exploit}} < \ns}}
+    \} \\
+        R^{\textbf{exploit}}_{K}
+    &\coloneqq
+    \{
+        (\nb, \ns) \in \cU
+        \mid
+        \lcb{ (\nb, \ns) \in \cU \mid (p_{\textbf{right}} - \e_K < \nb \le p_{\textbf{right}}) \land \lrb{p_{\textbf{exploit}} < \ns}}
+    \}
+\end{align*}
+Let $R^{\textbf{white}}$ be the part of $\cU$ not covered by the union of the previous regions and define
+\[
+    R^{\textbf{exploit}}
+    \coloneqq R^{\textbf{exploit}}_1 \cup \cdots \cup R^{\textbf{exploit}}_K \; ,
+    \qquad
+    R^{\textbf{explore}}
+    \coloneqq \cU \backslash (R^{\textbf{white}} \cup R^{\textbf{exploit}}) \; .
+\]
+
+Notice that, for each $k \in [K]$, each $t \in \N$, and each $(\nb, \ns) \in \cU$, given that $\Pb [ \nZ_{r_K^k,\e_K,t} \le \nP_t ] = 1$, it holds that
+\begin{align*}
+&
+    \E\bsb{\util(\nb,\ns,\nP_t,\nZ_{r_K^k,\e_K,t})}
+\le
+    \E\bsb{\util(\nb,1,\nP_t,\nZ_{r_K^k,\e_K,t})}
+\\ &
+=
+    \E\bsb{(\nP_t - \nb) \one{\nb > \nZ_{r_K^k,\e_K,t}}}
+=
+    \lrb{\frac{15}{16} - \nb}F_{r_K^k,\e_K}(\nb)
+\\ &
+=
+    \frac{8}{9}\nb\lrb{\frac{15}{16}-b} \cdot \I_{\left[0, \frac{3}{16}\right]}(\nb) 
++   
+    \frac{1}{8}\cdot \I_{\left(\frac{3}{16},\frac{3}{4}\right]}(\nb)
++
+    \frac{\e_K}{18} \lrb{\frac{15}{16} - \nb} \cdot \Lambda_{r_K^k,\e_K}(\nb)
+\\ & \qquad
++
+    \frac{8}{3} \lrb{\nb - \frac{1}{2}} \lrb{\frac{15}{16} - \nb} \cdot \I_{(\frac{3}{4},\frac{7}{8}]}(\nb)
++
+    \lrb{\frac{15}{16} - \nb} \cdot \I_{\left(\frac{7}{8}, 1\right]}(\nb)\;,
+\end{align*}
+from which it follows that:
+\begin{itemize}
+    \itemm The pair of prices with highest expected utility is $(r_K^k, 1)$ and
+    $$
+        \max_{(\nb, \ns) \in \cU} \E\bsb{\util(\nb,\ns,\nP_t, \nZ_{r_K^k,\e_K,t})} = \E\lsb{\util\lrb{r_K^k,1,\nP_t,\nZ_{r_K^k,\e_K,t}}} \ge \frac{1}{8} + c_{\textbf{spike}} \cdot \e_K \;.
+    $$
+    \itemm The maximum expected utility when $\nb$ is not in the perturbation is
+    $$
+        \max_{
+            (\nb,\ns) \in \cU,
+            \nb \notin [r_K^k-\frac{\e_K}{2}, r_K^k+\frac{\e_K}{2}]
+        }
+        \E \lsb{ \util(\nb, \ns, \nP_t, \nZ_{r_K^k, \e_K,t}) }
+        = \frac{1}{8}
+        \; .
+    $$
+    \itemm The expected utility in the exploration region is upper bounded by
+    $$
+        \max_{(\nb, \ns) \in R^{\textbf{explore}}}
+        \E\lsb{\util(\nb,\ns,\nP_t,\nZ_{r_K^k,\e_K,t})}
+        \le \E\lsb{\util(r_K^k, p_\textbf{exploit}, \nP_t, \nZ_{r_K^k,\e_K,t})}
+        \le \frac{1}{8} - c_{\textbf{plat}}
+        \;.
+    $$
+\end{itemize}
+Also note that:
+\begin{itemize}
+    \itemm For each $x \in [0,1]$, if $x \notin [r_K^k-\nicefrac{\e_K}{2},r_K^k+\nicefrac{\e_K}{2}]$, then $\Pb[\nZ_{r_K^k,\e_K,t}<x] = F(x)$.
+\end{itemize}
+Crucially, given that the setting is stochastic, without loss of generality, we can consider only deterministic algorithms.
+Fix a deterministic algorithm $(\cA_t)_{t \in \N} \coloneqq (\ncB_t,\ncS_t)_{t \in \N}$, i.e., a sequence of functions such that for each $t \in \N$ we have that $\cA_t = (\ncB_{t},\ncS_{t}) \colon ([0,1] \times \{0,1\} \times \{0,1\})^{t-1} \to \cU$, with the understanding that $\cA_1 = (\ncB_1,\ncS_1) \in \cU$.
+For each $k \in [K]$, let $(\nB_t^k,\nS_t^k)_{t \in [T]}$ be the prices posted by the algorithm when the underlying instance is $(\nP_t,\nZ_{\e_K,r_K^k,t})_{t \in [T]}$, i.e., let $(\nB_1^k,\nS_1^k) \coloneqq \cA_1$ and for each $t \in [T]$ with $t \ge 2$ let $(\nB_t^k,\nS_t^k) \coloneqq \cA_t(\nP_1,\one{\nZ_{\e_K,r_K^k,1}\le\nB_1^k},\one{\nZ_{\e_K,r_K^k,1}>\nS_1^k},\dots,\nP_{t-1},\one{\nZ_{\e_K,r_K^k,{t-1}}\le B_{t-1}^k},\one{\nZ_{\e_K,r_K^k,{t-1}}> \nS_{t-1}^k})$.
+Analogously, let $(\nB_t,\nS_t)_{t \in [T]}$ be the prices posted by the algorithm when the underlying instance is $(\nP_t,\nZ_t)_{t \in [T]}$.
+For each $k \in [K]$ and each $t \in [T]$, let also $\nW_t^k \coloneqq (\one{\nZ_{\e_K,r_K^k,t} \le \nB_t^k},\one{\nZ_{\e_K,r_K^k,t}> \nS_t^k})$ and $\nW_t \coloneqq (\one{\nZ_t \le \nB_t},\one{\nZ_t> \nS_t})$.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[page=5]{plots.pdf}
+    \caption{(Not-to-scale) Division of the upper triangle $\cU$ in regions with $K = \RK$, to illustrate the relative positions of the exploitation regions (in blue) and the exploration regions (in red, green and lime).}
+    \label{fig:density-regions-lower-bound}
+\end{figure}
+
+
+
+Define the following auxiliary random variables.
+For each $i,k \in [K]$, define
+\[
+    N^{\textbf{left}}_{i,k}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1^k,\dots,\nP_{s-1},\nW_{s-1}^k) \in R^{\textbf{left}}_i }
+\]
+and for each $i \in [K]$, define
+\[
+    N^{\textbf{left}}_{i}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1,\dots,\nP_{s-1},\nW_{s-1}) \in R^{\textbf{left}}_i }\;.
+\]
+Analogously, for each $i,k \in [K]$, define
+\[
+    N^{\textbf{top}}_{i,k}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1^k,\dots,\nP_{s-1},\nW_{s-1}^k) \in R^{\textbf{top}}_i }
+\]
+and for each $i \in [K]$, define
+\[
+    N^{\textbf{top}}_{i}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1,\dots,\nP_{s-1},\nW_{s-1}) \in R^{\textbf{top}}_i }\;.
+\]
+Also, for each $i,j,k \in [K]$ with $i+j\le K$, define
+\[
+    N^{\textbf{square}}_{i,j,k}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1^k,\dots,\nP_{s-1},\nW_{s-1}^k) \in  R^{\textbf{square}}_{i,j} }
+\]
+and for each $i,j \in [K]$ with $i+j\le K$, define
+\[
+    N^{\textbf{square}}_{i,j}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1,\dots,\nP_{s-1},\nW_{s-1}) \in R^{\textbf{square}}_{i,j}  }\;.
+\]
+Then, for each $i,k \in [K]$, define
+\[
+    N^{\textbf{triangle}}_{i,k}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1^k,\dots,\nP_{s-1},\nW_{s-1}^k) \in R^{\textbf{triangle}}_{i}  }
+\]
+and for each $i \in [K]$, define
+\[
+    N^{\textbf{triangle}}_{i}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1,\dots,\nP_{s-1},\nW_{s-1}) \in R^{\textbf{triangle}}_{i}  } \;.
+\]
+Moreover, for each $i,k \in [K]$, define
+\[
+    N^{\textbf{exploit}}_{i,k}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1^k,\dots,\nP_{s-1},\nW_{s-1}^k) \in R^{\textbf{exploit}}_i }
+\]
+and for each $i \in [K]$, define
+\[
+    N^{\textbf{exploit}}_{i}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1,\dots,\nP_{s-1},\nW_{s-1}) \in R^{\textbf{exploit}}_i }\;.
+\]
+Finally, for each $k \in [K]$, define
+\[
+    N^{\textbf{white}}_{k}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1^k,\dots,\nP_{s-1},\nW_{s-1}^k) \in R^{\textbf{white}} }
+\]
+and for each $i \in [K]$, define
+\[
+    N^{\textbf{white}}(t) \coloneqq \sum_{s=1}^t \I\lcb{ \cA_s(\nP_1,\nW_1,\dots,\nP_{s-1},\nW_{s-1}) \in R^{\textbf{white}} }\;.
+\]
+Let $R^k_T$ be the regret of the algorithm $\cA$ up to the time horizon $T$ when the underlying instance is $(\nZ_t^k,\nP_t)_{t \in \N}$ and let $R_T$ be the regret of the algorithm $\cA$ up to the time horizon $T$ when the underlying instance is $(\nZ_t,\nP_t)_{t \in \N}$.
+Start by considering
+\begin{align*}
+    \frac{1}{K} \sum_{k \in [K]} R^k_T
+&\ge
+    \frac{1}{K} \sum_{k \in [K]} \lrb{ c_{\textbf{spike}} \cdot \e_K \cdot \Brb{ T - \E \bsb{ N^{\textbf{exploit}}_{k,k}(T) } } }
+\eqqcolon
+    (\square)\;.
+\end{align*}
+We recall that if $(\cX,\cF)$ is a measurable space and $X$ is a $\cX$-valued random variable, we denote by $\Pb_X$ the push-forward probability measure of $\Pb$ induced by $X$ on $\cX$, i.e., $\Pb_X [E] \coloneqq \Pb [X \in E] $, for any $E \in \cF$.
+Also, with $\lno{\cdot}_{\text{TV}}$ we denote the total variation norm for measures, and for any two probability measures $\mathbb{Q},\mathbb{Q}'$ defined on the same sample space, we denote their Kullback-Leibler divergence by $\cD_{\text{KL}}(\mathbb{Q}, \mathbb{Q}')$. 
+Now, for each $k \in [K]$, using Pinsker's inequality \cite[Lemma 2.5]{Tsybakov2008} that upper bounds the difference in the total variation $\lno{\cdot}_{\text{TV}}$ of two probability measures using their Kullback-Leibler divergence $\cD_{\text{KL}}$, we have that 
+\begin{align*}
+    \labs{\E[N^{\textbf{exploit}}_{k,k}(T)] - \E[N_k^{\textbf{exploit}}(T)]}
+&\le
+    \sum_{t=1}^T\labs{\Pb[(\nB_t^k,\nS_t^k) \in R^{\textbf{exploit}}_k] - \Pb[(\nB_t,\nS_t) \in R^{\textbf{exploit}}_k]}
+\\
+&\le
+    \sum_{t=1}^{T-1} \lno{ \Pb_{(\nP_1,\nW_1,\dots,\nP_t,\nW_t)} - \Pb_{(\nP_1,\nW_1^k,\dots,\nP_t,\nW_t^k)} }_{\text{TV}}
+\\
+&\le
+    \sum_{t=1}^{T-1} \sqrt{\frac{1}{2} \cD_{\text{KL}}\lrb{\Pb_{(\nP_1,\nW_1,\dots,\nP_t,\nW_t)},\Pb_{(\nP_1,\nW_1^k,\dots,\nP_t,\nW_t^k)}}}
+\eqqcolon
+    (\star_k)\;.
+\end{align*}
+Now, for each $t \in [T-1]$, each $\np_1,\dots,\np_t \in [0,1]$, and each $\nw_1,\dots,\nw_t \in \{0,1\}^{2}$, defining $\ns \coloneqq \ncS_{t+1}(\np_1,\nw_1,\dots,\np_t,\nw_t)$ and $\nb \coloneqq \ncB_{t+1}(\np_1,\nw_1,\dots,\np_t,\nw_t)$, we have
+\begin{align*}
+&
+    \cD_{\text{KL}}
+    \big(
+        \Pb_{(\nP_{t+1},W_{t+1}) \mid (\nP_1,\nW_1,\dots,\nP_{t},W_{t}) = (\np_1,\nw_1,\dots,\np_{t},w_{t}))},
+\\ & \qquad\qquad
+        \Pb_{(\nP_{t+1},W_{t+1}^k) \mid (\nP_1,\nW_1^k,\dots,\nP_{t},W_{t}^k) = (\np_1,\nw_1,\dots,\np_{t},w_{t}))}
+    \big)
+\\ &=
+    \cD_{\text{KL}}
+    \lrb{
+        \Pb_{(\one{\nZ_{t+1}\le b}, \one{\ns < \nZ_{t+1}}) },
+        \Pb_{(\one{\nZ_{t+1}^k \le b}, \one{\ns < \nZ_{t+1}^k})}
+    }
+\\ & \qquad
+    \cdot
+    \bigg( 
+        \one{ (\ns,\nb) \in R^{\textbf{left}}_k  } 
+        + \sum_{j=1}^{k-1} \one{ (\ns,\nb) \in R^{\textbf{square}}_{k,j} } 
+        + \one{ (\ns,\nb) \in R^{\textbf{triangle}}_{k} } 
+\\ & \qquad\qquad
+        + \sum_{i=1}^{k-1} \one{ (\ns,\nb) \in R^{\textbf{square}}_{i,k} }
+        + \one{ (\ns,\nb) \in R^{\textbf{top}}_k  }
+        + \one{ (\ns,\nb) \in R^{\textbf{exploit}}_k  } 
+    \bigg)
+\end{align*}
+A direct verification (see Lemma \ref{lemma:kl-upperbounds}) shows that, letting $c_2 \ceq \nicefrac{65}{9}$, for each $k \in [K]$, and $i,j \in [K-1]$, if $(\ns,\nb) \in R^{\textbf{left}}_k \cup R^{\textbf{square}}_{k,j} \cup R^{\textbf{triangle}}_{k} \cup R^{\textbf{square}}_{i,k} \cup R^{\textbf{top}}_{k}$, then
+\[
+    \cD_{\text{KL}}
+    \lrb
+    {
+        \Pb_{(\one{\nZ_{t+1} \le \nb}, \one{ \ns < \nZ_{t+1}}) },\Pb_{(\one{\nZ_{t+1}^k \le \nb}, \one{ \ns < \nZ_{t+1}^k})}
+    }
+\le
+    c_2 \cdot \e_K \;,
+\]
+likewise (see, again, Lemma \ref{lemma:kl-upperbounds}), letting $\nc_1\ceq \nicefrac{2}{81}$ such that, for each $k \in [K]$, if $(\ns,\nb) \in R^{\textbf{exploit}}_k$, then
+\[
+     \cD_{\text{KL}}
+    \lrb
+    {
+        \Pb_{(\one{\nZ_{t+1} \le \nb}, \one{\ns < \nZ_{t+1}}) },\Pb_{(\one{\nZ_{t+1}^k \le \nb}, \one{\ns < Z_{t+1}^k})}
+    }
+\le
+    \nc_1 \cdot \e_K^2\;.
+\]
+For notational convenience, set
+\begin{align*}
+    \Pb^k_{t+1,\np_{1:t},w_{1:t}}
+&\coloneqq
+    \Pb_{(\nP_{t+1},W_{t+1}^k) \mid (\nP_1,\nW_1^k,\dots,\nP_{t},W_{t}^k) = (\np_1,\nw_1,\dots,\np_{t},w_{t}))}
+\\
+    \Pb_{t+1,\np_{1:t},w_{1:t}}
+&\coloneqq
+    \Pb_{(\nP_{t+1},W_{t+1}) \mid (\nP_1,\nW_1,\dots,\nP_{t},W_{t}) = (\np_1,\nw_1,\dots,\np_{t},w_{t}))}
+\end{align*}
+and notice that, for each $t \in [T-1]$ such that $t \ge 2$, using the chain rule for the Kullback-Leibler divergence \cite[Theorem 2.5.3]{ThomasM.Cover2006}, we have that
+\begin{align*}
+&
+    \cD_{\text{KL}}\lrb{\Pb_{(\nP_1,\nW_1,\dots,\nP_t,\nW_t)},\Pb_{(\nP_1,\nW_1^k,\dots,\nP_t,\nW_t^k)}} \\
+&=
+    \cD_{\text{KL}}\lrb{\Pb_{(\nP_1,\nW_1,\dots,\nP_{t-1},W_{t-1})},\Pb_{(\nP_1,\nW_1^k,\dots,\nP_{t-1},W_{t-1}^k)}}
+\\
+&\qquad+
+    \int_{ \lrb{[0,1] \times \{0,1\}^2}^{t-1}} \cD_{\text{KL}}
+    \big(
+        \Pb_{t,\np_{1:t-1},w_{1:t-1}},
+        \Pb^k_{t,\np_{1:t-1},w_{1:t-1}}
+    \big)
+\\ & \qquad\qquad\qquad\qquad
+    \dif \Pb_{(\nP_1,\nW_1,\dots,\nP_{t-1},W_{t-1})}(\np_1,\nw_1,\dots,\np_{t-1},w_{t-1})
+\\
+&\le
+    \cD_{\text{KL}}\lrb{\Pb_{(\nP_1,\nW_1^k,\dots,\nP_{t-1},W_{t-1}^k)},\Pb_{(\nP_1,\nW_1,\dots,\nP_{t-1},W_{t-1})}}
+\\
+&\qquad+
+    \nc_1 \cdot \e_K^2 \cdot \Pb\lsb{(\nS_t,\nB_t) \in R^{\textbf{exploit}}_k }
+\\
+&\qquad+
+    c_2 \cdot \e_K \cdot \bigg(\Pb\lsb{(\nB_t,\nS_t) \in R^{\textbf{left}}_k}
+    + \sum_{j=1}^{k-1} \Pb\lsb{(\nB_t,\nS_t) \in R^{\textbf{square}}_{k,j}}
+\\
+&\qquad\qquad +
+    \Pb\lsb{(\nB_t,\nS_t) \in R^{\textbf{triangle}}_{k}}
+    + \sum_{i=1}^{k-1} \Pb\lsb{(\nB_t,\nS_t) \in R^{\textbf{square}}_{i,k}}
+    + \Pb\lsb{(\nB_t,\nS_t) \in R^{\textbf{top}}_k}\bigg)
+\end{align*}
+and iterating (and repeating essentially the same calculations in the last step where there is no conditioning), we get
+\begin{align*}
+&
+\cD_{\text{KL}}\lrb{\Pb_{(\nP_1,\nW_1,\dots,\nP_t,\nW_t)},\Pb_{(\nP_1,\nW_1^k,\dots,\nP_t,\nW_t^k)}}
+\\&\le
+    \nc_1 \cdot \e_K^2 \cdot \E\lsb{ N^{\textbf{exploit}}_k(t-1)}
+\\
+&\qquad+
+    c_2 \cdot \e_K \cdot \bigg(\E\lsb{N^{\textbf{left}}_k(t-1)}
+    + \sum_{j=1}^{k-1} \E\lsb{N^{\textbf{square}}_{k,j}(t-1)}
+\\
+&\qquad\qquad+
+    \E\lsb{N^{\textbf{triangle}}_{k}(t-1)}
+    + \sum_{i=1}^{k-1} \E\lsb{N^{\textbf{square}}_{i,k}(t-1)}
+    + \E\lsb{N^{\textbf{top}}_k(t-1)}\bigg)
+\\
+&\le
+    \nc_1 \cdot \e_K^2 \cdot \E\lsb{ N^{\textbf{exploit}}_k(T)}
+\\
+&\qquad+
+    c_2 \cdot \e_K \cdot \bigg(\E\lsb{N^{\textbf{left}}_k(T)}
+    + \sum_{j=1}^{k-1} \E\lsb{N^{\textbf{square}}_{k,j}(T)}
+\\
+&\qquad\qquad+
+    \E\lsb{N^{\textbf{triangle}}_{k}(T)}
+    + \sum_{i=1}^{k-1} \E\lsb{N^{\textbf{square}}_{i,k}(T)}
+    + \E\lsb{N^{\textbf{top}}_k(T)}\bigg)
+\end{align*}
+It follows that, for each $k \in [K]$,
+\begin{align*}
+    (\star_k)
+&\le
+    T \cdot \sqrt{ \frac{1}{2} } \cdot \bigg( \nc_1 \cdot \e_K^2 \cdot \E\lsb{ N^{\textbf{exploit}}_k(T)}
++
+    c_2 \cdot \e_K \cdot \bigg(\E\lsb{N^{\textbf{left}}_k(T)}
+    + \sum_{j=1}^{k-1} \E\lsb{N^{\textbf{square}}_{k,j}(T)}
+\\
+& \qquad
++
+    \E\lsb{N^{\textbf{triangle}}_{k}(T)}
+    + \sum_{i=1}^{k-1} \E\lsb{N^{\textbf{square}}_{i,k}(T)}
+    + \E\lsb{N^{\textbf{top}}_k(T)}\bigg) \bigg)^{\nicefrac{1}{2}}
+\\
+&\le
+      T \cdot \sqrt{ \frac{1}{2} } \cdot \e_K \cdot \sqrt{ \nc_1 \E\lsb{ N^{\textbf{exploit}}_k(T)}}
+\\
+&\qquad +
+    T \cdot \sqrt{ \frac{1}{2} } \cdot \sqrt{\e_K} \cdot \bigg( c_2 \cdot \bigg(\E\lsb{N^{\textbf{left}}_k(T)}
+    + \sum_{j=1}^{k-1} \E\lsb{N^{\textbf{square}}_{k,j}(T)}
+\\
+&\qquad\qquad
++
+    \E\lsb{N^{\textbf{triangle}}_{k}(T)}
+    + \sum_{i=1}^{k-1} \E\lsb{N^{\textbf{square}}_{i,k}(T)}
+    + \E\lsb{N^{\textbf{top}}_k(T)}\bigg) \bigg)^{\nicefrac{1}{2}}
+\end{align*}
+For notational convenience, define
+\[
+    N^{\textbf{explore}}
+\coloneqq
+    \sum_{i \in [K]} N^{\textbf{left}}_i(T) + \sum_{j \in [K]} N^{\textbf{top}}_j(T) + \sum_{k \in [K]} N^{\textbf{triangle}}_k(T) +
+    \sum_{i,j\in [K], \, i+j\le K} N^{\textbf{square}}_{i,j}(T)
+\]
+and
+\[
+    N^{\textbf{exploit}}
+\coloneqq
+    \sum_{k \in [K]} N^{\textbf{exploit}}_k(T)
+\]
+Notice that, after bringing the summation under the square root leveraging Jensen's inequality, we sum each of the terms $N^{\textbf{left}}_i(T), N^{\textbf{top}}_j(T), N^{\textbf{triangle}}_k(T), N^{\textbf{square}}_{i,j}(T)$ at most two times, we get:
+\begin{align*}
+    \frac{1}{K}\sum_{k \in [K]} (\star_k)
+&\le
+    T\cdot \e_K \cdot \sqrt{\frac{\nc_1}{2}} \cdot \sqrt{\frac{\E\bsb{N^{\textbf{exploit}}}}{K}}
++
+    T\cdot \sqrt{\e_K} \cdot \sqrt{ c_2} \cdot \sqrt{ \frac{\E\bsb{N^{\textbf{explore}}}}{K}}
+\\
+&\le\;
+    T\cdot \e_K \cdot \sqrt{\frac{\nc_1}{2}} \cdot \sqrt{\frac{T}{K}}
++
+    T\cdot \sqrt{\e_K} \cdot \sqrt{ c_2} \cdot \sqrt{ \frac{\E\bsb{N^{\textbf{explore}}}}{K}} \;.
+\end{align*}
+It follows that
+\begin{align*}
+     (\square)
+&=
+    c_{\textbf{spike}} \cdot \e_K \cdot \lrb{ T - \frac{1}{K}\sum_{k \in [K]} \E[N^{\textbf{exploit}}_{k,k}]}
+\\
+&\ge
+    c_{\textbf{spike}} \cdot \e_K \cdot \lrb{ T - \frac{1}{K}\sum_{k \in [K]} \E[N^{\textbf{exploit}}_{k}] - \frac{1}{K}\sum_{k\in[K]}(\star_k)}
+\\
+&=
+    c_{\textbf{spike}} \cdot \e_K  \cdot \lrb{ T - \frac{\E[N^{\textbf{exploit}}]}{K} - \frac{1}{K}\sum_{k\in[K]}(\star_k)}
+\\
+&\ge
+    c_{\textbf{spike}} \cdot \e_K \cdot T \cdot \lrb{ 1 - \frac{1}{K} -  \e_K \cdot \sqrt{\frac{\nc_1}{2}} \cdot \sqrt{\frac{T}{K}} -  \sqrt{\e_K} \cdot \sqrt{ c_2} \cdot \sqrt{ \frac{\E\bsb{N^{\textbf{explore}}}}{K}}}
+\eqqcolon
+    (\tilde{\square})\;.
+\end{align*}
+Now, if $\E\bsb{N^{\textbf{explore}}} \ge T^{\nicefrac{2}{3}}$ then
+\[
+    R_T \ge c_{\textbf{plat}} \cdot \E\bsb{N^{\textbf{explore}}} \ge c_{\textbf{plat}} \cdot T^{\nicefrac{2}{3}}\;.
+\]
+Instead, if $\E\bsb{N^{\textbf{explore}}}\le T^{\nicefrac{2}{3}}$, then
+\begin{align*}
+    (\tilde{\square})
+&\ge
+    c_{\textbf{spike}} \cdot \e_K \cdot T \cdot \lrb{ 1 - \frac{1}{K} -  \e_K \cdot \sqrt{\frac{\nc_1}{2}} \cdot \sqrt{\frac{T}{K}} - \sqrt{\e_K} \cdot \sqrt{ c_2} \cdot \sqrt{ \frac{T^{\nicefrac{2}{3}}}{K}}}
+\\
+&=
+    c_{\textbf{spike}} \cdot \frac{T}{16 \bigl\lceil T^{\nicefrac{1}{3}} \bigr\rceil } 
+    \lrb{ 1 - \frac{1}{\bigl\lceil T^{\nicefrac{1}{3}} \bigr\rceil } -  \frac{1}{16 \bigl\lceil T^{\nicefrac{1}{3}} \bigr\rceil } \cdot \sqrt{\frac{\nc_1}{2}} \cdot \sqrt{\frac{T}{\bigl\lceil T^{\nicefrac{1}{3}} \bigr\rceil }} - \sqrt{\frac{1}{16 \bigl\lceil T^{\nicefrac{1}{3}} \bigr\rceil }} \cdot \sqrt{ c_2} \cdot \sqrt{ \frac{T^{\nicefrac{2}{3}}}{\bigl\lceil T^{\nicefrac{1}{3}} \bigr\rceil }}}
+\\
+&\ge
+    10^{-6}\cdot T^{\nicefrac{2}{3}}\;
+\end{align*}
+for $T\ge 42$, where in the last step we have plugged in the values of $c_1$ and $c_2$.
+Since we proved that
+\[
+    \frac{1}{K} \sum_{k \in [K]} R^k_T \ge 10^{-6}\cdot T^{\nicefrac{2}{3}} \;,
+\]
+then, there exists an instance $k\in[K]$ such that the regret of the algorithm over $(\nP_t,\nZ_{\e_K,r_K^k,t})_{t \in [T]}$ is at least $T^{\nicefrac{2}{3}}$, concluding the result.
+\end{proof}
+}
+
+
+
+
+
+
+
+The previous proof relies on Lemma \ref{lemma:kl-upperbounds}, for which we need the following two lemmas.
+
+
+\begin{lemma}\label{lemma:lambdalipschitz}
+    For any pair $\e, r \in (0, 1]^2$, $\Lambda_{r, \e}$ is $\frac{2}{\e}$-Lipschitz.
+\end{lemma}
+\begin{proof}
+    Fix $0 \le \nb \le \ns \le 1$, we consider all possible cases with respect to the interval $\mathcal{R} = \mathcal{R}^- \cup \mathcal{R}^+ = [ r - \nicefrac{\e}{2}, r] \cup (r, r + \nicefrac{\e}{2}]$ to prove that
+    \[
+        | \Lambda(\ns) - \Lambda(\nb) | \le \frac{2}{\e} |\ns - \nb|
+    \]
+    \begin{itemize}
+        \item If $\nb, \ns \notin \mathcal{R}$, then $\Lambda(\ns) = \Lambda(\nb) = 0$ and the property is trivially true. 
+        \item If $\nb, \ns \in \mathcal{R}^-$ or $\nb, \ns \in \mathcal{R}^+$ then
+        \[
+            |\Lambda(\ns) - \Lambda(\nb)|
+            = \left| 1 - \frac{2}{\e}(r - \ns) - 1 + \frac{2}{\e}(r - \nb) \right|
+            = \frac{2}{\e} \left| \ns - \nb \right|
+        \]
+        \item If $\nb \in \mathcal{R}^-$ and $\ns \in \mathcal{R}^+$ then
+        \[
+            |\Lambda(\ns) - \Lambda(\nb)|
+            = \left| 1 - \frac{2}{\e}(\ns - r) - 1 + \frac{2}{\e}(r - \nb) \right|
+            = \frac{2}{\e} \left| \ns - \nb - 2r \right|
+            \le \frac{2}{\e} \left| \ns - \nb \right|
+        \]
+        because $|s - b| > 2r$.
+        \item If $\nb \in \mathcal{R}^+$ and $\ns \notin \mathcal{R}$ then
+        \[
+            |\Lambda(\ns) - \Lambda(\nb)|
+            = \left| 1 - \frac{2}{\e}(\nb - r) \right|
+            = \frac{2}{\e} \left| \frac{\e}{2} + r - \nb \right|
+            \le \frac{2}{\e} | \ns - \nb |
+        \]
+        because $\nicefrac{\e}{2} + r \le \ns$. The same reasoning applies to the case $\nb \notin \mathcal{R}$ and $\ns \in \mathcal{R}^+$.
+        \item If $\nb \in \mathcal{R}^-$ and $\ns \notin \mathcal{R}$ then
+        \[
+            |\Lambda(\ns) - \Lambda(\nb)|
+            = \left| 1 - \frac{2}{\e}(r - \nb) \right|
+            = \frac{2}{\e} \left| \frac{\e}{2} - r + \nb \right|
+            = \frac{2}{\e} \left| r - \frac{\e}{2} - \nb \right|
+            \le \frac{2}{\e} | \ns - \nb |
+        \]
+        because $r - \nicefrac{\e}{2} \le - \ns$. The same reasoning applies to the case $b \notin \mathcal{R}$ and $\ns \in \mathcal{R}^-$.
+    \end{itemize}
+\end{proof}
+
+The following lemma, together with Lemma \ref{lemma:lambdalipschitz}, will be used in the proof of Lemma \ref{lemma:kl-upperbounds}.
+
+\begin{lemma}\label{lemma:Lprimebound}
+    For all pairs $(\nb, \ns) \in \cU \setminus [p_\text{exploit},1]^2$, it holds that
+    \[
+        F(\ns) - F(\nb) \ge \frac{1}{6} (\ns - \nb)
+    \]
+\end{lemma}
+\begin{proof}
+    Notice that, for any pair $(\nb,\ns) \in \cU\setminus [p_\text{exploit},1]^2$,
+    \[
+        F(\ns) - F(\nb) = \int_\nb^\ns f(x) \dif x \ge \min_{c \in [\nb,\ns]} f(c) (\ns - \nb)\;,
+    \]
+
+    The minimum value of $f$ is found when approaching $\nicefrac{3}{16}$ from the right, which yields $f(c) \rightarrow \nicefrac{1}{6}$, therefore $F(\ns) - F(\nb) \ge \nicefrac{1}{6}\cdot(\ns - \nb)$.
+\end{proof}
+
+We conclude this section by proving a key lemma used in the proof of \Cref{t:lower-bound-lip-iv}.
+
+\begin{lemma}
+\label{lemma:kl-upperbounds}
+    For all $K\in\N$, $k\in [K]$, If $(\ns,\nb) \in R^{\textbf{exploit}}_k$, then we have
+    \[
+        \cD_{\text{KL}} \lrb{
+            \Pb_{(\one{\nZ_{t+1} < \nb}, \one{\ns < \nZ_{t+1}}) },\Pb_{(\one{\nZ_{t+1}^k< \nb}, \one{\ns < \nZ_{t+1}^k}})
+        }
+        \le \frac{2}{81}\cdot \e_K^2 \; ,
+    \]
+    while if $(\ns,\nb) \in R^{\textbf{left}}_k \cup R^{\textbf{square}}_{k,j} \cup R^{\textbf{triangle}}_{k} \cup R^{\textbf{square}}_{i,j} \cup R^{\textbf{top}}_{k}$, then,
+    \[
+        \cD_{\text{KL}}
+        \lrb{
+            \Pb_{(\one{\nZ_{t+1}<b}, \one{\ns < \nZ_{t+1}}) },\Pb_{(\one{\nZ_{t+1}^k<\nb}, \one{\ns < \nZ_{t+1}^k}})
+        } \le \frac{65}{9} \cdot \e_K \;.
+    \]
+\end{lemma}
+\begin{proof}
+Fix $K \in \mathbb{N}$, $\e_K = \nicefrac{1}{16K}$ and $r^k_K = \nicefrac{3}{16} + \e_K(k - \nicefrac{1}{2})$, the KL divergence can be decomposed as follows
+\begin{align*}
+&
+    \cD_{\text{KL}}
+    \lrb{
+        \Pb_{(\I\{\nZ_{t+1}<\nb\}, \I\{\ns < \nZ_{t+1}\}) },\Pb_{(\I\{\nZ_{t+1}^k<\nb\}, \I\{\ns < \nZ_{t+1}^k\}})
+    } \\
+& =
+    \log \lrb{
+        \frac{F(\nb)}{F_{r^k_K, \e_K}(\nb)}
+    } F(\nb)
+    + \log \lrb{
+        \frac{1 - F(\ns)}{1 - F_{r^k_K, \e_K}(\ns)}
+    } (1 - F(\ns)) \\
+& \qquad \qquad
+    + \log \lrb{
+        \frac{F(\ns) - F(\nb)}{F_{r^k_K, \e_K}(\ns) - F_{r^k_K, \e_K}(\nb)}
+    } (F(\ns) - F(\nb)) \\
+& =
+    \log \lrb{
+        \frac{F(\nb)}{F(\nb) + \frac{\e_K}{18} \Lambda_{r^k_K, \e_K}(\nb)}
+    } F(\nb)
+    + \log \lrb{
+        \frac{1 - F(\ns)}{1 - F(\ns) - \frac{\e_K}{18} \Lambda_{r^k_K, \e_K}(\ns)}
+    } (1 - F(\ns)) \\
+& \qquad \qquad
+    + \log \lrb{
+        \frac{F(\ns) - F(\nb)}{F(\ns) - F(\nb) + \frac{\e_K}{18} (\Lambda_{r^k_K, \e_K}(\ns) - \Lambda_{r^k_K, \e_K}(\nb))}
+    } (F(\ns) - F(\nb)) = (\star)
+\end{align*}
+For sake of brevity, we will write $\Lambda$ instead of $\Lambda_{r^k_K, \e_K}$ for the remainder of the proof. Note that the first term is non-positive for any $\nb \in [0, 1]$ , while the second term is non-negative for any $\ns \in [0, 1]$.
+Furthermore if $\Lambda(\nb) = 0$, then $\log(\nicefrac{F(\nb)}{F(\nb)})F(\nb) = 0$, likewise if $\Lambda(\ns) = 0$ then $\log(\nicefrac{F(\ns)}{F(\ns)})F(\ns) = 0$, if both $\Lambda(\nb) = \Lambda(\ns) = 0$ then the whole expression is zero.
+
+\paragraph{Exploitation region}
+If $(\ns,\nb) \in R_k^\text{exploit}$, then $\Lambda(\ns) = 0$ because all perturbations happen within $p_\text{left}$ and $p_\text{right}$ whereas $\ns > p_\text{exploit}$,
+If in addition $\Lambda(\nb) = 0$ then the whole expression is zero, otherwise
+\begin{align*}
+&
+    (\star) \le
+    \log \lrb{ \frac{F(\ns) - F(\nb)}{F(\ns) - F(\nb) - \frac{\e_K}{18}\Lambda(\nb)} } (F(\ns) - F(\nb))
+    + \log \lrb{
+        \frac{F(\nb)}{F(\nb) + \frac{\e_K}{18} \Lambda(\nb)}
+    } F(\nb)
+\\ &
+    = \log\lrb{ \frac{1}{\lrb{ 1-\frac{\e_K\Lambda(\nb)}{18(F(\ns) - F(\nb)}}^{(F(\ns)-F(\nb))} }}
+    + \log\lrb{ \frac{1}{\lrb{ 1+\frac{\e_K\Lambda(\nb)}{18F(\nb)}}^{F(\nb)} }}
+\\ &
+    = \log\lrb{
+        \frac{1}{
+            \lrb{
+                1 - \frac{1}{\frac{18(F(\ns) - F(\nb))}{\e_K\Lambda(\nb)}}    
+            }^{
+                \frac{18(F(\ns)-F(\nb))}{\e_K \Lambda(\nb)}
+                \cdot \frac{\e_K \Lambda(\nb)}{18}
+            }
+        }
+    }
+    + \log\lrb{ \frac{1}{\lrb{ 1+\frac{1}{\frac{18F(\nb)}{\e_K\Lambda(\nb)}}}^{\frac{18F(\nb)}{\e_K \Lambda(\nb)} \cdot \frac{\e_K \Lambda(\nb)}{18}} }}
+    = (\circ)
+\end{align*}
+We know that for $x>1$ both $(1-1/x)^x$ and $(1+1/x)^x$ are monotonically increasing functions of $x$. Now, note that both $F(\ns) - F(\nb)$ and $F(\nb)$ are lower bounded by a constant. Indeed, $p_\text{left} \leq \nb \leq p_\text{right}$ and $\ns\geq p_\text{exploit}$, thus $F(\ns) - F(\nb)\geq F(p_\text{exploit}) - F(p_\text{right})$ and $F(\nb)\geq F(p_\text{left})$. Let $c = \min\{F(p_\text{exploit}) - F(p_\text{right}), F(p_\text{left})\} = \nicefrac{1}{6}$.
+Therefore we have that both
+$$
+    \frac{18(F(\ns) - F(\nb))}{\e_K\Lambda(\nb)} \ge \frac{18c}{\e_K\Lambda(\nb)} > 1
+    \qquad
+    \text{ and }
+    \qquad
+    \frac{18F(\nb)}{\e_K\Lambda(\nb)} \ge \frac{18c}{\e_K\Lambda(\nb)} > 1
+$$
+
+Now, using the monotonicity of the denominators, we can write
+\begin{multline*}
+    (\circ) \le
+    \log \lrb{ \frac{1}{\lrb{ 1 - \frac{\e_K\Lambda(\nb)}{18c}}^c} }
+    + \log\lrb{ \frac{1}{\lrb{ 1 + \frac{\e_K\Lambda(\nb)}{18c} }^c }}
+    = c\cdot\log\lrb{\frac{1}{1-\lrb{ \frac{\e_K\Lambda(\nb)}{18c}}^2}}
+\\
+    \leq c\cdot\frac{\lrb{ \frac{\e_K\Lambda(\nb)}{18c}}^2}{1-\lrb{ \frac{\e_K\Lambda(\nb)}{18c}}^2}
+    \leq \frac{4}{3}\cdot c\cdot\lrb{ \frac{\e_K\Lambda(\nb)}{18c}}^2
+    = \frac{4}{3}\cdot\frac{1}{c}\cdot\frac{1}{18^2}\cdot\e_K^2
+\end{multline*}
+Here, we first use the inequality that $\log x \leq x - 1$, then we use the facts that $\Lambda(\nb) \leq 1$ and $\e_K \leq 9c$ (loose bound). In practice $c = \nicefrac{1}{6}$ and $\e_K \le 9c = \nicefrac{3}{2}$ holds for any $K \in \mathbb{N}$.
+
+\paragraph{Exploration regions}
+If $(\ns,\nb) \in R^{\textbf{left}}_k \cup R^{\textbf{square}}_{k,j} \cup R^{\textbf{triangle}}_{k} \cup R^{\textbf{square}}_{i,k} \cup R^{\textbf{top}}_{k}$, then consider each term in $(\star)$ individually. 
+
+The first term is upper bounded by zero for any $b \in [0, 1]$. 
+
+If $\ns > p_\text{right}$, then $\Lambda(\ns) = 0$ and the second term is zero, otherwise the second term can be bounded as follows:
+\begin{multline*}
+    \log \lrb{ \frac{1 - F(\ns)}{1 - F(\ns) - \frac{\e_K}{18}\Lambda(\ns)} } (1 - F(\ns))
+    \le \frac{\e_K}{18} \cdot \frac{\Lambda(\ns)}{1-F(\ns)-\frac{\e_K}{18}\Lambda(\ns)}(1-F(\ns))
+    \\
+    = \frac{\e_K}{18} \cdot \frac{\Lambda(\ns)}{1-\frac{\e_K}{18}\frac{\Lambda(\ns)}{1-F(\ns)}}
+    \leq \frac{\e_K}{18} \cdot \frac{1}{1-\frac{\e_K}{18}\frac{1}{1-F(p_\text{right})}}
+    \leq \frac{\e_K}{9}
+\end{multline*}
+where we used the inequality $\log x < x-1$ and the fact that $\frac{1}{1-\frac{\e_K}{18}F(p_\text{right})} \leq \nicefrac{1}{2}$, which is always true because $\e_K \leq 9(1-F(p_\text{right})) \le \nicefrac{81}{11}$ holds for any $K \in \mathbb{N}$. 
+
+Finally, we just need to bound the third term. We consider the following cases.
+\begin{itemize}
+    \item  First consider the case in which $\ns - \nb \leq \e_K$, since $F$ is Lipschitz with constant $L$ we have $F(\ns) - F(\nb) \leq L\e_K$, thus
+    \[
+        \log\lrb{ \frac{F(\ns) - F(\nb)}{F(\ns) - F(\nb) + \frac{\e_K}{18}(\Lambda(\ns)-\Lambda(\nb))}} (F(\ns) - F(\nb))
+        = \log\lrb{ \frac{1}{1+\frac{\e_K}{18}\cdot\frac{\Lambda(\ns)-\Lambda(\nb)}{F(\ns)-F(\nb)}}} L\e_K
+    \]
+    which is maximized when $\frac{\Lambda(\ns)-\Lambda(\nb)}{F(\ns)-F(\nb)}$ is minimized, by leveraging the Lipschitzness of $\Lambda$ from Lemma~\ref{lemma:lambdalipschitz} together with the lower bound on $F(\ns) - F(\nb)$ from Lemma~\ref{lemma:Lprimebound} we get
+    \[
+        \frac{\Lambda(\ns) - \Lambda(\nb)}{F(\ns) - F(\nb)}
+        \ge
+        \frac{- \nicefrac{2}{\e_K} (\ns - \nb)}{\nicefrac{1}{6} (\ns - \nb)}
+        = - \frac{12}{\e_K}
+    \]
+    Substituting in the above, we get the upper bound:
+    \begin{align*}
+        \log \lrb{
+            \frac{1}{1 - \frac{\e_K}{18} \frac{12}{\e_K}}
+        } L\e_K
+        < 2 L \e_K
+        = \frac{64}{9}\cdot\e_K
+    \end{align*}
+    where $L = \nicefrac{32}{9}$ by the definition of $F$ in \Cref{eq:lowerbound-cdf}. For the case $\ns = \nb$, note that this term is zero because $\Lambda(\ns) - \Lambda(\nb) = 0$ and can therefore be ignored.
+
+    \item Next consider the opposite $\ns - \nb > \e_K$. By Lemma~\ref{lemma:Lprimebound} we know that $F(\ns) - F(\nb) \ge \nicefrac{1}{6} (\ns - \nb) \ge \nicefrac{\e_K}{6}$. We use the inequality $\log x \leq x-1$ to get:
+    \begin{align*}
+    &
+        \log\lrb{\frac{F(\ns)-F(\nb)}{F(\ns)-F(\nb)+\frac{\e_K}{18}(\Lambda(\ns)-\Lambda(\nb))}} (F(\ns) -F(\nb)) \\
+    &
+        \leq -\frac{\e_K}{18} \cdot \frac{\Lambda(\ns)-\Lambda(\nb)}{F(\ns)-F(\nb)+\frac{\e_K}{18}(\Lambda(\ns)-\Lambda(\nb))} (F(\ns)-F(\nb))
+    \\ &
+        \leq \frac{\e_K}{18} \cdot \frac{F(\ns)-F(\nb)}{F(\ns)-F(\nb)-\frac{\e_K}{18}}
+        = \frac{\e_K}{18} \cdot \frac{1}{1-\frac{\e_K}{18}\frac{1}{F(\ns)-F(\nb)}}
+    \\ &
+        \leq \frac{\e_K}{18} \cdot \frac{1}{1-\frac{\e_K}{18}\frac{6}{\e_K}}
+        = \frac{1}{12} \cdot \e_K
+    \end{align*}
+\end{itemize}
+In conclusion, the result holds with $c_1 = \nicefrac{2}{81}$ and $c_2 = \nicefrac{1}{9} + \nicefrac{64}{9} = \nicefrac{65}{9}$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Proof of Theorem \ref{t:minimal-lower-bound-iid}}
+\label{s:liner-lower-bound-appe}
+
+
+% \begin{proof}[Proof of Theorem \ref{t:minimal-lower-bound-iid}]
+    Given that the sequence is $(\nP_t,\nZ_t)_{t \in [T]}$ i.i.d., without any loss of generality we can consider deterministic algorithms to post prices $(\nB_1, \nS_1), \dots, (\nB_T, \nS_T)$.
+    Fix a time horizon $T \in \N$.
+    We build an instance where, for each $t \in [T]$, the random variable $\nP_t$ takes values in $\{0,1\}$.
+    In this case, notice that there are at most $8^{T}$ sequences of feedback
+    $$
+        (\nP_1, \one{ \nB_1 \ge \nZ_1 }, \one{ \nS_1 < \nZ_1 }),
+        \dots,
+        (\nP_{T-1}, \one{ \nB_{T-1} \ge \nZ_{T-1} }, \one{ \nS_{T-1} < \nZ_{T-1} })
+    $$
+    and, consequently, the set $\cP \subset [0,1]$ where the algorithm posts prices up to time contains at most $\sum_{t=1}^{T-1} 2 \cdot 8^{t}$ different prices.
+    Let $\e \in (0, \nicefrac{1}{4})$.
+    Given that $\cP$ is finite, we can select $\nicefrac{1}{2}-\e < c<d < \nicefrac{1}{2}+\e$ such that the closed interval $[c,d]$ does not contain any point in $\cP$.
+    Now, select $(\nP_1,\nZ_1),\dots,(\nP_T,\nZ_T)$ as an i.i.d.\ sequence drawn uniformly in the set $\{(0,d),(1,c)\}$.
+    Notice that, for any time $t \in [T]$, a maker that posts $(\nb, \ns) \in \cU$ such that $c < \nb = \ns < d$ gains (deterministically) at least $\nicefrac{1}{2} - \e$ regardless of the realization of $(\nP_t,\nZ_t)$ (if $(\nP_t,\nZ_t) = (0,d)$ then the maker always sells while if $(\nP_t,\nZ_t) = (1,c)$ the maker always buys).
+    On the other hand, the pair of prices $(\nB_t,\nS_t)$ posted by the algorithm at any time $t \in [T]$ is such that one and only one of the following alternatives hold true:
+    \begin{itemize}
+        \itemm $\nB_t \le \nS_t < c$. In this case, the maker always sells to the taker, but with probability $\nicefrac{1}{2}$ the maker gains at most $\nicefrac{1}{2} + \e$ (when $(\nP_t,\nZ_t) = (0,d)$) and with probability $\nicefrac{1}{2}$ the maker loses at least $\nicefrac{1}{2} - \e$ (when $(\nP_t,\nZ_t) = (1,c)$).
+        \itemm $\nB_t < c$ and $d < \nS_t$. In this case, then the maker never sells or buys (because the proposed selling price is too high and the proposed buying price is too low) and hence the maker gains zero. 
+        \itemm $d < \nB_t \le \nS_t$. In this case, then the maker always buys from the taker, but with probability $\nicefrac{1}{2}$ the maker gains at most $\nicefrac{1}{2} + \e$ (when $(\nP_t,\nZ_t) = (1,c)$) and with probability $\nicefrac{1}{2}$ the maker loses at least $\nicefrac{1}{2} - \e$ (when $(\nP_t,\nZ_t) = (0,d)$). 
+    \end{itemize}
+    Overall, the algorithm gains in expectation at most $0$ when the underlying instance is $(\nP_t,\nZ_t)_{t \in [T]}$.
+    Hence, for any fixed pair of prices $(\nb, \ns) \in \cU$ such that $c <\nb = \ns < d$, we have that
+    \begin{multline*}
+            R_T
+        \ge
+            \E\lsb{\sum_{t=1}^T \util(\nb,\ns,\nP_t,\nZ_t)} - \E \lsb{\sum_{t=1}^T \util(\nB_t,\nS_t,\nP_t,\nZ_t)}
+        \\ \ge
+            \lrb{\frac{1}{2}-\e}\cdot T - \lrb{ \lrb{\frac{1}{2} + \e} \cdot \frac{1}{2} - \lrb{\frac{1}{2} - \e} \cdot \frac{1}{2}} \cdot T
+        =
+            \lrb{\frac{1}{2} - 2\e} \cdot T \;.
+    \end{multline*}
+Setting $\delta \coloneqq 2 \e$ and noticing that $\e$ was chosen arbitrarily in the interval $(0, \nicefrac{1}{4})$, the conclusion follows.
+% \end{proof}
+
+
+
+
+
+
+
+
+
+
+\iffalse
+
+\section{DKW inequalities for Section \ref{s:upper-bound-full}}\label{s:dkwinequalities}
+In this section we present
+two bivariate DKW inequalities that can be deduced as corollaries of the VC-dimension theory \cite[Theorem~4.9; see also Lemmas~4.4, 4.5, and 4.11 for the explicit constants]{anthony2009neural}.
+
+\begin{theorem}\label{t:dkwbivariate}
+    There exist positive constants $m_0 \le 1200$, $c_1 \le 13448$, $c_2 \ge \nicefrac{1}{576}$ such that, if $(\Omega, \cF , \mathbb{P})$ is a probability space, $(X_n, Y_n)_{n\in\mathbb{N}}$ is a $\mathbb{P}$-i.i.d.\ sequence of two-dimensional random vectors, then, for any $\e > 0$ and all $m \in \mathbb{N}$ such that $m \ge \nicefrac{m_0}{\e^2}$, it holds
+    \[
+        \Pb \lsb{
+            \sup_{x, y \in \mathbb{R}}
+            \labs{
+                \frac{1}{m} \sum_{k=1}^m
+                    \one{ X_k \le x, Y_k \le y }
+                    - \Pb \lsb{ X_1 \le x, Y_1 \le y }
+            } > \e
+        } \le c_1 e^{-c_2 m \e^2}
+        \;,
+    \]
+and
+    \[
+        \Pb \lsb{
+            \sup_{x, y \in \mathbb{R}}
+            \labs{
+                \frac{1}{m} \sum_{k=1}^m
+                    \one{ X_k \le x, Y_k < y }
+                    - \Pb \lsb{ X_1 \le x, Y_1 < y }
+            } > \e
+        } \le c_1 e^{-c_2 m \e^2}
+        \; .
+    \]
+\end{theorem}
+
+
+
+
+
+
+
+
+
+\fi
+
+
+
+
+
+
+
+
+\end{document}
+
