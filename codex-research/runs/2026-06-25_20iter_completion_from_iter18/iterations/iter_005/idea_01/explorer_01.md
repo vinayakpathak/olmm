@@ -1,0 +1,123 @@
+## Summary
+
+The general two-threshold lemma is sound under the already-accepted `sup`-regret convention. For arbitrary \(0<c_0<c_1\le 1\), the sharp per-zero-round lower-bound coefficient is
+
+\[
+\alpha(c_0,c_1)=\frac{c_0(c_1-c_0)}{c_1}.
+\]
+
+It is maximized at \(c_0=c_1/2\), then at \(c_1=1\), giving the known optimal constant \(1/4\) at \((c_0,c_1)=(1/2,1)\). The lemma lifts cleanly to both accepted concatenations, with the same quantifier caveats.
+
+## Concrete Progress
+
+For weights
+
+\[
+\lambda_0=\frac{c_1-c_0}{c_1},\qquad
+\lambda_1=\frac{c_0}{c_1},
+\]
+
+the key pointwise inequality is
+
+\[
+\lambda_0\,a\mathbf 1\{a<c_0\}
++
+\lambda_1\,a\mathbf 1\{a<c_1\}
+\le c_0
+\qquad\forall a\in[0,1].
+\]
+
+This follows by cases: if \(a<c_0\), the left side is \(a\le c_0\); if \(c_0\le a<c_1\), it is \(\lambda_1 a\le \lambda_1 c_1=c_0\); if \(a\ge c_1\), it is \(0\).
+
+The weighted comparator value per zero-round is
+
+\[
+\lambda_0 c_0+\lambda_1 c_1
+=
+c_0+\frac{c_0(c_1-c_0)}{c_1}.
+\]
+
+So the weighted regret is at least \(\alpha(c_0,c_1)\) per zero-round.
+
+## Claims Or Lemmas
+
+**General finite two-continuation lemma.**  
+For instances \(0^N,c_j\), \(j\in\{0,1\}\), with \(c_0<c_1\), any learner whose first \(N\) actions are identical across the two continuations satisfies
+
+\[
+\max\{R_{c_0},R_{c_1}\}
+\ge
+N\frac{c_0(c_1-c_0)}{c_1},
+\]
+
+with regret against comparator suprema.
+
+**Sharpness.**  
+The coefficient is sharp up to arbitrary \(\eta\)-loss: randomize each zero-round quote between \(c_0-\eta\) and \(c_1-\eta\), using probability approximately \(c_0/c_1\) on the lower quote. This equalizes the two continuation regrets at \(\alpha(c_0,c_1)+O(\eta)\).
+
+**Universal concatenation.**  
+After a fixed prefix of length \(M_i\), append \(0^{N_i}c_i\), \(c_i\in\{c_0,c_1\}\). The same proof gives a recursively chosen continuation with
+
+\[
+R_{T_i}\ge
+N_i\frac{c_0(c_1-c_0)}{c_1}-M_i.
+\]
+
+If \(M_i=o(N_i)\), then
+
+\[
+\limsup_i \frac{R_{T_i}}{T_i}
+\ge
+\frac{c_0(c_1-c_0)}{c_1}.
+\]
+
+**Same-path horizon-oblivious concatenation.**  
+For blocks \(0^{N_i},c_0,c_1\), evaluated at the two endpoints after \(c_0\) and after \(c_1\), the same zero-block actions must serve both horizons. With prefix length \(M_i\),
+
+\[
+\max\{R_{T_i^0},R_{T_i^1}\}
+\ge
+N_i\frac{c_0(c_1-c_0)}{c_1}-M_i
+\]
+
+up to at most harmless \(O(1)\) endpoint bookkeeping. Using the comparator’s extra intermediate-round value at \(T_i^1\) cancels the learner’s possible intermediate-round reward, so the \(O(1)\) can likely be removed in a polished `sup` proof.
+
+## Proof Attempts
+
+The proof audit succeeds. The only real choice is the weighting above. Once that inequality is in place, both lower-bound forms are direct weighted-average arguments.
+
+For optimization,
+
+\[
+\alpha(c_0,c_1)=c_0-\frac{c_0^2}{c_1}.
+\]
+
+For fixed \(c_1\), this is maximized at \(c_0=c_1/2\), with value \(c_1/4\). Since \(c_1\le1\), the global maximum is \(1/4\).
+
+## Gaps And Risks
+
+The theorem must use `sup`, not `max`; strict crossing makes the comparator optimum unattained at deterministic terminal thresholds.
+
+The universal lower bound remains process-unaware/minimax. If the learner knows the realized deterministic continuation sequence, the two-continuation lower bound does not apply.
+
+The same-path theorem requires horizon-oblivious policies: one action rule shared across evaluation horizons and no terminal-horizon signal. Horizon-aware policies can choose different early quotes and avoid the prefix conflict.
+
+Old-prefix accounting is valid but crude: previous quotes contribute at most \(M_i\) because each quote pays at most once and payoff is at most \(1\).
+
+## Counterexamples Or Obstructions
+
+A process-aware learner given \(c\) in the finite block can quote just below \(c\), so the lower bound is not instance-wise.
+
+A horizon-aware learner on \(0^N,c_0,c_1\) can quote near \(c_0\) for horizon \(N+1\) and near \(c_1\) for horizon \(N+2\), so the same-path obstruction disappears.
+
+## Sources Consulted
+
+No external web sources consulted. I used the assigned idea file and the run notes: `problem.md`, `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `bibliography.md`, `promising_directions.md`, and `iteration_summaries.md`.
+
+## Bibliography Candidates
+
+None. This audit is an internal elementary proof refinement, not a literature-dependent step.
+
+## Recommended Next Steps
+
+Write this as a reusable “General Two-Threshold Block Lemma” with weights \(\lambda_0,\lambda_1\), then state the two corollaries: universal concatenation and same-path horizon-oblivious concatenation. Keep \((1/2,1)\) as the canonical optimized choice unless a later construction needs different threshold scales.

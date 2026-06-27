@@ -1,0 +1,107 @@
+## Verdict
+
+SOLVED: no
+
+The original characterization remains false/unresolved as in the notes. But I think the iteration-18 subproblem has a concrete advance: the proposed unequal-low single-drought reduced LP can be promoted to a full finite-prefix reduction in the formal left-limit model.
+
+## Candidate Solution Or Main Attempt
+
+Consider
+\[
+h^M,0^{N_0},\ell_1,0^{N_1},\ell_2,\ldots,0^{N_{r-1}},\ell_r,0^L,h,
+\qquad 0<\ell_j<h.
+\]
+Let \(s_j\) be the low times, \(\mathcal L=\{\ell_1,\ldots,\ell_r\}\), \(H=(M-1)_+\), and
+\[
+B_0=N_0+\mathbf 1_{\{M\ge1\}},\qquad B_i=N_i+1\quad(1\le i\le r-1).
+\]
+For segment \(i<j\), set
+\[
+m_{i,j}=\max_{q=i+1,\ldots,j}\ell_q,\qquad S_j=V^*_{s_j}-hH.
+\]
+Then the formal left-limit finite-prefix value \(D_n\) equals the LP
+\[
+\begin{aligned}
+\min\quad &z\\
+\text{s.t.}\quad
+&z\ge S_j-\sum_{i=0}^{j-1}\sum_{\substack{c\in\mathcal L\\ c\le m_{i,j}}}c\,x_{i,c},
+\qquad j=1,\ldots,r,\\
+&z\ge\sum_{i=0}^{r-1}\sum_{c\in\mathcal L}(h-c)x_{i,c},\\
+&\sum_{c\in\mathcal L}x_{i,c}\le B_i,\qquad x_{i,c}\ge0.
+\end{aligned}
+\]
+Here \(x_{i,c}\) is total formal \(c^-\)-mass placed in useful segment \(i\); all remaining useful mass, all protected old-high coordinates, and all final-only coordinates use \(h^-\).
+
+## Concrete Lemmas Or Reductions
+
+Key dominance step: on useful segment \(i\), any action \(a<h\) can be rounded up to
+\[
+c(a)=\min\{c\in\mathcal L:c\ge a\}
+\]
+if such \(c\) exists. Since every relevant threshold \(m_{i,j}\) is itself in \(\mathcal L\), this preserves the low-horizon success pattern and weakly increases payoff while weakly decreasing final-high debt. If no such \(c\) exists, \(h^-\) dominates.
+
+The LP dual is
+\[
+\max_{\alpha,\beta\ge0,\ \sum_j\alpha_j+\beta=1}
+\left[
+\sum_j\alpha_jS_j-\sum_{i=0}^{r-1}B_i\psi_i(\alpha,\beta)
+\right],
+\]
+where
+\[
+\psi_i=
+\left[
+\max_{c\in\mathcal L}
+\left\{
+c\sum_{\substack{j>i\\ c\le m_{i,j}}}\alpha_j-\beta(h-c)
+\right\}
+\right]_+ .
+\]
+
+Sanity check: for \(h=1,M=0,(N_0,N_1)=(1,0),(\ell_1,\ell_2)=(0.4,0.9)\), i.e. path
+\[
+0,0.4,0.9,1,
+\]
+the LP gives
+\[
+D_4=68/225\approx0.3022.
+\]
+One primal optimum is
+\[
+x_{0,0.4}=11/45,\quad x_{0,0.9}=34/45,\quad x_{1,0.4}=0,\quad x_{1,0.9}=4/5.
+\]
+
+## Gaps And Failure Points
+
+This does not solve the global \(D_n=o(n)\Rightarrow o(T)\) gluing problem.
+
+It also does not give a closed-form pooling rule for unequal lows. The LP is exact for one drought, but repeated droughts sharing future highs may interact through accumulated high debt.
+
+Strict crossing still requires the standard \(\eta\)-implementation: replace formal \(c^-\), \(h^-\) by \(c-\eta_t\), \(h-\eta_t\).
+
+## Counterexamples Or Obstructions
+
+The unequal-low example above promotes CE-025 from a reduced-LP warning to a full finite-prefix obstruction, conditional on accepting the reduction:
+\[
+D_4=68/225>1.8(1-0.9)=0.18.
+\]
+So the equal-low last-low formula cannot extend to unequal lows.
+
+## Literature And Bibliography Candidates
+
+I found no direct delayed-market-making theorem for this reduction.
+
+Potential proof-technology sources:
+- Thibaut Vidal, Patrick Jaillet, Nelson Maculan, “A Decomposition Algorithm for Nested Resource Allocation Problems,” SIAM Journal on Optimization 26(2), 2016, DOI: https://doi.org/10.1137/140965119. Relevance: exact algorithms for resource allocation with nested partial-sum constraints.
+- Jan de Leeuw, Kurt Hornik, Patrick Mair, “Isotone Optimization in R: Pool-Adjacent-Violators Algorithm (PAVA) and Active Set Methods,” Journal of Statistical Software 32(5), 2009, https://www.jstatsoft.org/v32/i05. Relevance: generalized PAVA/isotone optimization background for a possible pooling rule.
+- Nilotpal Chakravarti, “Isotonic Median Regression: A Linear Programming Approach,” Mathematics of Operations Research 14(2), 1989, DOI: https://doi.org/10.1287/moor.14.2.303. Relevance: LP dual interpretation of PAVA; already thematically aligned with the notes.
+
+## Promising Ideas To Explore
+
+Derive a pooling/PAVA-like algorithm from the exact dual above. The segment pressure terms \(\psi_i\) look like nested resource-allocation shadow prices.
+
+Next regression tests should include three unequal lows and two separated unequal-low droughts sharing the same resolving high.
+
+## Notes For Critics
+
+Please check four points closely: the rounding-to-\(\mathcal L\cup\{h\}\) dominance argument, the subtraction of \(hH\) in \(S_j\), the claim that intermediate zero horizons duplicate the latest low constraint, and the final-high debt constraint \(\sum(h-c)x_{i,c}\).

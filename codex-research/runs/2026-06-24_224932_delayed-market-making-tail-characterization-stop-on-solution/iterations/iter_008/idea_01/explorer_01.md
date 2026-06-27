@@ -1,0 +1,128 @@
+## Summary
+
+The idea is viable. Under fixed finite `T`, finite grid `G`, public exogenous prices, and common domination of all prefix laws, the infinite-class no-gap theorem should be provable cleanly. The best proof strategy is not an infinite-dimensional minimax theorem; it is:
+
+1. reduce every randomized policy to public-prefix marginal kernels,
+2. show the kernel space is weak-* compact,
+3. show each world’s reward coordinate is weak-* continuous,
+4. use compactness/finite-intersection to upgrade finite-subclass control to full-class control.
+
+This would make the finite-prior Bayes-gap characterization valid for the full infinite class, but only on a finite grid and under the dominated-prefix policy formalization.
+
+## Concrete Progress
+
+A referee-ready theorem can be stated as follows.
+
+Fix finite `T`, finite quote grid `G`, and an arbitrary class `Θ` of public exogenous laws on `[0,1]^T`. Let `H_t=P_{1:t}` and `M_t=max_{s>t} P_s`. Assume for each `t` there is a sigma-finite Borel measure `λ_t` on `[0,1]^t` such that
+$$
+P^\theta_{1:t}\ll \lambda_t\qquad\forall \theta\in\Theta .
+$$
+
+Represent policies by prefix kernels
+$$
+q_t(h)\in\Delta(G),\qquad h\in[0,1]^t,
+$$
+measurable modulo `λ_t`-null sets. Define
+$$
+L_\theta(q)=
+\sum_{t=1}^T\sum_{a\in G}
+\mathbb E_\theta[q_{t,a}(P_{1:t})\,a\mathbf{1}\{M_t>a\}]
+$$
+and
+$$
+V_\theta^G=\max_{a\in G}\sum_{t=1}^T\mathbb E_\theta[a\mathbf{1}\{M_t>a\}].
+$$
+
+Then the grid minimax value
+$$
+\mathcal R_G(\Theta)=\inf_q\sup_{\theta\in\Theta}(V_\theta^G-L_\theta(q))
+$$
+should satisfy
+$$
+\mathcal R_G(\Theta)
+=
+\sup_{F\Subset\Theta}\mathcal R_G(F)
+=
+\sup_{\pi\in\Delta_{\rm fin}(\Theta)}\Psi_G(\pi).
+$$
+
+Here `Δ_fin(Θ)` means finitely supported priors, and `Ψ_G` is the accepted finite-grid Bayes gap.
+
+## Claims Or Lemmas
+
+**Lemma 1: Policy-to-prefix-kernel reduction.**  
+Any admissible randomized policy has the same expected reward vector as a prefix-kernel policy `q_t(P_{1:t})`. Private memory, past actions, and delayed reward feedback do not add extra reward-coordinate degrees of freedom because prices are exogenous and rewards are additive. Given a full public prefix and private random seed, all past feedback is reconstructible.
+
+**Lemma 2: Density representation.**  
+For each `(θ,t,a)`, define
+$$
+\mu^\theta_{t,a}(B)=
+\mathbb E_\theta[\mathbf{1}\{P_{1:t}\in B\}\,a\mathbf{1}\{M_t>a\}].
+$$
+Then
+$$
+\mu^\theta_{t,a}\ll P^\theta_{1:t}\ll\lambda_t,
+$$
+so $d\mu^\theta_{t,a}=f^\theta_{t,a}\,d\lambda_t$ with $f^\theta_{t,a}\in L^1(\lambda_t)$, and
+$$
+L_\theta(q)=\sum_{t,a}\int q_{t,a}(h)f^\theta_{t,a}(h)d\lambda_t(h).
+$$
+
+**Lemma 3: Weak-* compactness.**  
+The feasible set
+$$
+Q_t=\{q_t\in L^\infty(\lambda_t;\mathbb R^G): q_{t,a}\ge0,\ \sum_a q_{t,a}=1\}
+$$
+is weak-* compact. Positivity and simplex constraints are weak-* closed by testing against `L^1_+` and `L^1`, and the unit bound follows from the simplex constraint. The finite product `Q=∏_t Q_t` is compact.
+
+**Lemma 4: Reward coordinates are continuous.**  
+Each map $q\mapsto L_\theta(q)$ is weak-* continuous because it is a finite sum of pairings with `L^1` densities.
+
+**Lemma 5: No finite-subclass gap.**  
+For `α>sup_F R_G(F)`, the closed sets
+$$
+K_{\theta,\alpha}=\{q\in Q: V_\theta^G-L_\theta(q)\le \alpha\}
+$$
+have the finite-intersection property. Compactness of `Q` gives one `q` satisfying all constraints, so `R_G(Θ)≤α`. The reverse inequality is monotonicity. Let `α↓sup_F R_G(F)`.
+
+## Proof Attempts
+
+The strongest proof route is the compact-kernel finite-intersection argument above. It avoids direct duality over $\ell^\infty(\Theta)$, which would introduce finitely additive priors and obscure the finite-prior characterization.
+
+A useful refinement is to express finite-prior Bayes reward directly in density form:
+$$
+\sup_q\sum_\theta \pi_\theta L_\theta(q)
+=
+\sum_t\int \max_{a\in G}\sum_\theta \pi_\theta f^\theta_{t,a}(h)\,d\lambda_t(h).
+$$
+This is equivalent to the posterior-predictive expression but avoids choosing regular conditional versions in the proof.
+
+## Gaps And Risks
+
+The theorem must define the admissible policy class exactly. If policies are strictly Borel but weak-* limits are only `λ_t`-measurable, one needs the standard Borel-version argument, or else define policies modulo the `λ_t` completions from the start.
+
+The policy-to-kernel reduction still needs to be written carefully for policies using past randomized actions and delayed trade feedback.
+
+Common domination is strong. It excludes many uncountable deterministic or singular classes, so this is a useful infinite-class theorem, not the final natural characterization.
+
+The result is fixed-grid. Continuum quotes still need the separate $T/K$ grid-to-continuum minimax comparison; no exact continuum $\Psi$ formula follows.
+
+## Counterexamples Or Obstructions
+
+Without product closedness, finite-subclass certificates can miss a gap at infinity. The abstract obstruction is `Θ=N`, `V≡1`, and attainable vectors with finite support.
+
+The non-Borel label example remains the main market-flavored measurability warning: finite subclasses can be memorized, but a full Borel policy would need to separate a non-Borel set.
+
+Grid/continuum mismatch remains active: every exact identity must keep learner actions, comparator values, and Bayes envelopes on the same finite grid.
+
+## Sources Consulted
+
+No web search used. Local sources consulted: [problem.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/problem.md), working notes, the assigned [idea.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/iterations/iter_008/idea_01/idea.md), and iteration 7 idea/critic reports.
+
+## Recommended Next Steps
+
+Write this as a theorem package in the order: policy reduction, density representation, weak-* compactness, no-gap theorem, finite-prior Bayes corollary.
+
+Use the density formula for `Ψ_G(π)` in the dominated-prefix proof, then mention equivalence to the posterior-predictive formula.
+
+Add a separate corollary for continuum quotes using the existing $T/K$ discretization bound, with positive-part regret convention.

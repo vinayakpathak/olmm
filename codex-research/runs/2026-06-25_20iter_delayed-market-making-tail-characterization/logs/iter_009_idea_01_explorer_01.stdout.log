@@ -1,0 +1,104 @@
+## Summary
+
+The finite-\(C\) primal formula looks correct as a value formula for the local zero-block game, with one important wording fix: under strict crossing, the displayed \(q_i\) strategy is a left-limit or \(\eta\)-optimal strategy, not generally an attained Borel action law. I found no proof-breaking boundary issue for \(m=1\), \(\delta_*=0\), or \(\delta_*=c_i\).
+
+No project memory was edited.
+
+## Concrete Progress
+
+For \(C=\{0<c_1<\cdots<c_m\}\), \(c_0=0\), define
+\[
+F(\delta)=\sum_{i=1}^m
+\frac{(c_i-\delta)_+-(c_{i-1}-\delta)_+}{c_i}.
+\]
+Then \(F\) is continuous and strictly decreasing on \([0,c_m]\), with \(F(0)\ge1\) and \(F(c_m)=0\), so the root \(F(\delta_*)=1\) is unique.
+
+The formula
+\[
+\kappa(C)=\delta_*
+\]
+is supported by matching primal and dual certificates.
+
+## Claims Or Lemmas
+
+**Lemma candidate.** In the continuum local game
+\[
+\kappa(C)=\inf_{\mu\in\Delta([0,1])}\max_j
+\left(c_j-\int a\,1\{a<c_j\}\,d\mu(a)\right),
+\]
+with comparator values interpreted by left limits, \(\kappa(C)=\delta_*\).
+
+Let \(k=\min\{i:c_i>\delta_*\}\). The primal weights are
+\[
+q_i=\frac{(c_i-\delta_*)_+-(c_{i-1}-\delta_*)_+}{c_i}.
+\]
+They satisfy \(q_i=0\) for \(i<k\), \(\sum_iq_i=1\), and equalize the active deficits.
+
+## Proof Attempts
+
+**Upper bound.** Put mass \(q_i\) on formal quotes \(c_i^-\). For threshold \(c_j\),
+\[
+\sum_{i\le j}q_i c_i=(c_j-\delta_*)_+.
+\]
+Thus the deficit is
+\[
+c_j-(c_j-\delta_*)_+=\min(c_j,\delta_*)\le \delta_*.
+\]
+With actual quotes \(c_i-\eta_i\), this gives \(\kappa(C)\le \delta_*+\eta\), hence \(\kappa(C)\le\delta_*\) after \(\eta\downarrow0\).
+
+**Lower bound.** Let \(k=\min\{i:c_i>\delta_*\}\). Define a dual threshold law on \(c_k,\ldots,c_m\) by
+\[
+\Pr(Z\ge c_i)=\frac{c_k}{c_i},\qquad i\ge k.
+\]
+Its left-limit posted-price revenue is
+\[
+\rho(Z)=\sup_a a\Pr(Z>a)=c_k.
+\]
+Since \(F(\delta_*)=1\),
+\[
+\mathbb EZ
+=c_k+c_k\sum_{i=k+1}^m\frac{c_i-c_{i-1}}{c_i}
+=c_k+\delta_*.
+\]
+Therefore \(\mathbb EZ-\rho(Z)=\delta_*\), and the standard dual inequality gives \(\kappa(C)\ge\delta_*\).
+
+## Gaps And Risks
+
+The primal optimizer is generally not attained in the original strict-crossing action space. The writeup should say “\(\eta\)-optimal quotes \(c_i-\eta_i\)” or explicitly enlarge the action space with left-limit actions \(c_i^-\).
+
+At a boundary \(\delta_*=c_r\), thresholds \(c_j\le\delta_*\) are nonbinding. The solver’s convention \(k=\min\{i:c_i>\delta_*\}\) works. The dual certificate may be nonunique there, so uniqueness should be claimed only for \(\delta_*\), not for the dual law.
+
+This remains purely local. It does not compose automatically over arbitrary known paths, and it does not alter the earlier quantifier caveats for the delayed market-making problem.
+
+## Counterexamples Or Obstructions
+
+No finite-\(C\) counterexample found.
+
+Stress tests checked:
+- \(m=1\): \(F(\delta)=(c_1-\delta)/c_1\), so \(\delta_*=0\), \(\kappa(C)=0\) as an infimum.
+- \(C=\{c,d\}\): \(\delta_*=c(d-c)/d\), recovering the accepted two-threshold coefficient.
+- Boundary example \(C=\{1/4,1/2,1\}\): \(\delta_*=1/4\), \(q=(0,1/2,1/2)\), and all deficits are at most \(1/4\).
+
+## Sources Consulted
+
+Local: [solver_attempt.md](/Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization/iterations/iter_009/solver_attempt.md), [idea.md](/Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization/iterations/iter_009/idea_01/idea.md), plus all requested `working_notes/` files.
+
+Web/literature:
+- Dirk Bergemann and Karl H. Schlag, [“Pricing Without Priors”](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1013570), Cowles Discussion Paper / JEEA 2008.
+- Dirk Bergemann and Karl H. Schlag, [“Robust Monopoly Pricing”](https://ideas.repec.org/a/eee/jetheo/v146y2011i6p2527-2543.html), Journal of Economic Theory 2011.
+- Zhi Chen, Zhenyu Hu, Ruiqin Wang, [“Screening with Limited Information: A Dual Perspective”](https://pubsonline.informs.org/doi/10.1287/opre.2022.0016), Operations Research 2024.
+- Rene Caldentey, Ying Liu, Ilan Lobel, [“Intertemporal Pricing Under Minimax Regret”](https://pages.stern.nyu.edu/~ilobel/Intertemporal_Pricing_Minimax.pdf), Operations Research 2017.
+
+## Bibliography Candidates
+
+- Dirk Bergemann and Karl H. Schlag. “Robust Monopoly Pricing.” Journal of Economic Theory 146(6):2527-2543, 2011. DOI: 10.1016/j.jet.2011.10.018. Relevance: randomized minimax-regret pricing under ambiguity; adjacent support for the primal randomization interpretation.
+
+- Rene Caldentey, Ying Liu, and Ilan Lobel. “Intertemporal Pricing Under Minimax Regret.” Operations Research 65(1), 2017. DOI: 10.1287/opre.2016.1548. Relevance: dynamic minimax-regret pricing background for later known-path anytime upper-bound attempts.
+
+## Recommended Next Steps
+
+Promote the lemma, but state it as an infimum theorem with an \(\eta\)-implementation clause for strict crossing.
+
+Add the three boundary examples above to the lemma proof as sanity checks.
+
+Use \(\kappa(C)=\delta_*(C)\) in CL-026/LB-020 theorem statements, while keeping the local/global distinction explicit.

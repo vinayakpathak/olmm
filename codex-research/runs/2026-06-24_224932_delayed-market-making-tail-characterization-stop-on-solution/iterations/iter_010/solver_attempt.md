@@ -1,0 +1,103 @@
+## Verdict
+SOLVED: no
+
+The strongest result available is a clean minimax/Bayes value characterization for finite public-exogenous classes, and likely for infinite classes under a no-gap domination hypothesis. This is not a scalar tail characterization, and matching lower rates for power-tail envelopes remain open.
+
+## Candidate Solution Or Main Attempt
+For public exogenous prices, finite horizon $T$, finite grid $G$, and randomized policies, define
+$$
+M_t=\max_{s>t}P_s,\qquad
+V_\theta^G=\sup_{a\in G}\sum_t \mathbb E_\theta[a\mathbf{1}\{M_t>a\}].
+$$
+For finite $F\subset\Theta$ and prior $\pi$,
+$$
+\Psi_{G,F}(\pi)=
+\sum_{\theta\in F}\pi_\theta V_\theta^G
+-\sum_t\mathbb E_{\bar P_\pi}\max_{a\in G}
+a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+$$
+Then, for finite $\Theta$,
+$$
+\mathcal R_G(\Theta)
+=
+\inf_A\sup_{\theta\in\Theta}(V_\theta^G-L_\theta(A))
+=
+\sup_{\pi\in\Delta(\Theta)}\Psi_{G,\Theta}(\pi).
+$$
+With $G_T=\{0,1/T,\ldots,(T-1)/T\}$,
+$$
+\left|
+(\mathcal R_T^{[0,1]})_+
+-
+\left(\sup_{\pi\in\Delta(\Theta_T)}\Psi_{G_T,\Theta_T}(\pi)\right)_+
+\right|\le 1.
+$$
+So finite-class sublinear upper regret is equivalent to this Bayes predictability gap being $o(T)$.
+
+For infinite classes, the same formula should hold under payoff-weighted reward-measure domination:
+$$
+\mu^\theta_{t,a}(B)
+=\mathbb E_\theta[\mathbf{1}\{P_{1:t}\in B\}a\mathbf{1}\{M_t>a\}]
+\ll \lambda_t .
+$$
+Under standard Borel public-prefix policies, I think the policy-alignment gap can be closed: private randomized policies reduce to law-independent kernels $q_t(P_{1:t})$, and $L^\infty(\lambda_t;\Delta(G))$ kernels have Borel representatives modulo $\lambda_t$-null sets. This would give product compactness and
+$$
+\mathcal R_G(\Theta)=
+\sup_{F\Subset\Theta}\sup_{\pi\in\Delta(F)}\Psi_{G,F}(\pi).
+$$
+
+The tail upper bound remains only sufficient:
+$$
+R_T\lesssim \sqrt{T(H+1)\log K}+T/K+\sup_\theta\delta_T^\theta(H).
+$$
+If $\Delta(H)\le TH^{-\alpha}$, this gives
+$$
+R_T\lesssim T^{(\alpha+1)/(2\alpha+1)}(\log T)^{\alpha/(2\alpha+1)}.
+$$
+
+## Concrete Lemmas Or Reductions
+1. Known finite-horizon exogenous laws are oracle-learnable: $R_T\le T/K$, hence $O(1)$ with $K=T$. So no fixed-law raw-tail necessity is possible.
+
+2. Finite-grid minimax identity follows from the attainable reward set $C\subset\mathbb R^\Theta$, finite-dimensional minimax, and fixed-prior Bayes myopic optimality.
+
+3. Grid-to-continuum comparison gives $|\mathcal R_{[0,1]}-\mathcal R_{G_K}|\le T/K$.
+
+4. Reward-measure domination gives weak-* compact public-prefix kernels and a no-gap infinite-class theorem.
+
+5. Hidden-terminal two-world examples give valid minimax lower atoms: regret $\Omega(qD)$, but not matching power-tail upper rates.
+
+## Gaps And Failure Points
+The full arbitrary infinite-class theorem is not solved without product-closed/no-gap assumptions.
+
+No scalar tail condition is known to be necessary and sufficient.
+
+No matching lower bound is known for the power-tail upper rate.
+
+Action-dependent prices remain outside the proved framework.
+
+## Counterexamples Or Obstructions
+Raw $\beta(h)\to0$ is not necessary: iid uniform prices and all known finite-horizon exogenous laws are learnable despite bad raw tails.
+
+$\Delta_T(H)=o(T)$ is not necessary for known laws: terminal-spike laws have zero oracle regret but linear truncation loss.
+
+Rare-history and tiny-price constructions have $\beta(h)=1$ for all finite $h$, yet bounded or small expected regret.
+
+Non-Borel label classes show finite-subclass Bayes gaps need not characterize arbitrary infinite classes.
+
+## Promising Ideas To Explore
+Finish the Borel/completed-measure policy-alignment proof.
+
+Use $\Psi_G$ to design multi-scale lower bounds where information does not collapse after one reveal.
+
+Search for natural nondominated no-gap hypotheses beyond reward-measure domination.
+
+Treat anytime and action-dependent models as separate problems.
+
+## Notes For Critics
+Keep grids consistent: comparator, learner actions, and Bayes envelope must all use $G$.
+
+Use $\sup_a$, not $\max_a$, unless attainment is proved.
+
+State positive-part regret explicitly, since adaptive learners can beat the best fixed quote.
+
+Do not present the tail upper bound as an iff.

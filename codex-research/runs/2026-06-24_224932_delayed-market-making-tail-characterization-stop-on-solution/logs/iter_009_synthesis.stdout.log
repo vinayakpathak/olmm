@@ -1,0 +1,25 @@
+## Accepted Progress
+- Accepted the reward-measure domination no-gap proof for the relaxed completed \(L^\infty(\lambda_t;\Delta(G))\) prefix-kernel model.
+- Recorded that the original Borel private-randomized policy theorem still needs policy-class alignment.
+- Accepted the linear non-Borel obstruction: finite subclasses have grid value \(0\), while the full Borel-policy class has value \((T-1)/6\).
+
+## Candidate Routes
+- Prove policy-to-prefix-kernel reduction for original private-randomized Borel policies.
+- Prove Borel/completed implementation for weak-* limit kernels.
+- Identify the density-form support formula with the conditional \(\Psi_{G,F}\) Bayes envelope.
+- Search next for Borel, nondominated, non-identifiable infinite-class gaps.
+
+## Refuted Or Weakened Claims
+- The domination theorem is not yet referee-ready for arbitrary original Borel policies.
+- The linear infinite-class gap remains a non-Borel measurability pathology, not a natural statistical lower bound.
+- Iteration 9 did not solve scalar tail characterization or matching power-tail lower rates.
+
+## Working Notes Updated
+Updated:
+`canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+1. Prove the exact policy-class alignment lemmas.
+2. Write the completed-kernel no-gap theorem cleanly.
+3. Connect density-form and conditional-probability Bayes formulas.
+4. Keep no-gap work separate from the still-open matching tail-rate lower-bound problem.

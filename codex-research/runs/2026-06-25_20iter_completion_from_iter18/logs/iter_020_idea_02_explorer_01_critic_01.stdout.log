@@ -1,0 +1,67 @@
+## Summary
+
+The explorer’s flow certificate is worth pursuing, but it should not yet be promoted as an exact theorem without an added proof of the canonical “latest-increment” reduction. The report gives a solid sufficient primal construction: if the stated Hall inequalities and final-debt inequality hold, then the zero-pressure dual value \(Z_k\) is matched.
+
+The fragile claims are the converse/necessity of those Hall inequalities and the discussion of capacity obstructions. In particular, the two-low \(p<q\) “third branch” is not an actual path-feasible increasing-low obstruction; it only appears for arbitrary reduced-LP data after dropping the market path constraints.
+
+## Issue List
+
+- **Plausible but incomplete:** The converse claim needs proof. The report says any feasible certificate can be transformed to the canonical vector \(y_j=\Delta_j/\ell_j\), weakly reducing prefix mass and final debt. This is believable by an exchange/induction argument, but it is not written. Without it, the Hall inequalities are proved only as a sufficient scheduling test, not necessary.
+
+- **Missing assumption:** The theorem must state actual increasing-low path feasibility, not just arbitrary CL-049-looking data. Needed inputs include
+  \[
+  S_t=[\ell_t(H+C_t)-hH]_+,\qquad C_t=\sum_{i<t}B_i,
+  \]
+  strict \(0<\ell_1<\cdots<\ell_r<h\), the formal left-limit model, and the usual strict-crossing \(\eta\)-implementation caveat.
+
+- **Missing assumption:** The fixed \(k\) should be declared an active crossing index, or the theorem should explicitly handle ties and skipped early indices. The identities using \(C_t=(S_t-Z)_+\) and debt tightness rely on \(S_{k-1}\le Z\le S_k\) in the intended form.
+
+- **False/misleading claim:** The two-low \(p<q\) third branch is not a path-feasible market obstruction. For actual paths, \(S_1\le pB_0\), while the third branch needs \(S_1>\theta+qB_0\). Since \(\theta\ge0\) and \(q>p\), this cannot happen.
+
+- **Plausible but incomplete:** The nested max-flow/Hall equivalence itself is standard once the network is defined, but the report should include a short proof or cite a precise feasible-flow theorem. The weighted final debt is outside ordinary Hall; it is handled only after the canonical vector is justified.
+
+- **Unsupported as direct proof:** Gallo-Grigoriadis-Tarjan and Picard-Queyranne are relevant proof-technology references for later parametric/active-set work, but they do not prove this fixed-\(k\) certificate as stated.
+
+## Counterexamples Or Stress Tests
+
+- The three-low regression path
+  \[
+  0,\ 0.2,\ 0^8,\ 0.3,\ 0,\ 0.4,\ 1
+  \]
+  supports the explorer’s certificate: \(k=2\) gives \(Z=291/100\), canonical demands \(y_2=0.3\), \(y_3=4.5\), feasible Hall cuts, and final debt \(2.91\).
+
+- I ran a small randomized stress test over actual increasing-low path data with \(r\le7\), integer capacities, and old-high counts; it found no Hall failure. This is useful evidence, not a proof.
+
+- Artificial reduced-LP data can force the two-low capacity branch, but those examples violate the market path inequality \(S_1\le pB_0\). They should be labelled “non-path-feasible LP stress tests.”
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict found. The flow references support the proof technology, not the market-making theorem itself. Fulkerson’s feasible-flow theorem is the closest citation for cut-characterized feasibility, while Gallo-Grigoriadis-Tarjan and Picard-Queyranne are more relevant to future parametric or active-set algorithms.
+
+## What Survives The Critique
+
+- The fixed-\(k\) primal construction is sound as a sufficient condition: if the flow saturates \(y_j=\Delta_j/\ell_j\) and debt is \(\le Z\), then low deficits and final-high debt are all \(\le Z\).
+
+- The nested Hall inequalities are the right feasibility test for that canonical demand vector.
+
+- The three-low \(291/100\) certificate is genuinely explained by the zero-pressure construction.
+
+- The direction is worth pursuing as a candidate lemma, but should be stated as “sufficient plus conjectural converse” until the canonical-reduction proof is written.
+
+## Bibliography Candidates
+
+- D. R. Fulkerson. “A Network-Flow Feasibility Theorem and Combinatorial Applications.” *Canadian Journal of Mathematics* 11:440-451, 1959. DOI: https://doi.org/10.4153/CJM-1959-045-1. Relevant for cut-characterized feasible-flow conditions.
+
+- Giorgio Gallo, Michael D. Grigoriadis, Robert E. Tarjan. “A Fast Parametric Maximum Flow Algorithm and Applications.” *SIAM Journal on Computing* 18(1):30-55, 1989. https://doi.org/10.1137/0218003. Relevant for later parametric active-set searches.
+
+- Jean-Claude Picard, Maurice Queyranne. “On the structure of all minimum cuts in a network and applications.” *Mathematical Programming* 22:121, 1982. https://doi.org/10.1007/BF01581031. Relevant for min-cut lattice structure.
+
+## Recommended Next Checks
+
+1. Prove the canonical latest-increment lemma by induction on prefixes, including preservation of segment eligibility and debt monotonicity.
+
+2. Prove Hall automatically from the actual path formula for \(S_t\), or find the first rational increasing-low path counterexample.
+
+3. Rewrite the two-low capacity-branch discussion as a non-path-feasible reduced-LP stress test.
+
+4. Promote only the sufficient flow certificate now; promote exactness only after the Hall/canonical-reduction proof is complete.

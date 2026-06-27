@@ -1,0 +1,109 @@
+## Summary
+
+The assigned idea is a strong proof-strategy target. Under the standard public-exogenous finite-grid model, the policy-to-kernel alignment should be provable, and it would close the main gap between the completed \(L^\infty\) kernel no-gap theorem and the original Borel private-randomized policy model.
+
+The right result is not “every policy has the same joint law as a prefix-kernel policy.” It is weaker and sufficient: every policy has the same expected reward vector as a law-independent public-prefix marginal kernel \(q_t(P_{1:t})\), and every relaxed \(L^\infty\) kernel has a Borel/completed implementation with the same reward vector.
+
+## Concrete Progress
+
+A clean theorem target is:
+
+Fix finite \(T\), finite quote grid \(G\), public exogenous laws \(\{P^\theta\}_{\theta\in\Theta}\), and learner private randomness independent of \(\theta\) and \(P_{1:T}\). Assume the learner observes full public prices \(P_{1:t}\) before choosing \(a_t\), and any delayed trade feedback is deterministic from public prices and the learner’s past quotes.
+
+Then every admissible Borel private-randomized policy \(A\) induces Borel kernels
+\[
+q_{t,a}(h)=\Pr_U(\alpha_t(h,U)=a),\qquad h\in[0,1]^t,\ a\in G,
+\]
+independent of \(\theta\), such that for every world \(\theta\),
+\[
+L_\theta(A)
+=
+\sum_{t=1}^T\sum_{a\in G}
+\int q_{t,a}(h)\,d\mu^\theta_{t,a}(h),
+\]
+where
+\[
+\mu^\theta_{t,a}(B)
+=
+\mathbb E_\theta[
+{\bf 1}\{P_{1:t}\in B\}\,a{\bf 1}\{M_t>a\}
+].
+\]
+
+This gives the missing “original policy \(\to\) prefix kernel” direction.
+
+## Claims Or Lemmas
+
+**Lemma 1: Seed Representation.**  
+Any finite-horizon randomized Borel policy can be represented using independent private uniforms \(U_1,\dots,U_T\), with actions recursively defined by Borel maps of the observed policy history.
+
+**Lemma 2: Prefix Reduction.**  
+Because prices are exogenous and full public prices are observed, past actions and delayed trade feedback are deterministic functions of \((P_{1:t},U_{1:t})\). Hence
+\[
+a_t=\alpha_t(P_{1:t},U_{1:t})
+\]
+for a Borel \(\alpha_t\).
+
+**Lemma 3: Law-Independent Marginals.**  
+Define
+\[
+q_{t,a}(h)=\Pr_U(\alpha_t(h,U)=a).
+\]
+Then \(q_t(h)\in\Delta(G)\), is Borel, and does not depend on \(\theta\).
+
+**Lemma 4: Reward Equality.**  
+For every \(\theta\),
+\[
+\mathbb E_{\theta,A}[a_t{\bf 1}\{M_t>a_t\}]
+=
+\sum_{a\in G}
+\mathbb E_\theta[
+q_{t,a}(P_{1:t})a{\bf 1}\{M_t>a\}
+].
+\]
+This uses only independence of private randomness from the exogenous price path.
+
+**Lemma 5: Kernel Implementation.**  
+Conversely, if \(q_t\in L^\infty(\lambda_t;\Delta(G))\) and \(\mu^\theta_{t,a}\ll\lambda_t\), choose Borel representatives equal \(\lambda_t\)-a.e., redefine on a null set to lie in \(\Delta(G)\), and sample from \(q_t(P_{1:t})\) using fresh private randomness. This implements the same reward vector.
+
+## Proof Attempts
+
+The promising proof order is:
+
+1. Formalize admissible policies as Borel stochastic kernels on standard Borel histories.
+2. Use independent uniforms to realize the kernels.
+3. Prove by induction that all decision-relevant internal data are functions of \((P_{1:t},U_{1:t})\).
+4. Integrate out \(U\) to obtain \(q_t(P_{1:t})\).
+5. Prove reward equality against each \(\mu^\theta_{t,a}\).
+6. For the reverse direction, use Borel-version representatives of \(L^\infty\) kernels and inverse-CDF sampling on finite \(G\).
+
+If this is written cleanly, the relaxed compact \(L^\infty\) reward set is not merely a relaxation; it matches original Borel policies at the level of reward vectors.
+
+## Gaps And Risks
+
+The proof needs the policy model stated exactly. It fails or changes if prices are action-dependent, if private randomness is correlated with the active law, or if the learner receives private/censored feedback not determined by public prices.
+
+The Borel-version lemma must be explicit: on \([0,1]^t\) with sigma-finite Borel \(\lambda_t\), completed-measurable finite-dimensional kernels have Borel representatives up to \(\lambda_t\)-null sets.
+
+This remains finite-grid. Continuum quotes still require the separate grid comparison
+\[
+|\mathcal R_{[0,1]}-\mathcal R_{G_K}|\le T/K.
+\]
+
+## Counterexamples Or Obstructions
+
+The non-Borel label example remains the warning for arbitrary infinite-class claims without domination/product closure.
+
+Action-dependent prices break the reduction because counterfactual reward measures are no longer fixed exogenous objects.
+
+Censored feedback would require kernels on the learner’s observation history, not simply \(P_{1:t}\).
+
+## Sources Consulted
+
+No web search used. Consulted the requested local run files, especially `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `iteration_summaries.md`, and the assigned `iterations/iter_010/idea_01/idea.md`. Also checked the iteration 8-9 reports on the no-gap theorem and its critique.
+
+## Recommended Next Steps
+
+Write the policy-to-kernel alignment as two separate lemmas: original policy to prefix marginals, then \(L^\infty\) kernel to Borel implementation.
+
+Then plug those lemmas into the existing payoff-weighted domination theorem to upgrade the no-gap result from the relaxed completed-kernel model to the original Borel private-randomized policy model.

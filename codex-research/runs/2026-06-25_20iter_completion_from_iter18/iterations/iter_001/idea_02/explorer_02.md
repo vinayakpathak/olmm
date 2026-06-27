@@ -1,0 +1,113 @@
+## Summary
+
+The payoff-weighted tail condition is a valid sufficient refinement:
+
+\[
+\gamma(h)=\sup_{t,a}\operatorname*{ess\,sup}_{\mathcal F_t}
+a\,\Pr(h<\tau_t(a)<\infty\mid \mathcal F_t)\to 0.
+\]
+
+It gives the same truncation proof with \(T\gamma(H)\) replacing \(T\beta(H)\). It is also exactly equivalent to uniform tail tightness on every positive action scale \(a\ge \epsilon\).
+
+However, \(\gamma(h)\to0\) still looks too strong as a necessary condition. The essential supremum over histories and the supremum over times can fail because of rare or sparse exceptional histories whose total payoff contribution is \(o(T)\). A more natural condition for expected regret is a horizon-averaged payoff tail.
+
+## Concrete Progress
+
+Define the averaged truncation mass
+
+\[
+\Delta_T(H)
+=
+\sup_{a\in[0,1]}
+\sum_{t=1}^T
+\mathbb E\left[
+a\,\mathbf 1\{H<\tau_t(a)<\infty\}
+\right].
+\]
+
+Then the same argument gives
+
+\[
+R(T)\le
+O(\sqrt{T H\log K})+\frac{T}{K}+\Delta_T(H).
+\]
+
+Thus sublinear regret follows whenever there is \(H_T\) with \(H_T\log T=o(T)\) and \(\Delta_T(H_T)=o(T)\), taking for instance \(K=T\). The condition \(\gamma(H_T)\to0\) implies this because \(\Delta_T(H_T)\le T\gamma(H_T)\), but it is strictly stronger.
+
+## Claims Or Lemmas
+
+**Lemma 1: Payoff-weighted truncation.**  
+For fixed \(H\),
+
+\[
+R(T)\le R^H(T)+T\gamma(H).
+\]
+
+Reason: \(r_t(a)-r_t^H(a)=a\mathbf 1\{H<\tau_t(a)\le T-t\}\le a\mathbf 1\{H<\tau_t(a)<\infty\}\).
+
+**Lemma 2: Positive-scale equivalence.**  
+Let
+
+\[
+Q_\epsilon(h)=
+\sup_t\sup_{a\in[\epsilon,1]}
+\operatorname*{ess\,sup}_{\mathcal F_t}
+\Pr(h<\tau_t(a)<\infty\mid \mathcal F_t).
+\]
+
+Then \(\gamma(h)\to0\) iff \(Q_\epsilon(h)\to0\) for every \(\epsilon>0\).
+
+Proof sketch: \(Q_\epsilon(h)\le \gamma(h)/\epsilon\). Conversely,
+
+\[
+\gamma(h)\le \epsilon+Q_\epsilon(h),
+\]
+
+since the contribution of \(a<\epsilon\) is at most \(\epsilon\).
+
+**Lemma 3: Averaged condition suffices.**  
+The bound with \(\Delta_T(H)\) above proves sublinear regret under the averaged condition. This is the better condition-refinement target if the goal is expected regret from the initial distribution rather than uniform guarantees after every reachable history.
+
+## Proof Attempts
+
+The upper-bound proof survives the beta-to-gamma replacement without structural changes. Discretization is unchanged: rounding \(a\) down to a grid point loses at most \(T/K\). The finite-grid truncated problem has bounded delay \(H\), and because prices are revealed, counterfactual truncated rewards for all grid quotes become known after \(H\) steps.
+
+The necessity attempt for \(\gamma\) breaks: failure of an essential-supremum condition need not create linear expected regret. It only says that somewhere, after some history, a positive quote has a long conditional tail. It does not say that such histories occur often enough, or that late payoff mass is hard to predict.
+
+## Gaps And Risks
+
+The original statement uses \(\max_{a\in[0,1]}\), but with strict trade condition \(P>a\), maxima may fail to exist; often only a supremum exists. The discretization proof already behaves like a supremum argument.
+
+The delayed-expert bound should be cited carefully as full-information delayed feedback, not bandit feedback, since the revealed price path lets us compute all grid arms’ truncated outcomes.
+
+A true “only if” theorem needs a precise quantifier structure: instance-wise learnability, minimax over a process class, or uniform post-history learnability. Tail mass alone is not a hardness condition.
+
+## Counterexamples Or Obstructions
+
+Sparse deterministic obstruction to necessity of \(\gamma\): take epochs with \(n\) zeros followed by \(n^3\) ones. For any \(h\), choose \(n>h\) and the first zero in that block. For \(a=1/2\), the next trade occurs after more than \(h\) steps with probability \(1\), so \(\gamma(h)\ge 1/2\) for all \(h\).
+
+But the total number of zero-block positions through epoch \(N\) is \(O(N^2)\), while total time is \(O(N^4)\). Hence the averaged tail mass is \(o(T)\), and the averaged truncation condition gives sublinear regret. This shows \(\sup_t\) is too strong for expected-regret necessity.
+
+Rare-history variants give the same obstruction to the essential supremum: a very low-probability branch can contain arbitrarily long positive-payoff delays, making \(\gamma\) fail while contributing negligible expected regret.
+
+## Sources Consulted
+
+Local: `problem.md`, all requested `working_notes/*.md`, and `iterations/iter_001/idea_02/idea.md`.
+
+External:
+- [Joulani, Gyorgy, Szepesvari, “Online Learning under Delayed Feedback,” ICML 2013](https://proceedings.mlr.press/v28/joulani13.html).
+- [Quanrud, Khashabi, “Online Learning with Adversarial Delays,” NeurIPS 2015](https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html).
+- [Lancewicki, Segal, Koren, Mansour, “Stochastic Multi-Armed Bandits with Unrestricted Delay Distributions,” ICML 2021](https://proceedings.mlr.press/v139/lancewicki21a.html).
+- [Cesa-Bianchi, Gentile, Mansour, Minora, “Delay and Cooperation in Nonstochastic Bandits,” COLT 2016](https://proceedings.mlr.press/v49/cesa-bianchi16.html).
+
+## Bibliography Candidates
+
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari. “Online Learning under Delayed Feedback.” ICML 2013. https://proceedings.mlr.press/v28/joulani13.html. Relevant for black-box delayed-feedback reductions and finite-arm delayed regret bounds.
+- Kent Quanrud, Daniel Khashabi. “Online Learning with Adversarial Delays.” NeurIPS 2015. https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html. Relevant because it frames regret in terms of total delay rather than uniform delay caps.
+- Tal Lancewicki, Shahar Segal, Tomer Koren, Yishay Mansour. “Stochastic Multi-Armed Bandits with Unrestricted Delay Distributions.” ICML 2021. https://proceedings.mlr.press/v139/lancewicki21a.html. Relevant for unbounded and infinite delays with quantile-style dependence.
+
+## Recommended Next Steps
+
+Refocus the conjecture around \(\Delta_T(H)\) or its normalized version \(\Delta_T(H)/T\). Treat \(\gamma\to0\) as a clean sufficient condition for uniform-in-history guarantees, not as the likely necessary condition for expected regret.
+
+Next, ask a counterexample-search worker to formalize the sparse-block construction and verify the regret bound under the averaged condition, including the max-versus-sup issue.

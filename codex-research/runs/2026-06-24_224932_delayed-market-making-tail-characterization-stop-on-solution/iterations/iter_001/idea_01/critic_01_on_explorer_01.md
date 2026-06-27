@@ -1,0 +1,100 @@
+## Summary
+
+The explorer’s upper-bound route mostly survives as a **sufficient theorem** under an exogenous price-process assumption. It does not survive as a necessity claim or a characterization of learnability.
+
+The biggest break is quantifier/model-level: if future prices can depend on learner actions, then the delayed full-information reduction is not justified. The second biggest issue is that the proposed $\Delta_T(H)$ is stronger than needed and is mislabeled as “best comparator” mass, even though it is defined as a supremum over all actions.
+
+## Issue List
+
+1. **Fatal gap: adaptive/action-dependent prices.**  
+   The reduction treats $(r_t^H(b))_{b\in\mathcal G_K}$ as delayed full-information reward vectors. This is valid if the price path is exogenous or oblivious to learner actions. If $P_{t+s}$ may depend on actions chosen after time $t$, then the reward vector for round $t$ is generated partly by future learner behavior, outside the standard delayed-experts model.
+
+2. **Missing assumption: counterfactual meaning of regret.**  
+   If the market process depends on learner actions, it is unclear whether the fixed comparator’s reward is evaluated on the learner-induced price path or on the price path that would have occurred had the comparator been played. The proof silently assumes the former with exogenous prices.
+
+3. **False/imprecise claim: “best fixed comparator” truncation mass.**  
+   The explorer defines
+$$
+   \Delta_T^P(H)=\sup_a \sum_t \mathbb E[r_t(a)-r_t^H(a)],
+$$
+   which is worst over all actions, not only the best comparator. A sharper sufficient term is
+$$
+   \delta_T^P(H)
+   =
+   \sup_a \mathbb E\sum_t r_t(a)
+   -
+   \sup_a \mathbb E\sum_t r_t^H(a),
+$$
+   or the loss of a true optimal comparator when it exists. The explorer’s $\Delta$ works but may be far from minimal.
+
+4. **Plausible but incomplete: delayed-experts bound.**  
+   The claimed $O(\sqrt{TH\log K})$ bound is standard-looking, but the precise theorem must be stated: fixed reward vectors, full information, bounded delays $d_t\le H$, and whether there are additive $H\log K$ or total-delay terms.
+
+5. **Missing assumption: uniformity over process classes.**  
+   The sufficient condition needs one algorithm and one parameter schedule $H_T,K_T$ working uniformly over $\mathcal C_T$. Pointwise existence of $H_T(P)$ for each process does not imply uniform learnability.
+
+6. **Technical gap: max versus sup.**  
+   Because rewards use the strict event $P>a$, the best action need not be attained. The theorem should use $\sup_a$, or add compactness/continuity assumptions ensuring a maximizer.
+
+7. **Unsupported strength claim: “strictly weaker than $\beta$.”**  
+   The implication $\beta(H)\to0 \Rightarrow \Delta_T(H)/T\to0$ is clear. Strictness is plausible, but the report should include an explicit example, especially because its $\Delta$ is still worst-action, not best-comparator.
+
+8. **Overstatement: “necessary for this truncation proof template.”**  
+   Large worst-action truncation loss does not rule out sharper truncation arguments, predictable-delay algorithms, or model-aware learners.
+
+## Counterexamples Or Stress Tests
+
+The singleton terminal-spike example is a valid obstruction to necessity if horizon-dependent singleton classes are allowed:
+$$
+P_1=\cdots=P_{T-1}=0,\qquad P_T\sim \mathrm{Unif}[0,1].
+$$
+
+Then every $t<T$ has expected reward $a(1-a)$, maximized at $a=1/2$. A learner knowing this singleton law gets zero regret by always quoting $1/2$. But for $H=o(T)$,
+$$
+\Delta_T(H)\approx (T-H)/4=\Omega(T).
+$$
+
+Stress test this further with a fixed infinite process: deterministic spike times with growing gaps, where spike prices are i.i.d. uniform. The known optimal quote remains $1/2$, while $\beta(h)$ can fail badly along long gaps.
+
+Another stress test: rare bad histories. One can likely make $\beta(H)=1$ due to rare conditional states while $\Delta_T(H)/T\to0$ because those histories have tiny unconditional probability. This would demonstrate strict weakness of average truncation criteria over essential-sup tails.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict, but the delayed-experts citation must match the model. Standard delayed full-information results assume reward vectors are fixed independently of the learner’s future actions. The market-making protocol only reduces to that setting under an exogeneity/obliviousness condition on prices.
+
+## What Survives The Critique
+
+The truncation comparison survives under exogenous prices.
+
+The discretization lemma survives; downward rounding handles the strict threshold correctly.
+
+The composed sufficient bound survives in the form
+$$
+R_T
+\lesssim
+\sqrt{TH\log K}
++
+T/K
++
+\Delta_T^{\mathcal C}(H),
+$$
+
+or preferably with the sharper comparator-gap truncation term $\delta_T^{\mathcal C}(H)$.
+
+The power-law rate calculation also looks correct once the delayed-experts theorem is fixed.
+
+## Recommended Next Checks
+
+1. State the theorem with explicit exogeneity: the price sequence is independent of learner actions, or at least reward vectors are valid delayed full-information objects.
+
+2. Replace `max` by `sup` throughout unless attainment is proved.
+
+3. Try the sharper truncation term
+$$
+   \delta_T(H)=\sup_a V_T(a)-\sup_a V_T^H(a)
+$$
+   before settling on worst-action $\Delta_T(H)$.
+
+4. Formalize two examples: one where $\beta$ fails but average truncation succeeds, and one where truncation fails but regret is zero by model knowledge.
+
+5. Do not pursue necessity without adding richness/indistinguishability assumptions on the process class.

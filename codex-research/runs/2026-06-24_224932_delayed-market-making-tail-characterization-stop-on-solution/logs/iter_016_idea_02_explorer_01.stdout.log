@@ -1,0 +1,89 @@
+## Summary
+
+The idea can be closed under a precise finite-grid, public-exogenous, common Borel policy model. The right theorem is not behavioral equivalence; it is reward-coordinate equivalence. Under payoff-weighted domination, completed \(L^\infty(\lambda_t;\Delta(G))\) prefix kernels can be represented by Borel finite-grid policies without changing any expected payoff coordinate.
+
+This still does not cover law-by-law a.s. policies, private side information, action-dependent prices, nonadditive rewards, continuum quotes without discretization, or arbitrary nondominated infinite classes.
+
+## Concrete Progress
+
+Candidate theorem:
+
+Fix finite \(T\), finite grid \(G\), public exogenous laws \(\{P^\theta\}_{\theta\in\Theta}\) on \([0,1]^T\). Let
+\[
+\mu^\theta_{t,a}(B)
+=
+\mathbb E_\theta[{\bf 1}\{P_{1:t}\in B\}\,a{\bf 1}\{M_t>a\}]
+\]
+for \(B\subset [0,1]^t\), \(a\in G\). Assume for each \(t\) there is a sigma-finite Borel \(\lambda_t\) such that \(\mu^\theta_{t,a}\ll\lambda_t\) for all \(\theta,a\).
+
+For common Borel seed/state finite-grid policies,
+\[
+\mathcal R_G(\Theta)
+=
+\sup_{F\Subset\Theta}\mathcal R_G(F)
+=
+\sup_{F\Subset\Theta}\sup_{\pi\in\Delta(F)}\Psi_{G,F}(\pi).
+\]
+
+The important bridge is:
+\[
+C_{\rm Borel}
+=
+\{(L_\theta(A))_\theta:A\text{ Borel policy}\}
+=
+C_{L^\infty}
+=
+\{(L_\theta(q))_\theta:q_t\in L^\infty(\lambda_t;\Delta(G))\}.
+\]
+
+## Claims Or Lemmas
+
+1. Completed-to-Borel version lemma: if \(q\in L^\infty(\lambda;\Delta(G))\) on a standard Borel space, then there is a Borel \(\tilde q:X\to\Delta(G)\) with \(\tilde q=q\) \(\lambda\)-a.e.
+
+2. Finite-grid randomization lemma: every Borel kernel \(q:X\to\Delta(G)\) is implementable by a Borel map \(\alpha(x,u)\in G\) using one uniform seed and cumulative intervals.
+
+3. Weak-star compactness: \(L^\infty(\lambda_t;\Delta(G))\) is weak-star compact. Positivity is closed by testing against \(L^1_+\); the simplex constraint \(\sum_a q_a=1\) is closed by testing against all \(L^1\) functions.
+
+4. Reward-vector equality: Borel seed/state policies induce law-independent public-prefix kernels \(q_t(P_{1:t})\), and every completed kernel has a Borel implementation preserving all \(\int q_{t,a}\,d\mu^\theta_{t,a}\).
+
+## Proof Attempts
+
+For the Borel version lemma, choose Borel versions of each completed-measurable coordinate \(q_a\). Since \(G\) is finite, all coordinates agree simultaneously off one \(\lambda\)-null set. The bad set where coordinates are not in \([0,1]\) or do not sum to \(1\) is Borel and null; redefine there to a fixed vertex of \(\Delta(G)\).
+
+For reward preservation:
+\[
+L_\theta(q)=\sum_{t,a}\int q_{t,a}(h)\,d\mu^\theta_{t,a}(h).
+\]
+If \(\tilde q=q\) \(\lambda_t\)-a.e. and \(\mu^\theta_{t,a}\ll\lambda_t\), then all payoff integrals agree simultaneously for every \(\theta,t,a\).
+
+For compactness, write \(d\mu^\theta_{t,a}=f^\theta_{t,a}d\lambda_t\). Then
+\[
+L_\theta(q)=\sum_{t,a}\int q_{t,a}f^\theta_{t,a}\,d\lambda_t,
+\]
+a weak-star continuous coordinate functional. The product of the \(L^\infty(\lambda_t;\Delta(G))\) sets is compact, so its reward-coordinate image in \([0,T]^\Theta\) is product compact. This gives product closedness and hence the finite-subclass no-gap formula.
+
+## Gaps And Risks
+
+The theorem must define policies as common Borel rules on the full history space. It fails as stated for law-by-law a.s. policy representatives.
+
+If policies are primitive stochastic kernels with general internal state, a standard randomization lemma is needed. For finite action kernels this is elementary; for standard Borel state kernels it should be cited or built into the seed/state model.
+
+The result preserves expected additive reward vectors only. It does not preserve pathwise behavior, joint action laws, feedback-state laws, or high-probability behavior.
+
+Continuum quotes still need the existing \(T/K\) grid approximation. No exact continuum \(\Psi\) formula follows from this.
+
+## Counterexamples Or Obstructions
+
+The completed-kernel null-set stress test remains important: \(\lambda_t\)-null histories may have positive prefix-law mass. Borelization can change behavior there, but payoff coordinates are unchanged because only \(\mu^\theta_{t,a}\)-integrals matter.
+
+The non-Borel label construction shows arbitrary infinite classes cannot be handled without a no-gap hypothesis. Payoff-measure domination excludes that example via domination failure.
+
+Action-dependent prices or nonadditive rewards break the reduction because time-\(t\) action marginals no longer determine future payoff coordinates.
+
+## Sources Consulted
+
+Local files only: `problem.md`, all requested `working_notes/*.md`, and `iterations/iter_016/idea_02/idea.md`. No web sources consulted.
+
+## Recommended Next Steps
+
+Write this as a theorem with the exact common Borel seed/state policy model first. Then prove the four bridge lemmas in order: seed-to-prefix kernels, completed-to-Borel versions, Borel implementation by uniforms, and weak-star compactness. Keep the final statement finite-grid and reward-coordinate-only.

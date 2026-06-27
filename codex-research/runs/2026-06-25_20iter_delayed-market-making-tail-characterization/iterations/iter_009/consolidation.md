@@ -1,0 +1,40 @@
+## Accepted Progress
+
+Promoted the finite-menu local formula: for finite \(C\), \(\kappa(C)=\delta_*(C)\), where \(\delta_*\) is the unique root of the iteration-9 \(F_C(\delta)=1\) equation. Recorded the left-limit/\(\eta\)-implementation caveat.
+
+Promoted the universal equal-revenue upper bound: randomized horizon-oblivious quotes from density \(a^{-1}1\{e^{-1}\le a\le1\}\,da\) give \(R_T\le (T-1)/e\) on every deterministic exogenous path. Combined with CL-027, this gives the sharp randomized known-path worst-case constant \(1/e\).
+
+## Candidate Routes
+
+Polish CL-028/LB-023 and CL-029/LB-024 into theorem-proof blocks.
+
+Develop the path-dependent suffix-menu upper framework \(R_T\le\sum_{t<T}\delta(C_t)\), with infinite-menu approximation still needed.
+
+## Refuted Or Weakened Claims
+
+Recorded that the finite-menu primal law is not generally attained under strict crossing.
+
+Kept the \(1/e\) upper bound limited to exogenous prices and randomized policies; endogenous/reactive prices and deterministic-only policies remain separate.
+
+No raw-tail necessity claim was revived.
+
+## Literature Updates
+
+Verified/imported as adjacent context only:
+
+- Bergemann-Schlag 2011, “Robust Monopoly Pricing,” DOI: https://doi.org/10.1016/j.jet.2011.10.018
+- Caldentey-Liu-Lobel 2017, “Intertemporal Pricing Under Minimax Regret,” DOI: https://doi.org/10.1287/opre.2016.1548
+- Anagnostides-Farina-Fishelson-Luo-Schneider 2026, arXiv:2602.06264, https://arxiv.org/abs/2602.06264
+
+No direct external source was found for the finite-\(C\) root formula or the delayed-market-making \(1/e\) theorem.
+
+## Working Notes Updated
+
+Updated all requested files under `working_notes/`:
+`canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+
+1. Write the finite-\(C\) local theorem and known-path \(1/e\) theorem cleanly.
+2. Add infinite-menu approximation for suffix menus.
+3. Investigate deterministic-only horizon-oblivious policies and possible cycling/derandomization.

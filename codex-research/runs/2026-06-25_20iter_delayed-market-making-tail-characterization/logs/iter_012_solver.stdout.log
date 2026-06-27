@@ -1,0 +1,109 @@
+## Verdict
+
+SOLVED: no
+
+The literal iff conjecture is false under the notes’ current pseudo-regret interpretation. I do not have a full replacement characterization. The best new progress I see is an exact reduction for the deterministic known-path, horizon-oblivious regime that avoids the loose suffix-menu bound from iteration 11.
+
+## Candidate Solution Or Main Attempt
+
+For a deterministic exogenous path, define
+\[
+M_{t,T}=\max_{t<s\le T}P_s.
+\]
+Then
+\[
+r_t(a;T)=a\,1\{a<M_{t,T}\}.
+\]
+
+For any horizon-oblivious randomized policy, let \(\mu_t\) be the marginal law of \(A_t\). Correlations and adaptation to previous fills do not matter for expected regret on a fixed deterministic path. The regret is exactly
+\[
+R_T
+=
+V_T^*-\sum_{t<T}\int_{[0,M_{t,T})}x\,d\mu_t(x),
+\]
+where
+\[
+V_T^*=\sup_{a\in[0,1]}\sum_{t<T}a\,1\{a<M_{t,T}\}.
+\]
+
+Thus a deterministic known path admits randomized horizon-oblivious \(o(T)\) expected regret iff there exist marginals \((\mu_t)\) such that
+\[
+V_T^*-\sum_{t<T}\int_{[0,M_{t,T})}x\,d\mu_t(x)=o(T).
+\]
+This is tautological as a characterization, but it is the right exact object: it compares to the true fixed-comparator value, not the loose envelope \(\sum_t M_{t,T}\).
+
+A useful corollary: if there is a fixed left-limit quote \(b\in(0,1]\) such that
+\[
+V_T^*-b\,|\{t<T:M_{t,T}\ge b\}|=o(T),
+\]
+then quoting \(b-\varepsilon_t\), with \(\sum_{t<T}\varepsilon_t=o(T)\), gives \(o(T)\) regret. This explains why paths like \(1/2,1,1/2,1,\ldots\) are easy despite having linear suffix-menu local cost: \(b=1\) is asymptotically optimal for every horizon.
+
+## Concrete Lemmas Or Reductions
+
+**Exact marginal reduction.** On deterministic exogenous paths,
+\[
+\mathbb E\sum_{t<T}r_t(A_t;T)
+=
+\sum_{t<T}\int_{[0,M_{t,T})}x\,d\mu_t(x).
+\]
+So randomized horizon-oblivious expected regret depends only on one marginal distribution per time.
+
+**Finite-prefix LP.** For horizons \(T\le n\), the best randomized horizon-oblivious policy can be computed, up to strict-crossing left limits, by an LP supported on quotes just below the finite set
+\[
+\{M_{t,T}:1\le t<T\le n\}.
+\]
+Within any interval between two such thresholds, the indicator pattern is fixed and payoff increases with the quote, so only right endpoints from below are needed.
+
+**Stable-comparator sufficiency.** If one left-limit quote \(b\) is asymptotically optimal for all horizons, the path is anytime learnable even when raw delay tails or local suffix-menu costs are large.
+
+## Gaps And Failure Points
+
+The exact marginal condition is not yet a clean tail condition or an online algorithm.
+
+The finite-prefix LP does not immediately imply an infinite policy unless one proves a compactness or diagonal selection statement; strict crossing makes this slightly delicate.
+
+The reduction is for deterministic exogenous known paths. Stochastic exogenous processes require conditioning or conditional marginal laws. Endogenous prices break the suffix-max representation.
+
+## Counterexamples Or Obstructions
+
+The original only-if direction remains refuted by sparse vanishing spikes.
+
+Horizon/process-aware pseudo-regret still collapses: a law-and-horizon-aware learner can play a horizon-optimal fixed quote.
+
+The iteration-11 suffix-menu condition is sufficient but not necessary; the alternating path is the key obstruction. The exact comparator reduction fixes that specific looseness.
+
+The equal-revenue block construction still gives a sharp \(1/e\) worst-case lower bound for horizon-oblivious known paths, so no universal sublinear theorem is possible in that regime.
+
+## Literature And Bibliography Candidates
+
+I did a narrow live search and found no direct theorem matching this exact deterministic known-path characterization.
+
+Potential bibliography candidate: David Lagziel and Ehud Lehrer, “No Regret with Delayed Information,” working paper, 2012. PDF: https://www.math.tau.ac.il/~lehrer/Papers/Delay_no_regret.pdf. Relevant as broad delayed-information/no-regret background using approachability; not directly this market-making model.
+
+Potential adjacent pricing source: Haitian Xie, Ying Zhu, Denis Shishkin, “On the limitations of data-based price discrimination,” Theoretical Economics 20, 2025, 303–351; arXiv: https://arxiv.org/abs/2204.12723. Relevant for minimax-regret pricing and equal-revenue geometry, not delayed fills.
+
+## Promising Ideas To Explore
+
+Turn the finite-prefix LP into a theorem: define
+\[
+\rho_n=\inf_{\mu_1,\dots,\mu_{n-1}}\max_{T\le n}R_T,
+\]
+and study whether \(\rho_n=o(n)\) is equivalent to an infinite anytime policy.
+
+Use the exact deficit
+\[
+\Lambda_T(\mu)=V_T^*-\sum_{t<T}g_{\mu_t}(M_{t,T})
+\]
+as the decision-relevant replacement for raw tail mass.
+
+Look for tractable sufficient conditions between stable comparator and full LP: slowly varying optimal quote, finite comparator menu with small conflict mass, or approachability over comparator-threshold deficits.
+
+## Notes For Critics
+
+Check all strict-crossing statements in left-limit form.
+
+Do not read the exact marginal condition as a causal algorithm.
+
+The finite LP support claim should be formalized in the left-limit compactification or with \(\eta\)-quotes below thresholds.
+
+This progress concerns the known deterministic path / horizon-oblivious subproblem, not the original iff conjecture.

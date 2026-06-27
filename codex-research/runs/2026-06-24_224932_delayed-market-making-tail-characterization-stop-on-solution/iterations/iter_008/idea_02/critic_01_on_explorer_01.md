@@ -1,0 +1,85 @@
+## Summary
+
+The explorer’s main direction is worth pursuing. Replacing domination of prefix laws by domination of payoff-weighted prefix measures $\mu^\theta_{t,a}$ looks like a real strengthening, and it is close to exactly what the weak-* compactness proof needs.
+
+The critique is that several claims are not yet theorem-ready. The main gaps are not conceptual contradictions, but missing measurability, policy-reduction, and value-comparison details. The strongest claim that survives is a fixed finite-$T$, finite-grid no-gap theorem under common domination of payoff-weighted reward measures, provided policies are formalized as public-prefix randomized kernels up to the dominating measures.
+
+## Issue List
+
+1. **Policy-to-prefix-kernel reduction is still a missing assumption / plausible but incomplete.**  
+   The report says every public-prefix randomized policy can be represented by kernels
+$$
+   q_{t,a}(h_t)=\Pr(a_t=a\mid P_{1:t}=h_t).
+$$
+   This is true only after spelling out that prices are exogenous, learner private randomness is independent of the whole price path, actions do not affect observations, and rewards are additive so only the one-time marginal action law matters. If policies carry internal state through past random actions, one must prove that replacing them by marginal prefix kernels preserves all $L_\theta$.
+
+2. **Weak-* compactness uses a relaxed measurable policy class. Missing assumption.**  
+   $L^\infty(\lambda_t;\Delta(G))$ consists of $\lambda_t$-equivalence classes. Original admissible policies are presumably Borel or universally measurable kernels on price prefixes. The proof needs a standard-Borel/completed-measure statement that every $\lambda_t$-measurable simplex-valued representative has an admissible Borel version up to $\lambda_t$-null sets. Otherwise the compact image may be a relaxed reward set, not the true policy reward set.
+
+3. **Reward-measure domination theorem is plausible, not fully proved.**  
+   The core argument is right:
+$$
+   L_\theta(q)=\sum_{t,a}\int q_{t,a} f^\theta_{t,a}\,d\lambda_t
+$$
+   gives weak-* continuous coordinates. But the final theorem must explicitly prove that positivity and simplex constraints are weak-* closed, that the finite product over $t$ is compact, and that the image equals the actual attainable set $C$, not just its closure or relaxation.
+
+4. **The continuum claim needs a separate infinite-class grid comparison. Plausible but incomplete.**  
+   The report says $G_T=\{0,1/T,\dots,(T-1)/T\}$ puts the continuum positive-part value within $1$. The previous accepted grid-to-continuum lemma was mainly recorded for finite classes. The rounding proof should extend uniformly to arbitrary $\Theta$, but this extension must be stated and proved before using it in the infinite-class theorem.
+
+5. **Lemma 2 is essentially correct but needs bounded finite-measure hypotheses. Worth pursuing.**  
+   “TV compact or separable implies common domination” is valid for these payoff measures because their total mass is uniformly bounded. The proof via a countable TV-dense set and
+$$
+   \lambda=\sum_n2^{-n}\nu_n
+$$
+   works. State it for finite measures with a countable TV-dense subset; do not phrase it as a weak-compactness result.
+
+6. **Dominated approximation lemma has imprecise constants and a very strong premise. Plausible but incomplete.**  
+   If both $L_\theta(q)$ uniformly over all $q$ and $V_\theta^G$ are within $\varepsilon$, then regret values shift by at most about $2\varepsilon$, and the full-vs-finite no-gap error is about $4\varepsilon$. The report’s $O(\varepsilon)$ is fine informally, but a theorem needs constants. Also, uniform approximation over all Borel policies is essentially a total-variation-type requirement, so this may not cover many nondominated examples.
+
+7. **Identifiable nondominated classes need standard-Borel and selector assumptions. Worth pursuing.**  
+   If $P_1$ reveals $\theta$, then a single policy can run the known-law grid oracle after decoding $\theta$. But this needs a standard Borel parameter space, Borel injective code with measurable inverse on its image, Borel dependence of conditional laws, and finite-grid measurable argmax. Without these, the claim can fail by measurability.
+
+8. **“Feller/weak continuity alone is insufficient” is plausible, but the provided example shows failure of product closedness, not a regret gap.**  
+   The deterministic identifiable class $P_1=\theta, P_2=1$ supports the warning that product closure can contain non-Borel limits. It does not show finite-subclass gaps miss full minimax value, because a constant or identifiable policy can still solve the game. This distinction should be kept explicit.
+
+## Counterexamples Or Stress Tests
+
+- **Non-Borel label obstruction remains the key fatal stress test for unrestricted infinite-class claims.**  
+  The explorer does not contradict it, because payoff-weighted reward-measure domination fails there: uncountably many relevant Dirac measures cannot be dominated by a sigma-finite measure.
+
+- **Uncountable Dirac/Feller classes stress Lemma 2.**  
+  $\{\delta_\theta:\theta\in[0,1]\}$ is weakly compact and Feller-continuous, but not TV separable and not commonly dominated. This supports the explorer’s warning that weak continuity alone is not enough.
+
+- **Zero-payoff prefixes stress reward-measure domination.**  
+  Since $\lambda_t$ need not dominate $P^\theta_{1:t}$, behavior on positive-probability but zero-current-reward histories may be ignored at time $t$. This is harmless only because later decisions are represented by separate $q_s(P_{1:s})$ kernels and prices are exogenous. The proof must say this explicitly.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict with the accepted local results. The TV-separability domination corollary matches the standard measure-theoretic principle that a countably TV-dense family yields a common dominating measure. The report also correctly avoids claiming weak/Feller continuity is enough for Borel-policy no-gap.
+
+## What Survives The Critique
+
+The main surviving theorem candidate is:
+
+For fixed finite $T$, finite grid $G$, public exogenous prices, and randomized public-prefix policies, if for each $t$ there is a sigma-finite Borel measure $\lambda_t$ dominating all payoff-weighted measures $\mu^\theta_{t,a}$ for $\theta\in\Theta, a\in G$, then the grid attainable reward set is product compact. Hence
+$$
+\mathcal R_G(\Theta)
+=
+\sup_{F\Subset\Theta}\mathcal R_G(F)
+=
+\sup_{F\Subset\Theta}\sup_{\pi\in\Delta(F)}\Psi_{G,F}(\pi).
+$$
+
+The TV-compact corollary and the identifiable nondominated example are also worth keeping, with the added assumptions above.
+
+## Recommended Next Checks
+
+1. Write the policy-to-prefix-kernel reduction as a lemma and prove equality of attainable reward vectors.
+
+2. Add standard-Borel and Borel-version assumptions to the weak-* compactness proof.
+
+3. Prove the arbitrary-infinite-class grid-to-continuum comparison separately.
+
+4. Formalize Lemma 2 with finite-measure, TV-separable hypotheses.
+
+5. Keep identifiable nondominated classes as a separate mechanism, not as evidence for compactness.

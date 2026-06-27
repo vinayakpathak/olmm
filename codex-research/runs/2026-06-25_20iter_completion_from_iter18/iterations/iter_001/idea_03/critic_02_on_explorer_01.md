@@ -1,0 +1,89 @@
+## Summary
+
+The explorer’s sufficiency bound is basically sound after adding assumptions: exogenous prices, full observation of the price path, `sup` instead of `max`, and a known horizon/truncation scale. It gives a valid nonuniform upper bound.
+
+The characterization angle does not survive. There are simple deterministic binary-spike price paths where both the original `beta` condition and the proposed `Delta_T` condition fail badly, yet regret is O(1).
+
+## Issue List
+
+- **Missing assumption:** The delayed-grid reduction needs exogenous prices. If future `P_s` can depend on the learner’s quote, counterfactual rewards for unplayed grid arms are not defined from the realized path.
+
+- **Missing assumption:** The proof is full-information because the learner observes all prices. If the feedback model were only own fills, the `H+1` residue-class Hedge proof would not be implementable.
+
+- **Plausible but incomplete:** The condition “there exist `H_T,K_T`” gives a nonuniform algorithm unless the learner knows the right truncation schedule. A universal theorem over all processes satisfying the condition needs an adaptive multi-scale argument.
+
+- **False/overstated:** `Delta_T(H)` is not the exact weakest truncation gap. A sharper comparator-level quantity is
+  \[
+  \Gamma_T(H)=\sup_a V_T(a)-\sup_a V_T^H(a),
+  \]
+  with `Gamma_T(H) <= Delta_T(H)`. `Delta_T` is a clean sufficient bound, not the minimal visible one.
+
+- **Missing assumption:** The original regret uses `max`, but strict fills `a<P_t` can make the best quote unattained when prices have atoms. Use `sup`, restrict/close the action space differently, or change the fill rule.
+
+- **Plausible but incomplete:** The rare-history argument separating `beta` from `Delta_T` needs a specified spike-time distribution. A one-spike heavy-tail example can still make `Delta_T` linear unless the truncated first moment is controlled.
+
+## Counterexamples Or Stress Tests
+
+Take a deterministic binary price path:
+\[
+P_t=1 \quad\text{iff } t \text{ is a power of two},\qquad P_t=0 \text{ otherwise}.
+\]
+
+For any `h`, choose a time just after a spike with the next spike more than `h` steps away and take any `a<1`. Then
+\[
+\Pr(h<\tau_t(a)<\infty\mid P_{1:t})=1,
+\]
+so `beta(h)=1` for all `h`.
+
+For horizons `T=2^m` and any `H=o(T)`,
+\[
+\Delta_T(H)=\Omega(T),
+\]
+because a constant fraction of quotes before the terminal spike trade only after more than `H` steps.
+
+Yet the learner that always posts `a_t=1-1/T` has regret at most `1` against the `sup` fixed-action comparator on every binary price sequence: every quote that any `a<1` can get filled also gets filled by `1-1/T`, losing at most `1/T` per filled quote. This is fatal to necessity of both `beta` and `Delta_T` without extra assumptions excluding predictable/endpoint-obvious optima.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict with delayed-feedback literature. Joulani, György, and Szepesvári’s ICML 2013 delayed-feedback reductions support the finite-delay framing, and Quanrud–Khashabi’s NeurIPS 2015 `O(sqrt(D))` adversarial-delay result is consistent with `D <= T(H+1)`.
+
+The arm-dependent delay paper by van der Hoeven and Cesa-Bianchi is relevant because quote delays depend on the arm; it may offer sharper best-arm-delay alternatives to uniform truncation.
+
+Recent market-making and bilateral-trade regret papers are adjacent, but their feedback/timing models differ enough that they do not settle this delayed-fill problem.
+
+## What Survives The Critique
+
+A valid proposition should be:
+
+Under exogenous prices, full price observation, horizon-aware choice of deterministic `H,K`, and `sup` regret,
+\[
+R_T
+\le
+O\!\left(\sqrt{T(H+1)\log K}\right)
++\frac{T}{K}
++\Delta_T(H).
+\]
+
+Also, the original uniform conditional tail assumption implies `Delta_T(H) <= T beta(H)`, so `Delta_T` is a genuine sufficiency weakening.
+
+## Bibliography Candidates
+
+- Pooria Joulani, András György, Csaba Szepesvári. “Online Learning under Delayed Feedback.” ICML 2013, PMLR 28(3):1453-1461. https://proceedings.mlr.press/v28/joulani13.html. Relevant for delayed-feedback reductions.
+
+- Kent Quanrud, Daniel Khashabi. “Online Learning with Adversarial Delays.” NeurIPS 2015. https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html. Relevant for regret bounds in terms of total delay.
+
+- Dirk van der Hoeven, Nicolò Cesa-Bianchi. “Nonstochastic Bandits and Experts with Arm-Dependent Delays.” AISTATS 2022, PMLR 151:2022-2044. https://proceedings.mlr.press/v151/van-der-hoeven22a.html. Relevant for quote-dependent delays.
+
+- Nicolò Cesa-Bianchi, Tommaso Cesari, Roberto Colomboni, Luigi Foscari, Vinayak Pathak. “Market Making without Regret.” COLT 2025, PMLR 291:799-837. https://proceedings.mlr.press/v291/cesa-bianchi25a.html. Adjacent market-making regret model.
+
+## Recommended Next Checks
+
+Formalize the sufficiency theorem with explicit exogeneity, full-observation, horizon-known, and `sup` assumptions.
+
+Add the binary-spike counterexample to the counterexample ledger; it breaks the “only if” direction cleanly.
+
+Decide whether the project wants nonuniform existence results or one universal learner over a tail class.
+
+Try replacing `Delta_T` by `Gamma_T`, grid-tail quantities, or near-optimal-comparator tail mass.
+
+For necessity, add an unpredictability or identification condition, then build a two-environment lower bound where delayed fills are needed to identify the best quote.

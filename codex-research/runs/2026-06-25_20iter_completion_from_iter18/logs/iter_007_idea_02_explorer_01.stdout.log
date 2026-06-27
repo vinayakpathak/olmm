@@ -1,0 +1,145 @@
+## Summary
+
+The finite-\(m\) universal block idea looks viable. The key proof-strategy gain is that the candidate finite-support constant
+\[
+\kappa_m^*=\left(\frac{m-1}{m}\right)^m
+\]
+appears to have a clean induction proof, not just a construction. With that in hand, the transfer to the universal/process-unaware dominant-block lower bound is almost mechanical via the accepted \(\kappa\)-transfer logic.
+
+This remains a universal/minimax lower bound only. It does not apply to process-aware horizon-specific learners.
+
+## Concrete Progress
+
+For \(r=(m-1)/m\), take thresholds
+\[
+c_i=r^{m-i},\qquad i=1,\dots,m,
+\]
+so \(c_m=1\), and define a dual law \(\lambda\) by
+\[
+\Pr_\lambda(C\ge c_i)=r^{i-1}.
+\]
+Then
+\[
+\sup_a a\Pr(C>a)=r^{m-1},
+\]
+using left limits because crossing is strict, while
+\[
+\mathbb E C=(1+r)r^{m-1}.
+\]
+Hence
+\[
+\mathbb E C-\sup_a a\Pr(C>a)=r^m=\left(\frac{m-1}{m}\right)^m.
+\]
+
+This gives \(\kappa(C_m)\ge r^m\). The induction below appears to prove the matching upper bound over all \(m\)-point laws, so \(\kappa(C_m)=r^m\).
+
+## Claims Or Lemmas
+
+**Proposed finite-support posted-price gap theorem.**  
+If \(C\in[0,1]\) has support size at most \(m\), then
+\[
+\mathbb E C-\sup_{a\in[0,1]}a\Pr(C>a)
+\le
+\left(\frac{m-1}{m}\right)^m.
+\]
+The equal-revenue \(m\)-point law above attains the bound in the `sup`/left-limit convention.
+
+**Finite multi-continuation block lemma.**  
+For a block \(0^N,c\), \(c\in C\), if the learner’s first \(N\) action law is common across all continuations, then
+\[
+\max_{c\in C} R_c\ge N\kappa(C),
+\]
+where
+\[
+\kappa(C)=
+\max_{\lambda\in\Delta(C)}
+\left(\mathbb E_\lambda C-\sup_a a\Pr_\lambda(C>a)\right).
+\]
+
+**Universal lift.**  
+For any process-unaware randomized learner, choose dominant block lengths \(M_i=o(N_i)\) and recursively choose the worst continuation \(c_i\in C_m\). At endpoints \(T_i=M_i+N_i+1\),
+\[
+R_{T_i}\ge N_i\kappa(C_m)-M_i,
+\]
+so
+\[
+\limsup_i \frac{R_{T_i}}{T_i}\ge \kappa(C_m)
+=
+\left(\frac{m-1}{m}\right)^m.
+\]
+Letting \(m=m_i\to\infty\) block by block should push the constant to \(1/e\), subject to the same \(M_i=o(N_i)\) bookkeeping.
+
+## Proof Attempts
+
+For the finite-support theorem, define \(F_m(\rho)\) as the largest possible \(\mathbb E C\) among \([0,1]\)-valued laws with at most \(m\) support points and posted-price revenue at most \(\rho\).
+
+The candidate induction bound is
+\[
+F_m(\rho)\le
+\rho\left[m-(m-1)\rho^{1/(m-1)}\right].
+\]
+For the recurrence, let \(x\) be the lowest support point and \(q=\Pr(C>x)\). Since \(x\le \rho\), conditioning above \(x\) gives
+\[
+F_m(\rho)
+\le
+\rho(1-q)+qF_{m-1}(\min\{\rho/q,1\}).
+\]
+If \(q\le \rho\), this is at most \(2\rho-\rho^2\), which is below the displayed bound. If \(q\ge\rho\), the induction hypothesis gives
+\[
+\rho\left[m-q-(m-2)(\rho/q)^{1/(m-2)}\right],
+\]
+and weighted AM-GM gives
+\[
+q+(m-2)(\rho/q)^{1/(m-2)}
+\ge
+(m-1)\rho^{1/(m-1)}.
+\]
+Thus the induction closes. Maximizing
+\[
+F_m(\rho)-\rho
+\le
+(m-1)\rho(1-\rho^{1/(m-1)})
+\]
+over \(\rho\in[0,1]\) gives \(\rho=((m-1)/m)^{m-1}\) and value \(((m-1)/m)^m\).
+
+## Gaps And Risks
+
+The proof needs a careful final writeup for strict crossing: all posted-price revenues should be written with `sup` and left limits, not maxima.
+
+The universal lower bound requires genuinely shared prefix action laws. This holds for process-unaware learners facing common-prefix deterministic continuations, but fails for process-aware learners given the constructed sequence.
+
+The dual law \(\lambda\) is only a minimax certificate over deterministic continuations. It should not be reinterpreted as a hard stochastic process under pseudo-regret.
+
+For a variable-\(m_i\) construction approaching \(1/e\), the block schedule must ensure \(M_i/N_i\to0\) despite any growing bookkeeping terms.
+
+## Counterexamples Or Obstructions
+
+CE-011 remains the main warning: a positive local \(\kappa\) does not imply regret unless outside rewards are capped. The terminal-block construction avoids this by ending the horizon immediately and charging all old learner rewards to \(M_i\).
+
+CE-009 also applies: randomizing the continuation according to \(\lambda\) may be easy under \(\sup_a\mathbb E-\mathbb E\) regret. The proof must select one deterministic bad continuation.
+
+## Sources Consulted
+
+Read all required run files and the assigned idea file.
+
+External checks:
+- [Roesler and Szentes, “Buyer-Optimal Learning and Monopoly Pricing,” AER 2017](https://www.aeaweb.org/articles?id=10.1257%2Faer.20160145)
+- [Shen, Tang, and Zeng, “Buyer-Optimal Distribution,” AAMAS 2018 PDF](https://www.weiran-shen.info/page_files/buyer_optimal_distribution.pdf)
+
+These support the continuous equal-revenue/\(1/e\) geometry. I did not find a source for the exact finite-\(m\) constant; the induction above appears self-contained.
+
+## Bibliography Candidates
+
+No new bibliography candidates beyond sources already present in `working_notes/bibliography.md`.
+
+Relevant already-listed sources:
+- Anne-Katrin Roesler and Balázs Szentes. “Buyer-Optimal Learning and Monopoly Pricing.” American Economic Review 107(7):2072-2080, 2017. DOI: 10.1257/aer.20160145. Relevance: continuous unit-elastic/equal-revenue geometry.
+- Weiran Shen, Pingzhong Tang, Yulong Zeng. “Buyer-Optimal Distribution.” AAMAS 2018. Relevance: clear equal-revenue proof and \(1/e\) benchmark.
+
+## Recommended Next Steps
+
+1. Have a critic check the \(F_m(\rho)\) induction carefully, especially the conditioning step and strict-crossing convention.
+2. Promote the finite-support theorem if the proof survives.
+3. Write the finite multi-continuation block lemma for arbitrary finite \(C\), then specialize to \(C_m\).
+4. Lift to the universal block theorem with \(R_{T_i}\ge N_i\kappa(C_m)-M_i\).
+5. Consider a variable-\(m_i\) corollary giving a sharp-looking \(1/e\) universal lower-bound constant.

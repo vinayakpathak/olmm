@@ -1,0 +1,68 @@
+## Summary
+
+I do not find a fatal gap in the explorer’s audit. Conditional on CL-049/LB-044 and the formal left-limit model, the two-low closed forms appear correct. The main weaknesses are proof-presentation gaps: hidden feasibility/domain checks for the balancing variables, missing explicit boundary handling, and the need to state path-feasibility inequalities before treating \(S_1,S_2,B_0,B_1\) as abstract parameters.
+
+## Issue List
+
+- **Plausible but incomplete:** In the \(p<q\) case, the reduction to
+  \[
+  \min_a \max\{S_1-pa,\theta+(q-p)a\},\quad \theta=(h-q)S_2/h
+  \]
+  silently uses \(y=S_2/h-a\ge0\). The written domain should be \(0\le a\le \min\{B_0,S_2/h\}\), not just \(0\le a\le B_0\). This is repairable because \(S_1\le S_2\) ensures the optimizer in the three displayed cases stays within that domain.
+
+- **Plausible but incomplete:** In the \(p>q\) case, “for fixed \(u\), optimal \(w\) balances” is only literally true when \(w=S_2/h-u\in[0,B_1]\). The proof should say the optimum is reached at
+  \[
+  u^*=\min\{B_0,S_2/h\},
+  \]
+  and feasibility of the balanced \(w\) follows from \(S_2/h\le B_0+B_1\).
+
+- **Missing assumption:** The final lemma statement should include or prove the path-feasibility facts:
+  \[
+  0\le S_1\le S_2,\qquad S_2/h\le B_0+B_1,
+  \]
+  and preferably also \(S_1\le pB_0\) for actual paths. The explorer notes the first two for \(p>q\), but the polished lemma should not leave them implicit.
+
+- **Missing assumption:** The formulas exclude \(p=q\). That boundary should be explicitly routed to the accepted equal-low theorem CL-048/LB-043.
+
+- **Unsupported citation risk:** Hochbaum 1994 and Vidal-Jaillet-Maculan 2016 are fine as proof-technology background only. They should not be cited as support for the market-making LP reduction or the two-low closed form.
+
+## Counterexamples Or Stress Tests
+
+No counterexample found.
+
+I ran an independent dependency-free vertex enumeration of the two-low reduced LP on random feasible parameter sets for both \(p<q\) and \(p>q\). The explorer/solver formulas matched all tested LP optima. This is only a smoke test, but it specifically checked capacity-boundary regimes.
+
+Important regression tests to retain:
+
+- \(0,0.4,0.9,1\): falls under \(p<q\) and gives \(D_4=68/225\), matching CL-049/LB-044.
+- \(S_2/h=B_0\) in the \(p>q\) formula: both branches coincide.
+- \(S_1=\theta\) and \(S_1=\theta+qB_0\) in the \(p<q\) formula: adjacent branches coincide.
+- \(B_0=0\): especially in \(p>q\), low-1 deficit cannot be reduced and the max formula is necessary.
+
+## Literature Or Known-Result Conflicts
+
+No known-result conflict found. The relevant external literature is allocation/resource-allocation proof technology, not a direct theorem about this delayed market-making finite-prefix LP.
+
+The explorer’s Hochbaum citation is bibliographically correct, but it should remain background: the INFORMS page lists Dorit S. Hochbaum, “Lower and Upper Bounds for the Allocation Problem and Other Nonlinear Optimization Problems,” *Mathematics of Operations Research* 19(2):390-409, 1994, DOI `10.1287/moor.19.2.390`.
+
+## What Survives The Critique
+
+The explorer’s main conclusion survives: no missed \(p>q\) boundary case is apparent.
+
+The dominance reductions also survive:
+
+- For \(p<q\), segment-1 \(p\)-mass is dominated by \(q\)-mass, and \(x_{0,q},x_{1,q}\) can be aggregated after fixing \(a=x_{0,p}\).
+- For \(p>q\), \(x_{0,q}\) is dominated by \(x_{0,p}\), and \(x_{1,p}\) is dominated by the default \(h^-\) quote.
+
+The formulas are worth promoting after adding the missing feasibility and boundary details.
+
+## Bibliography Candidates
+
+- Dorit S. Hochbaum. “Lower and Upper Bounds for the Allocation Problem and Other Nonlinear Optimization Problems.” *Mathematics of Operations Research* 19(2):390-409, 1994. DOI: https://doi.org/10.1287/moor.19.2.390. Relevance: allocation/resource-allocation proof technology for possible pooling or nested-allocation algorithms; not direct proof support for the market-making two-low formula.
+
+## Recommended Next Checks
+
+1. Write the two-low lemma with exact assumptions: one drought, formal left-limit model, \(0<p,q<h\), \(p\ne q\), nonnegative capacities, and path-feasibility inequalities.
+2. Add explicit dual certificates for all \(p<q\) branches, not only the middle case.
+3. Add exact rational regression tests for branch ties and capacity saturation.
+4. Keep the result local: do not infer repeated-drought composition or \(D_n=o(n)\Rightarrow o(T)\) gluing from this lemma.

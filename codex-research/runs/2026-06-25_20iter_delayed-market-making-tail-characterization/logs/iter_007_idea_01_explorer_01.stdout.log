@@ -1,0 +1,93 @@
+## Summary
+
+Proof audit verdict: the finite-\(m\) theorem is essentially correct, with wording fixes. I would promote CL-023 after stating it with `sup`/left-limit revenue, explicit normalization \(Z\in[0,1]\), and a separate trivial case for \(m=1\) or \(\rho=1\).
+
+## Concrete Progress
+
+A clean statement is:
+
+For \(m\ge1\), let \(Z\in[0,1]\) have at most \(m\) positive support points and define
+\[
+\rho(Z)=\sup_{a\in[0,1]} a\,\Pr(Z>a).
+\]
+Then
+\[
+\mathbb E Z-\rho(Z)\le \left(\frac{m-1}{m}\right)^m.
+\]
+Equality is attained, for \(m\ge2\), by the discrete equal-revenue law with \(r=(m-1)/m\),
+\[
+c_i=r^{m-i},\qquad \Pr(Z\ge c_i)=r^{i-1},\qquad i=1,\dots,m.
+\]
+
+## Claims Or Lemmas
+
+1. Zero atoms are harmless: if \(q=\Pr(Z>0)\) and \(W=Z\mid Z>0\), then
+\[
+\mathbb EZ-\rho(Z)=q(\mathbb EW-\rho(W)).
+\]
+
+2. Scaling is harmless: if the top positive support is \(B\le1\), normalize by \(W=Z/B\). Then the gap scales by \(B\).
+
+3. Low-value collapse is valid: replacing \(Z\) by \(Z'=\max\{Z,\rho(Z)\}\) increases \(\mathbb EZ\), preserves support count, and keeps \(\rho(Z')=\rho(Z)\).
+
+4. Under strict crossing, use
+\[
+\rho(Z)\ge c_i\Pr(Z\ge c_i)
+\]
+as a left-limit statement: quote \(a\uparrow c_i\) from below.
+
+## Proof Attempts
+
+After removing zero atoms, scaling top support to \(1\), and collapsing all values below \(\rho\), assume
+\[
+\rho=c_1<c_2<\cdots<c_k=1,\qquad k\le m.
+\]
+Let \(p_i=\Pr(Z\ge c_i)\). Then \(c_ip_i\le\rho\), and the tail-sum identity gives
+\[
+\mathbb EZ=c_1+\sum_{i=2}^k(c_i-c_{i-1})p_i
+\le
+\rho+\rho\sum_{i=2}^k\left(1-\frac{c_{i-1}}{c_i}\right).
+\]
+Set \(y_i=c_{i-1}/c_i\). Then \(\prod_{i=2}^k y_i=\rho\). With \(n=k-1\), AM-GM gives
+\[
+\sum y_i\ge n\rho^{1/n},
+\]
+so
+\[
+\mathbb EZ-\rho\le \rho n(1-\rho^{1/n}).
+\]
+Writing \(z=\rho^{1/n}\), maximize \(nz^n(1-z)\) at \(z=n/(n+1)\), yielding
+\[
+\left(\frac{n}{n+1}\right)^{n+1}\le \left(\frac{m-1}{m}\right)^m.
+\]
+
+Tightness follows from the equal-revenue construction above: all left-limit support revenues equal \(r^{m-1}\), and
+\[
+\mathbb EZ-r^{m-1}=r^m.
+\]
+
+## Gaps And Risks
+
+- The solver phrase “every posted threshold has revenue” is false under strict crossing if read literally at \(a=c_i\). It must say “left-limit revenue as \(a\uparrow c_i\).”
+- The theorem needs \(Z\in[0,1]\), or more generally a factor of the top support \(B\).
+- The case \(m=1\) should be split out; the AM-GM proof uses \(n=k-1\ge1\).
+- This proves local LP geometry only. It does not by itself prove a delayed market-making characterization or a stochastic hard instance.
+
+## Counterexamples Or Obstructions
+
+No counterexample found to the finite-\(m\) inequality. Existing obstructions still apply to broader interpretations: sparse vanishing spikes refute raw \(\beta\)-necessity, and the dual equal-revenue law should not be treated as a hard stochastic process under pseudo-regret.
+
+## Sources Consulted
+
+- Local run notes: required `working_notes/*`, assigned `idea.md`, and `iterations/iter_007/solver_attempt.md`.
+- Condorelli and Szentes, “Buyer-Optimal Demand and Monopoly Pricing,” 2016 working paper: https://fass.nus.edu.sg/ecs/wp-content/uploads/sites/4/2020/06/16-03-001.pdf.
+- Shen, Tang, and Zeng, “Buyer-Optimal Distribution,” AAMAS 2018 metadata/PDF: https://dl.acm.org/doi/10.5555/3237383.3237926 and https://www.weiran-shen.info/page_files/buyer_optimal_distribution.pdf.
+- Hartline, *Mechanism Design and Approximation*, Ch. 4: https://jasonhartline.com/MDnA/MDnA-ch4.pdf.
+
+## Bibliography Candidates
+
+No new direct finite-\(m\) source found. Existing equal-revenue background citations are enough; the finite-support theorem appears to be an internal AM-GM sharpening.
+
+## Recommended Next Steps
+
+Promote CL-023 with the corrected theorem statement. Then prove the multi-threshold block lift separately, keeping same-prefix action law, old-reward cap, intermediate-round \(O(m)\) terms, and strict-crossing left limits explicit.

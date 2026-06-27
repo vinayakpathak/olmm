@@ -1,0 +1,190 @@
+## Summary
+
+The idea is viable, and the proof route is simpler than an epoch-by-epoch composition argument. For a deterministic path, every quote’s horizon-\(T\) payoff is governed by one scalar:
+\[
+M_{t,T}:=\max_{t<s\le T}P_s,
+\qquad
+r_t(a)=a\,1\{M_{t,T}>a\}.
+\]
+Thus old quotes filling at later records are not a separate obstruction; they are exactly encoded by \(M_{t,T}\).
+
+A universal equal-revenue quote distribution already gives
+\[
+R_T\le (T-1)/e
+\]
+for every deterministic path and every horizon \(T\), even without knowing the path. Together with CL-027, this strongly suggests the sharp worst-case known-path horizon-oblivious constant is exactly \(1/e\).
+
+## Concrete Progress
+
+Define, for a quote distribution \(\mu\),
+\[
+g_\mu(c):=\int_{[0,c)} a\,d\mu(a).
+\]
+If at time \(t\) the learner draws \(A_t\sim\mu_t\), then its expected reward from quote \(t\) by horizon \(T\) is \(g_{\mu_t}(M_{t,T})\).
+
+The key universal primal is:
+\[
+d\mu(a)=\frac{1}{a}\,1\{e^{-1}\le a\le1\}\,da.
+\]
+Then
+\[
+g_\mu(c)=
+\begin{cases}
+0,&c\le e^{-1},\\
+c-e^{-1},&c>e^{-1},
+\end{cases}
+\]
+so
+\[
+c-g_\mu(c)=\min\{c,e^{-1}\}\le e^{-1}.
+\]
+
+For any fixed comparator \(a\),
+\[
+\sum_{t<T} a\,1\{M_{t,T}>a\}\le \sum_{t<T} M_{t,T}.
+\]
+Therefore the universal equal-revenue learner satisfies
+\[
+R_T
+\le
+\sum_{t<T}\bigl(M_{t,T}-g_\mu(M_{t,T})\bigr)
+\le
+(T-1)/e.
+\]
+
+A sharper path-dependent version is also available. Let
+\[
+C_t:=\{M_{t,T}:T>t\}
+\]
+be the future running-record menu for quote \(t\), and define
+\[
+\delta(C):=
+\inf_{\mu\in\Delta([0,1])}
+\sup_{c\in C}
+\left[
+c-g_\mu(c)
+\right].
+\]
+If the known-path learner uses \(\eta_t\)-optimal distributions for \(C_t\), then
+\[
+R_T\le \sum_{t<T}\delta(C_t)+\sum_{t<T}\eta_t.
+\]
+Taking summable \(\eta_t\) gives
+\[
+\limsup_T \frac{R_T}{T}
+\le
+\limsup_T \frac1T\sum_{t<T}\delta(C_t).
+\]
+
+## Claims Or Lemmas
+
+**Lemma 1: Suffix-Max Representation.**  
+For deterministic paths under single-fill rewards,
+\[
+r_t(a;T)=a\,1\{M_{t,T}>a\}.
+\]
+This handles nonmonotone paths by replacing displayed prices with running future maxima.
+
+**Lemma 2: Local Menu Upper Bound.**  
+If \(g_{\mu_t}(c)\ge c-\delta_t\) for every \(c\in C_t\), then for every horizon
+\[
+R_T\le \sum_{t<T}\delta_t.
+\]
+
+**Lemma 3: Universal \(1/e\) Upper Bound.**  
+The density \(d\mu(a)=a^{-1}1\{a\in[e^{-1},1]\}da\) gives \(R_T\le(T-1)/e\) for every deterministic path.
+
+**Lemma 4: Finite-Menu Identification.**  
+For finite \(C\), \(\delta(C)\) should equal the existing local dual
+\[
+\kappa(C)=
+\max_{\lambda\in\Delta(C)}
+\left(
+\mathbb E_\lambda C-\sup_a a\Pr_\lambda(C>a)
+\right),
+\]
+modulo the already-known strict-crossing left-limit cleanup.
+
+## Proof Attempts
+
+The main proof is the local menu upper lemma.
+
+Fix \(T\). The learner’s expected reward is
+\[
+\mathbb E\sum_{t<T}r_t(A_t;T)
+=
+\sum_{t<T}g_{\mu_t}(M_{t,T}).
+\]
+Since \(M_{t,T}\in C_t\),
+\[
+g_{\mu_t}(M_{t,T})\ge M_{t,T}-\delta_t.
+\]
+Thus
+\[
+\mathbb E\sum_{t<T}r_t(A_t;T)
+\ge
+\sum_{t<T}M_{t,T}-\sum_{t<T}\delta_t.
+\]
+For the comparator,
+\[
+\sup_a\sum_{t<T}a1\{M_{t,T}>a\}
+\le
+\sum_{t<T}M_{t,T}.
+\]
+Subtracting gives the claim.
+
+For equal-revenue finite menus \(c_i=r^{m-i}\), \(r=(m-1)/m\), the known primal certificate from LB-022 fits this lemma: uniform mass on quotes \(a_i\uparrow c_i\) gives, for threshold \(c_j\),
+\[
+\frac1m\sum_{i\le j}c_i=c_j-r^m.
+\]
+So the local deficit is \(r^m=((m-1)/m)^m\), matching the lower-bound block.
+
+## Gaps And Risks
+
+The \(1/e\) upper bound is sharp as a worst-case rate, but the path-dependent bound \(\sum_t\delta(C_t)\) may be loose because it compares to the per-time oracle \(\sum_t M_{t,T}\), not directly to the best fixed quote.
+
+The equality \(\delta(C)=\kappa(C)\) for arbitrary finite \(C\) still needs a polished finite-LP proof with strict-crossing conventions. Infinite menus need approximation or compactness handling.
+
+The result is for deterministic or exogenous paths and expected regret over learner randomization. It does not cover adaptive future prices that react to the realized quote.
+
+This does not restore a raw-tail characterization. It is a sharp anytime constant result in the deterministic known-path horizon-oblivious regime.
+
+## Counterexamples Or Obstructions
+
+Nonmonotone paths do not break the proof once menus are defined using running maxima \(M_{t,T}\). The previous unsorted-threshold obstruction only affects the older block formula written in terms of displayed \(c_j\).
+
+Old quotes filling at later records also do not break the proof, because single-fill payoff by horizon \(T\) depends only on whether \(M_{t,T}>a\).
+
+Horizon-aware policies remain outside the lower-bound comparison: they can tailor to \(T\), so CL-027 is specifically horizon-oblivious.
+
+## Sources Consulted
+
+Local files: `problem.md`, all requested `working_notes/*.md`, and `iterations/iter_009/idea_02/idea.md`.
+
+Web/literature checked for adjacent simultaneous-objective tools:
+- [Kleinberg, Paes Leme, Schneider, Teng, “U-Calibration: Forecasting for an Unknown Agent,” COLT/PMLR 2023](https://proceedings.mlr.press/v195/kleinberg23a.html).
+- [Hu and Wu, “Calibration Error for Decision Making,” FOCS 2024 / arXiv:2404.13503](https://arxiv.org/abs/2404.13503).
+- [Anagnostides, Farina, Fishelson, Luo, Schneider, “Swap Regret Minimization Through Response-Based Approachability,” arXiv:2602.06264, 2026](https://arxiv.org/abs/2602.06264).
+- [COLT 2026 accepted papers page](https://learningtheory.org/colt2026/accepted.html).
+
+## Bibliography Candidates
+
+New optional candidate, weak relevance:
+- Ioannis Anagnostides, Gabriele Farina, Maxwell Fishelson, Haipeng Luo, Jon Schneider. “Swap Regret Minimization Through Response-Based Approachability.” arXiv:2602.06264, 2026. https://arxiv.org/abs/2602.06264. Relevance: current approachability/simultaneous-regret background if the exact known-path problem is later formulated as a vector-payoff feasibility problem; not needed for the elementary \(1/e\) proof above.
+
+No new direct delayed-market-making characterization source found.
+
+## Recommended Next Steps
+
+Promote the universal equal-revenue upper bound as a candidate theorem:
+\[
+\forall P,\forall T,\quad R_T\le (T-1)/e.
+\]
+
+Then combine it with CL-027 to state the sharp deterministic known-path horizon-oblivious worst-case constant:
+\[
+\sup_P\inf_\pi \limsup_T R_T^\pi(P)/T = 1/e
+\]
+with quantifiers checked carefully.
+
+Finally, polish the local menu theorem and finite-menu identity \(\delta(C)=\kappa(C)\). That gives a sharper path-dependent upper framework and explains why sparse easy paths can have much smaller regret than the worst-case equal-revenue blocks.

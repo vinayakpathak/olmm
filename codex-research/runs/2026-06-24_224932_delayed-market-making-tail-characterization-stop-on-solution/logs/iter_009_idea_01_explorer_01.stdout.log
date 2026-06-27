@@ -1,0 +1,134 @@
+## Summary
+
+The idea is viable. A referee-ready no-gap theorem can be proved for fixed finite \(T\), finite grid \(G\), public exogenous prices, and common domination of the payoff-weighted reward measures. The right proof does not need an infinite-dimensional minimax theorem over policies. It should proceed through public-prefix kernels, weak-* compactness, and a finite-intersection argument.
+
+The main theorem remains conditional on the exact policy formalization. If admissible policies are Borel public-price randomized policies, one must explicitly add a completed-measure/Borel-version lemma so that weak-* limit kernels are implementable policies, not only relaxed \(L^\infty\) objects.
+
+## Concrete Progress
+
+A sharpened theorem statement should be:
+
+Fix finite \(T\), finite \(G\subset[0,1]\), and a class \(\Theta\) of public exogenous laws on \(P_{1:T}\). Let
+\[
+M_t=\max_{t<s\le T}P_s
+\]
+with empty future at \(t=T\) giving zero reward. For each \(\theta,t,a\), define the finite measure
+\[
+\mu^\theta_{t,a}(B)
+=
+\mathbb E_\theta[{\bf 1}\{P_{1:t}\in B\}\,a{\bf 1}\{M_t>a\}].
+\]
+Assume that for each \(t\) there is a sigma-finite Borel measure \(\lambda_t\) on \([0,1]^t\) such that
+\[
+\mu^\theta_{t,a}\ll \lambda_t
+\quad\forall \theta\in\Theta,\ a\in G.
+\]
+
+Then, for randomized public-prefix grid policies,
+\[
+\mathcal R_G(\Theta)
+=
+\sup_{F\Subset\Theta}\mathcal R_G(F)
+=
+\sup_{F\Subset\Theta}\sup_{\pi\in\Delta(F)}\Psi_{G,F}(\pi),
+\]
+where all comparator values and Bayes envelopes are grid-restricted.
+
+The proof can use payoff-weighted domination only; full prefix-law domination is stronger than needed.
+
+## Claims Or Lemmas
+
+**Lemma 1: Policy-To-Prefix-Kernel Reduction.**  
+Every private-randomized public-price policy has the same reward vector as a law-independent family of kernels
+\[
+q_t(h_t)\in\Delta(G),\qquad h_t=P_{1:t}.
+\]
+Proof route: fold all private randomness into one seed \(U\). By induction, since prices are exogenous and feedback is determined by public prices and previous own quotes, \(a_t=\alpha_t(P_{1:t},U)\). Define
+\[
+q_{t,a}(h)=\Pr_U(\alpha_t(h,U)=a).
+\]
+Then for every \(\theta\),
+\[
+L_\theta(A)=\sum_{t,a}\int q_{t,a}(h)\,d\mu^\theta_{t,a}(h).
+\]
+
+**Lemma 2: Density Representation.**  
+With \(d\mu^\theta_{t,a}=f^\theta_{t,a}d\lambda_t\),
+\[
+L_\theta(q)=
+\sum_{t,a}\int q_{t,a}(h)f^\theta_{t,a}(h)\,d\lambda_t(h).
+\]
+
+**Lemma 3: Weak-* Compact Feasible Kernels.**  
+\[
+Q_t=\{q_t\in L^\infty(\lambda_t;\mathbb R^G):
+q_{t,a}\ge0,\ \sum_a q_{t,a}=1\}
+\]
+is weak-* compact. Positivity is closed by testing against \(L^1_+\); the simplex equation is closed by testing against all \(L^1\). The finite product \(Q=\prod_t Q_t\) is compact.
+
+**Lemma 4: Product Compact Reward Set.**  
+Each coordinate \(q\mapsto L_\theta(q)\) is weak-* continuous, so
+\[
+C=\{(L_\theta(q))_{\theta\in\Theta}:q\in Q\}\subset[0,T]^\Theta
+\]
+is product compact, hence product closed.
+
+**Lemma 5: No-Gap.**  
+For \(\alpha>\sup_{F\Subset\Theta}\mathcal R_G(F)\), the closed sets
+\[
+K_\theta=\{q\in Q:V_\theta^G-L_\theta(q)\le\alpha\}
+\]
+have the finite-intersection property. Compactness gives a single \(q\) controlling all \(\theta\), so
+\[
+\mathcal R_G(\Theta)\le\sup_F\mathcal R_G(F).
+\]
+The reverse inequality is monotonicity.
+
+## Proof Attempts
+
+The strongest proof architecture is:
+
+1. Replace arbitrary policies by public-prefix marginal kernels.
+2. Express rewards using \(\mu^\theta_{t,a}\).
+3. Use weak-* compactness of \(L^\infty(\lambda_t;\Delta(G))\).
+4. Prove product compactness of \(C\).
+5. Apply the finite-intersection no-gap argument.
+6. For finite \(F\), invoke the accepted finite-grid minimax/Bayes identity.
+
+For finite priors, the Bayes support term can also be written without conditional-probability versions:
+\[
+\sup_q\sum_\theta \pi_\theta L_\theta(q)
+=
+\sum_t\int \max_{a\in G}
+\sum_\theta \pi_\theta f^\theta_{t,a}(h)\,d\lambda_t(h).
+\]
+Finite \(G\) gives a measurable argmax.
+
+## Gaps And Risks
+
+The biggest remaining proof obligation is policy-class alignment. If original policies are Borel but \(Q_t\) is an \(L^\infty\) equivalence-class object, prove that each simplex-valued \(\lambda_t\)-measurable kernel has a Borel version up to \(\lambda_t\)-null sets, and modifying on those null sets does not affect rewards.
+
+Reward-measure domination ignores histories with zero current payoff. That is valid only because prices are exogenous, rewards are additive, and future decisions are represented by separate \(q_s(P_{1:s})\).
+
+This is fixed-grid only. Continuum quotes must still use the separate bound
+\[
+|\mathcal R_{[0,1]}-\mathcal R_{G_K}|\le T/K.
+\]
+
+## Counterexamples Or Obstructions
+
+Without product closedness, finite-subclass Bayes gaps can miss a full infinite-class gap.
+
+The non-Borel label example remains the key warning for Borel policy measurability.
+
+Uncountable Dirac/Feller classes are generally not covered by domination; identifiable singular classes may be easy for a different reason, not because of compactness.
+
+## Sources Consulted
+
+No web search used. Consulted the requested local files plus the iteration 8 no-gap explorer/critic reports and solution gate.
+
+## Recommended Next Steps
+
+Write the theorem in this order: policy reduction, Borel-version lemma, density representation, weak-* compactness, product compactness/no-gap, finite-prior Bayes corollary.
+
+Keep the theorem explicitly finite-grid and public-exogenous. Add continuum only as a separate discretization corollary.

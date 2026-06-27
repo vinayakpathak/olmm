@@ -1,0 +1,95 @@
+## Summary
+
+The explorer’s main claim looks sound: the continuous equal-revenue distribution
+\[
+d\mu(a)=a^{-1}\mathbf 1\{e^{-1}\le a\le 1\}\,da
+\]
+does give
+\[
+R_T\le (T-1)/e
+\]
+for every deterministic exogenous path and every horizon, in expected regret over learner randomization. I do not see a fatal mathematical gap in that proof.
+
+The main issues are quantifier and model hygiene. The result needs explicit exogeneity, randomized policies, horizon-obliviousness, single-fill rewards, and `sup`/left-limit conventions. The path-dependent refinement via \(\delta(C_t)\) is plausible but not yet fully proved, especially for infinite menus and the claimed identity \(\delta(C)=\kappa(C)\).
+
+## Issue List
+
+- **Missing assumption: exogenous/policy-independent prices.**  
+  The suffix maximum \(M_{t,T}\) must be fixed independently of the quote \(A_t\). If future prices can react to the realized quote, then
+  \[
+  \mathbb E[r_t(A_t)\mid P]=g_{\mu_t}(M_{t,T})
+  \]
+  is no longer valid.
+
+- **Missing assumption: randomized policies allowed.**  
+  The upper bound uses a genuine continuous randomized quote distribution. If the known-path anytime model is restricted to deterministic policies, this proof does not apply without a separate derandomization or cycling argument.
+
+- **Plausible but incomplete: sharp minimax equality.**  
+  The proposed statement
+  \[
+  \sup_P\inf_\pi \limsup_T R_T^\pi(P)/T=1/e
+  \]
+  should be stated with exact quantifiers: deterministic/exogenous paths, process-aware but horizon-oblivious randomized policies, expected regret over learner randomization, and comparator `sup`. With those conventions, the upper bound plus CL-027 appear to prove it.
+
+- **Plausible but incomplete: \(\delta(C)=\kappa(C)\).**  
+  For finite \(C\), this is very likely correct by reducing the primal to quotes just below thresholds and applying finite LP duality. But it still needs the strict-crossing cleanup:
+  \[
+  \sup_a a\Pr(C>a)
+  \]
+  should be interpreted through left limits \(a\uparrow c_i\), not necessarily attained at \(a=c_i\).
+
+- **Plausible but incomplete: infinite menus \(C_t\).**  
+  For arbitrary deterministic paths, \(C_t=\{M_{t,T}:T>t\}\) can be infinite. The report needs either compactness/approximation or an explicit \(\eta_t\)-optimal selector argument with \(\sum_t\eta_t=o(T)\) or summable \(\eta_t\).
+
+- **Worth pursuing: stronger stochastic extension.**  
+  The universal equal-revenue upper bound seems to extend from deterministic paths to any exogenous stochastic price process, by conditioning on the realized path. It even upper-bounds expected pathwise-regret, hence also pseudo-regret.
+
+## Counterexamples Or Stress Tests
+
+- **Single low threshold.**  
+  Path \(0^N,c\) with \(c<1/e\). The universal equal-revenue policy loses about \(Nc\), while a path-aware policy can quote just below \(c\) and get essentially zero regret. This shows the universal \(1/e\) bound is worst-case and loose on easy known paths.
+
+- **Equal-revenue block.**  
+  For \(0^N,c_1,\ldots,c_m\) with the accepted equal-revenue menu, the tailored finite mixture gives deficit \(((m-1)/m)^m\), matching CL-027/LB-022. This supports sharpness.
+
+- **Unsorted thresholds.**  
+  Path \(0^N,1,1/2\) breaks older formulas written in terms of displayed \(c_j\), but the suffix-max representation survives because the effective threshold is the running maximum.
+
+- **Adaptive future prices.**  
+  If \(P_{t+1}\) is chosen as a function of \(A_t\), then \(M_{t,T}\) is not an exogenous scalar. The proof no longer applies.
+
+## Literature Or Known-Result Conflicts
+
+No conflict found. The equal-revenue density and \(1/e\) cap align with the existing posted-price/equal-revenue geometry in the notes.
+
+The new Anagnostides et al. source is verified, but it is only an approachability/swap-regret analogy. It should not be cited as proof support for the \(1/e\) market-making theorem.
+
+## What Survives The Critique
+
+- Suffix-max representation:
+  \[
+  r_t(a;T)=a\mathbf 1\{M_{t,T}>a\}
+  \]
+  is correct for deterministic/exogenous paths and single-fill rewards.
+
+- Universal equal-revenue upper bound:
+  \[
+  R_T\le (T-1)/e
+  \]
+  is a strong candidate theorem.
+
+- Combining this with CL-027 likely gives the sharp worst-case known-path horizon-oblivious constant \(1/e\), once quantifiers are written carefully.
+
+- The path-dependent \(\sum_t\delta(C_t)\) bound is promising, but still needs finite/infinite menu technical cleanup.
+
+## Bibliography Candidates
+
+- Ioannis Anagnostides, Gabriele Farina, Maxwell Fishelson, Haipeng Luo, Jon Schneider. “Swap Regret Minimization Through Response-Based Approachability.” arXiv:2602.06264, 2026; listed for COLT 2026. https://arxiv.org/abs/2602.06264. Relevance: weak analogy for approachability/simultaneous-regret formulations; not direct proof support.
+
+## Recommended Next Checks
+
+1. Write the universal \(1/e\) upper bound as a theorem with exact model assumptions.
+2. State the minimax equality with quantifier order matching CL-027.
+3. Prove \(\delta(C)=\kappa(C)\) for finite \(C\) via finite LP duality and left-limit actions.
+4. Add an infinite-menu approximation lemma for \(C_t\).
+5. Decide whether to record the stochastic exogenous extension as a corollary.

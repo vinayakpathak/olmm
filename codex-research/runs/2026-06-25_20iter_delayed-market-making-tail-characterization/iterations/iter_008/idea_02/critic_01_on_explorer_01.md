@@ -1,0 +1,78 @@
+## Summary
+
+I do not find a fatal gap in the explorer’s finite-block argument. The proposed same-path multi-threshold lift looks valid as a lower-bound theorem once the policy model and `sup` comparator conventions are stated precisely.
+
+The main risk is not algebraic; it is theorem wording. The result is false for horizon-aware policies, and the proof only gives a lower bound with an \(O(m)\) loss, not an optimal characterization.
+
+## Issue List
+
+1. **Missing assumption: horizon-oblivious policy model.**  
+   The theorem must say the learner is one infinite policy, possibly randomized, process-aware and time-aware, but not given the evaluation horizon \(T\). If the learner receives \(T_j\), it can tailor quotes to \(c_j\), and the lower bound fails.
+
+2. **Missing assumption: regret uses `sup`, not `max`.**  
+   Since crossing is strict, the comparator value \(Nc_j\) is only a supremum via \(a\uparrow c_j\). With literal `max`, the displayed bound can be false or need \(\eta\)-comparators.
+
+3. **Plausible but incomplete: outside-reward cap needs explicit proof.**  
+   The bound
+   \[
+   R_{M+N+j}\ge Nc_j-G_j-M-m
+   \]
+   is sound, but the writeup must spell out: old-prefix actions are at most \(M\), current threshold-round actions before \(T_j\) are at most \(j-1\le m\), and the terminal-round action cannot trade by the same horizon.
+
+4. **Missing assumption: thresholds must be sorted increasingly.**  
+   The identity
+   \[
+   G_j=\mathbb E\sum_{s=1}^N A_s 1\{A_s<c_j\}
+   \]
+   uses \(c_1<\cdots<c_m\). For arbitrary order, the effective threshold at horizon \(j\) is \(\max_{\ell\le j}c_\ell\).
+
+5. **Plausible but incomplete: diagonal construction needs full recursion.**  
+   Need define \(M_1=0\), \(M_{i+1}=M_i+N_i+m_i\), choose \(m_i\to\infty\), then \(N_i\) so \((M_i+m_i)/N_i\to0\). Then the ratio calculation is clean.
+
+6. **Worth pursuing: no stochastic-mixture trap.**  
+   The \(\lambda\) distribution is used only as an averaging certificate over deterministic horizons in the same path. That avoids the known pseudo-regret mixture failure.
+
+## Counterexamples Or Stress Tests
+
+- **\(m=2\)** recovers the accepted same-path \(0^N,1/2,1\) lower bound up to \(O(1)\), so it is consistent with LB-013.
+- **\(m=1\)** gives \(\kappa(C)=0\), so the lemma becomes trivial, as it should.
+- **Horizon-aware learner** is the decisive negative stress test: the result fails if the policy can depend on \(T_j\).
+- **Unsorted thresholds** break the explorer’s \(G_j\) formula unless the path is reordered increasingly.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict found. Luo and Schapire’s unknown-horizon online learning results concern ordinary online losses and do not contradict this horizon-censored delayed-reward construction. Gofer and Mansour are relevant anytime-regret context, but not this theorem. Equal-revenue/posting-price sources support the geometry, not the same-path lift.
+
+Sources checked: Luo-Schapire ICML 2014, Gofer-Mansour Machine Learning 2016, and equal-revenue/price-discrimination context already present in the bibliography.
+
+## What Survives The Critique
+
+The finite lemma survives:
+
+\[
+\max_{1\le j\le m}R_{M+N+j}
+\ge N\kappa(C)-M-m.
+\]
+
+The diagonal corollary also survives:
+
+\[
+\limsup_T R_T/T\ge 1/e
+\]
+
+for one deterministic known path with blocks \(0^{N_i},C_i\), equal-revenue menus \(C_i\), \(m_i\to\infty\), and \(M_i+m_i=o(N_i)\).
+
+## Bibliography Candidates
+
+No new bibliography candidates. Relevant checked sources are already in the working bibliography:
+
+- Haipeng Luo and Robert Schapire, “Towards Minimax Online Learning with Unknown Time Horizon,” ICML/PMLR 2014. https://proceedings.mlr.press/v32/luo14.html
+- Eyal Gofer and Yishay Mansour, “Lower bounds on individual sequence regret,” Machine Learning 103, 2016. https://doi.org/10.1007/s10994-015-5531-y
+- Rachel Cummings, Nikhil R. Devanur, Zhiyi Huang, Xiangning Wang, “Algorithmic Price Discrimination,” SODA 2020. https://doi.org/10.1137/1.9781611975994.149
+
+## Recommended Next Checks
+
+1. Write the finite same-path multi-threshold lemma formally with `sup` comparators.
+2. Add a one-paragraph proof of the \(M+m\) outside-reward cap.
+3. Write the diagonal theorem separately, with explicit \(m_i,N_i,M_i\) recursion.
+4. Keep the conclusion labeled as a same-path horizon-oblivious lower bound, not a tail characterization or an optimality theorem.

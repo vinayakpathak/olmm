@@ -1,0 +1,43 @@
+## Summary
+
+The attempt is useful partial progress, not a solution to the original problem. The $\mathrm{ba}$ dual is a plausible abstract finite-grid value characterization under fixed finite $T$, finite $G$, public exogenous prices, and randomized policies. But it is essentially a dual restatement of the minimax value over the attainable reward set $C_T^G$, not a tail characterization, not a statistical Bayes/posterior theorem, and not a matching-rate theorem.
+
+## Fatal Gaps
+
+1. The claimed “necessary and sufficient condition” is tautological at the reward-set level:
+$$
+(\mathcal R_T^{G_T})_+=o(T).
+$$
+Writing $\mathcal R_T^{G_T}$ through a finitely additive support-function dual does not give a usable characterization in terms of delay tails, truncation tails, predictability primitives, or checkable properties of the price process.
+
+2. It does not solve the original stated goals. The problem asks for a necessary/sufficient condition and lower/upper regret rates, ideally matching. The attempt explicitly admits no scalar tail theorem and no matching lower rate.
+
+3. The proof of the arbitrary-class $\mathrm{ba}$ dual is not included. This is nontrivial: it needs the exact policy class, convexity from ex-ante randomization, norm topology on $\ell^\infty(\Theta_T)$, separation/Sion or Hahn-Banach details, positivity of the separator, and the $ba=(\ell^\infty)^*$ representation.
+
+4. The continuum statement is underdefined. $\mathcal R_T^{[0,1]}$ must be defined with $\sup_a$, not $\max_a$, and over a matching randomized measurable policy class. Strict-threshold nonattainment makes this important.
+
+## Missing Assumptions
+
+- Learner knows $T$, $G_T$, and the class $\Theta_T$.
+- Policies are common across $\theta$, randomized with independent private randomness, and allow ex-ante mixing.
+- Prices are public and exogenous/action-independent.
+- Regret is signed upper regret, and learnability uses the positive part.
+- The class may be horizon-indexed; this must be stated because the condition is not an anytime result.
+- $\delta_T^\theta(H)$ in the upper bound is not defined in the attempt.
+
+## False Or Unsupported Claims
+
+- “SOLVED: maybe” is too strong. At most this is an abstract minimax-value characterization for a restricted public-exogenous model.
+- “Necessary and sufficient condition” is misleading unless qualified as “the minimax value itself is sublinear.” It is not a structural condition.
+- The finite-class $\Psi_G$ formula is valid only for finite ordinary priors with a mixture law and regular conditionals; it must not be read into the $\mathrm{ba}$ formula.
+
+## Plausible But Incomplete Parts
+
+- The finite-grid $\mathrm{ba}$ dual is plausible and consistent with the iteration 19 ledger, under the narrow assumptions.
+- The $T/K$ grid-to-continuum comparison is plausible via downward rounding.
+- The finite-class reduction to ordinary priors is correct under finite $\Theta_T$, finite $G$, randomized policies, and public exogenous prices.
+- The truncation upper bound with $\delta_T(H)$ is accepted as a sufficient theorem, but it remains only an upper bound.
+
+## Verdict
+
+ACCEPTABLE: no

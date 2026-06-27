@@ -1,0 +1,17 @@
+## Accepted Progress
+Accepted the finite proof fragments from iteration 3: the conditional two-continuation lower bound with a prefix cap, and the same-path two-horizon obstruction on \(0^N,1/2,1\). The clean sufficiency theorem remains accepted only under explicit public/exogenous full-information assumptions.
+
+## Candidate Routes
+The concatenated universal block lower bound is now “likely formalizable” but still unproved. The new horizon-oblivious known-process route is also promising: concatenate \(0^{N_i},1/2,1\) blocks to test whether prefix incompatibility forces \(\limsup R_T/T>0\).
+
+## Refuted Or Weakened Claims
+Raw \(\beta\)-necessity is still false, even for horizon-oblivious policies, because sparse vanishing spikes admit an anytime always-zero learner. The infinite concatenation arguments were not promoted to proved theorems. Stochastic mixtures remain unsafe under \(\sup_a \mathbb E-\mathbb E\) pseudo-regret.
+
+## Literature Updates
+Verified and imported iteration-3 candidates including [Esposito et al. 2023](https://proceedings.mlr.press/v202/esposito23a.html), [Pike-Burke et al. 2018](https://proceedings.mlr.press/v80/pike-burke18a.html), [Weinberger-Ordentlich 2002](https://doi.org/10.1109/TIT.2002.1013136), [Ryabchenko-Attias-Roy 2026](https://arxiv.org/abs/2602.02634), [Zhang et al. 2024](https://openreview.net/forum?id=qaKRfobbTg), [Xu et al. 2025/2026](https://arxiv.org/abs/2502.06168), [Abernethy-Bartlett-Hazan 2011](https://proceedings.mlr.press/v19/abernethy11b.html), [Daniely-Gonen-Shalev-Shwartz 2015](https://proceedings.mlr.press/v37/daniely15.html), and [Hazan-Seshadhri 2009](https://doi.org/10.1145/1553374.1553425).
+
+## Working Notes Updated
+Updated `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+Prove the concatenated universal block theorem with exact process-unaware quantifiers and prefix accounting. In parallel, prove or break the same-path horizon-oblivious concatenation theorem. Keep the sufficiency theorem and core counterexamples moving toward polished standalone propositions.

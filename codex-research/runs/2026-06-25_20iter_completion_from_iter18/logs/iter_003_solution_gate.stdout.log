@@ -1,0 +1,19 @@
+ACCEPT: no
+
+The claimed solution should not stop the loop. The solver correctly refutes the original iff under the literal instance-wise pseudo-regret interpretation: the sparse vanishing-spike example has \(\beta(h)=1\) for all \(h\) while an always-zero learner has \(O(1)\) regret. The sufficiency bound is also plausible under the already-recorded full-information assumptions.
+
+But the critic identified serious unresolved gaps. Most importantly, the solver mixes an instance-wise counterexample, a sufficiency theorem, and a sketched universal/minimax lower bound without fixing the quantifier regime. The concatenated block lower bound is not proved; only the finite \(0^N c\) gadget is accepted. Therefore this is not yet a complete characterization or replacement theorem.
+
+Remaining assumptions needed for the supported part:
+
+- prices are public and exogenous;
+- all truncated counterfactual grid rewards are observable after delay \(H\);
+- regret should use \(\sup_a\), not \(\max_a\), unless attainment is proved;
+- delayed-expert theorem conventions must be stated;
+- any necessity statement must specify process-aware vs universal/minimax vs horizon-aware learners.
+
+Literature check: I found no exact delayed market-making tail characterization in a brief primary-source search. Existing sources support adjacent pieces only: Joulani-Gyorgy-Szepesvari 2013 supports delayed-feedback reductions, and Cesa-Bianchi et al. 2025 is adjacent market-making regret, not this delayed-fill tail characterization.
+
+Bibliography candidates: no new candidates beyond the already tracked sources. Relevant existing ones remain:
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari, “Online Learning under Delayed Feedback,” ICML/PMLR 2013, https://proceedings.mlr.press/v28/joulani13.html.
+- Nicolò Cesa-Bianchi, Tommaso Cesari, Roberto Colomboni, Luigi Foscari, Vinayak Pathak, “Market Making without Regret,” COLT/PMLR 2025, https://proceedings.mlr.press/v291/cesa-bianchi25a.html.

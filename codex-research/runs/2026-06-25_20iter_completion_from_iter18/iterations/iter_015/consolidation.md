@@ -1,0 +1,31 @@
+## Accepted Progress
+Promoted the local two-level single-drought identity:
+\[
+D_{M+N+2}(h^M,0^N,\ell,h)
+=
+[\ell(M+N)-h(M-1)_+]_+(1-\ell/h).
+\]
+Also promoted the stable-high regret formula:
+\[
+Q_T=[\ell(L_\ell(T)-1)_+-h(L_h(T)-1)_+]_+.
+\]
+Both are recorded as formal left-limit results with strict-crossing caveats.
+
+## Candidate Routes
+The next viable route is a resolved-surplus/debt recursion for two-level paths. The post-low extension \(h^M,0^N,\ell,0^L,h\) remains plausible but not yet proved for all intermediate horizons.
+
+## Refuted Or Weakened Claims
+Refuted the raw \(Q_T\)-dichotomy. In \(0^N,\ell,0^L,h\) with \(L\gg N\), \(Q_{N+1}=\ell N\), but the low-only prefix has \(D=0\), and the full conflict is only \(N\ell(1-\ell/h)=o(N+L)\).
+
+## Literature Updates
+Added verified background-only sources: Wu et al. 2022 fixed-design regret, Assos et al. 2023 infinite games, Wu-Grama-Szpankowski 2023 dynamic environments, Kontonis-Ma-Tzamos 2023 ordering, Rakhlin-Sridharan 2013 predictable sequences, and Lindley 1952 queue recursions. No source proves the market-making gluing theorem.
+
+Links include: https://proceedings.mlr.press/v195/assos23a.html, https://proceedings.mlr.press/v195/wu23a.html, https://proceedings.mlr.press/v30/Rakhlin13.html, https://doi.org/10.1017/S0305004100027638.
+
+## Working Notes Updated
+Updated `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+1. Prove or disprove the \(h^M,0^N,\ell,0^L,h\) extension.
+2. Formalize two-level resolved-surplus/debt bookkeeping, including multi-low droughts.
+3. Run finite-prefix LP experiments for repeated diluted-drought paths.

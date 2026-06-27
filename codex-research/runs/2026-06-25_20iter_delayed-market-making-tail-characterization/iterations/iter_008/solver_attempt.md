@@ -1,0 +1,93 @@
+## Verdict
+SOLVED: no
+
+The original iff remains false. But iteration 8 appears to close the candidate same-path multi-threshold anytime lift, and in a stronger form than the previous \(O(m)\)-loss version.
+
+## Candidate Solution Or Main Attempt
+Let \(C=\{0<c_1<\cdots<c_m\le 1\}\). Consider one deterministic known path with an arbitrary old prefix of length \(M\), then
+\[
+0^N,c_1,c_2,\ldots,c_m .
+\]
+Let \(T_j=M+N+j\). A process-aware but horizon-oblivious policy uses the same zero-block actions \(A_1,\ldots,A_N\) for all evaluations \(T_j\).
+
+For horizon \(T_j\), the fixed comparator quote \(a\uparrow c_j\) earns almost \(c_j\) on all \(N+j-1\) block actions before \(T_j\). The learner’s intermediate threshold-round rewards before \(T_j\) are each at most \(c_j\), so those rewards are cancelled by the comparator’s extra \(j-1\) intermediate-round value. Thus
+\[
+R_{T_j}
+\ge
+N c_j
+-
+\mathbb E\sum_{s=1}^N A_s\mathbf 1\{A_s<c_j\}
+-
+M .
+\]
+Weight by any \(\lambda\in\Delta(C)\):
+\[
+\sum_j\lambda_j R_{T_j}
+\ge
+N\left(\mathbb E_\lambda C-\sup_a a\Pr_\lambda(C>a)\right)-M.
+\]
+Optimizing over \(\lambda\),
+\[
+\max_j R_{T_j}\ge N\kappa(C)-M,
+\]
+where
+\[
+\kappa(C)=
+\max_{\lambda\in\Delta(C)}
+\left(\mathbb E_\lambda C-\sup_a a\Pr_\lambda(C>a)\right).
+\]
+
+So CL-026 can likely be promoted with no \(O(m)\) loss in the finite block; only the denominator needs \(m_i=o(N_i)\) if \(m_i\to\infty\) in concatenation.
+
+## Concrete Lemmas Or Reductions
+**Finite Same-Path Multi-Threshold Lemma.**  
+For any increasing finite threshold set \(C\), any horizon-oblivious policy on \(0^N,c_1,\ldots,c_m\) satisfies
+\[
+\max_{1\le j\le m}R_{M+N+j}\ge N\kappa(C)-M.
+\]
+
+**Equal-Revenue Corollary.**  
+For \(m\)-point equal-revenue thresholds with \(r=(m-1)/m\),
+\[
+c_i=r^{m-i},\qquad i=1,\ldots,m,
+\]
+the accepted finite-support theorem gives
+\[
+\kappa(C)=r^m=\left(\frac{m-1}{m}\right)^m.
+\]
+Concatenating blocks with \(M_i+m_i=o(N_i)\) and \(m_i\to\infty\) gives a deterministic known path such that every horizon-oblivious policy has
+\[
+\limsup_T R_T/T\ge 1/e.
+\]
+
+**Primal Equal-Revenue Action Law.**  
+For the same \(C\), the local minimax zero-block strategy is uniform over quotes just below \(c_i\). Indeed,
+\[
+\frac1m\sum_{i\le j}c_i=c_j-r^m,
+\]
+so every horizon deficit equals \(r^m\).
+
+## Gaps And Failure Points
+The proof needs a polished strict-crossing writeup using suprema or \(a\uparrow c_j\) limits.
+
+The policy model must explicitly exclude horizon input. If the policy is told \(T_j\), the oracle collapse returns.
+
+The result is still not an instance-wise tail characterization. It is a same-path simultaneous-prefix obstruction.
+
+## Counterexamples Or Obstructions
+Sparse vanishing spikes still refute raw \(\beta\)-necessity even for anytime policies.
+
+The dual distribution over \(C\) remains only a minimax certificate; sampling thresholds stochastically is not automatically hard under pseudo-regret.
+
+## Literature And Bibliography Candidates
+I did a targeted search for a direct source on the exact finite-support constant \(((m-1)/m)^m\). I did not find a precise primary-source match beyond adjacent equal-revenue and monopoly-pricing literature already in the notes. Treat the finite-\(m\) theorem as an internal AM-GM result for now.
+
+## Promising Ideas To Explore
+Promote CL-026 with the stronger no-\(O(m)\) finite-block bound.
+
+Write the \(1/e\) same-path anytime theorem as the analogue of CL-025.
+
+Use the primal uniform-near-threshold strategy to study known-path anytime upper bounds or impossibility beyond block lower bounds.
+
+## Notes For Critics
+Check the cancellation of intermediate threshold-round rewards carefully. The key point is that before \(T_j\), any learner reward from threshold-round posts is at most \(c_j\), while the comparator \(a\uparrow c_j\) earns \(c_j\) on each such post.

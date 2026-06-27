@@ -1,0 +1,80 @@
+## Summary
+
+The explorer’s main conclusion is worth pursuing: the compact-menu local value formula is very likely true, and the finite-approximation lower bound is the clean route. I found no fatal counterexample to the theorem.
+
+The report is not yet proof-ready. The main problems are measure-theoretic cleanup, a false pointwise convergence claim for finite approximations, and an unverified direct dual survival law. These are fixable; they do not appear to invalidate the compact local lemma.
+
+## Issue List
+
+- **False claim, nonfatal:** “\(s_{D_n}\downarrow s_C\) pointwise” is false for arbitrary nested finite dense \(D_n\subset C\).  
+  Example: \(C=[0,1/2]\cup\{1\}\), with finite dense \(D_n\) omitting \(1/2\). Then at \(x=1/2\), \(s_C(x)=1/2\) but \(s_{D_n}(x)=1\). The right replacement is a.e. convergence, or a specially chosen approximation containing relevant one-sided isolated endpoints.
+
+- **Plausible but incomplete:** \(\delta(D_n)\to\delta(C)\) needs proof. The right argument should use
+  \[
+  1/s_{D_n}\uparrow 1/s_C\quad\text{a.e.}
+  \]
+  plus monotone convergence of \(F_{D_n}(u)\) for \(u>0\), then root convergence. Boundary cases \(\delta(C)=0\) and \(F_C(0)=\infty\) need explicit handling.
+
+- **Missing assumption:** The theorem should state \(C\neq\varnothing\), \(m=\max C>0\), and zero thresholds are irrelevant or removed as \(C_+=C\cap(0,m]\). If \(0\in C\), avoid denominators at zero and define integrals on \((0,m]\).
+
+- **Missing assumption / convention:** The value is an infimum in the original strict-crossing action space. Singleton menus already force this: for \(C=\{c\}\), value \(0\) is approached by \(a\uparrow c\) but not attained.
+
+- **Plausible but incomplete:** The direct dual law using
+  \[
+  \Pr(Z>a)=\rho/s_C^+(a)
+  \]
+  needs a full survival-function audit: monotonicity, right-continuity, support contained in \(C\), atoms at gap endpoints, the singleton case, and the calculation \(\mathbb EZ=\rho+\delta\).
+
+- **Unsupported citation:** The robust-pricing papers are good analogies, but none cited in the explorer report should be treated as proving the compact-menu lemma.
+
+## Counterexamples Or Stress Tests
+
+- **Singleton \(C=\{c\}\):** Confirms value \(\delta=0\) but no exact optimizer under strict crossing.
+
+- **Two-point \(C=\{c,d\}\):** Recovers \(\delta=c(d-c)/d\). Also shows why the dual must use strict successors: using \(s_C(c)=c\) directly gives the wrong survival at the atom.
+
+- **Interval \(C=[q,m]\):** Gives
+  \[
+  \delta=
+  \begin{cases}
+  m/e,& q\le m/e,\\
+  q\log(m/q),& q>m/e.
+  \end{cases}
+  \]
+  This matches the robust-pricing intuition and is a useful sanity check.
+
+- **Approximation stress test \(C=[0,1/2]\cup\{1\}\):** Breaks pointwise convergence of arbitrary dense finite menus but not the value formula.
+
+- **Accumulation at zero, e.g. \(C=\{0\}\cup\{1/n:n\ge1\}\):** Forces careful improper-integral and zero-threshold conventions; likely still fine because the active suffix above \(\delta>0\) is finite.
+
+## Literature Or Known-Result Conflicts
+
+No conflict found. The closest literature is support-only minimax/robust pricing, especially Bergemann-Schlag-style randomized pricing and equal-revenue constructions, but the arbitrary compact-menu strict-crossing formula appears to remain an internal result unless a later search finds a direct theorem.
+
+## What Survives The Critique
+
+The compact local lemma survives as a strong candidate:
+
+\[
+\inf_\mu \sup_{c\in C}\left(c-\int_{[0,c)}a\,d\mu(a)\right)=\delta(C),
+\qquad
+\int_{\delta(C)}^m \frac{dx}{s_C(x)}=1.
+\]
+
+The upper bound via \(X\) with density \(1/s_C(x)\) and quotes \((1-\eta)s_C(X)\) is essentially sound.
+
+The lower bound via finite submenus is also likely sound after replacing pointwise convergence by a.e. convergence plus root convergence.
+
+## Bibliography Candidates
+
+- Çağıl Koçyiğit, Napat Rujeerapaiboon, Daniel Kuhn. “Robust Multidimensional Pricing: Separation Without Regret.” *Mathematical Programming* 196:841-874, 2022. DOI: https://doi.org/10.1007/s10107-021-01615-4. Adjacent minimax-regret pricing and finite/discrete approximation context.
+
+- Shixin Wang, Shaoxuan Liu, Jiawei Zhang. “Minimax Regret Robust Screening with Moment Information.” *Manufacturing & Service Operations Management* 26(3):992-1012, 2024. DOI: https://doi.org/10.1287/msom.2023.0072. Adjacent robust-screening LP/minimax context; not direct proof support.
+
+## Recommended Next Checks
+
+1. Prove the compact theorem using finite approximation only; postpone the direct dual.
+2. Write a lemma: for suitable finite \(D_n\subset C_+\), \(s_{D_n}\to s_C\) a.e. and \(\delta(D_n)\uparrow\delta(C)\).
+3. State strict-crossing implementation with \(\eta\)-quotes or a left-limit compactification.
+4. Separately audit the dual survival law; useful for exposition but not needed for the lower bound.
+5. Only after this, plug \(\delta(C_t)\) into the suffix-menu framework with summable \(\eta_t\) errors.

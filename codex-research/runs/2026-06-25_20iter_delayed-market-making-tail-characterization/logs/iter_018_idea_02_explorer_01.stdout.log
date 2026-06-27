@@ -1,0 +1,124 @@
+## Summary
+
+The dual-certificate route works cleanly for the one-drought unequal-low LP in the formal left-limit model. Restricting the full finite-prefix dual to low horizons \(s_j\) and the final high \(n\) gives exactly the solver’s reduced-LP dual with the same \(\psi_i(\alpha,\beta)\). Moreover, in a one-drought path, omitted zero/intermediate horizons appear removable or mergeable in the full dual, so I do not see a dual obstruction from intermediate horizons.
+
+This is not progress on the original tail characterization. It is local finite-prefix LP progress for the deterministic known-path, horizon-oblivious, formal left-limit model.
+
+## Concrete Progress
+
+For the path
+\[
+h^M,0^{N_0},\ell_1,0^{N_1},\ell_2,\ldots,0^{N_{r-1}},\ell_r,0^L,h,
+\]
+write \(H=(M-1)_+\), useful segment capacities
+\[
+B_0=N_0+\mathbf 1_{\{M\ge1\},\qquad B_i=N_i+1\quad(1\le i\le r-1),
+\]
+and
+\[
+m_{i,j}=\max_{q=i+1,\ldots,j}\ell_q,\qquad S_j=V^*_{s_j}-hH.
+\]
+
+Using the full finite-prefix dual
+\[
+\Phi(\lambda)=\sum_T\lambda_TV_T^*
+-\sum_{t<n}\sup_a a\sum_{T>t}\lambda_T1\{a\le M_{t,T}\},
+\]
+restrict to \(\lambda_{s_j}=\alpha_j\), \(\lambda_n=\beta\), with \(\sum_j\alpha_j+\beta=1\). For a quote coordinate in useful segment \(i\),
+\[
+A_i(c)=\sum_{\substack{j>i\\ c\le m_{i,j}}}\alpha_j.
+\]
+The per-coordinate support term is
+\[
+\max\left\{\beta h,\max_{c\in\mathcal L} c(\beta+A_i(c))\right\}
+=
+\beta h+\psi_i(\alpha,\beta),
+\]
+where
+\[
+\psi_i=
+\left[
+\max_{c\in\mathcal L}
+\left\{
+c\sum_{\substack{j>i\\ c\le m_{i,j}}}\alpha_j-\beta(h-c)
+\right\}
+\right]_+.
+\]
+
+After cancellation of protected old-high coordinates and final-only coordinates,
+\[
+\Phi(\alpha,\beta)
+=
+\sum_j\alpha_jS_j-\sum_{i=0}^{r-1}B_i\psi_i(\alpha,\beta).
+\]
+This matches the solver’s reduced-LP dual exactly.
+
+## Claims Or Lemmas
+
+**Candidate Lemma 1: Restricted Dual Equals Reduced Dual.**  
+For the one-drought path above, the full finite-prefix dual restricted to low horizons and the final high is exactly
+\[
+\max_{\alpha,\beta\ge0,\ \sum_j\alpha_j+\beta=1}
+\left[
+\sum_j\alpha_jS_j-\sum_iB_i\psi_i(\alpha,\beta)
+\right].
+\]
+
+**Candidate Lemma 2: Omitted Horizons Do Not Help.**  
+In the same one-drought path, any dual mass on intermediate zero horizons after low \(s_j\) can be merged into \(s_j\) without changing the dual objective. Any mass before the first low contributes only pure old-high baseline value and can be dropped; after normalization this does not decrease a nonnegative certificate. Thus low horizons plus the final high should suffice for the full dual optimum.
+
+## Proof Attempts
+
+The key cancellation is:
+\[
+n-1=H+\sum_iB_i+(L+1).
+\]
+Protected old-high coordinates contribute \(hH\) to each low-horizon comparator baseline and \(h\) per coordinate to the support cost, so they cancel because \(\sum_j\alpha_j+\beta=1\). Final-only coordinates contribute \(\beta h(L+1)\) to the support cost and cancel against the corresponding part of \(\beta V_n^*=\beta h(n-1)\).
+
+For omitted horizons: if \(T\) is a zero horizon after low \(s_j\) and before the next positive price, then \(V_T^*=V_{s_j}^*\) and the whole suffix-max profile \(M_{t,T}\) is identical to that at \(s_j\). So dual mass at \(T\) can be moved to \(s_j\). Horizons before the first low have no useful low-side payoff; their comparator value is exactly canceled by support costs on old-high protected coordinates.
+
+## Gaps And Risks
+
+The above is still a proof sketch, not a polished theorem. The main bookkeeping to write carefully is the deletion/normalization step for pre-first-low dual mass.
+
+Strict crossing still requires the standard formal-to-actual \(\eta\)-implementation.
+
+The result is one-drought only. Repeated droughts can share high-debt coordinates, so this dual certificate should not be assumed composable.
+
+## Counterexamples Or Obstructions
+
+No counterexample found to the solver’s \(\psi_i\) formula.
+
+The example \(0,0.4,0.9,1\) checks out. A dual certificate is
+\[
+\alpha_1=5/9,\qquad \alpha_2=2/45,\qquad \beta=2/5,
+\]
+giving
+\[
+\alpha_1S_1+\alpha_2S_2=68/225.
+\]
+This matches the primal value and exceeds the naive last-low-only value \(0.18\).
+
+## Sources Consulted
+
+Local run files: `problem.md`, all requested `working_notes/*.md`, `iterations/iter_018/idea_02/idea.md`, and `iterations/iter_018/solver_attempt.md`.
+
+External proof-technology checks: Vidal-Jaillet-Maculan nested resource allocation paper, Vidal-Gribel-Jaillet nested constraints paper, de Leeuw-Hornik-Mair PAVA paper, Ahuja-Orlin chain constraints paper, and Wu-Nip-He nested bound constraints paper. These are background only, not sources for the market-making dual proof. Sources: ([epubs.siam.org](https://epubs.siam.org/doi/10.1137/140965119?utm_source=openai)) ([pubsonline.informs.org](https://pubsonline.informs.org/doi/10.1287/ijoo.2018.0004?utm_source=openai)) ([jstatsoft.org](https://www.jstatsoft.org/v32/i05?utm_source=openai)) ([pubsonline.informs.org](https://pubsonline.informs.org/doi/10.1287/opre.49.5.784.10601?utm_source=openai)) ([pubsonline.informs.org](https://pubsonline.informs.org/doi/10.1287/ijoc.2020.1006?utm_source=openai))
+
+## Bibliography Candidates
+
+- Thibaut Vidal, Patrick Jaillet, Nelson Maculan. “A Decomposition Algorithm for Nested Resource Allocation Problems.” SIAM Journal on Optimization 26(2):1322-1340, 2016. DOI: https://doi.org/10.1137/140965119. Relevant for nested resource-allocation algorithms behind possible pooling rules.
+
+- Thibaut Vidal, Daniel Gribel, Patrick Jaillet. “Separable Convex Optimization with Nested Lower and Upper Constraints.” INFORMS Journal on Optimization 1(1):71-90, 2019. DOI: https://doi.org/10.1287/ijoo.2018.0004. Relevant to nested capacity constraints resembling the drought LP.
+
+- Jan de Leeuw, Kurt Hornik, Patrick Mair. “Isotone Optimization in R: Pool-Adjacent-Violators Algorithm (PAVA) and Active Set Methods.” Journal of Statistical Software 32(5):1-24, 2009. DOI: https://doi.org/10.18637/jss.v032.i05. Useful background for a possible pooling/PAVA interpretation.
+
+- Ravindra K. Ahuja, James B. Orlin. “A Fast Scaling Algorithm for Minimizing Separable Convex Functions Subject to Chain Constraints.” Operations Research 49(5):784-789, 2001. DOI: https://doi.org/10.1287/opre.49.5.784.10601. Relevant if the reduced LP can be transformed into a chain-constrained resource allocation problem.
+
+- Zeyang Wu, Kameng Nip, Qie He. “A New Combinatorial Algorithm for Separable Convex Resource Allocation with Nested Bound Constraints.” INFORMS Journal on Computing 33(3):1197-1212, 2021. DOI: https://doi.org/10.1287/ijoc.2020.1006. Relevant for exact combinatorial algorithms with nested bound constraints.
+
+## Recommended Next Steps
+
+1. Write the support-reduction lemma formally using unnormalized dual weights and positive homogeneity of \(\Phi\).
+2. Promote the one-drought unequal-low LP only after that lemma is checked by a critic.
+3. Then derive complementary slackness/KKT conditions for \(\psi_i\); that is the right entry point for a pooling rule.

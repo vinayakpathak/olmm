@@ -1,0 +1,65 @@
+## Summary
+
+I do not see a fatal mathematical break in the explorer’s main negative finding: the simple market analogue of the abstract parity obstruction does not produce a separator. The separated block calculation
+\[
+0^N,c_0,0^L,c_1,\qquad 0<c_0<c_1
+\]
+is likely correct in the formal left-limit model, and the dilution intuition is sound for this narrow block family.
+
+The critique is that the report overstates the scope. It rules out the most direct block-parity constructions, not all possible market paths with \(D_n=o(n)\) and no fixed sublinear envelope. The all-prefix and projective-consistency parts remain unproved.
+
+## Issue List
+
+- **Plausible but incomplete:** The claim \(D_n=N\alpha(c_0,c_1)\) for \(n=N+L+2\), \(\alpha=c_0(c_1-c_0)/c_1\), needs the full all-horizon upper bound written. The lower bound from horizons \(N+1\) and \(N+L+2\) is fine, but the proof should explicitly handle every intermediate horizon.
+
+- **Missing assumption:** The exact \(D_n\) equality is left-limit/formal. In the original strict-crossing model, it is only an infimum implemented by quotes \(c_0-\eta\), \(c_1-\eta\), with accumulated \(\eta\)-loss controlled.
+
+- **Missing assumption:** The “easy” policy for separated blocks is path-aware. It uses knowledge of the future terminal level \(c_i\) before posting inside block \(i\). This is valid only in the deterministic known-path, horizon-oblivious regime, not in universal or causal unknown-path settings.
+
+- **Plausible but incomplete:** The rapidly growing alternating singleton-block claim needs an all-prefix envelope proof. Endpoint accounting is not enough; one must show regret remains \(o(T)\) for horizons inside zero blocks, just after terminals, and across block boundaries.
+
+- **Plausible but incomplete:** The dilution heuristic is not a theorem. It does not exclude subtler interleavings where many quote times have overlapping low/high future menus while no single finite prefix has \(D_n=\Omega(n)\).
+
+- **Unsupported citation / weak relevance:** The Flesch-Laraki-Perchet COLT 2016 citation is only background unless tied to a precise fixed-horizon-vs-anytime theorem. The PMLR entry is a 2-page COLT item; stronger support may come from uniform value or weak/strong approachability literature.
+
+## Counterexamples Or Stress Tests
+
+- **Close conflict:** \(0^N,c_0,c_1\) gives linear \(D_n\), so it cannot separate \(D_n=o(n)\) from fixed-envelope feasibility. This agrees with the report.
+
+- **Separated conflict:** \(0^N,c_0,0^L,c_1\) with \(L\gg N\) gives \(D_n/n\to0\). A deterministic policy quoting \(c_0^-\) on the first zero block and \(c_1^-\) thereafter has final-horizon loss \(N(c_1-c_0)+o(n)\) and near-zero low-horizon loss. This supports the explorer’s conclusion.
+
+- **All-prefix stress:** For an infinite concatenation of separated conflicts, verify \(D_m=o(m)\) and a fixed envelope for every prefix \(m\), not only selected terminal endpoints.
+
+- **Interleaving stress:** Try paths with many overlapping separated low/high requirements, not just singleton terminal blocks. This is the remaining place a market-specific parity obstruction could hide.
+
+## Literature Or Known-Result Conflicts
+
+No known-result conflict found. The literature supports caution rather than the explorer’s stronger heuristic.
+
+Relevant checked sources:
+- Jérôme Renault, “Uniform value in dynamic programming,” JEMS 2011, DOI 10.4171/JEMS/254, https://ems.press/journals/jems/articles/2273. Relevant because fixed finite-horizon values need not automatically yield one uniform policy without structural assumptions.
+- Shie Mannor, Vianney Perchet, Gilles Stoltz, “Set-Valued Approachability and Online Learning with Partial Monitoring,” JMLR 2014, https://jmlr.org/papers/v15/mannor14a.html. Relevant background for vector/set-valued feasibility, not a direct market theorem.
+- Christoph Dann et al., “Rate-Preserving Reductions for Blackwell Approachability,” COLT 2025, https://proceedings.mlr.press/v291/dann25a.html. Useful for approachability/regret reductions, but not a gluing theorem here.
+- Lagziel and Lehrer, “Approachability with delayed information,” JET 2015, DOI 10.1016/j.jet.2015.01.010, https://ideas.repec.org/a/eee/jetheo/v157y2015icp425-444.html. Background only.
+
+## What Survives The Critique
+
+- The separated-block calculation is worth formalizing as a clean stress-test lemma.
+- The simple parity attempt likely fails for market-specific reasons: old quote coordinates are diluted by new quote opportunities when the incompatible horizon is far away.
+- The report correctly avoids claiming a counterexample to gluing.
+- The market monotonicity of \(M_{t,T}\) remains a promising route toward a positive gluing theorem, but no proof is present.
+
+## Bibliography Candidates
+
+- Jérôme Renault. “Uniform value in dynamic programming.” Journal of the European Mathematical Society 13(2):309-330, 2011. DOI 10.4171/JEMS/254. Relevance: uniform finite-horizon-to-anytime strategy analogues.
+
+- Shie Mannor, Vianney Perchet, Gilles Stoltz. “Set-Valued Approachability and Online Learning with Partial Monitoring.” JMLR 15:3247-3295, 2014. https://jmlr.org/papers/v15/mannor14a.html. Relevance: vector feasibility and set-valued payoff background.
+
+- Ehud Lehrer. “A Wide Range No-Regret Theorem.” Games and Economic Behavior 42(1):101-115, 2003. DOI 10.1016/S0899-8256(03)00032-0. Relevance: one strategy satisfying many comparison criteria; useful analogy for one quote sequence serving many horizons.
+
+## Recommended Next Checks
+
+1. Write the exact proof of \(D_{N+L+2}=N\alpha(c_0,c_1)\), including all intermediate horizons.
+2. Prove the all-prefix dilution lemma for rapidly growing singleton terminal blocks.
+3. Run finite LP experiments on non-block interleavings with overlapping low/high suffix maxima.
+4. Pursue a dyadic or scale-sensitive dual localization lemma: if gluing fails, force a \(D_n=\Omega(n)\) certificate on comparable-scale horizons.

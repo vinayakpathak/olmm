@@ -1,0 +1,75 @@
+## Summary
+
+I do not see a fatal counterexample to the explorer’s no-go pair under the protocol in `problem.md`: prices are public, exogenous, $P_t$ is observed before choosing $a_t$, and a quote at time $t$ only trades on future prices $P_{t+s}$, $s>0$.
+
+The core construction survives: hidden and labeled classes can have the same per-world $\beta,\Delta,\delta$ profiles while their minimax regrets differ by $\Omega(qD)$. This is a valid obstruction to scalar criteria depending only on individual laws’ delay/truncation profiles.
+
+The main weaknesses are scope and wording, not the construction itself.
+
+## Issue List
+
+1. **Missing assumption: no pre-$P_1$ or same-period quote.**  
+   The profile matching depends critically on there being no legal quote before $P_1$, and no reward from the current price $P_t$ after observing it. If the model allowed a $t=0$ quote, or immediate trade against $P_1$, the label price $\ell_\theta$ could affect delays and rewards.
+
+2. **Missing assumption: class-level object must be per-world profile/envelope only.**  
+   The no-go refutes criteria based on the multiset or envelope of individual-law profiles, e.g. $\{\beta_\theta,\Delta_\theta,\delta_\theta\}_{\theta}$ or $\sup_\theta\Delta_\theta$. It does not refute criteria that encode observable-prefix information, posterior predictability, Bayes gaps, or the statistical experiment formed by the class.
+
+3. **Plausible but incomplete: exact labeled zero regret depends on action set.**  
+   Zero grid regret requires a grid containing $1/2$ and $3/4$. On the canonical grid $G_T=\{0,1/T,\ldots,(T-1)/T\}$, exact zero may fail unless $T$ is compatible. The statement should be “zero on a grid containing those quotes, and $O(T/K)$ otherwise.” For continuum actions, zero is fine here because the chosen endpoints are attained.
+
+4. **Missing assumption: integer truncation horizon and off-by-one convention.**  
+   The displayed
+$$
+   \Delta_L(H)=\delta_L(H)=q(D-H)/2,\qquad
+   \Delta_H(H)=\delta_H(H)=3q(D-H)/4
+$$
+   is correct for integer $0\le H<D$ under the convention that a quote at $t$ sees terminal delay $D+1-t$. For noninteger $H$, or a different truncation convention, floors/ceilings appear.
+
+5. **Plausible but incomplete: “identical profiles” should include horizon convention.**  
+   The $\beta_\theta(h)=q$ for $h<D$, $0$ for $h\ge D$ statement needs either finite-horizon $\beta_T$ or the absorbing post-horizon extension $P_s=0$ for $s>T$. The explorer says this, but the final proposition should make it part of the theorem statement.
+
+6. **Worth pursuing: lower-bound proof is basically inherited from accepted q-scaled atom.**  
+   The hidden-class $\Omega(qD)$ proof is sound, assuming the learner sees no distinguishing feedback before $P_{D+1}$. Since $P_2,\ldots,P_D=0$ and trade is strict, no previous quote trades before terminal time.
+
+7. **Unsupported citation: none.**  
+   No external citation is needed for this construction; it can be proved self-contained from the accepted Bayes-gap/Yao argument.
+
+## Counterexamples Or Stress Tests
+
+- **Pre-game quote stress test:** If a quote at $t=0$ is included, labeled $P_1=\ell_\theta$ becomes a future hit and changes $\tau_0(a)$, so profile equality can fail.
+
+- **Same-period trade stress test:** If after seeing $P_t$ the quote $a_t$ can trade immediately against $P_t$, then the label affects first-round rewards. The current protocol avoids this.
+
+- **Canonical grid stress test:** If $G_T$ omits $1/2$ or $3/4$, labeled regret is not exactly zero, only discretization-small. This does not break the linear separation for constant $q$, but it changes the statement.
+
+- **Prior/mixed-law profile stress test:** If someone computes a profile for a prior mixture over worlds including posterior information from $P_1$, hidden and labeled classes may differ. The proposition should avoid claiming equality for such predictability-aware objects.
+
+## Literature Or Known-Result Conflicts
+
+No conflict with the working notes. The construction is consistent with:
+
+- the accepted q-scaled hidden-terminal atom;
+- the known-law oracle boundary, because the labeled class effectively makes the active law known before payoff-relevant decisions;
+- the finite-class Bayes-gap characterization, since the hidden class has positive Bayes gap while the labeled class has none.
+
+It also reinforces the existing conclusion: scalar raw tail or truncation profiles are insufficient for unknown-class learnability.
+
+## What Survives The Critique
+
+The main theorem survives in this form:
+
+For $T=D+1$, construct hidden and labeled two-world public-exogenous classes as in the explorer report. For each world $\theta$, the legal quote rewards and delay/truncation profiles are identical between hidden and labeled versions. Yet the hidden class has minimax regret at least $qD/8$, while the labeled class has zero continuum regret and zero grid regret on any grid containing $1/2,3/4$.
+
+This is a strong no-go result for per-law scalar tail-profile characterizations.
+
+## Recommended Next Checks
+
+1. Write the formal proposition with explicit protocol assumptions: no quote before $P_1$, no same-period trade, strict trade rule, public exogenous prices.
+
+2. State profile equality only for legal decision times $t=1,\ldots,D$.
+
+3. Add the exact truncation convention and absorbing extension for $\beta$.
+
+4. Phrase the conclusion narrowly: “per-world delay/truncation profiles do not characterize unknown-class minimax learnability.”
+
+5. Include a one-paragraph proof that labeled regret is $0$ in continuum and $O(T/K)$ on arbitrary $K$-grids.

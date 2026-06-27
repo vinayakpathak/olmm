@@ -1,0 +1,56 @@
+## Summary
+
+The attempt has a useful framing: in the finite-horizon exogenous unknown-class model, the real obstruction is not raw delay tail but value plus predictability/identifiability. The proposed $\Psi_T(\pi)$ is a reasonable Bayes lower-bound object and matches the already accepted posterior Bayes-gap direction.
+
+But the claimed “exact characterization” is not established. As written, it overstates a Bayes/minimax equality, mixes continuum and finite-grid action sets, and leaves key regularity and quantifier issues unresolved.
+
+## Fatal Gaps
+
+1. **Minimax equality is asserted, not proved.**  
+   The step
+$$
+   \inf_A\sup_{\theta}R_T^\theta(A)=\sup_\pi \Psi_T(\pi)
+$$
+   is the main theorem, but no minimax theorem is stated with hypotheses. For finite $\Theta$ and a finite action grid this is plausible, but still requires a formal statistical-game argument over policies/measurable decision rules. For infinite law classes or continuum actions, it can fail without compactness/regularity assumptions.
+
+2. **Finite-grid claim uses continuum quantities.**  
+   The attempt says equality holds for finite model classes and finite action grids, but defines
+$$
+   V_\theta(T)=\sup_{a\in[0,1]}\sum_t\mathbb E_\theta r_t(a)
+$$
+   and also uses $\sup_{a\in[0,1]}$ inside $\Psi_T$. If the learner is restricted to a grid, the comparator/Bayes envelope must also be grid-restricted, or an explicit $T/K$ discretization error must be carried throughout. As written, exact equality is false.
+
+3. **Continuum action measurability/attainment is not cosmetic.**  
+   Strict threshold rewards $a\mathbf{1}\{M_t>a\}$ can fail to attain their supremum. The Bayes-optimal “maximize separately at each time” step may only give $\varepsilon$-optimal selectors unless additional measurable-selection and upper-semicontinuity assumptions are added.
+
+4. **The characterization is close to tautological.**  
+   $\Psi_T$ is essentially the Bayes regret value of the full finite-horizon decision problem. Calling $(\sup_\pi\Psi_T(\pi))_+=o(T)$ a necessary and sufficient condition is formally plausible under minimax equality, but it does not give an intrinsic tail characterization or usable rate theorem beyond restating the minimax value.
+
+## Missing Assumptions
+
+- $\Theta_T$ finite, compact, or otherwise regular.
+- Observation spaces are standard Borel and regular conditional probabilities exist.
+- Policies are randomized Markov/nonanticipating kernels measurable in $P_{1:t}$.
+- Whether the learner action set is $[0,1]$ or a grid.
+- Whether regret is allowed to be negative, and whether “sublinear regret” means $\sup_\theta R_T^\theta=o(T)$ or positive part.
+- Public exogenous prices are essential; the result does not apply to action-dependent prices.
+
+## False Or Unsupported Claims
+
+- “For finite model classes and finite action grids, the minimax regret equals $\sup_\pi\Psi_T(\pi)$” is unsupported as written and mismatched to the displayed continuum formula.
+- “Sublinear minimax regret iff $(\sup_\pi\Psi_T(\pi))_+=o(T)$” is only as valid as the unproved minimax equality.
+- The power-tail upper bound is only a sufficient upper route; the attempt does not provide matching lower bounds or a necessary tail condition.
+
+## Plausible But Incomplete Parts
+
+- The Bayes myopic optimality argument is plausible under exogenous prices: actions do not affect future observations, so no exploration value exists.
+- The posterior predictive term
+$$
+  \sup_a a\,\bar P_\pi(M_t>a\mid P_{1:t})
+$$
+  is the right Bayes per-round reward envelope, assuming the learner’s private randomness carries no information about $\theta$.
+- The hidden-terminal and $q$-scaled atoms remain valid lower-bound examples, but they support only finite-horizon class-level lower bounds, not a full rate characterization.
+
+## Verdict
+
+ACCEPTABLE: no

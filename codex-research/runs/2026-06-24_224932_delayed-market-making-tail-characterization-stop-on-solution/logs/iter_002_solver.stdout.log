@@ -1,0 +1,158 @@
+## Verdict
+
+SOLVED: no
+
+The original “sublinear regret iff \(\beta(h)\to0\)” is false. Under a law-aware exogenous model, no tail condition is needed at all. Under a uniform/minimax-over-unknown-class model, the clean upper bound is known, and the hidden-terminal construction gives a real lower-bound mechanism, but I do not yet have a full necessary-and-sufficient characterization.
+
+## Candidate Solution Or Main Attempt
+
+The main quantifier split is essential.
+
+**Law-aware exogenous prices.**  
+If the learner knows the exogenous law of \((P_t)\), then sublinear regret is always possible. For horizon \(T\), define, after history \(H_t=P_{1:t}\),
+
+\[
+g_t(a,H_t)=a\Pr(\tau_t(a)\le T-t\mid H_t).
+\]
+
+Let \(\mathcal G_K=\{0,1/K,\dots,(K-1)/K\}\). At time \(t\), choose
+
+\[
+a_t\in \arg\max_{b\in\mathcal G_K} g_t(b,H_t).
+\]
+
+For any \(a\in[0,1]\), rounding down to \(b\in\mathcal G_K\) loses at most \(1/K\) conditionally, since \(\{M_t>a\}\subseteq \{M_t>b\}\), where \(M_t=\max_{s\le T-t}P_{t+s}\). Hence
+
+\[
+g_t(a_t,H_t)\ge g_t(a,H_t)-1/K.
+\]
+
+Summing and taking expectations,
+
+\[
+\mathbb E\sum_t r_t(a_t)
+\ge
+\sup_{a\in[0,1]}\mathbb E\sum_t r_t(a)-T/K.
+\]
+
+Taking \(K=T\) gives regret at most \(1\). Thus for known exogenous laws, the necessary and sufficient condition is vacuous: every law is learnable.
+
+**Unknown exogenous class.**  
+For a horizon-indexed class \(\mathcal C_T\), the best clean sufficient theorem is:
+
+\[
+\sup_{P\in\mathcal C_T}R_T^P
+\lesssim
+\sqrt{T H\log K}+T/K+\sup_{P\in\mathcal C_T}\delta_T^P(H),
+\]
+
+where
+
+\[
+\delta_T^P(H)
+=
+\sup_a\mathbb E_P\sum_t r_t(a)
+-
+\sup_a\mathbb E_P\sum_t r_t^H(a).
+\]
+
+Thus uniform sublinear regret follows if there are \(H_T,K_T\) with
+
+\[
+H_T\log K_T=o(T),\qquad T/K_T=o(T),\qquad
+\sup_{P\in\mathcal C_T}\delta_T^P(H_T)=o(T).
+\]
+
+Since \(\delta_T^P(H)\le \Delta_T^P(H)\le T\beta_P(H)\), the old \(\beta\)-condition is sufficient but too strong.
+
+For \(\beta(H)\lesssim H^{-\alpha}\), choosing \(K=T\) and
+
+\[
+H\asymp (T/\log T)^{1/(2\alpha+1)}
+\]
+
+gives
+
+\[
+R_T\lesssim
+T^{(\alpha+1)/(2\alpha+1)}
+(\log T)^{\alpha/(2\alpha+1)}.
+\]
+
+## Concrete Lemmas Or Reductions
+
+1. **Law-aware oracle lemma.** Known exogenous laws admit \(O(T/K)\) regret by myopic conditional maximization over a \(K\)-grid. This kills any nontrivial process-wise necessity theorem.
+
+2. **Comparator-gap truncation.**
+
+\[
+R_T\le R_T^H+\delta_T(H).
+\]
+
+This is sharper than using \(\Delta_T(H)=\sup_a\sum_t\mathbb E[r_t(a)-r_t^H(a)]\).
+
+3. **Grid discretization.**
+
+\[
+\sup_a\mathbb E\sum_t r_t^H(a)
+\le
+\max_{b\in\mathcal G_K}\mathbb E\sum_t r_t^H(b)+T/K.
+\]
+
+4. **Delayed full-information reduction.** Conditional on an exogenous price path, the truncated grid reward vectors are fixed and revealed within delay \(H\). Standard delayed experts gives
+
+\[
+R_{T,K}^H=O(\sqrt{TH\log K}).
+\]
+
+5. **Hidden-terminal minimax lower bound.** Let \(T=D+1\), \(P_1=\dots=P_D=0\), and terminal price be either
+
+\[
+Y_L\sim \mathrm{Unif}[1/2,5/8]
+\quad\text{or}\quad
+Y_H\sim \mathrm{Unif}[3/4,7/8].
+\]
+
+The learner cannot distinguish worlds before time \(T\). The per-round comparator values are \(1/2\) and \(3/4\), while the best Bayes action under the uniform prior has value \(1/2\). Hence some world gives regret at least \(D/8\). A \(q\)-scaled version gives \(qD/8\).
+
+## Gaps And Failure Points
+
+The full minimax necessary-and-sufficient condition is still missing. The right condition cannot be a raw delay tail. It must involve valuable delayed reward that is also unpredictable from the learner’s observed history.
+
+The delayed experts bound should be cited or reproved with the exact feedback convention.
+
+The upper theorem requires exogenous or oblivious prices. If future prices depend on the learner’s actions, the counterfactual reward vector for unplayed quotes is not fixed by the realized path.
+
+The lower bound is finite-horizon and class-level. It does not yet imply an asymptotic fixed-law necessity theorem.
+
+## Counterexamples Or Obstructions
+
+- IID uniform prices have \(\beta(h)=1\) for all \(h\), but a law-aware learner has \(O(1)\) regret, in fact the oracle lemma covers this and more.
+
+- The terminal-spike singleton has linear \(\Delta_T(H)\) for \(H=o(T)\), but known-law regret is zero.
+
+- Rare bad histories can make essential-sup \(\beta\) large while average truncation loss is negligible.
+
+- Long delays with tiny reward values can make raw hitting tails large without causing meaningful regret.
+
+## Promising Ideas To Explore
+
+Define a “valuable unpredictable tail” quantity. A useful primitive is the two-world Bayes gap
+
+\[
+\Gamma
+=
+\frac12(\sup_a g_0(a)+\sup_a g_1(a))
+-
+\sup_a\frac{g_0(a)+g_1(a)}2.
+\]
+
+If two laws are observationally identical for \(D\) rounds and have gap \(\Gamma\), then minimax regret is at least \(D\Gamma\). This may be the right lower-bound atom.
+
+Try to match the upper truncation term using \(q\)-scaled hidden-terminal classes: they give \(\Omega(Tq)\) regret when tail mass \(q\) is hidden until horizon scale.
+
+## Notes For Critics
+
+Please check the law-aware oracle lemma carefully; if accepted, it decisively rules out any nontrivial fixed-law necessity theorem.
+
+Also check whether \(\delta_T(H)\) is the best sufficient object for the paper, or whether the exposition should keep \(\Delta_T(H)\) as a simpler corollary and present \(\delta_T(H)\) as the sharper version.

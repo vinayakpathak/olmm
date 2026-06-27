@@ -1,0 +1,80 @@
+## Summary
+
+No fatal gap in the explorer’s finite same-path lemma, provided the missing assumptions are made explicit. The core cancellation is real: intermediate threshold-round learner rewards are bounded by the same \((j-1)c_j\) term that the comparator gains in supremum.
+
+The claim should be promoted only as a horizon-oblivious same-path lower-bound lemma, not as any instance-wise tail characterization.
+
+## Issue List
+
+- **Missing assumption:** the thresholds must be strictly increasing in path order:
+  \[
+  0<c_1<\cdots<c_m\le 1.
+  \]
+  Without this, the identity “zero-block action \(A_s\) pays by \(T_j\) iff \(A_s<c_j\)” is false.
+
+- **Missing assumption:** the policy must be genuinely horizon-oblivious. The zero-block actions \(A_1,\ldots,A_N\) must be the same random variables for all evaluations at \(T_j=M+N+j\). If the learner is given \(T_j\), the \(\kappa(C)\) averaging argument collapses.
+
+- **Missing assumption:** regret must use comparator `sup`, not `max`. Strict crossing means a quote \(a=c_j\) does not trade at price \(c_j\), so the value \((N+j-1)c_j\) is a supremum obtained by \(a\uparrow c_j\).
+
+- **Missing assumption:** the reward convention must be single-fill. The old-prefix cap by \(M\) and the intermediate-round cap by \((j-1)c_j\) both use that each posted quote pays at most once.
+
+- **Plausible but incomplete:** the recommended concatenated \(1/e\) corollary still needs a written proof with
+  \[
+  M_i=\sum_{\ell<i}(N_\ell+m_\ell),\qquad M_i+m_i=o(N_i),
+  \]
+  and the denominator check
+  \[
+  T_{i,j}\le M_i+N_i+m_i.
+  \]
+
+## Counterexamples Or Stress Tests
+
+- **Nonmonotone thresholds break the formula.** For path \(0^N,1,1/2\), at horizon \(T_2=N+2\), a zero-block action \(A_s=3/4\) has already traded at the first threshold \(1\), but \(A_s<c_2\) is false. The explorer’s learner-reward bound would undercount rewards.
+
+- **Horizon-aware policies break the lower bound.** If the learner knows evaluation horizon \(T_j\), it can post quotes close to \(c_j\) during the zero block, so the same action-law averaging across \(j\) is invalid.
+
+- **Comparator max breaks strict-threshold statements.** In \(0^N,c_j\), no quote attains payoff \(Nc_j\); only quotes \(a<c_j\) trade. Use `sup` or an \(\eta\)-comparator limit.
+
+- **Repeated-fill variants break old-prefix accounting.** If old quotes could pay at multiple later thresholds, rewards from the old prefix would not be capped by \(M\).
+
+## Literature Or Known-Result Conflicts
+
+No conflict with the current ledger. The result is consistent with CL-021/CL-022/CL-025: it is a local prefix-compatibility lower bound transferred using same-prefix action laws and an outside-reward cap.
+
+No unsupported external citation issue: the explorer cited only local run files.
+
+## What Survives The Critique
+
+The finite lemma survives in the following form.
+
+For a deterministic path consisting of an arbitrary old prefix of length \(M\), then
+\[
+0^N,c_1,\ldots,c_m,\qquad 0<c_1<\cdots<c_m\le1,
+\]
+and for any horizon-oblivious policy,
+\[
+R_{T_j}\ge N c_j-\mathbb E\sum_{s=1}^N A_s{\bf 1}\{A_s<c_j\}-M.
+\]
+
+Averaging over any \(\lambda\in\Delta(C)\),
+\[
+\max_j R_{T_j}\ge
+N\left(\mathbb E_\lambda C-\sup_a a\Pr_\lambda(C>a)\right)-M.
+\]
+Optimizing over \(\lambda\) gives
+\[
+\max_j R_{T_j}\ge N\kappa(C)-M.
+\]
+
+The optional sharper prefix term \(-M(1-c_j)\) also looks valid, but the simpler \(-M\) version is cleaner and enough for concatenation.
+
+## Bibliography Candidates
+
+None.
+
+## Recommended Next Checks
+
+1. Write the formal proposition with timing, strict-crossing, single-fill, and horizon-oblivious assumptions stated before the proof.
+2. Add the nonmonotone-threshold stress test as a warning.
+3. Prove the concatenated same-path corollary with equal-revenue menus \(C_{m_i}\), \(m_i\to\infty\), and \(M_i+m_i=o(N_i)\).
+4. Update CL-026 from “promising candidate” to “accepted under explicit assumptions.”

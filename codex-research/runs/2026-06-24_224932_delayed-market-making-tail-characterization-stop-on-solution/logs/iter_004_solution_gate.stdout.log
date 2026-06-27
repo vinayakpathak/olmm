@@ -1,0 +1,19 @@
+ACCEPT: no
+
+Both critics identify serious unresolved gaps. The solver’s useful contribution is the Bayes/predictability framing, but the claimed exact characterization
+\[
+\inf_A \sup_\theta R_T^\theta(A)=\sup_\pi \Psi_T(\pi)
+\]
+is asserted rather than proved. The finite-grid version is also mismatched with continuum \(\sup_{a\in[0,1]}\) quantities, and the continuum passage requires nontrivial measurability, compactness, and discretization-error control.
+
+This should not stop the loop. The accepted pieces remain: known-law oracle learnability, the \(\delta_T(H)\) truncation upper bound, the posterior Bayes-gap lower-bound certificate, and the hidden-terminal/q-scaled atoms. But the iteration does not deliver a conservative theorem-level necessary-and-sufficient characterization or matching regret rates.
+
+Remaining assumptions/gaps:
+
+- Need a precise minimax theorem for the policy class, law class, observation space, priors, and action space.
+- Need to decide whether the exact claim is grid-restricted or continuum, and carry \(T/K\) errors correctly.
+- Need regular conditional probabilities and measurable or \(\varepsilon\)-optimal selectors.
+- Need explicit horizon-indexed quantifiers: one learner per \(T\), known class \(\mathcal C_T\), unknown active law.
+- Need to state regret convention when adaptive reward exceeds the fixed comparator.
+- Public exogenous prices remain essential; action-dependent markets are not covered.
+- The power-tail bound is still only an upper bound; no matching lower-rate theorem is supplied.

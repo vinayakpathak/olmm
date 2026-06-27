@@ -1,0 +1,101 @@
+## Summary
+
+The forward Borel policy-alignment lemma looks provable under a precise finite-grid, public-exogenous model. The clean result is reward-vector equivalence only:
+
+Every common private-randomized Borel policy with standard Borel internal state and reconstructible delayed feedback induces law-independent Borel public-prefix kernels \(q_t(P_{1:t})\), and these kernels preserve every expected reward coordinate \(L_\theta\).
+
+This should close the forward gap. It still depends on writing the policy model pointwise, not law-by-law a.s.
+
+## Concrete Progress
+
+A theorem-ready model is:
+
+- finite horizon \(T\), finite grid \(G\);
+- public exogenous laws \(P^\theta\) on \([0,1]^T\), independent of learner randomness;
+- full observation of \(P_{1:t}\) before \(a_t\);
+- standard Borel internal states \(S_t\);
+- feedback maps
+  \[
+  \Phi_t:[0,1]^t\times G^{t-1}\to F_t
+  \]
+  Borel and deterministic from public prices and past quotes;
+- common Borel maps
+  \[
+  (a_t,Z_t)=\Psi_t(Z_{t-1},P_{1:t},a_{1:t-1},\Phi_t,U_t),
+  \]
+  with iid private uniforms \(U_t\), independent of \(\theta,P_{1:T}\).
+
+Define
+\[
+\mu^\theta_{t,a}(B)
+=
+\mathbb E_\theta[{\bf 1}\{P_{1:t}\in B\}\,a{\bf 1}\{\exists s>t:P_s>a\}].
+\]
+
+Then the induced kernels
+\[
+q_{t,a}(h)=\lambda^t\{u_{1:t}:\alpha_t(h,u_{1:t})=a\}
+\]
+are Borel, law-independent, simplex-valued, and satisfy
+\[
+L_\theta(A)
+=
+\sum_{t=1}^T\sum_{a\in G}\int q_{t,a}(h)\,d\mu^\theta_{t,a}(h)
+\quad\forall\theta.
+\]
+
+## Claims Or Lemmas
+
+1. **Seed/prefix induction.**  
+   There are Borel maps \(\alpha_t:[0,1]^t\times[0,1]^t\to G\) and \(\zeta_t:[0,1]^t\times[0,1]^t\to S_t\) such that
+   \[
+   a_t=\alpha_t(P_{1:t},U_{1:t}),\qquad Z_t=\zeta_t(P_{1:t},U_{1:t}).
+   \]
+
+2. **Borel marginal kernel.**  
+   Since \(\alpha_t\) is Borel and \(G\) is finite, \(q_{t,a}(h)\) is Borel by the section-integral theorem.
+
+3. **Reward-coordinate equality.**  
+   Fubini plus independence of \(U\) from the exogenous price path gives the \(\mu^\theta_{t,a}\) formula.
+
+4. **Converse for Borel prefix kernels.**  
+   Any Borel \(q_t:[0,1]^t\to\Delta(G)\) is implementable by fresh uniforms using cumulative intervals. Hence original seed-map policies and Borel prefix kernels have the same attainable expected reward vectors.
+
+## Proof Attempts
+
+The induction is the key step. At time \(t\), assume all earlier actions and state variables are Borel functions of \((P_{1:t-1},U_{1:t-1})\). Viewed on \((P_{1:t},U_{1:t-1})\), the past action vector \(a_{1:t-1}\), state \(Z_{t-1}\), and feedback \(\Phi_t(P_{1:t},a_{1:t-1})\) are Borel. Composing with \(\Psi_t\) and \(U_t\) gives \(\alpha_t,\zeta_t\).
+
+For rewards:
+\[
+\mathbb E_{\theta,U}[a_t{\bf 1}\{\exists s>t:P_s>a_t\}]
+=
+\sum_{a\in G}
+\mathbb E_\theta[q_{t,a}(P_{1:t})a{\bf 1}\{\exists s>t:P_s>a\}],
+\]
+then sum over \(t\).
+
+## Gaps And Risks
+
+The theorem must define policies as common Borel rules on all histories. Law-by-law a.s. policy equivalence can destroy law-independent \(q_t\).
+
+The result fails or changes with action-dependent prices, law-correlated private randomness, or private/censored feedback not reconstructible from public prices and past quotes.
+
+Persistent internal state is fine if included as standard Borel state in the recursion.
+
+Completed \(L^\infty\) kernels still require the separate Borel-version lemma before upgrading the relaxed domination theorem to original Borel policies.
+
+## Counterexamples Or Obstructions
+
+- Action-dependent prices: marginal kernels no longer preserve counterfactual rewards.
+- Private/censored feedback: \(q_t(P_{1:t})\) is insufficient.
+- Law-correlated randomness: induced \(q_t\) may depend on \(\theta\).
+- Completed null sets: Borelization preserves payoff integrals under \(\mu^\theta_{t,a}\ll\lambda_t\), not behavior.
+- Continuum quotes: use the existing \(T/K\) grid comparison.
+
+## Sources Consulted
+
+No web search used. Consulted the required run notes, the assigned `iterations/iter_012/idea_01/idea.md`, and prior local alignment reports from iterations 10 and 11.
+
+## Recommended Next Steps
+
+Write this as a formal “Original Policy Alignment” lemma with the state/feedback recursion above. Then prove the completed-\(L^\infty\)-to-Borel representative lemma separately and plug both into the payoff-weighted domination no-gap theorem.

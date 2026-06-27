@@ -1,0 +1,29 @@
+ACCEPT: no
+
+The claimed solution should not stop the loop. Both critics identify serious unresolved gaps, and they are substantive rather than cosmetic.
+
+The main issue is that the proposed condition is essentially
+$$
+(\mathcal R_T^{G_T})_+=o(T)
+$$
+rewritten through a finitely additive dual. That is a valid-looking abstract value characterization, but it does not answer the original problem’s requested tail/structural characterization or matching regret-rate question. It also does not produce an interpretable necessary-and-sufficient condition beyond “the minimax value is sublinear.”
+
+Serious unresolved gaps:
+
+- The $\mathrm{ba}$ dual proof is not written. It needs the full functional-analytic argument, including convexity of the attainable reward set, norm closure, positivity of the separating functional, normalization to a finitely additive probability, and the identification with $(\ell^\infty)^*=ba$.
+- The admissible policy class is not defined tightly enough. This matters for arbitrary infinite classes because Borel common policies, completed-kernel policies, and law-by-law policy objects can differ.
+- The result remains finite-grid/public-exogenous/horizon-aware and does not address action-dependent prices or anytime policies.
+- The continuum passage relies on already accepted rounding, but the attempt does not fully restate the matching policy model or the $\sup_a$ convention needed because of strict-threshold nonattainment.
+- No matching lower rate is proved for power-tail or truncation-tail classes. The displayed $\delta_T(H)$ rate remains only a sufficient upper bound.
+- The finite-class $\Psi_G$ posterior formula is valid only for ordinary finite priors with mixture laws and regular conditionals; it does not extend to general finitely additive priors.
+
+Remaining assumptions if this line is kept as partial progress:
+
+- Public, exogenous, action-independent prices.
+- Fixed known horizon $T$, known class $\Theta_T$, and known finite grid $G$.
+- Randomized common policies with independent private randomness and ex-ante mixing.
+- Signed upper regret as the value object, with positive-part convention for learnability.
+- Exact grid theorem first; continuum only through explicit $T/K$ discretization.
+- $\mathrm{ba}$ dual interpreted only as abstract reward-set duality, not as a posterior-predictive Bayes formula.
+
+Verdict: useful partial theorem package, but not a loop-stopping solution.

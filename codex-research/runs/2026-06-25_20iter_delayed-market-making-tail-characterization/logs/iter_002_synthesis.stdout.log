@@ -1,0 +1,31 @@
+## Accepted Progress
+
+- Promoted the horizon/process-aware collapse: under exogenous prices and pseudo-regret, a law-and-horizon-aware learner can play an \(\varepsilon_T\)-optimal fixed quote and get \(o(T)\) regret for every process.
+- Accepted the finite two-continuation block lower bound: for \(0^N c\), \(c\in\{1/2,1\}\), every randomized learner has regret at least \(N/4\) on one continuation.
+- Added the sharper sufficient truncation gap \(\Gamma_T(H)=\sup_a V_T(a)-\sup_a V_T^H(a)\le \Delta_T(H)\).
+
+## Candidate Routes
+
+- Formalize the concatenated deterministic block-class lower bound with \(M_i=o(N_i)\).
+- Develop a decision-relevant delayed-tail quantity based on indistinguishable continuations or value of information.
+- Map adaptive skipping/optimism delayed-learning algorithms to the finite-grid market-making reduction.
+
+## Refuted Or Weakened Claims
+
+- Any nontrivial tail necessity is vacuous under horizon-aware, process-law-aware pseudo-regret policies.
+- The two-continuation random mixture should not be presented as a hard stochastic process under the current regret definition.
+- The block lower bound is universal/minimax, not instance-wise.
+
+## Literature Updates
+
+Verified/imported sources including [Gyorgy-Joulani 2021](https://proceedings.mlr.press/v139/gyorgy21a.html), [Flaspohler et al. 2021](https://proceedings.mlr.press/v139/flaspohler21a.html), [Duetting et al. 2023](https://proceedings.mlr.press/v202/duetting23b.html), [Cesa-Bianchi et al. 2016](https://proceedings.mlr.press/v49/cesa-bianchi16.html), [Joulani-Gyorgy-Szepesvari 2016](https://doi.org/10.1609/aaai.v30i1.10320), [Cesa-Bianchi-Lugosi 2006](https://cesa-bianchi.di.unimi.it/predbook/), [Yao 1977](https://doi.org/10.1109/SFCS.1977.24), and [Kleinberg-Leighton 2003](https://doi.org/10.1109/SFCS.2003.1238232).
+
+## Working Notes Updated
+
+Updated all requested `working_notes/` files: `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+
+1. Write the clean sufficient theorem with `sup`, exogeneity, full-information delayed grid feedback, and penalties \(T\beta\), \(T\gamma\), \(\Delta_T\), \(\Gamma_T\).
+2. Formalize the oracle-collapse proposition with exact exclusions.
+3. Prove the finite two-continuation proposition cleanly, then attempt the concatenated universal-class theorem.

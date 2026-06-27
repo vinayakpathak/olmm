@@ -1,0 +1,61 @@
+## Summary
+
+The attempt correctly identifies that the original iff conjecture is false under the literal instance-wise pseudo-regret reading. The sparse vanishing-spike counterexample is a valid obstruction to \(\beta\)-necessity.
+
+But the writeup is not acceptable as a full solution/characterization. It mixes three different claims: a sufficient upper bound, an instance-wise counterexample, and a possible universal/minimax lower bound. Only the first two are substantially supported; the lower-bound claim remains a sketch.
+
+## Fatal Gaps
+
+1. **No fixed quantifier regime.**  
+   The attempt says the iff is false instance-wise, then discusses a universal-class lower bound. These are different theorems. A final solution must state whether learners are process-aware, horizon-aware, universal over a class, minimax, or oracle policies.
+
+2. **The concatenated block lower bound is not proved.**  
+   The finite \(0^N c\) gadget is sound, but the extension to infinitely many dominant blocks needs a formal deterministic construction, conditioning on randomized learner histories, horizon-aware diagonalization if applicable, and exact accounting for pending rewards from earlier blocks.
+
+3. **The “SOLVED: maybe” verdict overclaims.**  
+   The attempt refutes the original necessity under one interpretation and sketches plausible additional results. It does not give an iff replacement.
+
+## Missing Assumptions
+
+- Prices must be **exogenous/public** for the truncated-grid full-information reduction.
+- The learner must be able to reconstruct all counterfactual grid rewards \(r_t^H(b)\) after delay \(H\).
+- Regret should use \(\sup_{a\in[0,1]}\), not \(\max\), unless comparator attainment is proved.
+- The delayed-expert bound needs adversary/adaptivity conventions.
+- The necessity/lower-bound part must specify whether the learner knows the process law, horizon, or class.
+- The sparse-spike counterexample assumes \(0\in[0,1]\) and \(U_n>0\) a.s. up to null events.
+
+## False Or Unsupported Claims
+
+- “A true necessity theorem still needs stronger quantifiers” is plausible, but not itself a theorem.
+- The universal-class block lower bound “supports minimax/universal necessity” only after a missing concatenation proof.
+- “No new exact characterization source found” is not evidence of nonexistence unless the search protocol is documented.
+
+## Plausible But Incomplete Parts
+
+- The upper bound
+  \[
+  R_T \lesssim \sqrt{T(H+1)\log K}+T/K+T\beta(H)
+  \]
+  is plausible under the accepted full-information assumptions.
+
+- The sparse vanishing-spike construction appears sufficient to refute instance-wise \(\beta\)-necessity.
+
+- The sharper \(\gamma,\Delta_T,\Gamma_T\) truncation variants are plausible sufficient refinements, but not necessary conditions.
+
+- The finite two-continuation block lower bound is credible; only the infinite concatenation remains incomplete.
+
+## Literature Or Known-Result Checks
+
+The cited delayed-feedback support is appropriate for sufficiency, not necessity. Joulani, Gyorgy, and Szepesvari’s ICML 2013 paper supports black-box delayed online-learning reductions: https://proceedings.mlr.press/v28/joulani13.html.
+
+Van der Hoeven and Cesa-Bianchi 2022 is relevant for arm-dependent delayed experts/bandits, but does not supply the claimed characterization: https://proceedings.mlr.press/v151/van-der-hoeven22a.html.
+
+The adjacent market-making reference is Cesa-Bianchi et al., COLT 2025: https://proceedings.mlr.press/v291/cesa-bianchi25a.html.
+
+## Bibliography Candidates
+
+No new bibliography candidates beyond the already-tracked sources. The existing delayed-feedback and market-making citations remain relevant.
+
+## Verdict
+
+ACCEPTABLE: no

@@ -1,0 +1,96 @@
+## Verdict
+
+SOLVED: no
+
+The original iff conjecture is already refuted in the notes. This iteration did not produce a full replacement characterization or solve the \(D_n=o(n)\Rightarrow o(T)\) gluing problem. I did get a concrete local lemma for the accepted unequal-low one-drought LP.
+
+## Candidate Solution Or Main Attempt
+
+Work in the CL-049 one-drought LP, and assume the lows are strictly increasing:
+\[
+0<\ell_1<\cdots<\ell_r<h.
+\]
+Let \(S_0=0\), \(\Delta_j=S_j-S_{j-1}\). For each \(k\), define
+\[
+Z_k=
+\left(1-\frac{\ell_k}{h}\right)S_k
++\sum_{j>k}\frac{\ell_k(h-\ell_j)}{h\ell_j}\Delta_j.
+\]
+Then
+\[
+D_n\ge Z_{\rm inc}:=\max_{1\le k\le r} Z_k.
+\]
+
+Proof idea: set \(\beta=\ell_k/h\) and define dual tail weights
+\[
+A_j=\sum_{q\ge j}\alpha_q
+=
+\begin{cases}
+1-\ell_k/h,& j\le k,\\
+(\ell_k/h)(h/\ell_j-1),& j>k.
+\end{cases}
+\]
+Then \(\alpha_j=A_j-A_{j+1}\ge0\), \(\sum_j\alpha_j+\beta=1\). For increasing lows, the CL-049 segment pressures satisfy \(\psi_i=0\) for every segment: each candidate quote level either exactly satisfies
+\[
+cW_i(c)=\beta(h-c)
+\]
+or gives a negative slack. The dual objective is
+\[
+\sum_j\alpha_jS_j=\sum_j A_j\Delta_j=Z_k.
+\]
+
+This recovers the non-capacity branches of the accepted two-low \(p<q\) formula. It also explains the three-low regression
+\[
+0,\ 0.2,\ 0^8,\ 0.3,\ 0,\ 0.4,\ 1
+\]
+where \(k=2\) gives \(Z_{\rm inc}=291/100\).
+
+## Concrete Lemmas Or Reductions
+
+A useful exactness certificate follows from the same dual. If \(k\) attains \(Z_{\rm inc}\), and there are primal masses \(x_{i,j}\) supported only on
+\[
+j\ge \max\{k,i+1\}
+\]
+such that capacities, low coverage, and final debt hold:
+\[
+\sum_j x_{i,j}\le B_i,
+\]
+\[
+\sum_{i<t}\sum_{j\le t}\ell_jx_{i,j}\ge S_t-Z_{\rm inc}\quad \forall t,
+\]
+\[
+\sum_{i,j}(h-\ell_j)x_{i,j}\le Z_{\rm inc},
+\]
+then \(D_n=Z_{\rm inc}\).
+
+So the increasing-low case has a clean “zero-pressure pool” lower bound, and exactness reduces to a structured feasibility problem.
+
+## Gaps And Failure Points
+
+This is not a full closed form. If capacities are too small, the value can exceed \(Z_{\rm inc}\); the two-low \(p<q\) third branch \(S_1-pB_0\) is the simplest example.
+
+I did not solve nonmonotone lows, duplicate lows, repeated droughts, or the global projective gluing problem.
+
+## Counterexamples Or Obstructions
+
+Raw \(\beta\)-necessity remains false via sparse vanishing spikes.
+
+The three-low \(291/100\) example still blocks a permanent left-to-right adjacent merge rule.
+
+Capacity binding is not the same as positive dual pressure; zero-pressure certificates can still use saturated segments.
+
+## Literature And Bibliography Candidates
+
+No new direct theorem found. Rechecked nested-resource-allocation background: Vidal, Jaillet, and Maculan, “A Decomposition Algorithm for Nested Resource Allocation Problems,” SIAM J. Optim. 2016 / arXiv:1404.6694, https://arxiv.org/abs/1404.6694. Relevant only as proof-technology background for a future active-set algorithm.
+
+## Promising Ideas To Explore
+
+Turn the exactness certificate above into a max-flow or Hall-type condition for increasing lows.
+
+Use failed feasibility of the zero-pressure certificate to identify which segment pressures \(\psi_i\) must become positive, then iterate as an active-set algorithm.
+
+Test nonmonotone lows like \(0.4,0.9,0.5\) with rational primal-dual certificates.
+
+## Notes For Critics
+
+Check the \(\psi_i=0\) algebra carefully; it uses strict monotonicity of \(\ell_j\). Also verify that the path-implied \(S_j\) are nondecreasing in every intended application.

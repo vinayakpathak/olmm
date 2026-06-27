@@ -1,0 +1,64 @@
+## Summary
+
+No clear false claim under the explorer’s narrow finite-grid, public-exogenous, common-Borel-policy model. The core alignment claim is worth pursuing: expected additive rewards only need one-time action marginals \(q_t(P_{1:t})\), and these should be Borel/law-independent after integrating private seeds.
+
+The main risk is overuse. This does not by itself prove the original infinite-class no-gap theorem unless the admissible policy model, seed realization, Borel section-measurability, and completed-\(L^\infty\)-to-Borel implementation are written precisely. It is reward-vector equivalence only, not pathwise or joint-law equivalence.
+
+## Issue List
+
+1. **Missing assumption: common pointwise Borel policy object.**  
+   The argument fails if policies are treated law-by-law up to \(P^\theta\)-a.s. equivalence. It needs one Borel rule defined on the whole public history space, shared by all \(\theta\).
+
+2. **Plausible but incomplete: seed realization for general randomized policies.**  
+   If policies are primitive Borel stochastic kernels with standard Borel internal state, the explorer must invoke/prove the randomization lemma: each kernel is sampled by a jointly Borel map using an independent uniform. If policies are instead defined directly by seed maps \(\Psi_t\), this is an assumption, not a derived fact.
+
+3. **Missing assumption: feedback timing and reconstructibility.**  
+   The proof needs exact timing: \(P_t\) and all fill feedback used before \(a_t\) must be deterministic Borel functions of \(P_{1:t}\) and past quotes. Private/censored feedback, side signals, or feedback depending on hidden state breaks \(q_t(P_{1:t})\).
+
+4. **Plausible but incomplete: Borelness of \(q_{t,a}\).**  
+   The section-integral step is standard if \(\alpha_t\) is Borel and the seed space is standard Borel with Lebesgue product measure. If any policy objects are only completed-measurable or universally measurable, the conclusion may weaken to completed/universal measurability.
+
+5. **Missing assumption: additive independent quote rewards.**  
+   The reward-coordinate equality uses that total reward is \(\sum_t a_t{\bf 1}\{M_t>a_t\}\), with no inventory, budget, queue priority, or action effect on future prices. Otherwise one-time marginals do not preserve expected reward.
+
+6. **Worth pursuing, but not complete theorem: reverse direction.**  
+   Borel prefix kernels are implementable by fresh uniforms, but completed \(L^\infty(\lambda_t;\Delta(G))\) kernels still require the separate Borel-version lemma and \(\mu^\theta_{t,a}\ll\lambda_t\). The explorer correctly flags this; it should not be folded into the forward lemma without proof.
+
+7. **Unsupported citation / known-result dependency.**  
+   A final write-up should cite or prove: randomization lemma for standard Borel kernels, section-integral measurability, Fubini/Tonelli setup, and completed-measurable-to-Borel-version theorem.
+
+## Counterexamples Or Stress Tests
+
+- **Law-by-law policy versions:** the non-Borel label construction remains the stress test. Singleton laws can each prescribe the “right” action, but no common Borel \(q_t(x)\) exists if the label set is non-Borel.
+
+- **Private side signal:** two worlds with identical \(P_{1:T}\) law but a private signal revealing \(\theta\) before decisions. Then action marginals conditional on \(P_{1:t}\) can depend on \(\theta\), so no law-independent \(q_t\) exists.
+
+- **Action-dependent prices:** if current quotes affect future \(P_s\), the measure \(\mu^\theta_{t,a}\) is not a fixed exogenous reward measure for unplayed actions. The reduction to public-prefix reward marginals breaks.
+
+- **Completed-kernel null sets:** if \(\lambda_t\)-null sets carry positive prefix-law mass but zero payoff-weighted mass, Borelization may change behavior and future state on those histories. This is harmless only because the theorem preserves expected reward coordinates, not behavior.
+
+## Literature Or Known-Result Conflicts
+
+No apparent conflict with standard measurable-selection or stochastic-kernel theory. The result is consistent with the existing completed \(L^\infty\) no-gap route. The only caution is that the standard theorems must be applied under standard Borel and common Borel-version assumptions; law-specific completions are not enough.
+
+## What Survives The Critique
+
+The forward alignment lemma is very plausible:
+
+\[
+L_\theta(A)
+=
+\sum_{t,a}\int q_{t,a}(h)\,d\mu^\theta_{t,a}(h)
+\]
+
+for finite \(T\), finite \(G\), public exogenous prices, full public observation, independent private randomness, common Borel policies, and reconstructible feedback.
+
+The converse for Borel prefix kernels also survives. The conclusion should be stated as equality of attainable expected reward vectors.
+
+## Recommended Next Checks
+
+1. Write the exact admissible policy definition first, including state spaces, feedback timing, and seed/randomization convention.
+2. Prove the induction \(a_t=\alpha_t(P_{1:t},U_{1:t})\) formally.
+3. Prove \(q_{t,a}\) is Borel using the section-integral theorem.
+4. Prove reward equality by conditioning/integrating over independent seeds.
+5. Keep completed \(L^\infty\) Borelization as a separate lemma before claiming the original Borel-policy no-gap theorem.

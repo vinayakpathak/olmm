@@ -1,0 +1,119 @@
+## Summary
+
+The multi-scale idea is the right place to look for matching lower rates, but the straightforward constructions do not work. Two failure modes are severe:
+
+1. A shared hidden type keeps the best fixed quote aligned across blocks, but the first informative terminal spike reveals the type and stops further regret.
+2. Independent hidden bits avoid one-reveal learning, but the comparator is one fixed quote, so blockwise gaps collapse to a majority/fluctuation term rather than adding linearly.
+
+The most viable proof strategy is therefore not “repeat q-scaled atoms,” but “build a limited-leakage statistical experiment” and compute its value through the finite-grid Bayes-gap identity before trying to realize it as prices.
+
+## Concrete Progress
+
+For power envelope \(B(h)=h^{-\alpha}\), the upper bound optimizes roughly at
+\[
+H_\star\asymp T^{1/(2\alpha+1)},\qquad
+R_T\lesssim T H_\star^{-\alpha}=T^{(\alpha+1)/(2\alpha+1)}
+\]
+up to logs.
+
+A tempting lower construction uses \(N=T/D\) blocks of length \(D\), each with q-scaled hidden-terminal mass \(q=B(D)\). If the block gaps added, the lower bound would be
+\[
+N(qD)=Tq=T D^{-\alpha},
+\]
+which matches the upper at \(D=H_\star\).
+
+But:
+
+- Shared hidden bit: expected useful unresolved blocks are only about \(1/q\), so regret saturates near
+  \[
+  (1/q)(qD)=D,
+  \]
+  far below \(Tq\) when \(Nq\gg1\).
+
+- Independent hidden bits: if each block contributes signed weight \(w=qD\), the fixed comparator only gains about
+  \[
+  \mathbb E\left|\sum_{j=1}^N \sigma_j w\right|
+  \asymp w\sqrt N
+  =
+  qD\sqrt{T/D},
+  \]
+  not \(Nw\).
+
+At \(D=H_\star\), both are much smaller than the desired rate.
+
+## Claims Or Lemmas
+
+**Lemma Candidate 1: Shared-Type Full-Reveal Saturation.**  
+In a sequential block construction with one global hidden type and disjoint terminal reveals, if block \(j\) reveals the type with probability \(q_j\), then the Bayes-gap contribution is at most on the scale
+\[
+\sum_j D_j q_j \exp\left(-\sum_{k<j}q_k\right).
+\]
+For equal \(D,q\), this is \(O(D)\), not \(O(NDq)\).
+
+**Lemma Candidate 2: Independent-Bit Comparator Collapse.**  
+In an ideal additive block model with independent signs and a single two-quote comparator, the expected comparator advantage is fluctuation-sized:
+\[
+\mathbb E\left|\sum_j w_j\sigma_j\right|
+\lesssim \left(\sum_j w_j^2\right)^{1/2}.
+\]
+Thus equal blocks give only \(w\sqrt N\), not \(\sum_j w_j\).
+
+**Heuristic Tradeoff: Limited Leakage.**  
+If each block has tail mass \(q\), revenue gap \(\gamma\), and terminal observation KL \(\kappa\), then a Fano/Le Cam route gives roughly
+\[
+D\gamma \min(N,1/\kappa).
+\]
+For smooth perturbations one expects \(\kappa\gtrsim \gamma^2/q\), giving at best
+\[
+D\sqrt{Nq}.
+\]
+This is still below the current truncation upper rate at the power-tail balance. This is only heuristic, but it is the key risk to test.
+
+## Proof Attempts
+
+The natural proof plan would be:
+
+1. Work on a finite grid \(G\), probably with two or many quote locations.
+2. Define a finite class of environments and compute
+   \[
+   \Psi_G(\pi)
+   =
+   \mathbb E_\pi V_\theta^G
+   -
+   \sum_t \mathbb E_{\bar P_\pi}\max_{a\in G}
+   a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+   \]
+3. Only after the Bayes gap is large, realize the reward curves by terminal-price laws.
+4. Verify the tail/truncation envelope.
+
+For the simple repeated q-scaled atom, step 2 already fails: either posterior uncertainty vanishes after the first reveal, or the fixed comparator only sees aggregate majority advantage.
+
+## Gaps And Risks
+
+The main unresolved possibility is a noisy multi-hypothesis construction where each block leaks very little but keeps a stable world-specific optimal fixed quote. This would need a concrete family with:
+
+- stable comparator quote across many blocks per world,
+- posterior uncertainty lasting for \(\Theta(N)\) blocks,
+- cumulative Bayes gap \(\Theta(NqD)\),
+- tail profile \(\beta(h)\) or \(\Delta(H)\) bounded by the prescribed envelope.
+
+I do not currently see such a construction. The likely obstruction is an information-gap inequality linking revenue-curve separation to observable terminal-price divergence.
+
+## Counterexamples Or Obstructions
+
+- Repeating identical q-scaled blocks with a common hidden type fails by one-reveal learning.
+- Repeating independent block types fails because regret is against one fixed quote, not a blockwise oracle.
+- Localizing blocks is hard in the actual protocol because old quotes persist and can trade on later spikes.
+- Making quote intervals vary by scale localizes blocks but destroys accumulation by a single fixed comparator.
+
+## Sources Consulted
+
+No external web sources.
+
+Local sources consulted: `problem.md`, all requested `working_notes/*.md` files, and `iterations/iter_013/idea_01/idea.md`.
+
+## Recommended Next Steps
+
+1. Prove the two obstruction lemmas above in the finite-grid Bayes-value language.
+2. Try a noisy common-parameter construction and explicitly compute the revenue gap versus KL/TV.
+3. If the information-gap tradeoff is real, pivot: the current truncation upper bound may be loose for power-tail classes, and a variance/tail-sensitive upper bound may be the right target.

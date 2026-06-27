@@ -1,0 +1,64 @@
+## Summary
+
+The explorer report is useful as a negative diagnostic, but its claims are not yet theorem-level. The two collapse modes are real for narrow toy models: shared hidden type with full reveal saturates after about \(1/q\) informative blocks, and independent symmetric two-quote bits only give a fluctuation-sized comparator advantage. The main gap is that these are block-additive idealizations, while the actual market has persistent quotes that can trade on later spikes. That can destroy both the claimed tail envelope and the Bayes-gap calculation.
+
+## Issue List
+
+1. **Fatal gap: block-local rewards are not automatic in this protocol.**  
+   Old quotes remain live and can be triggered by later blocks. Repeating q-scaled atoms at the same quote levels means a quote not hit in its own block may trade on a later terminal spike. This can make \(\beta(D)\) order one when \(Nq\gg1\), not order \(q\).
+
+2. **Missing assumption: shared-type saturation requires full reveal.**  
+   The formula
+   \[
+   \sum_j D_jq_j\exp(-\sum_{k<j}q_k)
+   \]
+   is plausible only when a nonzero terminal observation perfectly identifies the global type and zero observations are exactly noninformative. It does not cover noisy common-parameter constructions.
+
+3. **Plausible but incomplete: independent-bit comparator collapse.**  
+   The fluctuation bound is correct for an ideal two-quote additive model with antisymmetric block advantages. It does not rule out multi-quote or codebook-style constructions unless one proves the scalar threshold quote geometry prevents them.
+
+4. **Unsupported / pivotal heuristic: \(\kappa\gtrsim \gamma^2/q\).**  
+   This needs exact definitions and assumptions. If only Pinsker-scale \(\kappa\gtrsim\gamma^2\) were forced, the conclusion could change substantially. If the perturbation is inside a \(q\)-mass tail event, then \(\gamma^2/q\) is natural, but it is not proved.
+
+5. **Missing Fano detail.**  
+   The heuristic \(D\gamma\min(N,1/\kappa)\) is one-bit. Multi-hypothesis Fano usually introduces \(\log M/\kappa\). This may only give logarithms if the quote grid has size \(K\), but it must be accounted for.
+
+6. **Worth pursuing: possible upper-bound looseness.**  
+   The final suggestion that the truncation upper bound may be loose is plausible if all limited-leakage constructions max out below \(T^{(\alpha+1)/(2\alpha+1)}\), but this is not established.
+
+## Counterexamples Or Stress Tests
+
+- **Same-level repeated atoms break tails.**  
+  With \(N\) length-\(D\) blocks and spike probability \(q\), a quote at the first block’s low threshold has
+  \[
+  \Pr(D<\tau<\infty)\approx (1-q)(1-(1-q)^{N-1}),
+  \]
+  which is near one when \(Nq\gg1\). This violates the intended \(B(D)=q\) envelope.
+
+- **Noisy common type evades full-reveal saturation.**  
+  Let both worlds have mass \(1-q\) at zero, and conditional on a \(q\)-tail event choose high/low with probabilities \((1\pm\varepsilon)/2\). Then per-round gap is \(\gamma\asymp q\varepsilon\) and KL is \(\kappa\asymp q\varepsilon^2=\gamma^2/q\). This is the right concrete test for the limited-leakage heuristic.
+
+- **Independent two-quote bits really do collapse.**  
+  In an additive model with block signs \(\sigma_j\) and weights \(w_j\), the fixed comparator advantage is
+  \[
+  \mathbb E\left|\sum_j w_j\sigma_j\right|,
+  \]
+  so equal blocks give \(\Theta(w\sqrt N)\), not \(\Theta(Nw)\).
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict with the local ledger. The explorer’s recommended use of the finite-grid Bayes value \(\Psi_G\) is consistent with the accepted finite-class theorem. The only literature-sensitive point is the informal Le Cam/Fano heuristic: it needs a precise KL/TV statement and the correct \(\log M\) dependence.
+
+## What Survives The Critique
+
+- Repeating q-scaled atoms naively is not enough.
+- Shared full-reveal and independent two-quote constructions are likely useful obstruction lemmas.
+- The right workflow is to compute the finite-grid Bayes value first, then realize it as prices only after checking persistent-quote effects and tail profiles.
+
+## Recommended Next Checks
+
+1. Prove the two obstruction lemmas in an explicit finite-grid additive block model.
+2. Separately prove or disprove realization in the actual market protocol, including old-quote cross-trades.
+3. Compute the noisy common-type example exactly: revenue gap, KL/TV, Bayes value, and \(\Delta(H)\).
+4. Test whether scalar threshold revenue curves can realize multi-hypothesis codebooks with stable comparator quotes.
+5. If all lower constructions top out below the current upper rate, investigate value/variance-sensitive delayed-feedback upper bounds.

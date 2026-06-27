@@ -1,0 +1,19 @@
+ACCEPT: no
+
+The loop should not stop. Both critics identify serious unresolved gaps, and the solver attempt itself only claims “SOLVED: maybe.” The accepted pieces are useful, but they do not solve the original problem.
+
+Main reasons:
+- The “iff” characterization is only for finite horizon-indexed public-exogenous classes, or infinite classes with extra no-gap/product-closure assumptions.
+- Infinite-class claims are not fully proved for the original Borel policy model.
+- The displayed power-tail rate is only an upper bound; matching lower bounds remain open.
+- No scalar tail characterization is supplied, and per-law tail profiles are known not to characterize minimax learnability.
+- The formula for $M_t$ must be horizon-censored: $M_t=\max_{t<s\le T}P_s$.
+
+Remaining assumptions for the accepted theorem package:
+- Public, exogenous, action-independent prices.
+- Known horizon $T$, known class $\Theta_T$, randomized measurable policies.
+- Finite $G$, with learner actions, comparator, and Bayes envelope all grid-restricted.
+- Finite $\Theta_T$ for the exact $\Psi_G$ minimax identity.
+- Infinite classes require product-closed/no-gap or payoff-measure domination assumptions, plus precise policy-class alignment.
+- Continuum results rely on $T/K$ grid approximation and positive-part upper regret.
+- The $\delta_T(H)$ upper rate requires a uniform truncation bound and common schedules $H_T,K_T$.

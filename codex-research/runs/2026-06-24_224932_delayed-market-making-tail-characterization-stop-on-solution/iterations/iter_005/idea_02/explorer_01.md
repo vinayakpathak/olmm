@@ -1,0 +1,116 @@
+## Summary
+
+The cleanest theorem match is: prove compactness of the attainable finite-grid reward set, then apply Sion/von Neumann minimax in finite-dimensional space. I would not cite Wald/Blackwell-Girshick as a black box for the whole result; their sequential decision theory is the right lineage, but their hypotheses still force exactly the compactness/nonanticipativity checks that are currently missing.
+
+The repaired shortcut is:
+$$
+C=\{(L_\theta(q))_{\theta\in\Theta}:q\text{ public-prefix randomized grid policy}\}\subset\mathbb R^\Theta.
+$$
+
+If $C$ is compact convex, then
+$$
+\inf_A\sup_\theta R_\theta^G(A)
+=
+\sup_{\pi\in\Delta(\Theta)}
+\left[
+\sum_\theta\pi_\theta V_\theta^G
+-
+\sup_{x\in C}\sum_\theta\pi_\theta x_\theta
+\right],
+$$
+
+and the accepted fixed-prior myopic lemma identifies the support-function term with the $\Psi_G(\pi)$ Bayes reward expression.
+
+## Concrete Progress
+
+Best theorem to use:
+
+**Finite compact risk/reward-set minimax lemma.** Let $\Theta$ be finite, $C\subset\mathbb R^\Theta$ nonempty compact convex, and $V\in\mathbb R^\Theta$. Then
+$$
+\inf_{x\in C}\max_{\theta}(V_\theta-x_\theta)
+=
+\sup_{\pi\in\Delta(\Theta)}
+\left[
+\sum_\theta\pi_\theta V_\theta
+-
+\sup_{x\in C}\sum_\theta\pi_\theta x_\theta
+\right].
+$$
+
+This is a direct Sion application to the continuous bilinear function
+$$
+F(x,\pi)=\sum_\theta\pi_\theta(V_\theta-x_\theta)
+$$
+on compact convex $C\times\Delta(\Theta)$.
+
+This theorem avoids applying Sion directly to the infinite-dimensional policy-kernel space. The policy analysis is then only needed to prove that $C$ is indeed compact convex and that its support function equals the fixed-prior Bayes value.
+
+## Claims Or Lemmas
+
+**Claim 1: Sion is the right minimax citation once reduced to $C$.**  
+Sion’s theorem covers compact convex spaces and quasi-concave/convex semicontinuous payoffs; the finite-dimensional bilinear case here is strictly easier.
+
+**Claim 2: Wald/Arrow-Blackwell-Girshick are useful background, not a complete shortcut.**  
+Wald explicitly relates minimax sequential decision functions, Bayes solutions, and least favorable priors under compactness assumptions. Arrow-Blackwell-Girshick is even closer in spirit because it treats sequential decision problems. But neither source removes the need to verify the policy class topology and nonanticipativity constraints for this specific delayed-market game.
+
+**Claim 3: bounded signed regret is harmless.**  
+Decision-theory sources often state nonnegative loss. Here
+$$
+V_\theta^G-\sum_t r_t(a_t)\in[-T,T].
+$$
+Shift by $T$ if needed; minimax identities are unchanged up to the same additive constant.
+
+## Proof Attempts
+
+The theorem-matching proof route should be:
+
+1. Reduce policies to public-prefix kernels $q_t(\cdot\mid P_{1:t})$. This uses public exogenous prices; past actions/randomness carry no information about $\theta$ beyond $P_{1:t}$.
+
+2. Define
+$$
+   L_\theta(q)=\mathbb E_{\theta,q}\sum_t r_t(a_t).
+$$
+
+3. Prove $C=\{L(q):q\in Q\}\subset\mathbb R^\Theta$ is compact convex. The current best route is the weak-* $L^\infty(\mu_t)$ construction from idea_01.
+
+4. Apply the compact reward-set minimax lemma above.
+
+5. Use fixed-prior Bayes myopic optimality:
+$$
+   \sup_{x\in C}\sum_\theta\pi_\theta x_\theta
+   =
+   \sum_t\mathbb E_{\bar P_\pi}
+   \max_{a\in G}a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+$$
+
+This yields exactly the finite-grid $\Psi_G$ identity.
+
+## Gaps And Risks
+
+The external theorem does not prove compactness of $C$. That remains the main local proof obligation.
+
+The public-prefix reduction must be explicit; it fails for action-dependent prices or censored/private feedback.
+
+The explicit posterior formula needs standard Borel histories and regular conditional probabilities.
+
+This only covers finite $\Theta$, finite $G$, randomized policies, and grid comparator $V_\theta^G$. Continuum actions and infinite law classes need separate approximation/compactness arguments.
+
+The identity is a minimax-value characterization, not a scalar tail characterization or matching power-tail rate theorem.
+
+## Counterexamples Or Obstructions
+
+No new counterexample to the corrected finite-grid identity.
+
+Existing obstructions remain decisive: deterministic policies fail minimax equality; continuum comparator values cannot be mixed into finite-grid identities; strict thresholds cause continuum nonattainment; action-dependent prices break the reduction.
+
+## Sources Consulted
+
+- [Wald, “Foundations of a General Theory of Sequential Decision Functions” (1947)](https://www.phys.ens.psl.eu/~nadal/Cours/MVA/Doc/Papers/Decision/StatTests/Wald_SequentialDecision_1947.pdf)
+- [Arrow, Blackwell, Girshick, “Bayes and Minimax Solutions of Sequential Decision Problems” (1949)](https://www.jstor.org/stable/1905525)
+- [Blackwell and Girshick, *Theory of Games and Statistical Decisions*](https://books.google.com/books/about/Theory_of_Games_and_Statistical_Decision.html?id=6SMkAwAAQBAJ)
+- [Sion, “On General Minimax Theorems” (1958)](https://msp.org/pjm/1958/8-1/pjm-v8-n1-p14-s.pdf)
+- Requested local run notes and assigned idea file.
+
+## Recommended Next Steps
+
+Write a short in-paper “compact reward-set minimax lemma” with Sion cited. Then separately prove $C$ is compact convex for finite $\Theta,G$ via the weak-* kernel argument. This is safer than invoking a broad statistical decision theorem whose assumptions still need to be verified.

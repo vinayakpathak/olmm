@@ -1,0 +1,124 @@
+## Verdict
+
+SOLVED: no
+
+Best current status: exact value characterization is available for finite public-exogenous classes, and there is a plausible exact arbitrary-class extension using finitely additive priors. But the original tail-characterization/rate problem is not solved: no scalar tail iff, no matching power-tail lower rate, and no arbitrary infinite-class ordinary-Bayes theorem without extra no-gap hypotheses.
+
+## Candidate Solution Or Main Attempt
+
+For finite horizon \(T\), finite grid \(G\), public exogenous class \(\Theta\), define
+\[
+M_t=\max_{t<s\le T}P_s
+\]
+and
+\[
+V_\theta^G=\max_{a\in G}\sum_{t=1}^T \mathbb E_\theta[a{\bf 1}\{M_t>a\}].
+\]
+
+For finite \(\Theta\), the accepted exact characterization is
+\[
+\mathcal R_T^G
+=
+\inf_A\sup_{\theta\in\Theta}(V_\theta^G-L_\theta(A))
+=
+\sup_{\pi\in\Delta(\Theta)}\Psi_G(\pi),
+\]
+where
+\[
+\Psi_G(\pi)
+=
+\sum_\theta \pi_\theta V_\theta^G
+-
+\sum_t\mathbb E_{\bar P_\pi}\max_{a\in G}
+a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+\]
+
+For arbitrary \(\Theta\), a stronger but less probabilistic candidate is the finitely additive dual:
+\[
+\mathcal R_T^G
+=
+\sup_{\nu\in ba_1^+(\Theta)}
+\left\{
+\langle V^G,\nu\rangle
+-
+\sup_A \langle L(A),\nu\rangle
+\right\}.
+\]
+Here \(ba_1^+(\Theta)\) is the set of positive finitely additive probability measures on \(\Theta\). This appears to give an exact necessary-and-sufficient minimax value condition for arbitrary classes, but it loses the ordinary posterior/Bayes interpretation.
+
+With \(G_T=\{0,1/T,\ldots,(T-1)/T\}\),
+\[
+|(\mathcal R_T^{[0,1]})_+-(\mathcal R_T^{G_T})_+|\le 1.
+\]
+Thus sublinear continuum upper regret is equivalent to the positive part of the grid value being \(o(T)\).
+
+## Concrete Lemmas Or Reductions
+
+1. Truncation upper bound:
+\[
+R_T\lesssim \sqrt{T(H+1)\log K}+T/K+\sup_{\theta}\delta_T^\theta(H).
+\]
+If \(\delta_T(H)\le T H^{-\alpha}\), optimizing gives
+\[
+R_T\lesssim
+T^{(\alpha+1)/(2\alpha+1)}
+(\log T)^{\alpha/(2\alpha+1)}.
+\]
+
+2. Known-law oracle:
+for every known finite-horizon exogenous law, conditional grid maximization gives \(R_T\le T/K\), hence \(O(1)\) with \(K=T\).
+
+3. Hidden-terminal atom:
+two indistinguishable worlds with terminal mass \(q\) after \(D\) rounds force
+\[
+\inf_A\sup_\theta R_T^\theta(A)\ge qD/8.
+\]
+
+4. Last-exceedance identity:
+\[
+r_t(a)=a{\bf 1}\{L_a>t\},\qquad
+\sum_t r_t(a)=a(L_a-1)_+.
+\]
+This clarifies why raw first-hitting tails are not the right value object.
+
+## Gaps And Failure Points
+
+The finitely additive dual needs critic verification, especially the separation argument and policy-class convexity assumptions.
+
+Even if correct, it is a game-value characterization, not a usable scalar tail condition.
+
+The ordinary-prior infinite-class theorem still needs product-closure, payoff-measure domination, or another no-gap assumption.
+
+Matching power-tail lower bounds remain open. The one-block \(qD\) construction is too weak.
+
+Tail-adaptive truncation remains conditional on an unproved comparator-specific heterogeneous-delay experts theorem.
+
+## Counterexamples Or Obstructions
+
+Raw \(\beta(h)\to0\) is not necessary: known laws, iid uniform prices, tiny-price long-delay blocks, and rare-history processes refute it.
+
+Per-world \(\beta,\Delta,\delta\) profiles cannot characterize unknown-class minimax learnability: the hidden/labeled terminal pair has identical per-law profiles but regret \(qD/8\) versus zero.
+
+Finite-subclass priors do not characterize arbitrary infinite classes without no-gap assumptions; the non-Borel label example gives a linear Borel-policy gap.
+
+Naive repeated hidden-terminal atoms fail because old quotes persist, shared types get revealed, and independent bits collapse against one fixed comparator.
+
+## Promising Ideas To Explore
+
+Formalize or reject the finitely additive dual. If accepted, it gives the cleanest arbitrary-class iff, albeit not a tail theorem.
+
+For ordinary probability characterizations, finish the product-closure/payoff-measure dominated theorem package.
+
+For lower rates, design limited-leakage or codebook constructions and compute their finite-grid \(\Psi_G\) value before realizing them as price processes.
+
+For adaptive upper bounds, solve the two-arm delayed-advantage game before returning to market truncation windows.
+
+## Notes For Critics
+
+Check horizon-censoring everywhere: \(M_t=\max_{t<s\le T}P_s\).
+
+Keep finite-grid learner actions, comparator, and Bayes envelope on the same grid.
+
+Use positive-part upper regret; adaptive learners can beat the best fixed quote.
+
+Do not promote the finitely additive dual as an ordinary Bayes/posterior characterization.

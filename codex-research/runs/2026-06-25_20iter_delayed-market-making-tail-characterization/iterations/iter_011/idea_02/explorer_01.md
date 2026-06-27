@@ -1,0 +1,146 @@
+## Summary
+
+The idea is viable as a **known-path anytime sufficiency theorem**. A clean proof route is available:
+
+\[
+R_T \le \sum_{t<T}\delta(C_t)+o(T),
+\qquad
+C_t=\overline{\{M_{t,T}:T>t\}},
+\qquad
+M_{t,T}=\max_{t<s\le T}P_s.
+\]
+
+Here \(\delta(C)\) is the compact-menu local deficit, using left-limit actions to handle strict crossing. This would rigorously extend LB-025 from finite menus to compact/infinite suffix menus.
+
+It should **not** be framed as necessary. There are simple paths where \(\sum_{t<T}\delta(C_t)=\Omega(T)\) but a horizon-oblivious known-path learner has \(o(T)\) regret, because the local per-time menu bound upper-bounds the comparator by \(\sum_t M_{t,T}\), which can be much larger than the best fixed quote value.
+
+## Concrete Progress
+
+Define the formal left-limit compact-menu value
+
+\[
+\delta(C)
+=
+\inf_{\nu\in\Delta([0,1])}
+\sup_{c\in C}
+\left[
+c-\int_{[0,c]}x\,d\nu(x)
+\right].
+\]
+
+The integral over \([0,c]\) corresponds to a formal quote \(x^-\), which trades at threshold \(c\) when \(x\le c\). Actual strict-crossing quotes can implement this approximately by playing \((1-\eta)x\).
+
+For compact \(C\), finite menus approximate the value:
+
+\[
+\delta(C)=\sup_{F\subset C,\ |F|<\infty}\delta(F).
+\]
+
+Proof idea: for any \(\eta>0\), choose a finite lower \(\eta\)-net \(F\subset C\), so every \(c\in C\) has \(d\in F\) with \(d\le c\le d+\eta\). Since \(G_\nu(c)=\int_{[0,c]}x\,d\nu(x)\) is monotone,
+
+\[
+c-G_\nu(c)\le d-G_\nu(d)+\eta.
+\]
+
+Thus a finite-menu optimizer for \(F\) is \(\eta\)-good on all of \(C\).
+
+## Claims Or Lemmas
+
+**Compact Suffix-Menu Upper Lemma.**  
+For a deterministic exogenous path, let \(C_t=\overline{\{M_{t,T}:T>t\}}\). For any error schedule \(\varepsilon_t\ge0\) with \(\sum_{t<T}\varepsilon_t=o(T)\), there is a path-aware, horizon-oblivious randomized policy such that for every horizon \(T\),
+
+\[
+R_T
+\le
+\sum_{t<T}\delta(C_t)+\sum_{t<T}\varepsilon_t.
+\]
+
+Proof: choose \(\nu_t\) with compact-menu deficit at most \(\delta(C_t)+\varepsilon_t/2\), sample \(X_t\sim\nu_t\), and play \(A_t=(1-\varepsilon_t/2)X_t\). Then for every \(c\in C_t\),
+
+\[
+\mathbb E[A_t1\{A_t<c\}]
+\ge
+c-\delta(C_t)-\varepsilon_t.
+\]
+
+At horizon \(T\), plug in \(c=M_{t,T}\), sum over \(t<T\), and use
+
+\[
+\sup_a\sum_{t<T}a1\{a<M_{t,T}\}
+\le
+\sum_{t<T}M_{t,T}.
+\]
+
+**Useful interval value.**  
+For dense monotone menus,
+
+\[
+\delta([\ell,1])
+=
+\begin{cases}
+1/e,& \ell\le 1/e,\\
+\ell\log(1/\ell),& \ell>1/e.
+\end{cases}
+\]
+
+This follows from the same equal-revenue tail integral and primal density \(d\nu(x)=x^{-1}dx\), with an atom at \(\ell\) in the \(\ell>1/e\) case.
+
+## Proof Attempts
+
+The finite-to-compact approximation looks like the right way to avoid heavy minimax machinery. It uses only monotonicity of the formal payoff curve and the already accepted finite-menu formula CL-028/LB-023.
+
+Strict crossing is also manageable: formal mass at \(x^-\) can be implemented by scaling all sampled actions to \((1-\eta)x\). This loses at most \(O(\eta)\) per round and turns the formal \([0,c]\) payoff into a genuine \([0,c)\) payoff.
+
+## Gaps And Risks
+
+The theorem is path-aware and exogenous. It does not apply to endogenous prices reacting to quotes.
+
+The policy may be nonconstructive if the compact-menu optimizer is nonconstructive, though finite approximations give an implementable route.
+
+The bound can be loose because it compares against \(\sum_t M_{t,T}\), not directly against
+
+\[
+\sup_a\sum_{t<T}a1\{a<M_{t,T}\}.
+\]
+
+So \(\sum_t\delta(C_t)=o(T)\) is sufficient, not necessary.
+
+## Counterexamples Or Obstructions
+
+A concrete non-necessity obstruction: take the deterministic alternating path
+
+\[
+P_{2k-1}=1/2,\qquad P_{2k}=1.
+\]
+
+For even \(t\), \(C_t=\{1/2,1\}\), so \(\delta(C_t)=1/4\). For odd \(t\), \(C_t=\{1\}\), so \(\delta(C_t)=0\). Hence
+
+\[
+\sum_{t<T}\delta(C_t)\sim T/8.
+\]
+
+But the horizon-oblivious policy that always quotes \(1-\varepsilon_t\), with average \(\varepsilon_t\to0\), has \(o(T)\) regret: at even horizons it nearly matches the quote \(1^-\), and at odd horizons it loses only \(O(1)\) near the final \(1/2\).
+
+Example behavior:
+
+- Sparse vanishing spikes: since future maxima after block \(n\) are \(O(1/s_{n+1})\), \(\delta(C_t)\le \max C_t/e\), giving cumulative \(O(\log T)\) for \(s_n=2^n\).
+- Power-of-two unit spikes: \(C_t=\{0,1\}\), so \(\delta(C_t)=0\).
+- Equal-revenue blocks: zero-block times have \(\delta(C_t)\approx1/e\), matching the accepted lower bound.
+- Superexponential uniform spikes: pathwise \(C_t\) often contains rich future record menus, so the bound can be linear; this is not inconsistent with earlier horizon-aware or expectation-based easy-regime observations.
+
+## Sources Consulted
+
+Project notes: `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `bibliography.md`, `promising_directions.md`, `iteration_summaries.md`, and the assigned idea file.
+
+Web check found only adjacent robust-pricing context already reflected in the bibliography: Bergemann-Schlag robust monopoly pricing and Caldentey-Liu-Lobel intertemporal minimax pricing.
+
+## Bibliography Candidates
+
+No new bibliography candidates. Existing adjacent entries remain relevant but not direct proof sources:
+
+- Dirk Bergemann and Karl H. Schlag, “Robust Monopoly Pricing,” *Journal of Economic Theory*, 2011. DOI: https://doi.org/10.1016/j.jet.2011.10.018.
+- René Caldentey, Ying Liu, Ilan Lobel, “Intertemporal Pricing Under Minimax Regret,” *Operations Research*, 2017. DOI: https://doi.org/10.1287/opre.2016.1548.
+
+## Recommended Next Steps
+
+Write the compact suffix-menu theorem as a formal proposition with the finite-net approximation and strict-crossing scaling implementation. Then record the alternating \((1/2,1)\) path as a warning that the condition is sufficient only.

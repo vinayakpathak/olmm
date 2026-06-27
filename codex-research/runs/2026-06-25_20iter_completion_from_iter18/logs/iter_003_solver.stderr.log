@@ -1,0 +1,1486 @@
+2026-06-25T16:58:57.583184Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:58:57.583941Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+OpenAI Codex v0.128.0 (research preview)
+--------
+workdir: /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019effb8-6f90-7e02-9f12-90bed89057b9
+--------
+user
+You are working inside a project-local Codex research run.
+
+Read these files before reasoning:
+- problem.md
+- working_notes/canonical_summary.md
+- working_notes/claim_ledger.md
+- working_notes/lemma_bank.md
+- working_notes/failed_attempts.md
+- working_notes/counterexamples.md
+- working_notes/literature_map.md
+- working_notes/bibliography.md
+- working_notes/promising_directions.md
+- working_notes/iteration_summaries.md
+
+Current iteration: 3
+
+General standards:
+- This is hard math / learning theory / TCS research. Be ambitious but honest.
+- Do not present plausible arguments as proofs.
+- Track assumptions, quantifiers, definitions, and dependencies carefully.
+- Record counterexamples, obstructions, and failed attempts as useful progress.
+- Distinguish external known results from conjectures and from your own arguments.
+- Actively check the literature when it could change the answer, reveal a known theorem, supply a citation, or prevent duplicating known work. If web search is enabled, prefer primary sources such as papers, proceedings pages, arXiv, DOI/publisher pages, and official documentation.
+- If you find a relevant source, include enough bibliographic information for the synthesizer to update `working_notes/bibliography.md`: title, authors, venue/year if available, URL/DOI/arXiv id, and one sentence on relevance. Worker agents should report bibliography candidates in their own output rather than editing shared working notes directly.
+
+Role: Solver.
+
+Try your best to solve the problem directly using the current notes. If you cannot solve it, extract concrete partial progress and the best next directions.
+
+Output Markdown with these sections:
+
+## Verdict
+SOLVED: yes | no | maybe
+
+## Candidate Solution Or Main Attempt
+## Concrete Lemmas Or Reductions
+## Gaps And Failure Points
+## Counterexamples Or Obstructions
+## Literature And Bibliography Candidates
+## Promising Ideas To Explore
+## Notes For Critics
+
+2026-06-25T16:58:57.869844Z  WARN codex_core::goals: failed to read thread goal at turn start: error returned from database: (code: 1) no such table: thread_goals
+2026-06-25T16:58:58.010199Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/vinayakpathak/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-06-25T16:59:06.086669Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:06.087367Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:06.090568Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime/plugins/template-creator/.codex-plugin/plugin.json
+2026-06-25T16:59:06.123654Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/vinayakpathak/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-06-25T16:59:06.140010Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.140017Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.140716Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.140721Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.141040Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.141043Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.141348Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.141350Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.141654Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.141656Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.142361Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.142363Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.929214Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:06.930103Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:06.931363Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime/plugins/template-creator/.codex-plugin/plugin.json
+2026-06-25T16:59:06.936591Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/vinayakpathak/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-06-25T16:59:06.948478Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.948487Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.948820Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.948823Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.949172Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.949175Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.949490Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.949492Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.949806Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.949811Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:06.950461Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:06.950464Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+codex
+I’ll use the `math-research-loop` skill for this research-run workflow, then read the required notes before attempting a solver pass.
+exec
+/bin/zsh -lc "sed -n '1,220p' /Users/vinayakpathak/.codex/skills/math-research-loop/SKILL.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+---
+name: math-research-loop
+description: Use when the user wants an iterative multi-agent research harness for hard math, learning theory, theoretical computer science, or theoretical ML problems. This skill creates project-local .codex-research runs, maintains durable project memory, launches solver/explorer/critic/synthesis Codex jobs through codex exec, and preserves claim ledgers, failed attempts, counterexamples, and human-readable final reports across runs.
+---
+
+# Math Research Loop
+
+## Overview
+
+Use this skill to turn a hard theory problem into a durable iterative research process. The skill keeps reusable machinery in the skill folder, but writes all problem-specific notes under the current project's `.codex-research/` directory.
+
+## When To Use
+
+Use this skill when the user asks Codex to work deeply or overnight on a difficult math, learning theory, TCS, or theoretical ML problem, especially when they want repeated cycles of direct solving, promising directions, subagents, critics, consolidation, and reusable notes.
+
+Do not use this skill for quick one-shot math answers unless the user explicitly asks for the research loop.
+
+## Project Layout
+
+Each project gets:
+
+```text
+.codex-research/
+  project_memory/
+    canonical_summary.md
+    claim_ledger.md
+    lemma_bank.md
+    failed_attempts.md
+    counterexamples.md
+    literature_map.md
+    promising_directions.md
+    bibliography.md
+    inbox/
+    archive/
+  runs/
+    <run-id>/
+      problem.md
+      config.json
+      state.json
+      notes_snapshot/
+      working_notes/
+      iterations/
+      outputs/
+      logs/
+```
+
+Per-run artifacts stay under `.codex-research/runs/<run-id>/`. Future runs snapshot `project_memory/`, including inbox updates from previous runs.
+
+## Quick Start
+
+From the project root, initialize a run:
+
+```bash
+python3 ~/.codex/skills/math-research-loop/scripts/init_run.py --problem problem.md
+```
+
+Run the harness:
+
+```bash
+caffeinate -dimsu python3 ~/.codex/skills/math-research-loop/scripts/research_loop.py \
+  --problem problem.md \
+  --iterations 5 \
+  --ideas 3 \
+  --explorers 2 \
+  --critics 2 \
+  --model gpt-5.5 \
+  --reasoning-effort xhigh \
+  --sandbox danger-full-access \
+  --approval never
+```
+
+For a shorter smoke test without calling Codex:
+
+```bash
+python3 ~/.codex/skills/math-research-loop/scripts/research_loop.py \
+  --problem problem.md \
+  --iterations 1 \
+  --ideas 2 \
+  --explorers 1 \
+  --critics 1 \
+  --dry-run
+```
+
+## Codex CLI Compatibility
+
+Some installed Codex CLI builds no longer accept the script-generated approval flag when it appears after the `exec` subcommand, for example `codex exec ... -a never`; this fails with an `unexpected argument '-a' found` error. Keep the harness-level `--approval never` setting, but pass a compatibility wrapper with `--codex-bin` or patch `research_loop.py` so spawned commands use the supported ordering `codex -a never exec ...`.
+
+If a wrapper is needed, keep it project-local, such as `.codex-research/bin/codex-exec-compat`, and invoke the harness with:
+
+```bash
+--codex-bin .codex-research/bin/codex-exec-compat
+```
+
+## Default Loop
+
+Each iteration:
+
+1. Run a direct solver attempt.
+2. If the solver claims a solution, run solution critics and a solution gate.
+3. If the solution gate accepts, stop and write a candidate solution report.
+4. Generate promising directions.
+5. For each direction, launch explorer agents with different lenses.
+6. Launch critic agents for explorer reports.
+7. Run a synthesizer to update run-local working notes, including any bibliography candidates found by the solver, idea generator, explorers, critics, or gate.
+8. Append the synthesis to iteration summaries.
+9. Continue with the improved notes in context.
+
+At the end, write `outputs/final_report.md` as a polished, self-contained mathematical report for the user, then copy it into `project_memory/inbox/` as a proposed memory update.
+
+## Guardrails
+
+- Always use `gpt-5.5` with `xhigh` reasoning for every Codex job in this loop: solver attempts, solution critics, solution gate, idea generation, explorers, critics, synthesis, and final report. Do not downgrade to a smaller or faster model unless the user explicitly asks for a different model in the current turn.
+- Run with full local permissions by default: `--sandbox danger-full-access --approval never`. Do not use `workspace-write`, `read-only`, or a stricter approval mode unless the user explicitly asks for reduced permissions in the current turn.
+- When launching the harness manually, pass `--model gpt-5.5 --reasoning-effort xhigh --sandbox danger-full-access --approval never`; these are also the script defaults and should be preserved when editing the scripts.
+- Treat the claim ledger as the central artifact. Do not promote plausible claims to facts without evidence.
+- Keep workers from editing canonical project memory directly. Workers write reports; synthesizers update run-local `working_notes/`; final memory updates go to `project_memory/inbox/`.
+- All worker roles should be literature-active, not merely literature-aware: when web search is enabled, they should search for relevant papers or known results whenever that could affect correctness, novelty, rates, lower bounds, algorithms, or terminology. Prefer primary sources such as papers, proceedings pages, arXiv, DOI/publisher pages, and official documentation.
+- Workers should not concurrently edit shared `working_notes/bibliography.md`. Instead, they must list bibliography candidates in their reports with title, authors, venue/year if available, URL/DOI/arXiv id, and a one-sentence relevance note. The synthesizer deduplicates and imports useful candidates into `working_notes/bibliography.md` and `working_notes/literature_map.md`.
+- Record failed proof attempts and counterexamples. They are assets, not clutter.
+- Label solution quality carefully: use "candidate solution" unless critics find no fatal gap.
+- Prefer concrete checks: toy examples, finite cases, symbolic/numeric experiments, known theorem consistency checks, and formalization attempts where appropriate.
+- The final report is for a human researcher, not for agents. It must be self-contained, avoid solver/explorer/critic jargon and invented worker terminology, define every relevant concept before use, state all substantive claims as numbered Definition/Assumption/Lemma/Theorem/Corollary/Proposition/Example/Remark blocks, and give an intuitive explanation before each proof.
+- For unattended runs, keep the Codex working directory at the run folder.
+
+## Resources
+
+- `scripts/init_run.py`: create `.codex-research` memory files and a new run directory.
+- `scripts/research_loop.py`: orchestrate solver, explorer, critic, and synthesis Codex jobs.
+- `references/prompts.md`: role prompts and output expectations.
+- `references/note_schema.md`: schemas for memory and report artifacts.
+
+2026-06-25T16:59:14.268156Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:14.268689Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:14.269317Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime/plugins/template-creator/.codex-plugin/plugin.json
+2026-06-25T16:59:14.272950Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/vinayakpathak/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-06-25T16:59:14.282026Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:14.282044Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:14.282296Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:14.282300Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:14.282555Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:14.282557Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:14.282788Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:14.282790Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:14.283029Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:14.283032Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:14.283532Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:14.283534Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+codex
+I’m checking the run notes now. I’ll keep the shared notes untouched and return a solver report in the requested format.
+exec
+/bin/zsh -lc 'wc -l problem.md working_notes/canonical_summary.md working_notes/claim_ledger.md working_notes/lemma_bank.md working_notes/failed_attempts.md' in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+     398 problem.md
+      25 working_notes/canonical_summary.md
+     127 working_notes/claim_ledger.md
+     111 working_notes/lemma_bank.md
+      37 working_notes/failed_attempts.md
+     698 total
+
+exec
+/bin/zsh -lc 'wc -l working_notes/counterexamples.md working_notes/literature_map.md working_notes/bibliography.md working_notes/promising_directions.md working_notes/iteration_summaries.md' in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+      81 working_notes/counterexamples.md
+      41 working_notes/literature_map.md
+      49 working_notes/bibliography.md
+      52 working_notes/promising_directions.md
+     109 working_notes/iteration_summaries.md
+     332 total
+
+2026-06-25T16:59:19.839890Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:19.840499Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:19.841057Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime/plugins/template-creator/.codex-plugin/plugin.json
+2026-06-25T16:59:19.844631Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/vinayakpathak/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-06-25T16:59:19.854451Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:19.854459Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:19.854760Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:19.854764Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:19.855040Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:19.855043Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:19.855322Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:19.855324Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:19.855599Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:19.855601Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:19.856195Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:19.856198Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+codex
+The source files are modest in size. I’m reading the problem statement and the current ledgers in parallel so the attempt can respect the previous claims and known failures.
+exec
+/bin/zsh -lc "sed -n '1,240p' problem.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\ind}[1]{\mathbf{1}\{#1\}}
+
+\title{Delayed Market Making}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+At step $t$:
+\begin{enumerate}
+    \item Market reveals $P_t \in [0,1]$.
+    \item Learner picks $a_t \in [0,1]$.
+    \item For all $t' < t$, if $a_{t'} < P_t$, then $a_{t'}$ gets traded and the learner gets reward $a_{t'}$.
+\end{enumerate}
+
+Let
+\[
+\tau_t(a) := \min \{s > 0 : P_{t+s} > a\}.
+\]
+
+Then the reward from posting quote $a$ at time $t$ is
+\[
+r_t(a) = a \cdot \ind{\tau_t(a) \le T-t}.
+\]
+
+The regret is
+\[
+R(T)
+=
+\max_{a \in [0,1]} \mathbb{E}\left[\sum_{t=1}^T r_t(a)\right]
+-
+\mathbb{E}\left[\sum_{t=1}^T r_t(a_t)\right].
+\]
+
+\begin{assumption}\label{ass:tail-delays}
+Let
+\[
+\beta(h)
+:=
+\sup_t \sup_a
+\operatorname*{ess\,sup}_{P_1,\dots,P_t}
+\Pr\bigl[h < \tau_t(a) < \infty \mid P_1,\dots,P_t\bigr].
+\]
+Assume
+\[
+\lim_{h \to \infty} \beta(h)
+=
+0.
+\]
+\end{assumption}
+
+\begin{conjecture}
+Sublinear regret is possible if and only if Assumption~\ref{ass:tail-delays}
+holds.
+\end{conjecture}
+
+\begin{proof}
+\emph{If direction.}
+
+\begin{itemize}
+    \item Assume $K$ arms. Later, we will control the error due to discretization. (Lemma~\ref{lem:discretization-comparison})
+
+    \item Pick some $H(T)$ that is sublinear. We will optimize the exact form of $H(T)$ for optimal regret.
+
+    \item Run an algorithm for expert advice with $K$ arms and delay $H(T)$. If a quote has not traded after $H(T)$ steps, assume it will never trade.
+
+    \item Consider the learning problem you get if the delay actually has an upper
+    bound of $H(T)$, i.e., define
+    \[
+        r^H_t(a) = a\cdot \ind{\tau_t(a) \leq \min\{H(T), T-t\}}
+    \]
+    and the corresponding regret
+    \[
+        R^H(T)
+        =
+        \max_{a \in [0,1]} \mathbb{E}\left[\sum_{t=1}^T r^H_t(a)\right]
+        -
+        \mathbb{E}\left[\sum_{t=1}^T r^H_t(a_t)\right].
+    \]
+
+    \item From standard expert advice with delay algorithms, we get $R^H(T) = O(\sqrt{TH(T)\log{K}})$
+
+    \item (Lemma~\ref{lem:truncation-comparison}) For each fixed $a$, we have that
+    \[
+        \mathbb{E}\left[r_t(a) - r^H_t(a)\right]
+        \leq
+        \Pr\bigl[H(T) < \tau_t(a) < \infty\bigr]
+        \leq
+        \beta(H(T)).
+    \]
+    Since $r_t(a_t) \geq r^H_t(a_t)$, it follows that
+    $R(T) \leq R^H(T) + T\beta(H(T))$, and therefore
+
+    \[
+    R(T) \leq O(\sqrt{TH(T)\log{K}}) + T\beta(H(T))
+    \]
+
+    \item Thus under Assumption~\ref{ass:tail-delays}, we get sublinear regret.
+    Furthermore, if we know the exact form of $\beta(h)$, then we can choose
+    $H(T)$ appropriately to balance the two terms.
+\end{itemize}
+
+Below are some details.
+
+\begin{lemma}[Truncation comparison]\label{lem:truncation-comparison}
+Let \(H = H(T)\), and let
+\[
+    r^H_t(a)
+    =
+    a\cdot \ind{\tau_t(a) \leq \min\{H,T-t\}}.
+\]
+Fix any learner and let \(R(T)\) and \(R^H(T)\) be its expected regrets under the rewards
+\(r_t\) and \(r^H_t\), respectively.
+Then
+\[
+    R(T) \leq R^H(T) + T\beta(H).
+\]
+\end{lemma}
+
+\begin{proof}
+Fix a quote \(a \in [0,1]\). The true reward \(r_t(a)\) and the truncated
+reward \(r^H_t(a)\) differ only when the quote trades before the end of the
+game, but more than \(H\) steps after it was posted. Thus
+\[
+    0
+    \leq
+    r_t(a) - r^H_t(a)
+    \leq
+    \ind{H < \tau_t(a) < \infty}.
+\]
+Taking conditional expectations given the realized history \(P_1,\dots,P_t\),
+we get
+\[
+    \mathbb{E}\left[
+        r_t(a) - r^H_t(a)
+        \mid P_1,\dots,P_t
+    \right]
+    \leq
+    \Pr\bigl[H < \tau_t(a) < \infty \mid P_1,\dots,P_t\bigr]
+    \leq
+    \beta(H),
+\]
+where the last inequality is exactly the definition of \(\beta(H)\). Taking
+expectations and summing over \(t\), this gives
+\[
+    \mathbb{E}\left[\sum_{t=1}^T r_t(a)\right]
+    \leq
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a)\right]
+    +
+    T\beta(H).
+\]
+Since this holds for every fixed quote \(a\),
+\[
+    \max_{a \in [0,1]}
+    \mathbb{E}\left[\sum_{t=1}^T r_t(a)\right]
+    \leq
+    \max_{a \in [0,1]}
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a)\right]
+    +
+    T\beta(H).
+\]
+
+On the other hand, along every realized path we have
+\(r^H_t(a_t) \leq r_t(a_t)\) for every \(t\). Therefore
+\[
+    \mathbb{E}\left[\sum_{t=1}^T r_t(a_t)\right]
+    \geq
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a_t)\right].
+\]
+Combining, we get, 
+\[
+\begin{aligned}
+    R(T)
+    &=
+    \max_{a \in [0,1]}
+    \mathbb{E}\left[\sum_{t=1}^T r_t(a)\right]
+    -
+    \mathbb{E}\left[\sum_{t=1}^T r_t(a_t)\right] \\
+    &\leq
+    \max_{a \in [0,1]}
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a)\right]
+    -
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a_t)\right]
+    +
+    T\beta(H) \\
+    &=
+    R^H(T) + T\beta(H).
+\end{aligned}
+\]
+\end{proof}
+
+\begin{lemma}[Discretization comparison]\label{lem:discretization-comparison}
+Let \(K \geq 2\), and let
+\[
+    \mathcal{G}_K
+    =
+    \left\{0, \frac{1}{K}, \dots, \frac{K-1}{K}\right\}.
+\]
+Consider a grid-restricted problem where \(a_t \in
+\mathcal{G}_K\) for every \(t\). Define regret of a learner as
+\[
+    R^H_K(T)
+    =
+    \max_{b \in \mathcal{G}_K}
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(b)\right]
+    -
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a_t)\right].
+\]
+Let \(R^H(T)\) be the regret of the same learner in the original
+problem, where the comparator may choose any fixed action in \([0,1]\):
+\[
+    R^H(T)
+    =
+    \max_{a \in [0,1]}
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a)\right]
+    -
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a_t)\right].
+\]
+Then,
+\[
+    R^H(T) \leq R^H_K(T) + \frac{T}{K}.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(L_t = \min\{H,T-t\}\). For every quote \(a \in [0,1]\), choose a grid
+point \(b(a) \in \mathcal{G}_K\) such that
+\[
+    b(a) \leq a
+
+exec
+/bin/zsh -lc "sed -n '241,520p' problem.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+exec
+/bin/zsh -lc "sed -n '1,220p' working_notes/canonical_summary.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+    \qquad\text{and}\qquad
+    a - b(a) \leq \frac{1}{K}.
+\]
+This is possible by rounding \(a\) down to the nearest point of
+\(\mathcal{G}_K\).
+
+Fix \(a\) and write \(b = b(a)\). Since \(b \leq a\), any future price that
+exceeds \(a\) also exceeds \(b\). Therefore, if quote \(a\) trades within
+\(L_t\) steps, then quote \(b\) also trades within \(L_t\) steps. Equivalently,
+\[
+    \ind{\tau_t(a) \leq L_t}
+    \leq
+    \ind{\tau_t(b) \leq L_t}
+\]
+on every realized path. Hence, pathwise,
+\[
+\begin{aligned}
+    r^H_t(a)
+    &=
+    a\cdot \ind{\tau_t(a) \leq L_t} \\
+    &=
+    b\cdot \ind{\tau_t(a) \leq L_t}
+    +
+    (a-b)\cdot \ind{\tau_t(a) \leq L_t} \\
+    &\leq
+    b\cdot \ind{\tau_t(b) \leq L_t}
+    +
+    (a-b) \\
+    &\leq
+    r^H_t(b) + \frac{1}{K}.
+\end{aligned}
+\]
+Taking expectations and summing over \(t\), we get
+\[
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a)\right]
+    \leq
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(b(a))\right]
+    +
+    \frac{T}{K}
+    \leq
+    \max_{b \in \mathcal{G}_K}
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(b)\right]
+    +
+    \frac{T}{K}.
+\]
+Since this holds for every \(a \in [0,1]\), the best continuum comparator is
+within \(T/K\) of the best grid comparator:
+\[
+    \max_{a \in [0,1]}
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(a)\right]
+    \leq
+    \max_{b \in \mathcal{G}_K}
+    \mathbb{E}\left[\sum_{t=1}^T r^H_t(b)\right]
+    +
+    \frac{T}{K}.
+\]
+Subtracting the learner's expected truncated reward
+\(\mathbb{E}\left[\sum_{t=1}^T r^H_t(a_t)\right]\) from both sides yields
+\[
+    R^H(T) \leq R^H_K(T) + \frac{T}{K}.
+\]
+\end{proof}
+
+\paragraph{Putting the terms together.}
+The proof sketch above began by pretending that the problem already has \(K\)
+arms. Lemma~\ref{lem:discretization-comparison} explains how to justify this:
+run the learner on the grid \(\mathcal{G}_K\), and then compare its performance
+to the original comparator. If the delayed finite-arm algorithm
+guarantees
+\[
+    R^H_K(T) = O\left(\sqrt{T H \log K}\right),
+\]
+then Lemmas~\ref{lem:truncation-comparison}
+and~\ref{lem:discretization-comparison} give
+\[
+\begin{aligned}
+    R(T)
+    &\leq
+    R^H(T) + T\beta(H) \\
+    &\leq
+    R^H_K(T) + \frac{T}{K} + T\beta(H) \\
+    &=
+    O\left(\sqrt{T H \log K}\right)
+    +
+    \frac{T}{K}
+    +
+    T\beta(H).
+\end{aligned}
+\]
+Thus the regret bound has three terms:
+\[
+    \underbrace{O\left(\sqrt{T H \log K}\right)}_{\text{learning with delay}}
+    +
+    \underbrace{\frac{T}{K}}_{\text{discretization}}
+    +
+    \underbrace{T\beta(H)}_{\text{truncation}}.
+\]
+The discretization term is explicitly \(T/K\).
+
+The parameters \(K\) and \(H\) should be chosen to balance these three terms.
+For a fixed \(H\), the grid should be fine enough that \(T/K\) does not
+dominate the delayed-learning term. Since \(K\) appears only logarithmically in
+the delayed-learning term, a simple safe choice is \(K=T\), which makes
+\(T/K=1\) and gives
+\[
+    R(T)
+    \leq
+    O\left(\sqrt{T H \log T}\right)
+    +
+    T\beta(H)
+    +
+    1.
+\]
+A more economical choice, up to logarithmic factors, is to take
+\(K \approx \sqrt{T/H}\), which makes the discretization term no larger than
+the delayed-learning term.
+
+After \(K\) is chosen, \(H\) controls the tradeoff between the delayed-learning
+term and the truncation term. Increasing \(H\) makes the finite-arm delayed
+learning problem harder, because the term \(\sqrt{T H \log K}\) grows with
+\(H\). But increasing \(H\) also makes the truncation error \(T\beta(H)\)
+smaller. The best choice is therefore obtained by approximately solving
+\[
+    \sqrt{T H(T) \log K(T)}
+    \approx
+    T\beta(H(T)).
+\]
+Equivalently, with the simple choice \(K=T\), one balances
+\[
+    \beta(H(T))
+    \approx
+    \sqrt{\frac{H(T)\log T}{T}}.
+\]
+There is no universal optimal \(H(T)\) without more information about the decay
+of \(\beta\). If \(\beta(h) \lesssim h^{-\alpha}\), then the balancing choice
+with \(K=T\) is
+\[
+    H(T) \asymp \left(\frac{T}{\log T}\right)^{1/(2\alpha+1)},
+\]
+which gives regret of order
+\[
+    T^{(\alpha+1)/(2\alpha+1)}(\log T)^{\alpha/(2\alpha+1)}
+\]
+up to constants. If instead \(\beta(h)\) decays exponentially, then \(H(T)\)
+only needs to grow logarithmically in \(T\), giving regret nearly
+\(\sqrt{T}\) up to logarithmic factors.
+
+For the qualitative sublinear-regret result, Assumption~\ref{ass:tail-delays}
+is enough. Choose \(H(T)\to\infty\) slowly enough that
+\(H(T)\log T=o(T)\), and take \(K=T\). Then
+\(\sqrt{T H(T)\log T}=o(T)\), \(T\beta(H(T))=o(T)\), and \(T/K=1\).
+
+
+\medskip
+\noindent\emph{Only if direction.}
+\end{proof}
+
+\end{document}
+
+ succeeded in 0ms:
+# Canonical Summary
+
+We study delayed market making where each public price \(P_t\in[0,1]\) is revealed, the learner posts \(a_t\in[0,1]\), and a quote \(a\) posted at \(t\) pays once, \(r_t(a)=a\,1\{\tau_t(a)\le T-t\}\), if some future price strictly exceeds it. Regret should usually be written against \(\sup_{a\in[0,1]}\), not \(\max\), unless comparator attainment is separately proved; strict crossing and atoms can destroy maxima.
+
+The stated "only if" direction is false under literal instance-wise/process-aware readings. The sparse vanishing-spike process \(P_{2^n}=U_n/2^n\), \(P_t=0\) otherwise, has \(\beta(h)=1\) for every \(h\) via \(a=0\), but the always-zero learner has regret at most \(1\) for every horizon. Stronger: if the learner may depend on both the exogenous process law and the horizon, and regret is the problem's pseudo-regret \(\sup_a\mathbb E[\cdot]-\mathbb E[\cdot]\), every process is trivially learnable by playing an \(\varepsilon_T\)-optimal fixed quote for that horizon. This collapse does not apply to endogenous prices, \(E[\sup]\) pathwise regret, horizon-oblivious learners, or universal/minimax guarantees.
+
+The sufficiency side survives under explicit assumptions: public exogenous prices define counterfactual truncated rewards for all grid quotes, the learner uses full-information delayed-expert feedback, \(H,K\) are known/chosen, and regret uses a supremum comparator. Then
+\[
+R_T \lesssim \sqrt{T(H+1)\log K}+T/K+T\beta(H).
+\]
+This improves to \(T\gamma(H)\) for the payoff-weighted tail
+\[
+\gamma(h)=\sup_{t,a}\operatorname*{ess\,sup}_{\mathcal F_t} a\,\Pr(h<\tau_t(a)<\infty\mid\mathcal F_t),
+\]
+and further to a horizon-tail loss
+\[
+\Delta_T(H)=\sup_a\sum_{t\le T}\mathbb E[a\,1\{H<\tau_t(a)\le T-t\}].
+\]
+An even smaller truncation penalty is the comparator gap
+\[
+\Gamma_T(H)=\sup_a V_T(a)-\sup_a V_T^H(a)\le\Delta_T(H),
+\]
+which also suffices for the same reduction. However neither \(\gamma(h)\to0\), \(\Delta_T(H_T)=o(T)\), nor \(\Gamma_T(H_T)=o(T)\) is established as necessary; reports give counterexamples where long positive-payoff tails are sparse, predictable, or process-known.
+
+The main unresolved issue is quantifiers. A true necessity theorem must specify whether "possible" means instance-wise existence of a process-aware learner, a horizon-oblivious process-aware learner, a universal learner over a process class, a minimax/distribution-free guarantee, or a post-history conditional guarantee. The best current lower-bound route is class-uniform/minimax: in a finite block \(0^N c\), \(c\in\{1/2,1\}\), every randomized learner suffers regret at least \(N/4\) on one continuation because the two continuations are indistinguishable before the terminal price. Concatenating dominant blocks may yield a universal-class impossibility, but it is not an instance-wise characterization.
+
+exec
+/bin/zsh -lc "sed -n '1,220p' working_notes/claim_ledger.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+# Claim Ledger
+
+## Accepted Or Strongly Supported
+
+**CL-001: Truncated-grid sufficiency under full-information assumptions.**  
+Status: accepted modulo standard delayed-expert theorem and explicit model assumptions.  
+Claim: If public exogenous prices allow the learner to compute every grid arm's truncated reward \(r_t^H(b)\) by time \(t+H\), then a \(K\)-grid delayed full-information learner satisfies
+\[
+R_T \le O(\sqrt{T(H+1)\log K})+T/K+T\beta(H).
+\]
+Dependencies: public full price observation; exogenous or realized-path counterfactual rewards; bounded rewards; deterministic known \(H,K\); comparator written as \(\sup\) unless attainment is proved.
+
+**CL-002: Payoff-weighted tail suffices.**  
+Status: accepted.  
+Claim: With
+\[
+\gamma(h)=\sup_t\sup_a\operatorname*{ess\,sup}_{\mathcal F_t}
+a\,\Pr(h<\tau_t(a)<\infty\mid\mathcal F_t),
+\]
+the same proof gives
+\[
+R_T \le O(\sqrt{T(H+1)\log K})+T/K+T\gamma(H).
+\]
+Thus \(\gamma(h)\to0\) is a sufficient condition for sublinear regret after choosing \(K=T\) and \(H(T)\to\infty\) with \(H(T)\log T=o(T)\).
+
+**CL-003: Positive-scale equivalence for \(\gamma\).**  
+Status: accepted.  
+Let
+\[
+\beta_\epsilon(h)=\sup_t\sup_{a\in[\epsilon,1]}\operatorname*{ess\,sup}_{\mathcal F_t}
+\Pr(h<\tau_t(a)<\infty\mid\mathcal F_t).
+\]
+Then \(\gamma(h)\to0\) iff \(\beta_\epsilon(h)\to0\) for every \(\epsilon>0\). Proof: \(\beta_\epsilon(h)\le \gamma(h)/\epsilon\), while \(\gamma(h)\le \epsilon+\beta_\epsilon(h)\).
+
+**CL-004: Horizon-tail sufficiency.**  
+Status: accepted as a sufficient nonuniform condition.  
+Define
+\[
+\Delta_T(H)=\sup_{a\in[0,1]}\sum_{t\le T}\mathbb E[a\,1\{H<\tau_t(a)\le T-t\}].
+\]
+Then
+\[
+R_T \le O(\sqrt{T(H+1)\log K})+T/K+\Delta_T(H).
+\]
+If known deterministic schedules satisfy \(H_T\log K_T=o(T)\), \(T/K_T=o(T)\), and \(\Delta_T(H_T)=o(T)\), the delayed-grid algorithm has sublinear regret. A sharper comparator-gap variant also works: with
+\[
+\Gamma_T(H)=\sup_a V_T(a)-\sup_a V_T^H(a),
+\]
+one has \(R_T\le R_T^H+\Gamma_T(H)\), hence the same grid bound with \(\Gamma_T(H)\le\Delta_T(H)\). A universal theorem over unknown schedules still needs model selection or skipping.
+
+**CL-005: Sparse vanishing spikes refute instance-wise \(\beta\)-necessity.**  
+Status: accepted.  
+For \(s_n=2^n\), \(P_{s_n}=U_n/s_n\), \(P_t=0\) otherwise, with iid \(U_n\sim{\rm Unif}(0,1)\), one has \(\beta(h)=1\) for all \(h\), but \(\sup_a\mathbb E\sum_{t\le T}r_t(a)\le1\). The always-zero learner therefore has \(R_T\le1\). This refutes
+\[
+\exists \pi:\ R_P^\pi(T)=o(T)\Rightarrow \beta_P(h)\to0
+\]
+for individual processes.
+
+**CL-014: Horizon/process-aware pseudo-regret collapse.**  
+Status: accepted with explicit assumptions.  
+Let \(P\) be an exogenous, policy-independent price-process law and define pseudo-regret by
+\[
+R_T^P(\pi)=\sup_{a\in[0,1]}V_T^P(a)-\mathbb E_P\sum_{t\le T}r_t(a_t),
+\qquad
+V_T^P(a)=\mathbb E_P\sum_{t\le T}r_t(a).
+\]
+If policies may depend on both \(P\) and \(T\), and no computability/statistical-access restriction is imposed, then for every \(\varepsilon>0\) there is a deterministic constant-quote policy \(\pi_{P,T,\varepsilon}\) with \(R_T^P(\pi_{P,T,\varepsilon})\le\varepsilon\). Choose an \(\varepsilon\)-optimizer of \(\sup_a V_T^P(a)\) and play it every round. Thus every exogenous process is learnable in this oracle regime, independent of \(\beta,\gamma,\Delta,\Gamma\). This does not apply to \(E[\sup]\) pathwise regret, endogenous/adaptive prices, horizon-oblivious policies, or one learner required to work over a class.
+
+**CL-015: Finite two-continuation block lower bound.**  
+Status: accepted for universal/minimax interpretations.  
+Let \(I_c^N\) be the deterministic horizon-\(N+1\) instance
+\[
+P_1=\cdots=P_N=0,\qquad P_{N+1}=c,\qquad c\in\{1/2,1\}.
+\]
+For any randomized learner, the law of its first \(N\) actions is identical under both continuations. With regret against \(\sup_a\), one has
+\[
+\sup_{c\in\{1/2,1\}}R^\pi(I_c^N)\ge N/4.
+\]
+Equivalently, an epsilon-comparator version gives \(N(1/4-\eta)\) using quotes \(1/2-\eta\) and \(1-\eta\). This is a lower bound for a learner not knowing the continuation, not an instance-wise lower bound for a process-aware learner.
+
+## Refuted Or Weakened
+
+**CL-006: Original iff conjecture.**  
+Status: refuted under literal instance-wise reading; unresolved under class-uniform/minimax readings.  
+Reason: CL-005.
+
+**CL-007: \(\gamma(h)\to0\) as an instance-wise necessary condition.**  
+Status: refuted for process-aware/instance-wise learnability.  
+Reason: coded-delay construction can have \(\gamma(h)\ge1/4\) for all \(h\), yet the process makes \(a=1/2\) always optimal and an always-\(1/2\) learner has zero regret.
+
+**CL-008: \(\Delta_T(H_T)=o(T)\) as an instance-wise necessary condition.**  
+Status: refuted or at least strongly weakened.  
+Reason: predictable sparse spike examples have linear horizon-tail loss along infinitely many horizons while a horizon/process-aware learner can quote the known near-optimal level and get \(o(T)\) regret.
+
+**CL-009: \(\Delta_T\) is the weakest visible truncation gap.**  
+Status: false as stated.  
+A smaller comparator-level quantity is
+\[
+\Gamma_T(H)=\sup_a V_T(a)-\sup_a V_T^H(a),
+\]
+with \(\Gamma_T(H)\le\Delta_T(H)\). Even \(\Gamma_T\)-type raw reward tails may not be necessary if delayed mass is predictable.
+
+**CL-010: Comparator maxima always exist.**  
+Status: false.  
+With strict crossing \(P_s>a\), atoms can make the best fixed quote unattained; e.g. deterministic future price \(c\) gives payoff approaching \(c\) as \(a\uparrow c\) but not at \(a=c\). Use \(\sup\) or add assumptions ensuring attainment.
+
+## Candidate Claims Needing More Work
+
+**CL-011: Envelope-strengthened sparse spikes.**  
+Status: plausible with finite-prefix and monotonicity conditions.  
+For eventually positive nondecreasing \(q(T)=o(T)\), one can choose spike amplitudes \(c_n\) after the eventual threshold so regret is at most \(q(T)/2\) for all sufficiently large \(T\), while \(\beta\equiv1\). Needs a clean statement with \(c_n>0\), \(c_n/s_n\le1\), and finite-prefix handling.
+
+**CL-012: Rare-history essential-sup obstruction.**  
+Status: plausible but not yet proved.  
+Rare positive-probability branches may keep \(\beta\) or \(\gamma\) large via essential sup while contributing negligible expected regret. Need a fully specified process and horizon calculations.
+
+**CL-013: Information-theoretic necessity condition.**  
+Status: promising direction.  
+A lower bound should use two processes/classes with identical observations before delayed feedback resolves, but different best fixed quotes. Long tail mass must be payoff-relevant, sufficiently frequent, and unpredictable.
+
+**CL-016: Concatenated block universal lower bound.**  
+Status: promising but not fully formalized.  
+Let \(N_i\) be dominant block lengths with \(M_i=\sum_{j<i}(N_j+1)=o(N_i)\), and consider deterministic sequences formed by blocks \(0^{N_i}c_i\), \(c_i\in\{1/2,1\}\). For any process-unaware universal learner, one should be able to choose \(c_i\)'s so that at block endpoints \(T_i=M_i+N_i+1\),
+\[
+R^\pi(T_i)\ge N_i/4-M_i,
+\]
+and hence \(\limsup_i R^\pi(T_i)/T_i\ge1/4\). Remaining work: state whether learners are horizon-aware or anytime, diagonalize if needed, condition on the fixed prior prefix for randomized learners, and write the cross-block pending-reward accounting carefully.
+
+2026-06-25T16:59:26.263025Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:26.264147Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:26.264737Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime/plugins/template-creator/.codex-plugin/plugin.json
+2026-06-25T16:59:26.268248Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/vinayakpathak/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-06-25T16:59:26.277515Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:26.277524Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:26.277929Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:26.277932Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:26.278196Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:26.278198Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:26.278451Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:26.278453Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:26.278713Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:26.278715Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:26.279284Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:26.279285Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+exec
+/bin/zsh -lc "sed -n '1,220p' working_notes/counterexamples.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+exec
+/bin/zsh -lc "sed -n '1,220p' working_notes/failed_attempts.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+exec
+/bin/zsh -lc "sed -n '1,220p' working_notes/lemma_bank.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+# Counterexamples And Obstructions
+
+## CE-001: Sparse Vanishing Spikes Refute \(\beta\)-Necessity
+
+Status: accepted.
+
+Let \(s_n=2^n\), \(U_n\stackrel{iid}{\sim}{\rm Unif}(0,1)\), and
+\[
+P_t=\begin{cases}
+U_n/s_n,&t=s_n,\\
+0,&\text{otherwise}.
+\end{cases}
+\]
+For \(a=0\) at \(t=s_n\), the next positive price occurs at \(s_{n+1}\) almost surely, so \(\tau_{s_n}(0)=2^n\). Therefore \(\beta(h)=1\) for every \(h\). Yet for every horizon \(T\), every fixed \(a>0\) has expected reward \(<1\) by comparing against the last possible crossing spike, and \(a=0\) has zero reward. The always-zero learner has \(R_T\le1\). This refutes the stated only-if direction for individual processes.
+
+Notes: This uses \(0\in[0,1]\). If actions are restricted to \([\epsilon,1]\), the specific witness disappears once all spike heights are below \(\epsilon\). If \(0\) is excluded but arbitrarily small actions remain, a related supremum pathology remains but needs a separate admissible learner argument.
+
+## CE-002: Comparator Maximum Can Fail
+
+Status: accepted.
+
+If a future public price is deterministically \(c\in(0,1]\), then quotes \(a<c\) trade while \(a\ge c\) do not. The fixed-action payoff approaches the value at \(c\) as \(a\uparrow c\) but is not attained at \(a=c\). Thus the problem should use \(\sup_a\) or add conditions ensuring a maximum exists.
+
+## CE-003: Coded Delay Refutes Instance-Wise \(\gamma\)-Necessity
+
+Status: accepted as a stress-test construction; writeup still needs final polishing.
+
+Draw \(M=m\) with \(p_m>0\), reveal a code \(P_1=x_m\), set \(P_2=\cdots=P_{L_m}=0\), set \(P_{L_m+1}=U\sim{\rm Unif}[0,1]\), and set later prices to zero, with \(L_m\to\infty\). For any \(h\), choose \(m\) with \(L_m>h\). Conditional on \(P_1=x_m\), for \(a=1/2\),
+\[
+\Pr(h<\tau_1(a)<\infty\mid P_1=x_m)=1/2,
+\]
+so \(\gamma(h)\ge1/4\). But for each horizon the expected fixed-action value is \(a(1-a)S_T\) for some scalar \(S_T\ge0\), so \(a=1/2\) is optimal and the always-\(1/2\) learner has zero regret.
+
+## CE-004: Sparse Blocks Break Uniform-In-Time Tail Necessity
+
+Status: plausible; needs formal all-prefix proof if used.
+
+Consider deterministic epochs \(0^n1^{n^3}\). For any \(h\), choose \(n>h\) and a quote \(a=1/2\) at the first zero of that block; the delay to a one exceeds \(h\), so \(\gamma(h)\ge1/2\). But through epoch \(N\), zero-block positions are \(O(N^2)\) while total time is \(O(N^4)\), so ex-ante averaged long-tail mass is plausibly \(o(T)\). This shows \(\sup_t\) conditions can be too strong for initial expected regret.
+
+## CE-005: Predictable Sparse Spikes Refute \(\Delta_T\)-Necessity
+
+Status: accepted as obstruction, with exact variant to formalize.
+
+Binary power-of-two variant: \(P_t=1\) iff \(t\) is a power of two, otherwise \(P_t=0\). At horizons \(T=2^m\), any \(H=o(T)\) leaves \(\Delta_T(H)=\Omega(T)\) because a constant fraction of quotes before the terminal spike trade only after more than \(H\). Yet a horizon-aware learner posting close to \(1\), e.g. \(1-1/T\), gets within \(O(1)\) of the fixed-action supremum on binary paths.
+
+Uniform superexponential variant: let \(S_n=2^{2^n}\), \(P_{S_n}=U_n\sim{\rm Unif}[0,1]\), and \(P_t=0\) otherwise. The always-\(1/2\) learner is optimal on the dominant resolved block at \(T=S_n\), while older blocks have length \(S_{n-1}=o(S_n)\). However \(\Delta_{S_n}(H_T)\ge (S_n-S_{n-1}-H_T)/4=\Omega(S_n)\) for any \(H_T=o(T)\). Need a clean all-horizons regret bound for \(S_n\le T<S_{n+1}\).
+
+## CE-006: Rare-History Essential-Sup Obstruction
+
+Status: conjectural stress test.
+
+A tiny-probability branch containing arbitrarily long positive-payoff delays can keep an essential-sup tail condition large while contributing negligible ex-ante expected regret. A concrete one-spike heavy-tail construction was suggested but not fully verified; future work should compute both the residual conditional tail and \(\Delta_T(H)\).
+
+## CE-007: Horizon/Process-Aware Oracle Collapse
+
+Status: accepted obstruction to any instance-wise necessity theorem under oracle quantifiers.
+
+For any exogenous law \(P\) and horizon \(T\), define
+\[
+V_T^P(a)=\mathbb E_P\sum_{t\le T}r_t(a).
+\]
+Choose an \(\varepsilon_T\)-optimizer of \(\sup_a V_T^P(a)\) and post it in every round. The learner's expected reward equals \(V_T^P(a_T)\), so its pseudo-regret is at most \(\varepsilon_T=o(T)\), regardless of \(\beta,\gamma,\Delta_T,\Gamma_T\), or any other tail statistic. This is not an algorithmic result unless the process law and horizon are known and approximate optimization is allowed.
+
+Notes: This obstruction is specific to the problem's \(\sup_a\mathbb E-\mathbb E\) regret. It need not hold for \(E[\sup_a]\) pathwise regret; a hidden common state can make the best pathwise fixed quote substantially better than the best fixed quote in expectation.
+
+## CE-008: Two-Continuation Block Lower-Bound Gadget
+
+Status: accepted finite-block lower bound; concatenation remains a candidate theorem.
+
+Let \(P_1=\cdots=P_N=0\) and \(P_{N+1}=c\), where \(c\in\{1/2,1\}\). Before the terminal price, the learner sees identical histories in the two instances. Any randomized learner must split between quotes below \(1/2\), which work on both continuations but under-earn when \(c=1\), and quotes above \(1/2\), which fail when \(c=1/2\). With regret against suprema,
+\[
+\sup_{c\in\{1/2,1\}}R^\pi(I_c^N)\ge N/4.
+\]
+
+This supports universal-class/minimax lower bounds after concatenating dominant blocks \(0^{N_i}c_i\), but it does not refute instance-wise learnability by a learner that knows the deterministic continuation sequence.
+
+## CE-009: Random Continuations Are Not Automatically Hard
+
+Status: accepted warning.
+
+If the terminal bit \(c\in\{1/2,1\}\) is drawn randomly and the regret remains \(\sup_a\mathbb E[\text{fixed-action reward}]-\mathbb E[\text{learner reward}]\), the stochastic instance can be easy: the learner can target the best fixed quote in expectation. Thus the two-continuation construction should be used as an adversarial deterministic class or minimax/Yao lower-bound device, not as a hard stochastic process without changing the regret notion.
+
+ succeeded in 0ms:
+# Failed Attempts
+
+## FA-001: Proving Necessity From Unweighted \(\beta\)
+
+Failed. The sparse vanishing-spike process has \(\beta(h)=1\) for all \(h\) because \(a=0\) waits across arbitrarily long gaps, yet all fixed comparator value is \(O(1)\). Long finite hitting times at zero or vanishing payoff scale do not imply regret hardness.
+
+## FA-002: Treating \(\gamma(h)\to0\) As Necessary
+
+Failed for instance-wise/process-aware learnability. A coded-delay process can reveal which long delay will occur, keep \(\gamma(h)\ge1/4\), and still make \(a=1/2\) the known optimal quote for every horizon. Positive-payoff delayed tails alone are not a learning obstruction.
+
+## FA-003: Treating Horizon-Tail Loss \(\Delta_T\) As A Characterization
+
+Failed or strongly weakened. Predictable sparse spikes can make \(\Delta_T(H_T)=\Omega(T)\) along infinitely many horizons for every \(H_T\log T=o(T)\), while a process-aware learner posts a known near-optimal quote and gets sublinear regret. Raw delayed reward mass is not the same as information needed for learning.
+
+## FA-004: Using Comparator `max` Without Checking Attainment
+
+Failed. Strict trade condition \(P_s>a\) and atomic prices can make the best fixed action unattained. Future price constantly equal to \(c\) gives a payoff supremum as \(a\uparrow c\), but action \(a=c\) does not trade. Future writeups should use \(\sup\) unless continuity/no-atom conditions are proved.
+
+## FA-005: Citing Delayed-Feedback Literature Without The Model Map
+
+Incomplete. Delayed-learning results support the finite-grid step only after stating that prices are public/exogenous and that all truncated grid rewards are computable after at most \(H\) rounds. Bandit, anonymous, and composite-delay references are often adjacent rather than direct support for this full-information reduction.
+
+## FA-006: Rare-History Obstruction As A Lemma
+
+Not yet proved. Reports repeatedly suggest that rare positive-probability histories can keep an essential supremum large while contributing negligible expected regret, but no complete process and horizon calculation has been written. Keep as a candidate stress test.
+
+## FA-007: Overstrong Envelope Claim
+
+The claim "regret bounded by any prescribed sublinear envelope" was overbroad if the envelope is not eventually positive/nondecreasing or if it tends to zero. A corrected version should be stated only for sufficiently large horizons and with explicit spike amplitudes \(c_n>0\), \(c_n/s_n\le1\), and \(c_n\le q(s_n)/4\) after the finite prefix.
+
+## FA-008: Necessity Under Horizon-Aware Process-Law Oracle Policies
+
+Failed completely for the problem's pseudo-regret. If a policy may depend on both the exogenous law \(P\) and the horizon \(T\), it can choose an \(\varepsilon_T\)-optimal fixed quote for \(V_T^P(a)=\mathbb E_P\sum_t r_t(a)\) and play it every round. This gives \(R_T^P\le\varepsilon_T=o(T)\) for every process, so no nontrivial tail condition can be necessary under this quantifier order. This failure relies on pseudo-regret, exogeneity, and horizon/law awareness.
+
+## FA-009: Presenting The Two-Continuation Mixture As A Hard Stochastic Process
+
+Failed under the current expected-comparator regret definition. Randomizing the terminal continuation \(c\in\{1/2,1\}\) is useful as a minimax/Yao-style proof device for deterministic instances, but the stochastic mixture itself may be easy because the comparator is \(\sup_a \mathbb E[\text{reward of }a]\). A learner can often match the best expected fixed quote up to epsilon. The block construction should be stated as a universal-class or minimax lower bound, not as an instance-wise stochastic-process lower bound.
+
+ succeeded in 0ms:
+# Lemma Bank
+
+## LB-001: Downward Grid Discretization
+
+For \(\mathcal G_K=\{0,1/K,\ldots,(K-1)/K\}\), round any \(a\in[0,1]\) down to \(b(a)\in\mathcal G_K\). Since \(b\le a\), every future price exceeding \(a\) also exceeds \(b\), and
+\[
+r_t^H(a)\le r_t^H(b)+1/K.
+\]
+Therefore \(R_T^H\le R_{T,K}^H+T/K\). This is accepted.
+
+## LB-002: Bounded-Delay Full-Information Experts By Residues
+
+If each reward vector in \([0,1]^K\) is revealed after at most \(H\) rounds, split time into \(H+1\) residue classes and run independent full-information Hedge instances. On each class, previous rewards have matured before the next action in the class. Summing the per-class regrets and applying Cauchy-Schwarz gives
+\[
+R_{T,K}^H=O(\sqrt{T(H+1)\log K}).
+\]
+Status: accepted as standard/provable, but final writeup should state adversary/adaptivity conventions.
+
+## LB-003: Weighted Truncation
+
+For fixed \(H\),
+\[
+0\le r_t(a)-r_t^H(a)=a\,1\{H<\tau_t(a)\le T-t\}
+\le a\,1\{H<\tau_t(a)<\infty\}.
+\]
+Taking conditional expectations and using \(\gamma(H)\) gives
+\[
+R_T\le R_T^H+T\gamma(H).
+\]
+Status: accepted.
+
+## LB-004: Horizon-Tail Truncation
+
+Let
+\[
+\Delta_T(H)=\sup_a\sum_{t\le T}\mathbb E[a\,1\{H<\tau_t(a)\le T-t\}].
+\]
+For every fixed comparator \(a\), truncation loses exactly the summand above, while the learner's true reward pathwise dominates its truncated reward. Hence
+\[
+R_T\le R_T^H+\Delta_T(H).
+\]
+Combining with LB-001 and LB-002 gives the \(\Delta_T\)-sufficiency bound. Status: accepted.
+
+## LB-005: Positive-Scale Equivalence
+
+For
+\[
+\beta_\epsilon(h)=\sup_t\sup_{a\in[\epsilon,1]}\operatorname*{ess\,sup}_{\mathcal F_t}
+\Pr(h<\tau_t(a)<\infty\mid\mathcal F_t),
+\]
+\[
+\gamma(h)\to0\quad\Longleftrightarrow\quad
+\forall\epsilon>0,\ \beta_\epsilon(h)\to0.
+\]
+Status: accepted.
+
+## LB-006: Sparse Vanishing-Spike Counterexample
+
+Let \(s_n=2^n\), \(P_{s_n}=U_n/s_n\), \(P_t=0\) otherwise. Then at \(t=s_n\), \(a=0\) has \(\tau_{s_n}(0)=s_{n+1}-s_n=2^n\) almost surely, so \(\beta(h)=1\) for all \(h\). For fixed \(a>0\), if \(m^*=\max\{m:s_m\le T,\ a<1/s_m\}\) exists, only \(t<s_{m^*}\) can earn and \(\mathbb E\sum_t r_t(a)\le a s_{m^*}<1\); if it does not exist, reward is zero. Thus \(R_T\le1\) for the always-zero learner. Status: accepted.
+
+## LB-007: Comparator-Gap Truncation
+
+Let
+\[
+V_T(a)=\mathbb E\sum_{t\le T}r_t(a),
+\qquad
+V_T^H(a)=\mathbb E\sum_{t\le T}r_t^H(a),
+\]
+and
+\[
+\Gamma_T(H)=\sup_a V_T(a)-\sup_a V_T^H(a).
+\]
+Since the learner's true reward pathwise dominates its truncated reward,
+\[
+R_T
+=\sup_a V_T(a)-\mathbb E\sum_t r_t(a_t)
+\le
+\sup_a V_T(a)-\mathbb E\sum_t r_t^H(a_t)
+=R_T^H+\Gamma_T(H).
+\]
+Moreover \(\Gamma_T(H)\le\Delta_T(H)\). Status: accepted; still only sufficient, not known necessary.
+
+## LB-008: Horizon/Process-Aware Pseudo-Regret Collapse
+
+For an exogenous policy-independent law \(P\), define
+\[
+V_T^P(a)=\mathbb E_P\sum_{t=1}^T r_t(a),
+\qquad
+V_T^{*,P}=\sup_{a\in[0,1]}V_T^P(a).
+\]
+For every \(\varepsilon>0\), choose \(a_{T,\varepsilon}\) with
+\[
+V_T^P(a_{T,\varepsilon})\ge V_T^{*,P}-\varepsilon.
+\]
+The deterministic policy that posts \(a_{T,\varepsilon}\) every round has pseudo-regret at most \(\varepsilon\). This uses the problem's \(\sup_a\mathbb E-\mathbb E\) regret, law and horizon awareness, and no computability constraint. Status: accepted.
+
+## LB-009: Two-Continuation Finite-Block Lower Bound
+
+Let \(I_c^N\) have \(N\) zeros followed by terminal price \(c\in\{1/2,1\}\). For the first \(N\) rounds the two instances are observationally identical. If
+\[
+G_c=\mathbb E_\pi\sum_{t=1}^N A_t\,1\{A_t<c\},
+\]
+then \(R_{1/2}=N/2-G_{1/2}\) and \(R_1=N-G_1\), with comparator values interpreted as suprema. For every \(a\in[0,1]\),
+\[
+\frac12 a1\{a<1/2\}+\frac12 a1\{a<1\}\le\frac12,
+\]
+so \((G_{1/2}+G_1)/2\le N/2\) and therefore
+\[
+\sup_{c\in\{1/2,1\}}R^\pi(I_c^N)\ge\frac{R_{1/2}+R_1}{2}\ge N/4.
+\]
+An epsilon version comparing to \(1/2-\eta\) and \(1-\eta\) gives \(N(1/4-\eta)\). Status: accepted for universal/minimax lower-bound use.
+
+exec
+/bin/zsh -lc "sed -n '1,220p' working_notes/literature_map.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+# Literature Map
+
+## Full-Information Delayed Online Learning
+
+- Joulani, Gyorgy, and Szepesvari (ICML/PMLR 2013) is the primary black-box delayed-feedback reduction. Verified source states the ICML 2013/PMLR venue and frames delay effects on regret; use this for the finite-grid delayed-learning step, after explicitly mapping public price observations to delayed full-information reward vectors.
+- Joulani, Gyorgy, and Szepesvari (AAAI 2016), "Delay-Tolerant Online Convex Optimization," is verified. The source states a black-box reduction from delayed-feedback to standard online learning for full-information OCO and adaptive-gradient algorithms. Useful for horizon-free/adaptive variants of the grid reduction.
+- Quanrud and Khashabi (NeurIPS/NIPS 2015) gives adversarial-delay regret in terms of total delay \(D\), with source page reporting \(O(\sqrt D)\)-type control. This supports bounded-delay scaling via \(D\lesssim TH\), but still needs model mapping.
+- Weinberger and Ordentlich (IEEE TIT 2002) is an older fixed-delay prediction reference. It was reported by agents but not source-verified in this synthesis; keep as background candidate.
+- Van der Hoeven and Cesa-Bianchi (AISTATS/PMLR 2022) treats arm-dependent delays in nonstochastic bandits and experts. Verified source says the full-information experts setting has first-order bounds depending on delays/losses of the best arm. Relevant because quote delays are arm-dependent.
+
+## Unrestricted, Skipping, And Aggregate Delay Bounds
+
+- Thune, Cesa-Bianchi, and Seldin (NeurIPS 2019) handles nonstochastic bandits with unbounded delays and skipping excessively delayed observations; verified source gives bounds involving total delay and skip/oracle quantities. Useful for replacing a hard \(H\) truncation by adaptive skipping.
+- Zimmert and Seldin (AISTATS 2020/arXiv:1910.06054) gives optimal arbitrary-delay adversarial bandit bounds with refined excluded-round sets. Verified through arXiv; relevance is conceptual for skip-set tail penalties.
+- Lancewicki, Segal, Koren, and Mansour (ICML/PMLR 2021) studies stochastic bandits with unrestricted and infinite delays, with quantile-based delay dependence. Verified source; relevant for quantile alternatives to uniform tails.
+- Zierahn, van der Hoeven, Lancewicki, Rosenberg, and Cesa-Bianchi (JMLR 2025) gives a modern unified analysis for delayed nonstochastic bandit feedback. Verified source; useful terminology but less direct because the truncated market-making reduction is full-information.
+- Bistritz, Zhou, Chen, Bambos, and Blanchet (NeurIPS 2019) studies delayed adversarial bandit feedback and missing feedback beyond horizon. Verified source; useful for horizon-censoring distinctions, not direct proof support.
+- Gyorgy and Joulani (ICML/PMLR 2021) is now verified. It gives adversarial bandit bounds adapting to observed delays/data and includes skip-set bounds. Relevant for replacing a fixed truncation horizon by adaptive skipping; not directly full-information market making.
+- Flaspohler et al. (ICML/PMLR 2021) is now verified. It reduces delayed online learning to optimism and may help treat predictable delayed fills as hints rather than worst-case lost mass.
+
+## Market Making, Pricing, And Threshold Geometry
+
+- Cesa-Bianchi, Cesari, Colomboni, Foscari, and Pathak, "Market Making without Regret" (COLT/PMLR 2025), verified. Adjacent market-making regret model; useful for terminology and relation to pricing/auction structure, but not the same delayed-fill model.
+- Abernethy and Kale, "Adaptive Market Making via Online Learning" (NeurIPS 2013), verified from the NeurIPS PDF. It assumes exogenous price series and online learning over market-making strategies; relevant background for exogenous-price modeling.
+- Duetting, Guruganesh, Schneider, and Wang (ICML/PMLR 2023) is now verified. It studies one-sided Lipschitz maximization, motivated by pricing/contract design, and gives very small regret in that setting. Potential tool for threshold reward geometry and improved discretization, but delayed/adversarial time variation may block direct application.
+- Kleinberg and Leighton (FOCS 2003) is verified through DOI/DBLP metadata and accessible technical-report text. It is foundational posted-price regret background and gives lower-bound context for threshold/pricing geometry.
+
+## Quantifiers, Universal Regret, And Minimax
+
+- Cesa-Bianchi and Lugosi, *Prediction, Learning, and Games* (Cambridge University Press, 2006), verified from the authors' official book page. It is useful for standard online-learning quantifiers: algorithms working for all individual sequences relative to a reference class, expert advice, and minimax regret.
+- Yao (FOCS 1977) is verified through DOI/IEEE/DBLP metadata. It is relevant background for distributional-vs-randomized lower-bound framing, although the finite two-continuation block proof here is elementary averaging and does not require invoking the full principle.
+- Cesa-Bianchi, Gentile, Mansour, and Minora (COLT/PMLR 2016) is now verified. The source explicitly mentions a minimax characterization for bandit learning with delay as a by-product. Relevant lower-bound methodology/background for class-uniform delayed-feedback impossibility, not direct support for the market-making conjecture.
+
+## Composite Or Anonymous Feedback
+
+- Cesa-Bianchi, Gentile, and Mansour (COLT/PMLR 2018), verified, studies composite anonymous feedback where losses are spread over bounded windows and only aggregates are observed. This is harder/different than the public-price model, so use only as comparison.
+- Pike-Burke, Agrawal, Szepesvari, and Grunewalder (ICML 2018/arXiv candidate) on delayed aggregated anonymous feedback remains unchecked; likely background rather than direct support.
+
+## Current Takeaway
+
+Existing delayed-learning literature supports sufficiency via bounded, total, adaptive, optimistic, or skipped delay terms. It does not support necessity of the unweighted \(\beta\) tail. Standard online-learning references also reinforce that the meaningful lower-bound regime is usually universal or minimax, not horizon- and law-specific oracle policies. The literature is more aligned with aggregate, quantile, best-arm, skipped, value-of-information, or horizon-censored delay quantities, but the iteration's counterexamples show even raw delayed reward mass is not necessary for instance-wise learnability unless tied to unpredictability or information acquisition.
+
+2026-06-25T16:59:31.693205Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:31.693834Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:31.694562Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime/plugins/template-creator/.codex-plugin/plugin.json
+2026-06-25T16:59:31.699219Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/vinayakpathak/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-06-25T16:59:31.708091Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:31.708096Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:31.708360Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:31.708362Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:31.708618Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:31.708620Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:31.708871Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:31.708875Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:31.709221Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:31.709223Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:31.709805Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:31.709809Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+exec
+/bin/zsh -lc "sed -n '1,220p' working_notes/promising_directions.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+exec
+/bin/zsh -lc "sed -n '1,220p' working_notes/bibliography.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+# Promising Directions
+
+## 1. Formalize The Clean Sufficient Theorem
+
+Write a theorem with \(\sup\)-regret, exogenous/public prices, full-information truncated grid rewards, integer deterministic \(H,K\), and one of the tail penalties:
+\[
+T\beta(H),\qquad T\gamma(H),\qquad \Delta_T(H),\qquad \Gamma_T(H).
+\]
+Include the residue-class Hedge lemma or cite a precise delayed full-information theorem. This is the safest accepted progress to turn into a polished result.
+
+## 2. Fix The Quantifiers Before Any Necessity Work
+
+Create a taxonomy:
+- instance-wise/process-aware learner;
+- process-known but horizon-oblivious learner;
+- one universal learner over a specified class;
+- minimax lower bound over processes failing a condition;
+- uniform post-history guarantee.
+
+The original only-if statement is false for the first interpretation. A meaningful necessity theorem likely needs one of the latter interpretations.
+
+Also record the collapse theorem explicitly: if the learner may depend on both the process law and horizon under pseudo-regret, every exogenous process is learnable by playing a horizon-optimal fixed quote. This should be stated before any necessity theorem.
+
+## 3. Formalize The Two-Continuation Lower Bound
+
+Write the finite block theorem \(0^N c\), \(c\in\{1/2,1\}\), proving \(N/4\) regret for one continuation. Then attempt the concatenated deterministic block-class theorem under \(M_i=o(N_i)\). Required details: process-unaware universal learner, randomized learner conditioned on the fixed previous prefix, cross-block pending-reward accounting, strict-threshold epsilon version, and whether horizon-aware learner families require diagonalization.
+
+## 4. Replace Raw Tail Necessity By An Information Condition
+
+Attempt a two-environment lower bound. Construct two price laws/classes with indistinguishable public histories before delayed fills resolve, but different optimal fixed quotes. The lower bound should use payoff-relevant delayed mass that is both frequent and unpredictable.
+
+Candidate formal objects: conditional value-of-information gaps, Le Cam/two-continuation moduli, or argmax-stability gaps for \(\sup_a V_T(a)\). Avoid tautological quantities unless they produce an algorithm or a clean lower bound.
+
+## 5. Promote And Polish Counterexamples
+
+Formalize CE-001 fully as a proposition. Then write CE-003 and CE-005 with exact horizon quantifiers. In particular, finish the all-horizons proof for the superexponential uniform-spike example and decide whether the binary power-of-two example requires horizon-aware actions. Keep CE-007/CE-009 nearby to prevent the oracle and stochastic-mixture quantifier mistakes.
+
+## 6. Adaptive Truncation And Skipping Algorithms
+
+Translate arbitrary-delay/skipping literature to the grid market-making setting. Goal: avoid a known \(H_T\) by running multi-scale truncations or skip-set algorithms, and bound regret by skipped payoff mass or counted total delay rather than a hard uniform horizon.
+
+Use Gyorgy-Joulani 2021, Flaspohler et al. 2021, and Joulani-Gyorgy-Szepesvari 2016 as verified references, but re-check the model map because most results are bandit/OCO rather than this public-price full-information reduction.
+
+## 7. Threshold Geometry And Discretization
+
+Exploit \(r_t(a)=a\,1\{\max_{s>t}P_s>a\}\). Prices reveal nested threshold information across quotes. Possible payoffs: improved discretization, adaptive grids, or one-sided Lipschitz methods. Keep this separate from delay-tail characterization until the basic theorem is settled.
+
+Use Duetting-Guruganesh-Schneider-Wang 2023 and Kleinberg-Leighton 2003 as background, not direct proof support until the delayed adversarial/time-varying setting is mapped.
+
+## 8. Rare-History Stress Tests
+
+Build a fully specified rare-branch process where \(\operatorname{ess\,sup}\) tails fail but expected regret and \(\Delta_T\) remain small. This will test whether \(\gamma\) is too strong even for positive payoff scale under initial expected regret.
+
+ succeeded in 0ms:
+# Bibliography
+
+## Verified In Iteration 1 Synthesis
+
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari. "Online Learning under Delayed Feedback." Proceedings of the 30th International Conference on Machine Learning, PMLR 28(3):1453-1461, 2013. https://proceedings.mlr.press/v28/joulani13.html. Relevance: primary delayed-feedback reduction/background for the bounded-delay full-information grid step.
+
+- Kent Quanrud, Daniel Khashabi. "Online Learning with Adversarial Delays." Advances in Neural Information Processing Systems 28, 2015. https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html. Relevance: regret controlled by total delay; supports \(D\lesssim TH\) intuition.
+
+- Tobias Sommer Thune, Nicolo Cesa-Bianchi, Yevgeny Seldin. "Nonstochastic Multiarmed Bandits with Unrestricted Delays." NeurIPS 2019. https://papers.nips.cc/paper_files/paper/2019/hash/0e4f5cc9f4f3f7f1651a6b9f9214e5b1-Abstract.html. Relevance: unbounded delays, skipping large delays, and skip-set/oracle delay penalties.
+
+- Julian Zimmert, Yevgeny Seldin. "An Optimal Algorithm for Adversarial Bandits with Arbitrary Delays." AISTATS 2020 / arXiv:1910.06054. https://arxiv.org/abs/1910.06054. Relevance: optimal arbitrary-delay bandit bounds and refined excluded-round delay accounting.
+
+- Tal Lancewicki, Shahar Segal, Tomer Koren, Yishay Mansour. "Stochastic Multi-Armed Bandits with Unrestricted Delay Distributions." ICML 2021, PMLR 139:5969-5978. https://proceedings.mlr.press/v139/lancewicki21a.html. Relevance: quantile-style control under unbounded or infinite delays.
+
+- Lukas Zierahn, Dirk van der Hoeven, Tal Lancewicki, Aviv Rosenberg, Nicolo Cesa-Bianchi. "A Unified Analysis of Nonstochastic Delayed Feedback for Combinatorial Semi-Bandits, Linear Bandits, and MDPs." JMLR 26(104):1-60, 2025. https://www.jmlr.org/papers/v26/24-0496.html. Relevance: modern delayed-feedback decomposition; less direct than full-information expert references.
+
+- Dirk van der Hoeven, Nicolo Cesa-Bianchi. "Nonstochastic Bandits and Experts with Arm-Dependent Delays." AISTATS 2022, PMLR 151:2022-2044. https://proceedings.mlr.press/v151/van-der-hoeven22a.html. Relevance: arm-dependent delays, including full-information experts; quote delays are action-dependent.
+
+- Ilai Bistritz, Zhengyuan Zhou, Xi Chen, Nicholas Bambos, Jose Blanchet. "Online EXP3 Learning in Adversarial Bandits with Delayed Feedback." NeurIPS 2019. https://proceedings.neurips.cc/paper/2019/hash/ae2a2db40a12ec0131d48acc1218d2ef-Abstract.html. Relevance: delayed bandit feedback and missing feedback beyond horizon; useful for horizon-censoring distinctions.
+
+- Nicolo Cesa-Bianchi, Claudio Gentile, Yishay Mansour. "Nonstochastic Bandits with Composite Anonymous Feedback." COLT 2018, PMLR 75:750-773. https://proceedings.mlr.press/v75/cesa-bianchi18a.html. Relevance: adjacent harder anonymous/composite delayed-feedback model; comparison only.
+
+- Nicolo Cesa-Bianchi, Tommaso Cesari, Roberto Colomboni, Luigi Foscari, Vinayak Pathak. "Market Making without Regret." COLT 2025, PMLR 291:799-837. https://proceedings.mlr.press/v291/cesa-bianchi25a.html. Relevance: adjacent market-making regret framework and threshold/pricing connections.
+
+- Jacob Abernethy, Satyen Kale. "Adaptive Market Making via Online Learning." NeurIPS 2013. https://papers.neurips.cc/paper/4910-adaptive-market-making-via-online-learning.pdf. Relevance: online-learning market-making model with exogenous price series.
+
+## Verified In Iteration 2 Synthesis
+
+- Andras Gyorgy, Pooria Joulani. "Adapting to Delays and Data in Adversarial Multi-Armed Bandits." Proceedings of the 38th International Conference on Machine Learning, PMLR 139:3988-3997, 2021. https://proceedings.mlr.press/v139/gyorgy21a.html. Relevance: delay/data-adaptive adversarial bandit bounds and skip-set penalties; candidate tool for adaptive truncation.
+
+- Genevieve E. Flaspohler, Francesco Orabona, Judah Cohen, Soukayna Mouatadid, Miruna Oprescu, Paulo Orenstein, Lester Mackey. "Online Learning with Optimism and Delay." Proceedings of the 38th International Conference on Machine Learning, PMLR 139:3363-3373, 2021. https://proceedings.mlr.press/v139/flaspohler21a.html. Relevance: delay-as-optimism perspective; useful for predictable delayed fills and adaptive algorithms.
+
+- Paul Duetting, Guru Guruganesh, Jon Schneider, Joshua Ruizhi Wang. "Optimal No-Regret Learning for One-Sided Lipschitz Functions." Proceedings of the 40th International Conference on Machine Learning, PMLR 202:8836-8850, 2023. https://proceedings.mlr.press/v202/duetting23b.html. Relevance: possible tool for exploiting one-sided threshold geometry beyond uniform grids.
+
+- Nicolo Cesa-Bianchi, Claudio Gentile, Yishay Mansour, Alberto Minora. "Delay and Cooperation in Nonstochastic Bandits." 29th Annual Conference on Learning Theory, PMLR 49:605-622, 2016. https://proceedings.mlr.press/v49/cesa-bianchi16.html. Relevance: delayed-bandit minimax background and lower-bound methodology for class-uniform readings.
+
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari. "Delay-Tolerant Online Convex Optimization: Unified Analysis and Adaptive-Gradient Algorithms." Proceedings of the AAAI Conference on Artificial Intelligence 30(1), 2016. DOI: https://doi.org/10.1609/aaai.v30i1.10320. Relevance: full-information delayed-feedback/OCO reduction and adaptive-gradient algorithms; possible support for cleaner grid sufficiency variants.
+
+- Nicolo Cesa-Bianchi, Gabor Lugosi. *Prediction, Learning, and Games*. Cambridge University Press, 2006. https://cesa-bianchi.di.unimi.it/predbook/. Relevance: standard reference for online prediction, expert advice, individual-sequence guarantees, and minimax regret quantifiers.
+
+- Andrew C. C. Yao. "Probabilistic Computations: Toward a Unified Measure of Complexity." 18th Annual Symposium on Foundations of Computer Science, 1977, pp. 222-227. DOI: https://doi.org/10.1109/SFCS.1977.24. Relevance: canonical minimax/Yao framing for randomized-algorithm lower bounds; background for two-continuation lower-bound interpretation.
+
+- Robert D. Kleinberg, Frank Thomson Leighton. "The Value of Knowing a Demand Curve: Bounds on Regret for Online Posted-Price Auctions." 44th IEEE Symposium on Foundations of Computer Science, 2003, pp. 594-605. DOI: https://doi.org/10.1109/SFCS.2003.1238232. Relevance: foundational posted-price regret bounds and lower-bound context for threshold/pricing geometry.
+
+## Still-Unchecked Candidates From Iteration Reports
+
+- Marcelo J. Weinberger, Erik Ordentlich. "On delayed prediction of individual sequences." IEEE Transactions on Information Theory 48(7):1959-1976, 2002. DOI: 10.1109/TIT.2002.1013136. Relevance: older fixed-delay prediction background; source page not successfully verified in synthesis.
+
+- Ciara Pike-Burke, Shipra Agrawal, Csaba Szepesvari, Steffen Grunewalder. "Bandits with Delayed, Aggregated Anonymous Feedback." ICML 2018 / arXiv:1709.06853. Relevance: aggregated/anonymous delayed feedback; likely background rather than direct proof support.
+
+exec
+/bin/zsh -lc "sed -n '1,240p' working_notes/iteration_summaries.md" in /Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization
+ succeeded in 0ms:
+# Iteration Summaries
+
+## Iteration 1
+
+Main outcome: the stated iff is false under the literal instance-wise interpretation. The sparse vanishing-spike process has \(\beta(h)=1\) for all \(h\), but the always-zero learner has \(R_T\le1\).
+
+Accepted progress: the "if" proof can be made rigorous with explicit exogenous/public-price and full-information delayed-grid assumptions. The truncation term can be \(T\beta(H)\), \(T\gamma(H)\), or the sharper horizon-tail \(\Delta_T(H)\). The positive-scale equivalence for \(\gamma\) is sound.
+
+Refuted/weakened: \(\beta\)-necessity, \(\gamma\)-necessity, and \(\Delta_T\)-necessity all fail or are unproved for process-aware instance-level learnability. Comparator `max` is also unsafe under strict crossing; use `sup`.
+
+Next focus: formalize the sufficient theorem and counterexamples, then choose the intended quantifiers. If pursuing necessity, switch to a two-environment indistinguishability lower bound measuring unpredictable, decision-relevant tail mass.
+
+
+# Iteration 1 Consolidation
+
+## Accepted Progress
+- The literal instance-wise “only if” direction is refuted: sparse vanishing spikes give \(\beta(h)=1\) for all \(h\), while the always-zero learner has \(R_T\le1\).
+- The sufficiency route survives with explicit assumptions: exogenous public prices, full-information truncated grid rewards, known \(H,K\), and `sup` comparator.
+- Promoted clean sufficient conditions using \(T\beta(H)\), payoff-weighted \(T\gamma(H)\), and horizon-tail \(\Delta_T(H)\).
+
+## Candidate Routes
+- Formalize the sufficient theorem with the residue-class delayed Hedge proof.
+- Replace raw tail necessity with a two-environment indistinguishability lower bound.
+- Explore adaptive truncation/skipping and threshold geometry for sharper bounds.
+
+## Refuted Or Weakened Claims
+- Original iff is false under instance-wise/process-aware learnability.
+- \(\gamma(h)\to0\) and \(\Delta_T(H_T)=o(T)\) are not safe as necessity claims without stronger quantifiers.
+- The comparator `max` is unsafe under strict crossing and atoms; future statements should use `sup` or prove attainment.
+
+## Literature Updates
+Verified and deduplicated core sources including Joulani-Gyorgy-Szepesvari 2013, Quanrud-Khashabi 2015, Thune-Cesa-Bianchi-Seldin 2019, Zimmert-Seldin 2020, Lancewicki et al. 2021, van der Hoeven-Cesa-Bianchi 2022, Zierahn et al. 2025, and market-making references. Unchecked candidates are marked separately.
+
+Key verified sources include: [Joulani et al. 2013](https://proceedings.mlr.press/v28/joulani13.html), [Quanrud-Khashabi 2015](https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html), [Thune et al. 2019](https://papers.nips.cc/paper_files/paper/2019/hash/0e4f5cc9f4f3f7f1651a6b9f9214e5b1-Abstract.html), [van der Hoeven-Cesa-Bianchi 2022](https://proceedings.mlr.press/v151/van-der-hoeven22a.html), [Zierahn et al. 2025](https://www.jmlr.org/papers/v26/24-0496.html), and [Market Making without Regret](https://proceedings.mlr.press/v291/cesa-bianchi25a.html).
+
+## Working Notes Updated
+Updated:
+`canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+1. Write the sufficient theorem cleanly with `sup`, filtration, exogeneity, and delayed full-information assumptions.
+2. Formalize CE-001, CE-003, and CE-005 with exact quantifiers.
+3. Decide the target quantifier regime before attempting any necessity theorem.
+
+
+# Iteration 2 Consolidation
+
+## Accepted Progress
+- Promoted the horizon/process-aware collapse: under exogenous policy-independent prices and the problem's pseudo-regret, if a learner may depend on both the law \(P\) and horizon \(T\), it can play an \(\varepsilon_T\)-optimal fixed quote for \(V_T^P(a)\) and get \(R_T^P\le\varepsilon_T=o(T)\) for every process.
+- Accepted the finite two-continuation lower bound: for \(0^N c\), \(c\in\{1/2,1\}\), every randomized learner has regret at least \(N/4\) on one continuation, using `sup` comparator or an epsilon-comparator variant.
+- Added the sharper comparator-gap truncation penalty \(\Gamma_T(H)=\sup_a V_T(a)-\sup_a V_T^H(a)\le\Delta_T(H)\), which gives \(R_T\le R_T^H+\Gamma_T(H)\).
+
+## Candidate Routes
+- Formalize the concatenated deterministic block-class lower bound with dominant lengths \(M_i=o(N_i)\), careful cross-block reward accounting, and explicit universal/minimax quantifiers.
+- Develop a decision-relevant delayed-tail quantity based on indistinguishable continuations, conditional value of information, or argmax stability.
+- Translate adaptive skipping/optimism delayed-learning results to the finite-grid market-making reduction.
+
+## Refuted Or Weakened Claims
+- Any nontrivial tail necessity claim is vacuous under horizon-aware, process-law-aware pseudo-regret policies.
+- The two-continuation construction should not be presented as a hard stochastic mixture under the current regret definition; it is a deterministic-class/minimax lower-bound gadget.
+- The lower-bound route does not revive instance-wise necessity, because a process-aware learner may know the deterministic continuation sequence.
+
+## Literature Updates
+- Verified and imported Gyorgy-Joulani 2021, Flaspohler et al. 2021, Duetting et al. 2023, Cesa-Bianchi-Gentile-Mansour-Minora 2016, Joulani-Gyorgy-Szepesvari 2016, Cesa-Bianchi-Lugosi 2006, Yao 1977, and Kleinberg-Leighton 2003.
+- Updated the literature map to distinguish direct delayed full-information support from adaptive bandit/OCO, threshold-geometry, and minimax-background references.
+
+## Working Notes Updated
+Updated:
+`canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+1. Write the sufficient theorem with `sup`, full-information delayed grid feedback, and tail penalties \(T\beta\), \(T\gamma\), \(\Delta_T\), and \(\Gamma_T\).
+2. Formalize the horizon/process-aware collapse proposition and state exactly which regret notions and model assumptions it excludes.
+3. Prove the finite two-continuation proposition cleanly, then attempt the concatenated universal-class theorem with all quantifiers explicit.
+
+
+# Iteration 2 Consolidation
+
+## Accepted Progress
+
+- Promoted the horizon/process-aware collapse: under exogenous prices and pseudo-regret, a law-and-horizon-aware learner can play an \(\varepsilon_T\)-optimal fixed quote and get \(o(T)\) regret for every process.
+- Accepted the finite two-continuation block lower bound: for \(0^N c\), \(c\in\{1/2,1\}\), every randomized learner has regret at least \(N/4\) on one continuation.
+- Added the sharper sufficient truncation gap \(\Gamma_T(H)=\sup_a V_T(a)-\sup_a V_T^H(a)\le \Delta_T(H)\).
+
+## Candidate Routes
+
+- Formalize the concatenated deterministic block-class lower bound with \(M_i=o(N_i)\).
+- Develop a decision-relevant delayed-tail quantity based on indistinguishable continuations or value of information.
+- Map adaptive skipping/optimism delayed-learning algorithms to the finite-grid market-making reduction.
+
+## Refuted Or Weakened Claims
+
+- Any nontrivial tail necessity is vacuous under horizon-aware, process-law-aware pseudo-regret policies.
+- The two-continuation random mixture should not be presented as a hard stochastic process under the current regret definition.
+- The block lower bound is universal/minimax, not instance-wise.
+
+## Literature Updates
+
+Verified/imported sources including [Gyorgy-Joulani 2021](https://proceedings.mlr.press/v139/gyorgy21a.html), [Flaspohler et al. 2021](https://proceedings.mlr.press/v139/flaspohler21a.html), [Duetting et al. 2023](https://proceedings.mlr.press/v202/duetting23b.html), [Cesa-Bianchi et al. 2016](https://proceedings.mlr.press/v49/cesa-bianchi16.html), [Joulani-Gyorgy-Szepesvari 2016](https://doi.org/10.1609/aaai.v30i1.10320), [Cesa-Bianchi-Lugosi 2006](https://cesa-bianchi.di.unimi.it/predbook/), [Yao 1977](https://doi.org/10.1109/SFCS.1977.24), and [Kleinberg-Leighton 2003](https://doi.org/10.1109/SFCS.2003.1238232).
+
+## Working Notes Updated
+
+Updated all requested `working_notes/` files: `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+
+1. Write the clean sufficient theorem with `sup`, exogeneity, full-information delayed grid feedback, and penalties \(T\beta\), \(T\gamma\), \(\Delta_T\), \(\Gamma_T\).
+2. Formalize the oracle-collapse proposition with exact exclusions.
+3. Prove the finite two-continuation proposition cleanly, then attempt the concatenated universal-class theorem.
+
+2026-06-25T16:59:38.560599Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:38.561314Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.codex/plugins/cache/openai-primary-runtime/template-creator/26.623.12021/.codex-plugin/plugin.json
+2026-06-25T16:59:38.562035Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/vinayakpathak/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime/plugins/template-creator/.codex-plugin/plugin.json
+2026-06-25T16:59:38.566310Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/vinayakpathak/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-06-25T16:59:38.575820Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:38.575823Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:38.576114Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:38.576116Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:38.576401Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:38.576406Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:38.576706Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:38.576708Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:38.576987Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:38.576991Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+2026-06-25T16:59:38.577592Z  WARN codex_core_skills::loader: ignoring interface.icon_small: icon path must not contain '..'
+2026-06-25T16:59:38.577594Z  WARN codex_core_skills::loader: ignoring interface.icon_large: icon path must not contain '..'
+web search: 
+web search: "Delayed Market Making" market making delayed feedback regret tail delays
+web search: 
+web search: https://proceedings.mlr.press/v28/joulani13.html
+codex
+## Verdict
+SOLVED: maybe
+
+As written, the iff conjecture is false. Assumption \(\beta(h)\to0\) is a valid sufficient condition under the public/exogenous full-information interpretation, but it is not necessary for instance-wise pseudo-regret. A true necessity theorem still needs stronger quantifiers, such as universal/minimax learning over a class.
+
+## Candidate Solution Or Main Attempt
+The clean result is:
+
+\[
+R_T \le C\sqrt{T(H+1)\log K}+T/K+T\beta(H).
+\]
+
+This follows by running delayed full-information Hedge on the grid \(\mathcal G_K=\{0,1/K,\dots,(K-1)/K\}\), using public prices to reveal every truncated grid reward by delay \(H\). Downward discretization gives \(T/K\), and truncation gives \(T\beta(H)\). Taking \(K=T\) and \(H_T=\lfloor \sqrt{T/\log(eT)}\rfloor\) gives \(R_T=o(T)\) whenever \(\beta(h)\to0\).
+
+But necessity fails. Let \(s_n=2^n\), \(P_{s_n}=U_n/s_n\), \(P_t=0\) otherwise, with iid \(U_n\sim{\rm Unif}(0,1)\). For any \(h\), choose \(n\) with \(2^n>h\). At \(t=s_n\), quote \(a=0\) waits until \(s_{n+1}\), so \(\beta(h)=1\). Yet for any fixed \(a>0\), only times before the last spike with \(1/s_m>a\) can ever earn, so total fixed-action reward is \(<1\). The always-zero learner has regret at most \(1\) for all \(T\). Thus the original only-if direction is refuted.
+
+## Concrete Lemmas Or Reductions
+1. **Sufficiency with sharper tails.**
+
+The same proof works with
+
+\[
+\gamma(h)=\sup_{t,a}\operatorname*{ess\,sup}_{\mathcal F_t}
+a\,\Pr(h<\tau_t(a)<\infty\mid\mathcal F_t)
+\]
+
+or with the horizon/comparator gaps \(\Delta_T(H)\), \(\Gamma_T(H)\). The sharpest clean bound is
+
+\[
+R_T\le C\sqrt{T(H+1)\log K}+T/K+\Gamma_T(H).
+\]
+
+2. **Universal-class block lower bound.**
+
+For any process-unaware randomized learner, choose deterministic blocks \(0^{N_i}c_i\), \(c_i\in\{1/2,1\}\), with previous length \(M_i=o(N_i)\). Conditional on the previous prefix and first \(N_i\) zeros, the learner cannot distinguish the two continuations. Averaging over \(c=1/2,1\), current-block learner reward is at most \(N_i/2\), while the comparator supremum averages \(3N_i/4\). Prefix effects cost at most \(M_i\). Hence one continuation has endpoint regret
+
+\[
+R_T\ge N_i/4-M_i,
+\]
+
+so \(\limsup_T R_T/T\ge 1/4\). This supports minimax/universal necessity, not instance-wise necessity.
+
+## Gaps And Failure Points
+The original statement does not specify the quantifier behind “possible.” If the learner may know both the exogenous law and horizon, pseudo-regret collapses: play an \(\varepsilon_T\)-optimal fixed quote for \(V_T(a)\), giving \(o(T)\) regret for every process.
+
+The finite-grid upper bound also needs explicit assumptions: public exogenous prices, counterfactual grid rewards observable after truncation delay, and regret against \(\sup_a\), not \(\max_a\).
+
+## Counterexamples Or Obstructions
+The sparse vanishing-spike process refutes \(\beta\)-necessity.
+
+Coded-delay examples refute instance-wise \(\gamma\)-necessity: long positive-payoff tails can be perfectly predictable and therefore harmless.
+
+Predictable sparse spikes obstruct \(\Delta_T\)-necessity: raw delayed reward mass can be linear while a process-aware learner knows the right quote.
+
+## Literature And Bibliography Candidates
+No new exact characterization source found. Relevant verified sources remain:
+
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari. “Online Learning under Delayed Feedback.” ICML/PMLR 2013. Supports the delayed-feedback reduction used in the finite-grid sufficiency proof. ([proceedings.mlr.press](https://proceedings.mlr.press/v28/joulani13.html))
+- Nicolò Cesa-Bianchi, Tommaso Cesari, Roberto Colomboni, Luigi Foscari, Vinayak Pathak. “Market Making without Regret.” COLT/PMLR 2025. Adjacent market-making regret framework and pricing geometry. ([proceedings.mlr.press](https://proceedings.mlr.press/v291/cesa-bianchi25a.html))
+
+## Promising Ideas To Explore
+Formalize the concatenated block lower bound as a theorem for universal/minimax learning.
+
+Replace tail necessity with an information condition: long delayed mass must be payoff-relevant, frequent, and unpredictable.
+
+Develop adaptive truncation/skipping algorithms so \(H\) need not be fixed from a known tail bound.
+
+## Notes For Critics
+Check the block lower bound’s cross-block accounting, especially pending quotes from previous blocks; the \(M_i\) bound should cover them.
+
+Do not allow the lower bound to be reinterpreted as instance-wise process-aware impossibility.
+
+Use \(\sup\), not \(\max\), everywhere unless comparator attainment is proved.
+2026-06-25T17:02:04.076796Z  WARN codex_core::goals: failed to read thread goal for continuation: error returned from database: (code: 1) no such table: thread_goals
+2026-06-25T17:02:04.112296Z  WARN codex_core::goals: failed to pause active thread goal after interrupt: error returned from database: (code: 1) no such table: thread_goals
+tokens used
+58,146

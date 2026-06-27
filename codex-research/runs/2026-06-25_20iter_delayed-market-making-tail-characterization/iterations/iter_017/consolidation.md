@@ -1,0 +1,26 @@
+## Accepted Progress
+Promoted CL-048/LB-043: the equal-low multi-low single-drought formula is now accepted in the formal left-limit deterministic known-path model:
+\[
+D_n=[\ell(s_r-1)-h(M-1)_+]_+(1-\ell/h).
+\]
+This remains equal-low only and strict crossing still needs \(\eta\)-implementation.
+
+## Candidate Routes
+Recorded the unequal-low single-drought reduced LP as a candidate, not a theorem. It may lead to a pooling/PAVA or nested resource-allocation rule after the full-to-reduced LP proof is written.
+
+## Refuted Or Weakened Claims
+Recorded that the equal-low “last low only” rule does not extend to unequal lows. The reduced-LP path \(0,0.4,0.9,1\) has value \(68/225\), exceeding the naive last-low value \(0.18\).
+
+## Literature Updates
+Added verified proof-technology references only:
+[Ayer et al. 1955](https://doi.org/10.1214/aoms/1177728423), [Chakravarti 1989](https://doi.org/10.1287/moor.14.2.303), and [Federgruen-Groenevelt 1986](https://doi.org/10.1287/opre.34.6.909). No external theorem was found for the equal-low identity.
+
+## Working Notes Updated
+Updated `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+Verification: `git diff --check -- working_notes` passed.
+
+## Next Iteration Focus
+1. Prove the unequal-low full-to-reduced LP reduction.
+2. Derive or refute a pooling/resource-allocation rule for unequal lows.
+3. Run exact finite-prefix LP experiments for repeated droughts and nonmonotone low sequences.

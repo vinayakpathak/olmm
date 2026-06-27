@@ -1,0 +1,128 @@
+## Summary
+
+The right compactness route is not the naive scalar condition \(\rho_n=o(n)\). That condition is necessary, but by itself it does not give fixed per-horizon constraints that compactness can preserve.
+
+A cleaner finite-to-infinite theorem is available if the finite LPs are tested against a fixed sublinear envelope \(e_T=o(T)\). In the deterministic known-path, horizon-oblivious randomized regime:
+
+\[
+\exists \text{ one policy with }R_T=o(T)
+\]
+
+is equivalent to
+
+\[
+\exists e_T=o(T)\ \text{such that every finite-prefix LP is feasible with }R_T\le e_T
+\text{ for all }T\le n.
+\]
+
+This is still close to tautological, but it is a precise compactness theorem and avoids the loose suffix-menu bound.
+
+## Concrete Progress
+
+For a deterministic exogenous path, define
+
+\[
+M_{t,T}=\max_{t<s\le T}P_s,
+\qquad
+V_T^*=\sup_{a\in[0,1]}\sum_{t<T}a1\{a<M_{t,T}\}.
+\]
+
+Use the left-limit compactification:
+
+\[
+\bar g_\mu(c)=\int_{[0,c]}x\,d\mu(x),
+\qquad
+\bar \Lambda_T(\mu_\bullet)
+=
+V_T^*-\sum_{t<T}\bar g_{\mu_t}(M_{t,T}).
+\]
+
+The strict-crossing supremum equals the left-limit formal value, because actions \(a\uparrow c\) implement equality in the supremum.
+
+For finite \(n\), the LP only needs support at formal quotes in
+
+\[
+\{M_{t,T}:t<T\le n\}
+\]
+
+for each time \(t\): between two adjacent relevant thresholds, the payoff pattern is fixed and increasing in the quote, so one rounds up to the next threshold in the formal model.
+
+## Claims Or Lemmas
+
+**Lemma 1: Envelope Compactness Criterion.**  
+Fix a deterministic exogenous path. There is a formal horizon-oblivious randomized policy with
+
+\[
+\bar\Lambda_T\le e_T \quad \forall T
+\]
+
+iff for every \(n\), there are \(\mu_1,\ldots,\mu_{n-1}\) such that
+
+\[
+\bar\Lambda_T(\mu_1,\ldots,\mu_{T-1})\le e_T
+\quad \forall T\le n.
+\]
+
+Proof strategy: \(\mathcal P([0,1])\) is compact; \(\prod_t\mathcal P([0,1])\) is compact. For fixed \(T\), the constraint is closed because \(x1\{x\le c\}\) is bounded upper semicontinuous, so \(\mu\mapsto \bar g_\mu(c)\) is upper semicontinuous. Then apply the finite intersection property.
+
+**Lemma 2: Actual Strict-Crossing Implementation.**  
+If a formal policy has \(\bar\Lambda_T\le e_T\), then posting \((1-\eta_t)A_t\) when \(A_t\sim\mu_t\) gives actual strict-crossing regret
+
+\[
+R_T\le e_T+\sum_{t<T}\eta_t.
+\]
+
+Choosing \(\sum_{t<T}\eta_t=o(T)\) converts any formal \(e_T=o(T)\) policy into an actual \(o(T)\)-regret policy.
+
+**Lemma 3: Naive \(\rho_n\) Necessity.**  
+If one infinite policy has \(R_T=o(T)\), then
+
+\[
+\rho_n:=\inf_{\mu_1,\ldots,\mu_{n-1}}\max_{T\le n}\bar\Lambda_T=o(n).
+\]
+
+But this is only the easy direction.
+
+## Proof Attempts
+
+Attempted compactness with \(\rho_n=o(n)\): fails at the proof level. The bound \(\max_{T\le n}R_T\le o(n)\) lets the finite optimizer tolerate regret that is small relative to \(n\) but linear relative to an older horizon \(T\ll n\). Product compactness preserves fixed closed constraints, not moving outer-horizon-normalized bounds.
+
+Working proof route: replace \(\rho_n=o(n)\) by a fixed sublinear envelope \(e_T=o(T)\), and require every finite LP to satisfy all constraints \(T\le n\) against that same envelope. Then compactness works cleanly.
+
+## Gaps And Risks
+
+The envelope criterion is exact but still not structural. It does not yet give a readable tail, stability, or information condition.
+
+The naive \(\rho_n=o(n)\) might still be sufficient under an additional gluing theorem, but I do not see such a theorem. It should not be promoted without proof.
+
+The theorem is noncausal and path-aware. It characterizes existence of marginals on a known deterministic path, not an online algorithm.
+
+This does not handle stochastic or endogenous prices. Stochastic exogenous processes would need conditional versions; reactive prices break the suffix-max reduction.
+
+## Counterexamples Or Obstructions
+
+The alternating path obstruction to suffix-menu necessity is handled by the exact LP: a stable quote near \(1\) gives \(o(T)\) regret even though \(\sum_t\delta(C_t)\) is linear.
+
+Equal-revenue increasing blocks remain hard: the finite-prefix LP will show linear deficit on the hard block, so the compactness criterion detects the accepted \(1/e\) obstruction.
+
+Strict crossing is a real topology issue. Weak limits of actual quotes just below \(c\) can put mass at \(c\), losing payoff unless the left-limit compactification is used.
+
+## Sources Consulted
+
+Local files: `problem.md`, all requested `working_notes/*`, and `iterations/iter_012/solver_attempt.md`.
+
+Web/literature:
+- David Lagziel and Ehud Lehrer, “Approachability with delayed information,” Journal of Economic Theory 157, 2015. https://ideas.repec.org/a/eee/jetheo/v157y2015icp425-444.html
+- Jacob Abernethy, Peter L. Bartlett, Elad Hazan, “Blackwell Approachability and No-Regret Learning are Equivalent,” COLT/PMLR 2011. https://proceedings.mlr.press/v19/abernethy11b.html
+- Mathlib Prokhorov documentation, consulted only for compactness background on probability measures over compact spaces. https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Measure/Prokhorov.html
+
+## Bibliography Candidates
+
+- David Lagziel and Ehud Lehrer. “Approachability with delayed information.” Journal of Economic Theory 157:425-444, 2015. DOI: https://doi.org/10.1016/j.jet.2015.01.010. Relevance: delayed-information approachability/no-regret background for possible vector-deficit formulations; not a direct proof of the market-making compactness theorem.
+
+## Recommended Next Steps
+
+1. Promote the envelope compactness lemma as a candidate claim and have a topology critic check the upper-semicontinuity/closed-set argument.
+2. Ask the LP-duality explorer to dualize the finite envelope LP, not just the naive \(\rho_n\) LP.
+3. Search for a deterministic market path separating \(\rho_n=o(n)\) from the envelope criterion; if none appears, try proving a quantitative gluing lemma.
+4. Keep strict-crossing handled through formal left-limit actions plus \(\eta_t\)-implementation.

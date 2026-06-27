@@ -1,0 +1,149 @@
+## Summary
+
+For `idea_03`, the horizon-tail condition is a clean **sufficiency** condition, but it is not a genuine **necessity** condition for instance-level learnability.
+
+The obstruction is not technical: large long-horizon tail reward can be perfectly predictable or distributionally known, so the learner may not need delayed reward feedback to choose the right quote. I found a concrete counterexample where `Delta_T(H_T)` is linear along infinitely many horizons for every `H_T log T = o(T)`, while a fixed learner has `o(T)` regret.
+
+## Concrete Progress
+
+The proposed replacement tail quantity is
+
+\[
+\Delta_T(H)
+=
+\sup_{a\in[0,1]}
+\sum_{t\le T}
+\mathbb E\left[
+a\,\mathbf 1\{H<\tau_t(a)\le T-t\}
+\right].
+\]
+
+The same truncation proof gives the sharper sufficient bound
+
+\[
+R(T)
+\lesssim
+\sqrt{T H\log K}
++
+T/K
++
+\Delta_T(H).
+\]
+
+Thus if some `H_T` satisfies `H_T log T = o(T)` and `Delta_T(H_T)=o(T)`, then choosing for instance `K=T` gives sublinear regret.
+
+But the reverse implication fails without an additional “unpredictability” or “model-free” requirement.
+
+## Claims Or Lemmas
+
+**Lemma 1, sufficiency via horizon-tail error.**  
+For the grid learner run on rewards truncated at delay `H`,
+
+\[
+R(T)
+\le
+R_K^H(T)+T/K+\Delta_T(H).
+\]
+
+This is exactly the existing truncation/discretization argument with `T beta(H)` replaced by the ex ante comparator tail loss `Delta_T(H)`.
+
+**Lemma 2, non-necessity counterexample.**  
+There exists a price process with `Delta_T(H_T)=Omega(T)` along infinitely many horizons for every `H_T log T=o(T)`, but with an explicit learner whose regret is `o(T)`.
+
+## Proof Attempts
+
+Counterexample construction.
+
+Let spike times grow superexponentially, for example
+
+\[
+S_n = 2^{2^n}.
+\]
+
+Let `U_n` be i.i.d. `Uniform[0,1]`. Define
+
+\[
+P_t =
+\begin{cases}
+U_n, & t=S_n,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+Consider the learner that always posts
+
+\[
+a_t = 1/2.
+\]
+
+At horizon `T=S_n`, quotes posted in the last block `(S_{n-1}, S_n)` have exactly one chance to trade before the horizon, namely at `S_n`. For a fixed quote `a`, the expected reward on each such quote is
+
+\[
+a\,\Pr(U_n>a)=a(1-a),
+\]
+
+maximized at `a=1/2`.
+
+The previous blocks contain only `S_{n-1}=o(S_n)` quotes total. Hence, even if the best fixed comparator extracts the maximum possible extra reward from all older blocks, its advantage over the always-`1/2` learner is at most `o(T)`. Between spike horizons, no new dominant block has resolved, so the same domination argument gives `o(T)` regret for all horizons.
+
+However, for `T=S_n` and any `H_T=o(T)`, the quotes in the last block with posting times at least `H_T` before `S_n` contribute to the tail error. Taking `a=1/2`,
+
+\[
+\Delta_T(H_T)
+\ge
+\frac14\,(S_n-S_{n-1}-H_T)
+=
+\Omega(T).
+\]
+
+So the horizon-tail condition fails strongly, even though sublinear regret is achievable.
+
+## Gaps And Risks
+
+This counterexample refutes necessity only under an **instance-level/existence** interpretation of “sublinear regret is possible.”
+
+If the intended theorem is instead minimax or distribution-free over a class of processes unknown to the learner, then the counterexample is not decisive because the learner hard-codes the useful distributional fact that the one-spike optimizer is `1/2`.
+
+So the main definitional gap is:
+
+Does “possible” mean:
+1. for a fixed process, there exists some process-aware learner, or
+2. one learner gets sublinear regret uniformly over a class of admissible processes?
+
+Necessity might still be salvageable under the second interpretation, but not from `Delta_T(H)` alone.
+
+## Counterexamples Or Obstructions
+
+The counterexample is stronger than merely saying `Delta_T` takes a supremum over irrelevant actions. In the construction above, the linear tail is carried by the asymptotically optimal quote itself.
+
+Thus even replacing `sup_a` by a tail over near-optimal comparators would not fix necessity. The missing ingredient is informational: whether the long-delayed tail contains information the learner actually needs.
+
+A more plausible necessary condition would need to measure something like **unpredictable tail mass**, or be stated for classes closed under changing the unresolved tail law while preserving the learner’s observable history.
+
+## Sources Consulted
+
+Local files:
+`problem.md`, `working_notes/canonical_summary.md`, `working_notes/claim_ledger.md`, `working_notes/lemma_bank.md`, `working_notes/failed_attempts.md`, `working_notes/counterexamples.md`, `working_notes/literature_map.md`, `working_notes/bibliography.md`, `working_notes/promising_directions.md`, `working_notes/iteration_summaries.md`, and `iterations/iter_001/idea_03/idea.md`.
+
+External sources:
+[Joulani, György, Szepesvári 2013](https://proceedings.mlr.press/v28/joulani13.html), [Thune, Cesa-Bianchi, Seldin 2019](https://papers.neurips.cc/paper/8881-nonstochastic-multiarmed-bandits-with-unrestricted-delays.pdf), [Quanrud, Khashabi 2015](https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html), [Cesa-Bianchi, Gentile, Mansour 2018](https://proceedings.mlr.press/v75/cesa-bianchi18a.html).
+
+## Bibliography Candidates
+
+Pooria Joulani, András György, Csaba Szepesvári. **Online Learning under Delayed Feedback.** ICML 2013, PMLR 28(3):1453-1461. https://proceedings.mlr.press/v28/joulani13.html  
+Relevance: standard delayed-feedback reductions and regret dependence on delay.
+
+Tobias Sommer Thune, Nicolò Cesa-Bianchi, Yevgeny Seldin. **Nonstochastic Multiarmed Bandits with Unrestricted Delays.** NeurIPS 2019. https://papers.neurips.cc/paper/8881-nonstochastic-multiarmed-bandits-with-unrestricted-delays.pdf  
+Relevance: unbounded delays, skipping large delays, and oracle bounds involving delay truncation.
+
+Kent Quanrud, Daniel Khashabi. **Online Learning with Adversarial Delays.** NeurIPS 2015. https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html  
+Relevance: delayed full-information regret controlled by total delay.
+
+Nicolò Cesa-Bianchi, Claudio Gentile, Yishay Mansour. **Nonstochastic Bandits with Composite Anonymous Feedback.** COLT 2018, PMLR 75:750-773. https://proceedings.mlr.press/v75/cesa-bianchi18a.html  
+Relevance: adjacent anonymous/composite delayed-feedback model with bounded-delay reductions and lower bounds.
+
+## Recommended Next Steps
+
+Clarify the theorem’s quantifiers before pursuing necessity.
+
+If the goal is instance-level characterization, `Delta_T(H)` is not necessary. If the goal is uniform learnability over a process class, try to formulate a lower bound using pairs of environments that agree on all observations available before delay `H` but have different optimal fixed quotes. That would test an informational tail condition rather than a raw reward-tail condition.

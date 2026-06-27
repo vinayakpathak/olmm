@@ -1,0 +1,82 @@
+## Summary
+
+The explorer’s main direction is worth pursuing: lower bounds should be stated in terms of hidden valuable reward curves, not raw delay tails. The general Bayes-gap lemma is plausible and likely correct under exogenous laws with a common prior/regular conditional probabilities.
+
+Main weakness: the proposed “modulus” is close to the full minimax/Bayes value, so it is more a lower-bound certificate than a clean tail characterization. Several statements need tighter assumptions about identical prefixes, later rewards, fixed-comparator coupling, and distinguishability.
+
+## Issue List
+
+1. **Plausible but incomplete: general Bayes-gap lemma needs formal probability setup.**  
+   Need define the mixture law $\bar P$, posterior $\pi(\cdot\mid \mathcal I_t)$, and regular conditional versions of $G_t^\theta(a)$. Also specify whether $\mathcal I_t$ includes learner randomness/actions. With exogenous prices this is manageable, but it should be explicit.
+
+2. **Missing assumption: exogeneity is essential.**  
+   The proof treats $G_t^\theta(a)$ as a counterfactual reward curve independent of the learner’s action. This fails in action-dependent price models unless a causal model defines counterfactual paths.
+
+3. **Plausible but incomplete: $U_\pi$ may be essentially the Bayes-optimal learner value.**  
+   Since actions do not affect future information under exogenous prices, the learner can optimize each round’s posterior expected reward independently. Thus the proposed modulus may be nearly tautological: sup over priors of $\mathbb E V_\theta-U_\pi$ is close to the minimax regret itself, modulo minimax/compactness issues.
+
+4. **Missing assumption: identical-prefix lemma needs control of non-prefix rewards.**  
+   The formula
+$$
+   D\left(\mathbb E_\pi\sup_a g_\theta(a)-\sup_a\mathbb E_\pi g_\theta(a)\right)
+$$
+   is valid for the hidden-terminal atom because all $D$ early reward curves are identical copies and terminal reward is zero. It is not valid if later rewards differ, if boundary rounds have different curves, or if the fixed comparator’s optimal quote is affected by later terms.
+
+5. **Missing assumption: fixed comparator versus per-round optima.**  
+   If reward curves vary with $t$, one cannot replace
+$$
+   \sup_a \sum_t g_{t,\theta}(a)
+$$
+   by
+$$
+   \sum_t \sup_a g_{t,\theta}(a).
+$$
+   The explorer notes this, but the lemma statements should bake it in.
+
+6. **Plausible but incomplete: TV two-point bound needs exact conditions.**  
+   The $+d_t/2$ term is plausible for history-independent curves $g_{t,0},g_{t,1}\in[0,1]$ and equal prior, using posterior deviation. But if curves depend on the realized history, the baseline must be history-conditional, not simply $\sup_a(g_{t,0}+g_{t,1})/2$.
+
+7. **Unsupported precision: “matches delayed-value term up to constants.”**  
+   For the $q$-scaled hidden-terminal atom this is probably true, but the report does not compute $\beta(H)$, $\Delta_T(H)$, or $\delta_T(H)$. The claim should remain provisional until those quantities are written explicitly.
+
+## Counterexamples Or Stress Tests
+
+- **Known-law terminal spike:** large $\Delta_T(H)$ but zero law-aware regret. This confirms the Bayes-gap object must include learner ignorance, not just delayed value.
+
+- **IID uniform prices:** $\beta(h)=1$ for all $h$, but known-law horizon-aware regret is zero/O(1). Any statement tying raw $\beta$ to necessity would fail.
+
+- **Time-varying hidden rewards:** construct two worlds where early rounds favor different quotes at different times. Per-round Bayes gaps may look large, while the fixed comparator value $\sup_a\sum_t g_{t,\theta}(a)$ is small. This stress-tests the identical-prefix lemma.
+
+- **Later reward offset:** append common or world-dependent later rewards that favor the Bayes-mixture quote. The early-prefix gap can be canceled in the fixed-comparator comparison unless later terms are zero/common/controlled.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict with the delayed-feedback upper-bound literature. This lower-bound direction is more like Yao/Le Cam/posterior decision lower bounds than standard delayed-experts results.
+
+The main “conflict” is internal: earlier notes prove known finite-horizon exogenous laws are oracle-learnable with $R_T\le T/K$. So the Bayes-gap theorem must be explicitly class/minimax or prior-based, never a fixed-law necessity theorem.
+
+## What Survives The Critique
+
+- The general posterior Bayes-gap inequality is likely correct under exogenous prices and clean measurability assumptions.
+- The identical-prefix hidden-terminal lower bound survives and remains the best finite-horizon class-level lower-bound atom.
+- The $q$-scaled variant is worth pursuing; its $Dq/8$ lower bound looks right.
+- The framework correctly targets “valuable delayed reward plus indistinguishability,” which is the right obstruction.
+
+## Recommended Next Checks
+
+1. Write the Bayes-gap lemma fully with mixture-law notation and prove:
+$$
+   \mathbb E_{\theta\sim\pi}R_T^\theta(A)
+   \ge
+   \mathbb E_\pi V_\theta-U_\pi.
+$$
+
+2. State a separate identical-prefix corollary with assumptions: $D$ identical decision histories, same early curve $g_\theta$, no later reward contribution.
+
+3. Compute for the $q$-hidden-terminal atom:
+$$
+   \beta(H),\quad \Delta_T^\theta(H),\quad \delta_T^\theta(H)
+$$
+   for $H<D$, including constants.
+
+4. Decide whether the final theorem wants a clean lower-bound certificate or a true characterization. The current modulus is probably too close to minimax regret to be a satisfying scalar tail condition.

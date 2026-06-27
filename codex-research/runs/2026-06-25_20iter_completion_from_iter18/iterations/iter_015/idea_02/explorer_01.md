@@ -1,0 +1,117 @@
+## Summary
+
+The stable-high part of the idea is correct and useful, but the proposed dichotomy is too coarse. The quantity
+\[
+Q_T=\bigl[\ell(L_\ell(T)-1)-h(L_h(T)-1)\bigr]_+
+\]
+is exactly the regret of always quoting \(h^-\), but it is not by itself an inherent horizon-conflict certificate. A path-aware policy can switch to \(\ell^-\) during a long high-free interval and switch back to \(h^-\) before a much later high. This can make \(Q_T=\Theta(T)\) at low horizons while keeping normalized finite-prefix conflict small.
+
+The right proof strategy should refine the dichotomy by including the time at which a low-surplus drought is resolved by the next high. Linear obstruction seems to require surplus linear relative to the resolving high prefix, not merely linear relative to the low horizon.
+
+## Concrete Progress
+
+For two levels \(0<\ell<h\), the stable \(h^-\) quote has exact regret
+\[
+R_T(h^-)=\bigl[V_T^*-h(L_h(T)-1)_+\bigr]
+=\bigl[\ell(L_\ell(T)-1)-h(L_h(T)-1)\bigr]_+.
+\]
+So if \(Q_T=o(T)\) after highs keep occurring, stable high gives \(o(T)\) regret. If highs eventually stop, a path-aware policy can eventually quote \(\ell^-\).
+
+A stronger local drought statement appears valid. For
+\[
+h^M,\ 0^N,\ \ell,\ 0^L,\ h
+\]
+in the formal left-limit model, define
+\[
+S=\bigl[\ell(M+N)-h(M-1)_+\bigr]_+.
+\]
+Then the finite-prefix value should remain
+\[
+D_{M+N+L+2}=S\left(1-\frac{\ell}{h}\right),
+\]
+independent of the post-low zero tail \(L\). The zeros after the low dilute the normalized conflict but do not change its absolute size.
+
+This gives a concrete obstruction to the idea as stated: take \(L\gg M+N\). At the low horizon, \(Q_T\) can be \(\Theta(T)\), but at the resolving high horizon the finite-prefix conflict is only \(\Theta(M+N)=o(M+N+L)\).
+
+## Claims Or Lemmas
+
+**Stable-High Lemma.** For every two-level deterministic path,
+\[
+R_T(h^-)=Q_T.
+\]
+This is immediate from
+\[
+V_T^*=\max\{\ell(L_\ell(T)-1)_+,h(L_h(T)-1)_+\}.
+\]
+
+**Resolved-Drought Lemma Candidate.** In a drought whose last high is at \(H\), whose last low before the next high is at \(R\), and whose next high is at \(G\), the relevant absolute low surplus is
+\[
+S=[\ell(R-1)-h(H-1)]_+.
+\]
+The local low/high tradeoff value should be
+\[
+S(1-\ell/h),
+\]
+but it is a linear lower bound only when \(S=\Omega(G)\), not merely when \(S=\Omega(R)\).
+
+**Prefix Without Resolving High.** A prefix ending inside the drought before the next high need not have positive \(D_n\). The learner can quote \(h^-\) before the last high and \(\ell^-\) after it, matching or exceeding the fixed comparator on the low-only prefix.
+
+## Proof Attempts
+
+The natural proof route is to write a drought LP. Let \(Y_r\) be cumulative probability mass assigned to \(\ell^-\) in the current high-free interval before low horizon \(r\). Then low horizons impose constraints of the form
+\[
+\text{low deficit at }r \approx Q_r-\ell Y_r,
+\]
+while the resolving high horizon pays a cost
+\[
+\text{high deficit}\approx (h-\ell)Y_G.
+\]
+For one isolated drought, balancing these gives \(S(1-\ell/h)\).
+
+The problem is global composition. Low-quote mass chosen in earlier droughts creates persistent high-quote debt at later high horizons. If high-free intervals include long post-low zero tails, this debt can be diluted by time before the next high. Thus local \(S_i\) certificates do not simply add.
+
+A better theorem would be a resolved-surplus decomposition:
+\[
+\text{either } \sup_i S_i/G_i>0 \text{ gives } D_{G_i}=\Omega(G_i),
+\]
+or a switching policy keeps cumulative high debt sublinear.
+
+## Gaps And Risks
+
+The current \(Q_T\)-based dichotomy is false without a resolution-time condition.
+
+Uniform mixing over an entire drought may fail early low horizons; the construction needs cumulative coverage before each low time.
+
+Multiple droughts interact through accumulated high debt. This is the main missing bookkeeping.
+
+All exact statements are in the formal left-limit model. Strict crossing requires replacing \(h^-,\ell^-\) by \(h-\eta_t,\ell-\eta_t\) with \(\sum_{t<T}\eta_t=o(T)\).
+
+## Counterexamples Or Obstructions
+
+A strong stress test is
+\[
+h^M,\ 0^N,\ \ell,\ 0^L,\ h
+\]
+with \(L\gg M+N\). At the \(\ell\)-horizon, stable high has linear regret if \(S=\Theta(M+N)\). But the actual finite-prefix conflict at the final high is still only \(S(1-\ell/h)\), hence sublinear in the final prefix length when \(L\) dominates.
+
+An infinite version with superdominant \(L_i\)'s plausibly has \(Q_T\not=o(T)\) along low horizons while a path-aware switching policy gets \(o(T)\) regret. This should be formalized before using the proposed dichotomy.
+
+## Sources Consulted
+
+Project notes: especially CL-035 to CL-043, LB-030 to LB-039, CE-019 to CE-022, and the iteration 15 solver attempt.
+
+External checks:
+- Fulkerson and Gross, “Incidence matrices and interval graphs,” 1965. https://msp.org/pjm/1965/15-3/pjm-v15-n3-p11-s.pdf
+- Renault, “General limit value in dynamic programming,” 2014. https://www.aimsciences.org/article/doi/10.3934/jdg.2014.1.471
+- Lindley, “The theory of queues with a single server,” 1952. https://doi.org/10.1017/S0305004100027638
+
+## Bibliography Candidates
+
+- D. V. Lindley. “The theory of queues with a single server.” *Mathematical Proceedings of the Cambridge Philosophical Society* 48(2):277-289, 1952. DOI: https://doi.org/10.1017/S0305004100027638. Relevance: background for Lindley-recursion/reflected-queue analogies that may help formalize the drought surplus/debt process; not a direct market-making theorem.
+
+## Recommended Next Steps
+
+1. Audit and polish the single-drought lemma, including the \(0^L\) post-low extension.
+2. Replace the dichotomy with a resolved-surplus theorem using \(S_i/G_i\), not \(Q_T/T\) at low horizons alone.
+3. Build the explicit switching-policy upper bound for diluted droughts.
+4. Run exact finite LP checks on repeated \(h,0^N,\ell,0^L,h\) patterns with \(L\) large.

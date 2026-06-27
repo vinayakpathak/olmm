@@ -1,0 +1,66 @@
+## Summary
+
+The main derandomization idea looks mathematically plausible. I did not find a counterexample to the monotone-threshold uniform convergence lemma. The proof can likely be made rigorous by an elementary grid/bracketing plus Hoeffding plus Borel-Cantelli argument.
+
+However, it is not yet an acceptable final solution as written. It is a proof sketch for a new deterministic-policy strengthening of the known-path \(1/e\) theorem, not a solution to the original tail-characterization problem. It also needs exact quantifiers and a fully written probabilistic-method lemma.
+
+## Fatal Gaps
+
+- If the claim is “the original iff/tail characterization is solved,” this is a fatal mismatch. The attempt explicitly leaves the original iff false and proves only a deterministic derandomization of the known-path horizon-oblivious \(1/e\) upper bound.
+- If the claim is only the derandomization theorem, I found no fatal mathematical flaw in the core argument.
+
+## Missing Assumptions
+
+- Prices must be exogenous and deterministic pathwise, or stochastic exogenous with conditioning on the realized path.
+- The policy is horizon-oblivious and deterministic, with a fixed action sequence independent of the evaluation horizon.
+- The regret comparator should be `sup`, not `max`.
+- Single-fill reward convention is essential.
+- Strict crossing \(a<M_{t,T}\), not \(a\le M_{t,T}\), must be maintained throughout.
+- For stochastic paths, the proof should explicitly use
+  \[
+  \sup_a \mathbb E[\text{payoff}_a]\le \mathbb E[\sup_a \text{payoff}_a]
+  \]
+  after establishing the pathwise bound.
+
+## False Or Unsupported Claims
+
+- “Borel-Cantelli yields an infinite deterministic realization” is only sketched. It is probably true, but the proof needs the actual failure probability:
+  \[
+  \Pr(E_n^c)\le \exp(O(m\log n)-\Omega(\varepsilon_n^2/n)),
+  \]
+  with \(m=n^{1/3}\), \(\varepsilon_n=C\sqrt{nm\log n}\), and \(C\) large enough to make \(\sum_n\Pr(E_n^c)<\infty\).
+- “The lower bound already covers deterministic policies because it applies even to randomized policies” is correct only because the accepted lower bound is a same-path lower bound against every horizon-oblivious policy. The writeup should restate that quantifier, not rely on memory.
+
+## Plausible But Incomplete Parts
+
+- The monotone-threshold derandomization lemma is credible. For fixed grid-valued monotone \(d_1\ge\cdots\ge d_n\), Hoeffding applies to independent bounded variables
+  \[
+  A_t1\{A_t<d_t\}-g(d_t).
+  \]
+  The number of grid-valued monotone paths is \(\binom{n+m}{m}\), so a union bound is subexponential for \(m=o(n)\).
+- The downward rounding step appears sound:
+  \[
+  d_t\le c_t,\quad c_t-d_t\le 1/m
+  \]
+  gives actual payoff monotonicity and expected loss at most \(n/m\), since \(g\) is 1-Lipschitz.
+- Applying the lemma to \(M_{t,T}=\max_{t<s\le T}P_s\) is valid because \(M_{1,T}\ge\cdots\ge M_{T-1,T}\).
+
+## Literature Or Known-Result Checks
+
+I found no direct delayed-market-making theorem matching this deterministic derandomization. The argument is best treated as an internal elementary probabilistic-method result.
+
+Relevant background is empirical-process/probabilistic-method and low-discrepancy literature, not delayed-feedback learning. The delayed-feedback sources remain relevant to earlier sufficiency work but not to this derandomization.
+
+## Bibliography Candidates
+
+- Noga Alon and Joel H. Spencer. *The Probabilistic Method*, 4th ed., Wiley, 2016. https://www.wiley.com/en-mx/The%2BProbabilistic%2BMethod%2C%2B4th%2BEdition-p-9781119061953. Relevant as standard background for existence by random construction, concentration, union bounds, and Borel-Cantelli style arguments.
+
+- Aad W. van der Vaart and Jon A. Wellner. *Weak Convergence and Empirical Processes*, Springer, 1996. https://link.springer.com/book/10.1007/978-1-4757-2545-2. Relevant as general background for uniform convergence over indexed function classes; the current proof uses only a finite bracketing special case.
+
+- Harald Niederreiter. *Random Number Generation and Quasi-Monte Carlo Methods*, SIAM, 1992. https://epubs.siam.org/doi/book/10.1137/1.9781611970081. Relevant if one later wants an explicit low-discrepancy replacement for the nonconstructive deterministic sequence.
+
+- V. N. Vapnik and A. Ya. Chervonenkis. “On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities.” *Theory of Probability and Its Applications*, 1971. DOI: https://doi.org/10.1137/1116025. Relevant background for uniform convergence, though the solver’s finite monotone-grid union bound is more direct.
+
+## Verdict
+
+ACCEPTABLE: no

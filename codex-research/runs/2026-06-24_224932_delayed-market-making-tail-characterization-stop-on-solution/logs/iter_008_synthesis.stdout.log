@@ -1,0 +1,28 @@
+## Accepted Progress
+- Preserved the finite-class value characterization as accepted partial progress.
+- Added the iteration 8 refinement: payoff-weighted reward-measure domination is the sharper no-gap hypothesis for infinite fixed-grid classes.
+- Recorded TV-separability of reward measures as a domination corollary.
+- Generalized the grid-to-continuum minimax comparison to arbitrary classes.
+
+## Candidate Routes
+- Prove the reward-measure domination no-gap theorem in full detail.
+- Formalize policy-to-prefix-kernel reduction and Borel/completed-measure conventions.
+- Develop TV-separable and dominated-approximation corollaries.
+- Treat identifiable nondominated classes separately from compactness/no-gap arguments.
+
+## Refuted Or Weakened Claims
+- The iteration 8 “maybe solved” theorem is rejected as a full solution.
+- The result is still a minimax/Bayes value characterization, not a scalar tail characterization.
+- Arbitrary infinite classes still need product-closed/no-gap assumptions.
+- Weak/Feller continuity alone is not enough for Borel-policy no-gap.
+- Matching power-tail lower rates remain open.
+
+## Working Notes Updated
+Updated:
+`canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+1. Prove policy-to-prefix-kernel reduction.
+2. Write the reward-measure domination theorem referee-ready.
+3. Prove TV-separable and dominated-approximation corollaries with constants.
+4. Keep lower-rate construction separate from value-characterization work.

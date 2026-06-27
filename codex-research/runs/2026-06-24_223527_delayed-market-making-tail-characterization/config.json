@@ -1,0 +1,14 @@
+{
+  "context_manifest": [
+    {
+      "copied_to": "inputs/delays.tex",
+      "kind": "file",
+      "source": "/Users/vinayakpathak/olmm/latex/delays.tex"
+    }
+  ],
+  "created_at": "2026-06-24T22:35:27",
+  "problem_source": "/Users/vinayakpathak/olmm/.codex-research/problem_delays.md",
+  "project_root": "/Users/vinayakpathak/olmm",
+  "run_id": "2026-06-24_223527_delayed-market-making-tail-characterization",
+  "title": "delayed market making tail characterization"
+}

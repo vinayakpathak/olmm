@@ -1,0 +1,23 @@
+## Accepted Progress
+- Promoted the finite-$F,G$ density-form support equals conditional $\Psi_{G,F}$ envelope lemma to proved.
+- Promoted forward Borel policy alignment to proved under an explicit common Borel finite-grid public-exogenous seed/state model.
+- Kept the result as reward-vector equivalence only, not pathwise or behavioral equivalence.
+
+## Candidate Routes
+- Finish the reverse completed-$L^\infty$-kernel to Borel implementation lemma.
+- Write the exact admissible policy model and cite/prove standard randomization and section-integral facts.
+- Use the finite-grid value formula to design multi-scale or limited-leakage power-tail lower bounds.
+
+## Refuted Or Weakened Claims
+- Iteration 12 does not close arbitrary infinite classes.
+- The density lemma does not prove product compactness or original-policy alignment by itself.
+- The policy-alignment lemma does not cover law-by-law a.s. policies, private/censored feedback, law-correlated randomness, action-dependent prices, nonadditive rewards, continuum quotes, or arbitrary nondominated classes.
+
+## Working Notes Updated
+Updated `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+1. Polish the finite-grid public-exogenous policy model.
+2. Prove/cite randomization, section-integral measurability, and Borel-version lemmas.
+3. Complete the reverse Borel implementation step for dominated no-gap.
+4. Continue the separate power-tail lower-rate program.

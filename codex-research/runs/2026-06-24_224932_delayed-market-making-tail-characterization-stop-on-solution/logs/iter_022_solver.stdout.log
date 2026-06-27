@@ -1,0 +1,139 @@
+## Verdict
+
+SOLVED: no
+
+The strongest defensible result is a narrow value-theoretic characterization for public, exogenous, horizon-aware minimax classes. It is exact, but it is essentially the minimax value in disguise, not the desired structural tail characterization or matching-rate theorem.
+
+## Candidate Solution Or Main Attempt
+
+For a horizon-indexed public-exogenous class \(\Theta_T\), finite grid \(G\), and randomized common policies, define
+
+\[
+V_\theta^G=\sup_{a\in G}\sum_{t=1}^T \mathbb E_\theta[a{\bf 1}\{M_t>a\}],
+\qquad
+M_t=\max_{t<s\le T}P_s,
+\]
+
+and let
+
+\[
+C_T^G=\{(L_\theta(A))_{\theta\in\Theta_T}: A \text{ admissible randomized }G\text{-policy}\}.
+\]
+
+Then the exact finite-grid arbitrary-class signed value is
+
+\[
+\mathcal R_T^G
+=
+\sup_{\nu\in ba_1^+(\Theta_T)}
+\left\{
+\langle V^G,\nu\rangle-\sup_{c\in C_T^G}\langle c,\nu\rangle
+\right\}.
+\]
+
+With \(G_T=\{0,1/T,\ldots,(T-1)/T\}\),
+
+\[
+|\mathcal R_T^{[0,1]}-\mathcal R_T^{G_T}|\le 1.
+\]
+
+So, in this narrow public-exogenous minimax model,
+
+\[
+(\mathcal R_T^{[0,1]})_+=o(T)
+\]
+
+is equivalent up to \(O(1)\) to the positive part of the displayed `ba` dual being \(o(T)\).
+
+This is a valid exact condition, but not a satisfying tail characterization. For finite \(\Theta_T\), the `ba` dual reduces to the ordinary least-favorable-prior Bayes gap
+
+\[
+\sup_{\pi\in\Delta(\Theta_T)}
+\left[
+\sum_\theta \pi_\theta V_\theta^{G_T}
+-
+\sum_t
+\mathbb E_{\bar P_\pi}
+\max_{a\in G_T}
+a\,\bar P_\pi(M_t>a\mid P_{1:t})
+\right].
+\]
+
+## Concrete Lemmas Or Reductions
+
+1. Known finite-horizon exogenous laws are oracle-learnable:
+\[
+R_T\le T/K
+\]
+by conditional grid maximization. Hence no fixed-law raw-tail necessity can hold under law-aware horizon-aware quantifiers.
+
+2. Uniform truncation upper bound:
+\[
+\sup_{P\in\mathcal C_T}R_T^P
+\lesssim
+\sqrt{T(H+1)\log K}+T/K+\sup_{P\in\mathcal C_T}\delta_T^P(H).
+\]
+
+If \(\Delta_T(H)\le T H^{-\alpha}\), this gives
+
+\[
+R_T\lesssim
+T^{(\alpha+1)/(2\alpha+1)}
+(\log T)^{\alpha/(2\alpha+1)}
+\]
+
+with \(K=T\).
+
+3. Finite-class exact Bayes identity holds on finite grids. Infinite classes require either the abstract `ba` dual or a no-gap/product-closure condition.
+
+4. Hidden-terminal lower-bound atom:
+for horizon \(T=D+1\), two hidden worlds give minimax regret at least
+
+\[
+qD/8,
+\]
+
+while having \(\beta(h)=q\) for \(h<D\) under absorbing extension and \(\Delta,\delta\asymp q(D-H)\).
+
+## Gaps And Failure Points
+
+The main unresolved piece is a structural necessary-and-sufficient tail condition. Per-law \(\beta,\Delta,\delta\) profiles cannot work.
+
+Matching lower rates for power-tail envelopes remain open. The one-block \(qD\) atom gives only \(\Omega(D B(D))\), too weak for the truncation upper exponent.
+
+Adaptive truncation is also open. It reduces to a comparator-specific heterogeneous-delay experts theorem, but the key two-arm delayed-advantage safety/capture bound is unproved.
+
+The original Borel-policy no-gap bridge is credible under the exact finite-grid public-exogenous seed/state model, but still needs final measurable-version/randomization citations if promoted beyond the completed \(L^\infty\) kernel model.
+
+## Counterexamples Or Obstructions
+
+- iid uniform prices: \(\beta(h)=1\) for all \(h\), but known-law regret can be zero.
+- Tiny-price blocks: raw \(\beta(h)=1\), yet comparator value is uniformly bounded.
+- Rare-history construction: raw essential-sup \(\beta(h)=1\), but \(\sup_TV_T<\infty\) and \(\Delta_T(H)=O(1/H)\).
+- Hidden/labeled pair: identical per-world \(\beta,\Delta,\delta\) and reward profiles, but hidden class has \(\Omega(qD)\) regret while labeled class has zero regret.
+- Infinite-class product-closure gap: finite subclasses can be easy while the full Borel-policy class has linear value.
+
+## Promising Ideas To Explore
+
+1. Write the accepted theorem package cleanly: finite-grid Bayes identity, grid-continuum comparison, `ba` dual, no-gap domination theorem, and \(\delta_T(H)\) upper bound.
+
+2. Attack matching lower rates through limited-leakage or noisy common-parameter constructions, computing the finite-grid Bayes value first.
+
+3. Work on the two-arm delayed-advantage problem:
+\[
+A_T\ge -\tilde O(\sqrt T),
+\qquad
+A_T\ge S_T-\tilde O(\sqrt{TD}).
+\]
+
+4. Develop last-exceedance/value-tail calculus, but keep observability and predictability in the condition.
+
+## Notes For Critics
+
+Do not read the `ba` dual as an ordinary Bayes/posterior formula. The support term is abstract for finitely additive priors.
+
+Do not accept this as a scalar tail characterization. The hidden/labeled no-go blocks that.
+
+All finite-horizon formulas must use horizon-censored \(M_t=\max_{t<s\le T}P_s\).
+
+The upper bounds assume public exogenous prices. Action-dependent markets need a separate causal model.

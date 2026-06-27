@@ -1,0 +1,36 @@
+## Accepted Progress
+- Promoted exact separated-block formula:
+  \[
+  D_{N+L+2}(0^N,c_0,0^L,c_1)=N\,\frac{c_0(c_1-c_0)}{c_1}
+  \]
+  in the formal left-limit model.
+- Promoted the dual scale-splitting boundary identity and recorded that the boundary term is real cross-scale incompatibility.
+- Promoted the finite-alphabet dual reduction, plus the one-level \(D_n=0\) case and two-level positive-part formula.
+
+## Candidate Routes
+- Boundary-augmented prefix LPs with late shadow objectives.
+- Two-level finite-alphabet localization as the next clean proof target.
+- Finite LP experiments for small two-level paths and cumulative diluted-conflict constructions.
+
+## Refuted Or Weakened Claims
+- Refuted: large boundary defect implies a shorter-prefix \(D_m=\Omega(m)\) certificate.
+- Weakened: consecutive-ones/interval structure alone is not enough for localization.
+- Corrected: alternating \(\ell,h\) finite prefixes do not always have exact \(D_n=0\).
+
+## Literature Updates
+Verified/imported as background only:
+- Renault 2014, “General limit value in dynamic programming”: https://doi.org/10.3934/jdg.2014.1.471
+- Dann et al. 2023, “Pseudonorm Approachability…”: https://proceedings.mlr.press/v201/dann23a.html
+- Kuntz et al. 2021, countably infinite LP approximation: https://doi.org/10.1137/19M1268847
+- Fulkerson-Gross 1965, interval-incidence structure: https://projecteuclid.org/journals/pacific-journal-of-mathematics/volume-15/issue-3/Incidence-matrices-and-interval-graphs/pjm/1102995572.full
+- Rakhlin-Sridharan-Tewari 2011: https://proceedings.mlr.press/v19/rakhlin11a.html
+
+No direct external theorem for the delayed-market-making gluing problem was found.
+
+## Working Notes Updated
+Updated only files under `working_notes/`: `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+1. Prove or refute two-level finite-alphabet localization.
+2. Define the boundary-augmented prefix certificate.
+3. Implement finite-prefix LP searches for small two-level and cumulative diluted-conflict paths.

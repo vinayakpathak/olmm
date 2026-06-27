@@ -1,0 +1,28 @@
+## Accepted Progress
+
+Promoted the two-unequal-low one-drought closed form as `CL-050` / `LB-045`, conditional on the accepted `CL-049` reduced LP and formal left-limit model.
+
+Also recorded the `CL-049` KKT support rule as `LB-046`, and added the three-low certificate
+\(0,0.2,0^8,0.3,0,0.4,1\) with value \(291/100\) as a regression test.
+
+## Candidate Routes
+
+The active-set / pooling direction remains promising, but only with exact primal-dual certificates. A scalar adjacent-merge or PAVA rule is not established.
+
+## Refuted Or Weakened Claims
+
+The two-low formula does not imply repeated-drought composition, a global pooling rule, or \(D_n=o(n)\Rightarrow o(T)\). Capacity binding is also not equivalent to positive dual pressure.
+
+## Literature Updates
+
+Verified Hochbaum 1994 via INFORMS/DOI as proof-technology background only: https://doi.org/10.1287/moor.19.2.390. No external source was found for the market-making two-low formula or pooling rule.
+
+## Working Notes Updated
+
+Updated `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and appended a recovered entry to `iteration_summaries.md`.
+
+## Next Iteration Focus
+
+1. Write `CL-050/LB-045` as a polished theorem with branchwise primal-dual certificates.
+2. Formalize `LB-046` and design a certificate-producing active-set algorithm.
+3. Run exact rational LP tests for nonmonotone lows, duplicate lows, zero gaps, \(M>1\), and capacity-saturated cases.

@@ -1,0 +1,29 @@
+## Accepted Progress
+
+Added iteration 13 synthesis: last-exceedance comparator representation, prefix-splicing bound, and the increasing-threshold \(D_n\) sandwich
+\[
+N\kappa(C)\le D_{N+m}\le N\kappa(C)+m,
+\]
+with exact \(m=2\) left-limit value.
+
+## Candidate Routes
+
+The main open route is dyadic dual localization: show failure of a fixed envelope forces a comparable-scale finite-prefix dual certificate. I also recorded finite alphabet LP experiments and non-block interleaving paths as the next useful stress tests.
+
+## Refuted Or Weakened Claims
+
+No proof of \(D_n=o(n)\Rightarrow o(T)\) was found. Generic compactness is still too weak. The abstract parity obstruction is not a market counterexample, and the simple separated-block market parity attempt appears diluted rather than hard.
+
+## Literature Updates
+
+Added verified background sources only, not proof support: [Dann et al. 2025](https://proceedings.mlr.press/v291/dann25a.html), [Mannor-Perchet-Stoltz 2014](https://jmlr.org/papers/v15/mannor14a.html), [Bernstein-Shimkin 2015](https://jmlr.org/papers/v16/bernstein15a.html), [Renault 2011](https://doi.org/10.4171/JEMS/254), [Li-Venel 2016](https://doi.org/10.1007/s00182-015-0496-4), [Mertens-Neyman 1981](https://doi.org/10.1007/BF01769259), and [Flesch-Laraki-Perchet 2016](https://proceedings.mlr.press/v49/flesch16.html).
+
+## Working Notes Updated
+
+Updated only files under `working_notes/`, including [canonical_summary.md](/Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization/working_notes/canonical_summary.md:134), [claim_ledger.md](/Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization/working_notes/claim_ledger.md:466), [lemma_bank.md](/Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization/working_notes/lemma_bank.md:778), [failed_attempts.md](/Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization/working_notes/failed_attempts.md:113), [counterexamples.md](/Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization/working_notes/counterexamples.md:205), [bibliography.md](/Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization/working_notes/bibliography.md:181), and [iteration_summaries.md](/Users/vinayakpathak/olmm/.codex-research/runs/2026-06-25_20iter_delayed-market-making-tail-characterization/working_notes/iteration_summaries.md:890).
+
+## Next Iteration Focus
+
+1. Prove or refute dyadic dual localization in a finite alphabet model.
+2. Compute \(D_n\) for moving-scale block paths and non-block low/high interleavings.
+3. Formalize the separated-block all-horizon calculation only if it helps the gluing/separator question.

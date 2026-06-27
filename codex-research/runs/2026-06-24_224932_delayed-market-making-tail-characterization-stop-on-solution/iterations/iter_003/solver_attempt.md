@@ -1,0 +1,142 @@
+## Verdict
+
+SOLVED: no
+
+The original iff conjecture with the essential-sup tail condition is false. The cleanest current result is a model taxonomy: under known finite-horizon exogenous laws, sublinear regret is always possible; under unknown/minimax exogenous classes, the existing truncation condition is a strong sufficient condition, and hidden-terminal examples give matching-looking lower-bound mechanisms, but not a full necessary-and-sufficient tail characterization.
+
+## Candidate Solution Or Main Attempt
+
+A corrected theorem package should probably be:
+
+**Theorem A: known exogenous finite-horizon laws are trivial, information-theoretically.**  
+Fix horizon $T$, and suppose the law of $P_{1:T}$ is exogenous and known. For any $K$, there is a horizon-aware deterministic learner with
+$$
+R_T \le T/K.
+$$
+Taking $K=T$ gives $O(1)$ regret for every such law, with no tail assumption.
+
+This refutes any nontrivial process-wise necessity statement involving $\beta$, $\Delta$, or $\delta$ under law-aware finite-horizon quantifiers.
+
+**Theorem B: unknown/minimax exogenous classes admit a clean sufficient condition.**  
+For a horizon-indexed class $\mathcal C_T$ of public exogenous price laws, define
+$$
+r_t^H(a)=a\mathbf{1}\{\tau_t(a)\le \min(H,T-t)\},
+$$
+$$
+\delta_T^P(H)
+=
+\sup_a \mathbb E_P\sum_t r_t(a)
+-
+\sup_a \mathbb E_P\sum_t r_t^H(a).
+$$
+Then a uniform grid-Hedge learner satisfies
+$$
+\sup_{P\in\mathcal C_T}R_T^P
+\lesssim
+\sqrt{T(H+1)\log K}
++
+T/K
++
+\sup_{P\in\mathcal C_T}\delta_T^P(H).
+$$
+Thus sublinear regret follows if there are schedules $H_T,K_T$ with
+$$
+(H_T+1)\log K_T=o(T),\qquad T/K_T=o(T),\qquad
+\sup_{P\in\mathcal C_T}\delta_T^P(H_T)=o(T).
+$$
+The older bound follows since $\delta_T^P(H)\le \Delta_T^P(H)\le T\beta_P(H)$.
+
+For $\Delta_T(H)\le T H^{-\alpha}$, choosing $K=T$ and
+$$
+H\asymp (T/\log T)^{1/(2\alpha+1)}
+$$
+gives
+$$
+R_T\lesssim
+T^{(\alpha+1)/(2\alpha+1)}
+(\log T)^{\alpha/(2\alpha+1)}.
+$$
+
+## Concrete Lemmas Or Reductions
+
+**Known-law oracle lemma.**  
+Let
+$$
+M_t=\max_{s>t}P_s,\qquad
+g_t(a)=\mathbb E[a\mathbf{1}\{M_t>a\}\mid P_{1:t}].
+$$
+On grid $\mathcal G_K=\{0,1/K,\dots,(K-1)/K\}$, play a measurable maximizer of $g_t$. For any $a$, round down to $b\in\mathcal G_K$. Pathwise,
+$$
+a\mathbf{1}\{M_t>a\}\le b\mathbf{1}\{M_t>b\}+1/K.
+$$
+Summing gives $R_T\le T/K$.
+
+**Residue-class delayed Hedge lemma.**  
+For truncated grid rewards, feedback from round $t$ is known before round $t+H+1$. Run $H+1$ Hedge instances by residue modulo $H+1$. Then
+$$
+R_{T,K}^H
+\le
+C\sum_{j=0}^H\sqrt{n_j\log K}
+\le
+C\sqrt{T(H+1)\log K}.
+$$
+
+**Comparator-gap truncation.**  
+Since $r_t^H(a_t)\le r_t(a_t)$ pathwise,
+$$
+R_T
+\le
+R_T^H+\delta_T(H).
+$$
+
+**Hidden-terminal lower-bound atom.**  
+Suppose two laws are observationally identical for $D$ early rounds, but have terminal reward curves $g_0,g_1$. With a uniform prior, every learner has Bayes regret at least
+$$
+D\Gamma,\qquad
+\Gamma=
+\frac12\sup_a g_0(a)+\frac12\sup_a g_1(a)
+-
+\sup_a\frac{g_0(a)+g_1(a)}2.
+$$
+For
+$$
+Y_L\sim{\rm Unif}[1/2,5/8],\qquad
+Y_H\sim{\rm Unif}[3/4,7/8],
+$$
+one gets $\sup g_L=1/2$, $\sup g_H=3/4$, and $\sup(g_L+g_H)/2=1/2$, hence regret at least $D/8$ in one world.
+
+A $q$-scaled version, where the terminal reveal occurs with probability $q$, gives lower bound $qD/8$ and tail mass $\beta(H)\approx q$ for $H<D$.
+
+## Gaps And Failure Points
+
+The main missing piece is a true iff characterization for unknown/minimax classes. Raw long delay is not enough; the lower-bound mechanism needs delayed reward that is both valuable and statistically hidden.
+
+$\delta_T(H)=o(T)$ is sufficient but not necessary. A singleton terminal-spike law can have linear truncation loss while a law-aware learner gets zero regret.
+
+The hidden-terminal construction is currently finite-horizon and class-level. It does not yet give a fixed-law asymptotic necessity theorem.
+
+The upper theorem requires exogenous/public prices. If prices depend on learner actions, the counterfactual grid reward vector is not well-defined from the realized path.
+
+## Counterexamples Or Obstructions
+
+- iid uniform prices: $\beta(h)=1$ for every $h$, but known-law regret can be zero or $O(1)$.
+- Arbitrary known finite-horizon exogenous laws: conditional grid maximization gives $O(1)$ regret regardless of tails.
+- Terminal spike: $\Delta_T(H)=\Omega(T)$ for $H=o(T)$, yet known-law regret is zero.
+- Strict threshold $P>a$: comparator maxima may fail to exist, so final statements should use $\sup_a$, not $\max_a$.
+- Action-dependent prices break the delayed full-information reduction.
+
+## Promising Ideas To Explore
+
+Formalize the hidden-terminal lower bound as the main necessity primitive: “valuable delayed tail plus indistinguishability,” measured by the Bayes gap $\Gamma$, rather than by raw $\Pr(\tau>H)$.
+
+Develop the $q$-scaled construction into a family indexed by $H,T$ to compare directly against upper terms $T\beta(H)$, $\Delta_T(H)$, and $\delta_T(H)$.
+
+Decide whether the target paper wants a horizon-aware theorem or an anytime theorem. The known-law oracle is horizon-aware; candidate two-deadline block constructions suggest anytime known-law learning may be genuinely harder.
+
+## Notes For Critics
+
+The upper theorem should be criticized only under exogenous public-price assumptions; it is not valid for action-dependent markets.
+
+The lower bound proves minimax hardness over a class, not process-wise necessity.
+
+The strongest honest conclusion is: the original $\beta(h)\to0$ condition is sufficient but not necessary. A full characterization likely needs a class-level information complexity object, not a scalar raw-delay tail.

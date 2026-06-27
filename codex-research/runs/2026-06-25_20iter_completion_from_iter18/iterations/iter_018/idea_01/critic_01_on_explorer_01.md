@@ -1,0 +1,71 @@
+## Summary
+
+The explorer’s structural reduction is still worth pursuing, but its main numerical warning is wrong. For the regression path \(0,0.4,0.9,1\), the candidate reduced LP gives the recorded value \(68/225\), not \(14/45\). The explorer’s \(14/45\) point is feasible but suboptimal. This is a false claim, not just an indexing convention.
+
+I do not see a fatal counterexample to the full-to-reduced LP reduction itself. The reduction remains plausible in the formal left-limit model, but the explorer’s report is only a proof sketch and needs a careful two-sided derivation before promotion.
+
+## Issue List
+
+- **False claim:** The explorer says the full LP and reduced LP give \(14/45\) for \(0,0.4,0.9,1\).  
+  Let \(a=x_{0,0.4}\), \(b=x_{0,0.9}\), \(d=x_{1,0.9}\). The relevant constraints are
+  \[
+  z\ge .4-.4a,\quad
+  z\ge 1.8-.4a-.9b-.9d,\quad
+  z\ge .6a+.1b+.1d,
+  \]
+  with \(a+b\le1\), \(0\le d\le1\). The optimum is
+  \[
+  a=11/45,\quad b=34/45,\quad d=4/5,\quad z=68/225.
+  \]
+  The explorer’s point \(a=2/9,b=7/9,d=1\) gives \(z=14/45\), but the second low constraint is slack.
+
+- **Plausible but incomplete:** “No fatal proof obstruction” is reasonable, but the report does not prove the reduction. It still needs explicit derivation from CL-036’s finite-prefix primal and a proof that all omitted horizons are dominated.
+
+- **Missing assumption:** The action-menu dominance is only clean in the formal left-limit model, or after an \(\eta\)-implementation. Literal actions \(c\) or \(h\) do not trade at equal thresholds under strict crossing.
+
+- **Missing assumption:** State \(0<\ell_j<h\le1\), use sorted unique low levels \(\mathcal L\), and clarify that \(h\) is the final high and the maximum relevant level. Actions above \(h\) are dominated by \(h^-\).
+
+- **Plausible but incomplete:** The segment aggregation needs a formal exchangeability argument: all coordinates in \(I_i\) must have identical payoff vectors across the retained low horizons and final horizon.
+
+## Counterexamples Or Stress Tests
+
+The key stress test supports the existing notes, not the explorer’s correction:
+
+\[
+P=(0,0.4,0.9,1).
+\]
+
+The reduced LP optimum is \(68/225\), with low-1, low-2, and final-high constraints all tight. This confirms CE-025’s warning that unequal lows do not obey a last-low-only rule.
+
+The explorer’s proposed \(14/45\) solution overfills the second segment with \(0.9^-\), reducing the low-2 deficit too much while increasing final debt. The true optimum leaves \(1/5\) of that segment at \(h^-\).
+
+## Literature Or Known-Result Conflicts
+
+No direct known-result conflict found. The relevant external sources remain proof-technology background only:
+
+- Chakravarti, “Isotonic Median Regression: A Linear Programming Approach,” Math. Oper. Res. 1989, DOI: https://doi.org/10.1287/moor.14.2.303.
+- Federgruen and Groenevelt, “The Greedy Procedure for Resource Allocation Problems,” Operations Research 1986, DOI: https://doi.org/10.1287/opre.34.6.909.
+- Fulkerson and Gross, “Incidence matrices and interval graphs,” Pacific J. Math. 1965, https://projecteuclid.org/journals/pacific-journal-of-mathematics/volume-15/issue-3/Incidence-matrices-and-interval-graphs/pjm/1102995572.full.
+
+None proves this market-making reduction.
+
+## What Survives The Critique
+
+The main reduction spine survives as plausible:
+
+- protected old-high coordinates can be fixed to \(h^-\);
+- post-last-low/final-only coordinates can be fixed to \(h^-\);
+- useful coordinates can likely be rounded upward to \(\mathcal L\cup\{h\}\);
+- low-horizon constraints should use \(m_{i,j}=\max_{q=i+1,\dots,j}\ell_q\);
+- final-high debt \(\sum(h-c)x_{i,c}\) is the right tradeoff term.
+
+## Bibliography Candidates
+
+No new bibliography candidates beyond sources already in the run notes.
+
+## Recommended Next Checks
+
+1. Correct the \(0,0.4,0.9,1\) arithmetic and record the \(68/225\) optimizer.
+2. Prove the reduction as a theorem in the formal left-limit model before deriving a dual.
+3. Add a finite LP verifier for small unequal-low droughts as regression tests.
+4. Only after the primal reduction is accepted, attempt the pooling/PAVA-style closed form.

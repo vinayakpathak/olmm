@@ -1,0 +1,72 @@
+## Summary
+
+I do not see a fatal gap in the explorer’s finite-\(C\) local-game claim. The formula
+\[
+\kappa(C)=\delta_*,\qquad F(\delta_*)=1
+\]
+survives the stress tests I checked, including \(m=1\), two thresholds, and boundary roots \(\delta_*=c_r\).
+
+The main corrections are presentational: state the result as an infimum/left-limit theorem, not as an attained optimizer in the original strict-crossing action space; and do not let the local formula imply any global known-path characterization.
+
+## Issue List
+
+- **Plausible but incomplete:** The primal strategy is not generally attained. Mass on \(c_i^-\) is formal; in the original action space one needs quotes \(c_i-\eta_i\) and then lets \(\eta_i\downarrow0\). This is an infimum theorem.
+
+- **Missing assumption:** When importing the local game into a zero-block theorem, note that time-varying action laws reduce to their average because the payoff is linear and homogeneous across zero-block rounds. The one-law \(\mu\) formula is fine, but this bridge should be explicit.
+
+- **Plausible but incomplete:** The phrase “equalize the active deficits” should mean only thresholds \(c_j>\delta_*\). Thresholds \(c_j\le\delta_*\) have deficit \(c_j<\delta_*\) or \(=\delta_*\) at a boundary and are nonbinding.
+
+- **Unsupported citation risk:** Bergemann-Schlag/Caldentey-Liu-Lobel are adjacent robust/minimax-pricing context, not evidence that this exact finite-support root formula is known. Cite them for analogy, not as proof support.
+
+- **Worth pursuing:** The active-suffix dual certificate is clean and useful. It should be promoted if the final statement keeps strict-crossing and local/global caveats visible.
+
+## Counterexamples Or Stress Tests
+
+- \(m=1\): \(F(\delta)=(c_1-\delta)/c_1\), so \(\delta_*=0\). The value is \(0\) only as an infimum: quote \(c_1-\eta\).
+
+- \(C=\{c,d\}\): solving gives
+\[
+\delta_*=\frac{c(d-c)}{d},
+\]
+matching the accepted two-threshold coefficient.
+
+- Boundary example \(C=\{1/4,1/2,1\}\): \(\delta_*=1/4\), active suffix begins at \(1/2\), and \(q=(0,1/2,1/2)\). Nonactive threshold \(1/4\) has deficit \(1/4\), active thresholds are equalized.
+
+- Strict crossing: if an actual atom is placed at \(c_i\), it does not trade at threshold \(c_i\). This breaks the displayed primal equalities unless actions are read as left limits.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict found. The literature I checked supports only the broader minimax-pricing analogy:
+
+- Bergemann and Schlag, “Pricing without Priors,” JEEA 2008, DOI: https://doi.org/10.1162/JEEA.2008.6.2-3.560. Randomized minimax pricing with support-only information; adjacent to the \(q_i\) interpretation.
+- Bergemann and Schlag, “Robust Monopoly Pricing,” Journal of Economic Theory 2011, DOI: https://doi.org/10.1016/j.jet.2011.10.018. Multiple-priors/maximin/minimax-regret monopoly pricing; adjacent, not a proof source.
+- Caldentey, Liu, and Lobel, “Intertemporal Pricing Under Minimax Regret,” Operations Research 2017, DOI: https://doi.org/10.1287/opre.2016.1548. Dynamic minimax-pricing background; relevant later for known-path anytime attempts.
+
+## What Survives The Critique
+
+The core primal-dual formula survives:
+
+\[
+F(\delta)=\sum_{i=1}^m
+\frac{(c_i-\delta)_+-(c_{i-1}-\delta)_+}{c_i}
+\]
+is continuous, strictly decreasing, has a unique root \(F(\delta_*)=1\), and \(\kappa(C)=\delta_*\) as a local infimum value.
+
+The dual law on the active suffix \(c_k,\ldots,c_m\), with \(k=\min\{i:c_i>\delta_*\}\) and
+\[
+\Pr(Z\ge c_i)=c_k/c_i,
+\]
+correctly gives \(\mathbb EZ-\rho(Z)=\delta_*\) using left-limit posted-price revenue.
+
+## Bibliography Candidates
+
+No new direct theorem source. Keep the explorer’s two candidates as adjacent:
+
+- Dirk Bergemann and Karl H. Schlag. “Robust Monopoly Pricing.” Journal of Economic Theory 146(6):2527-2543, 2011. DOI: 10.1016/j.jet.2011.10.018. Relevant as robust/minimax pricing context.
+- René Caldentey, Ying Liu, Ilan Lobel. “Intertemporal Pricing Under Minimax Regret.” Operations Research 65(1):104-129, 2017. DOI: 10.1287/opre.2016.1548. Relevant for future dynamic/anytime pricing analogies.
+
+## Recommended Next Checks
+
+1. Promote the lemma, but state “infimum over actual actions; attained only in a left-limit compactification.”
+2. Add a short proof that time-varying zero-block action laws reduce to an average law.
+3. Keep the lemma local: it does not prove composition over arbitrary known paths or any raw-tail characterization.

@@ -1,0 +1,83 @@
+## Summary
+
+The explorer’s main solvency lemma is worth keeping: with the right delayed-advantage filtration, the invariant really does give $A_T\ge -B$. But the report does not settle the two-arm theorem. The proposed safe-clipped delayed Hedge route has a serious depletion failure: if the solvency budget is spent to zero, observed but unplayed positive advantages do not replenish the budget, so the algorithm can get stuck and suffer linear slow regret.
+
+The strongest critique is against the algorithm sketch, not against the overall delayed-advantage target.
+
+## Issue List
+
+1. **Plausible but incomplete: Solvency lemma needs formal assumptions.**  
+   Lemma 1 is essentially correct if $D\ge1$, $q_t\in[0,1]$ is predictable from $\Delta_{u}$ for $u\le t-D$, and feedback is full-information delayed $\Delta$. The invariant should be written with
+$$
+   C_t=B+O_t-P_t.
+$$
+   Revealing pending $u$ changes $C$ by $q_u(\Delta_u+1)\ge0$, and adding $q_t\le C_t$ preserves nonnegative capacity. At the end,
+$$
+   A_T=O_{\rm end}+\sum_{\rm pending}q_u\Delta_u
+   \ge O_{\rm end}-P_{\rm end}\ge -B.
+$$
+
+2. **False claim / missing assumption: Lemma 2’s “same first $D$ decisions” is not true in the original fast/slow reward model.**  
+   If $\Delta_t=+1$, then with rewards in $[0,1]$ one can have $f_t=0,s_t=1$. If $\Delta_t=-1$, one has $f_t=1,s_t=0$. Since fast rewards are observed immediately, the learner can distinguish these worlds before slow feedback arrives.  
+   A repaired version should either work in an advantage-only feedback model, or use common fast baseline $f_t=1/2$ and $\Delta_t=\pm 1/2$, giving the same $D$-scale lower bound up to constants.
+
+3. **Fatal gap for the proposed safe-clipped Hedge rule: capacity can hit zero and never recover.**  
+   The rule
+$$
+   q_t=\min\{p_t,C_t,1\}
+$$
+   can exhaust $C_t$. Once $C_t=0$, the learner plays $q_t=0$. Positive counterfactual advantages observed later do not increase $O_t$, because $O_t$ only banks $q_u\Delta_u$, not unplayed $\Delta_u$. Thus the learner may be permanently insolvent even after overwhelming evidence that slow is better.
+
+4. **Missing assumption: full-information delayed feedback is required.**  
+   The proposal assumes $\Delta_u$ becomes known after delay $D$ regardless of whether slow was played. This matches the public-price surrogate setting, but not a bandit delayed-reward model.
+
+5. **Plausible but incomplete: delayed-Hedge decomposition leaves the whole hard part in the clipping term.**  
+   The term
+$$
+   \sum_t(p_t-q_t)\Delta_t
+$$
+   is exactly where linear loss can hide. No bound is provided, and the zero-capacity stress test shows the naive clipping term can be linear.
+
+6. **Missing assumption: guarantees are expectation-level, not realized-action pathwise guarantees.**  
+   $q_t$ is a slow-play probability. Lemma 1 proves a deterministic inequality for expected reward marginals, not for the realized Bernoulli action path unless one changes the exposure process.
+
+## Counterexamples Or Stress Tests
+
+**Budget-depletion stress test for safe clipping.**  
+Work in the delayed-advantage abstraction. Let a standard proposal have $p_t=1/2$ before any feedback, take $D>2B$, and set
+$$
+\Delta_1=\cdots=\Delta_{2B}=-1,\qquad
+\Delta_{2B+1}=\cdots=\Delta_T=+1.
+$$
+Before any feedback, the clipped rule spends $q_t=1/2$ for $2B$ rounds, so $C=0$. The later negative reveals do not restore capacity because $q(\Delta+1)=0$. From then on $q_t=0$ forever, even after positive $\Delta$’s are observed. Thus
+$$
+A_T=-B,\qquad S_T\approx T-4B,
+$$
+so slow regret $S_T-A_T$ is linear. This does not refute all solvency-based algorithms, but it breaks the proposed `min(p,C,1)` clipping scheme.
+
+**Immediate-fast-reward stress test for Lemma 2.**  
+The all-$+1$ and all-$-1$ advantage sequences need not be indistinguishable for $D$ rounds if $f_t$ is observed immediately. Use $\Delta=\pm1/2$ with $f_t\equiv1/2$ to make the lower-bound point safely.
+
+**Bait-and-switch remains unresolved.**  
+After a long positive observed prefix, a hidden length-$D$ negative block attacks any rule that raises exposure from evidence rather than banked advantage. Lemma 1 handles fast safety, but the slow-capture proof still has to quantify the resulting missed positive exposure.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict with the local literature notes. The notes already say standard delayed Hedge gives max-delay or total-delay style bounds, not comparator-specific delay bounds. So Joulani-Gyorgy-Szepesvari-style delayed feedback results should not be cited as proving the needed two-arm theorem without an additional argument.
+
+The coin-betting/wealth-wrapper idea is plausible, but currently unsupported in the local record.
+
+## What Survives The Critique
+
+- The algebraic reduction $R_F=-A_T$, $R_S=S_T-A_T$ survives.
+- The solvency invariant is a useful fast-safety mechanism.
+- A $D$-scale slow-regret term is genuinely unavoidable, after fixing Lemma 2’s feedback-model issue.
+- The delayed-advantage game remains the right minimal test for comparator-specific heterogeneous delays.
+
+## Recommended Next Checks
+
+1. Formalize the exact feedback model: advantage-only delayed feedback versus immediate $f_t$ plus delayed $s_t$.
+2. Write Lemma 1 as a rigorous invariant proof.
+3. Test the safe-clipped rule on the depletion sequence above; if it fails, discard exact clipping.
+4. Try a reserve or fractional wealth rule, e.g. $q_t\le \alpha C_t$, and quantify ramp-up after positive evidence.
+5. Prove a clipping/wealth lower bound on $S_T-A_T$, or construct a stronger adversarial sequence showing the desired two-arm theorem is false.

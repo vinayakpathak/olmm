@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+real_codex="/Users/vinayakpathak/.nvm/versions/node/v24.14.1/bin/codex"
+
+top_args=()
+rest_args=()
+approval=""
+
+if [[ "$#" -eq 0 ]]; then
+  exec "$real_codex"
+fi
+
+args=("$@")
+i=0
+found_exec=0
+
+while [[ "$i" -lt "$#" ]]; do
+  arg="${args[$i]}"
+  if [[ "$arg" == "exec" ]]; then
+    found_exec=1
+    i=$((i + 1))
+    break
+  fi
+  top_args+=("$arg")
+  i=$((i + 1))
+done
+
+if [[ "$found_exec" -eq 0 ]]; then
+  exec "$real_codex" "$@"
+fi
+
+while [[ "$i" -lt "$#" ]]; do
+  arg="${args[$i]}"
+  case "$arg" in
+    -a|--ask-for-approval)
+      i=$((i + 1))
+      if [[ "$i" -lt "$#" ]]; then
+        approval="${args[$i]}"
+      fi
+      ;;
+    --ask-for-approval=*)
+      approval="${arg#--ask-for-approval=}"
+      ;;
+    *)
+      rest_args+=("$arg")
+      ;;
+  esac
+  i=$((i + 1))
+done
+
+if [[ -n "$approval" ]]; then
+  exec "$real_codex" "${top_args[@]}" -a "$approval" exec "${rest_args[@]}"
+fi
+
+exec "$real_codex" "${top_args[@]}" exec "${rest_args[@]}"

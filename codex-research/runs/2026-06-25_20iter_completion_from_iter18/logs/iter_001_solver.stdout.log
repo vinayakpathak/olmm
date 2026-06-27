@@ -1,0 +1,90 @@
+## Verdict
+
+SOLVED: yes, as a refutation of the stated “only if” direction under the literal per-process reading.
+
+## Candidate Solution Or Main Attempt
+
+The “if” direction in `problem.md` is essentially sound: discretize to \(K\) arms, truncate rewards after \(H\), run a full-information delayed expert algorithm, and pay
+\[
+O(\sqrt{T H\log K})+\frac{T}{K}+T\beta(H).
+\]
+Taking \(K=T\) and any \(H(T)\to\infty\) with \(H(T)\log T=o(T)\), for example \(H(T)=\lfloor \sqrt{T/\log(eT)}\rfloor\), gives \(o(T)\) regret when \(\beta(H)\to0\).
+
+But the converse is false as stated. Define \(s_n=2^n\), let \(U_n\sim \mathrm{Unif}(0,1)\) independently, and set
+\[
+P_t=
+\begin{cases}
+U_n/2^n, & t=2^n,\\
+0, & \text{otherwise.}
+\end{cases}
+\]
+Then for action \(a=0\), after time \(t=s_n\), the next positive price is at \(s_{n+1}\) almost surely. Hence for every \(h\), choosing \(n\) with \(2^n>h\) gives
+\[
+\Pr[h<\tau_{s_n}(0)<\infty\mid P_1,\dots,P_{s_n}]=1,
+\]
+so \(\beta(h)=1\) for all \(h\). Assumption 1 fails maximally.
+
+Nevertheless, the learner that always posts \(a_t=0\) has regret at most \(1\) for every horizon \(T\). For any fixed \(a>0\), a future spike at \(s_m\) can exceed \(a\) only if \(a<1/s_m\). Let
+\[
+m^*=\max\{m:s_m\le T,\ a<1/s_m\}.
+\]
+If no such \(m^*\) exists, the comparator reward is zero. Otherwise only times \(t<s_{m^*}\) can possibly earn reward, so
+\[
+\mathbb E\sum_{t=1}^T r_t(a)
+\le a\,s_{m^*}<1.
+\]
+For \(a=0\), the reward is zero. Thus
+\[
+\max_{a\in[0,1]}\mathbb E\sum_{t=1}^T r_t(a)\le 1,
+\]
+while the always-zero learner earns \(0\). Regret is \(O(1)=o(T)\), despite \(\beta(h)\not\to0\).
+
+The expected comparator objective is continuous here because it is a finite sum of terms of the form
+\[
+a\Pr\left[\max_{m:t<s_m\le T} U_m/s_m>a\right],
+\]
+so the stated `max` exists, not merely a supremum.
+
+## Concrete Lemmas Or Reductions
+
+1. Sufficient condition can be weakened to a weighted tail:
+\[
+\gamma(h):=\sup_t\sup_a\operatorname*{ess\,sup}_{P_{1:t}}
+a\,\Pr[h<\tau_t(a)<\infty\mid P_{1:t}].
+\]
+The truncation proof only needs \(a\Pr[h<\tau_t(a)<\infty]\), not the unweighted probability. Thus \(\gamma(h)\to0\) suffices.
+
+2. The counterexample has \(\beta(h)=1\) but effectively \(\gamma(h)\to0\), because long-delayed trades only occur at vanishing price scales.
+
+3. The delayed-learning reduction should be stated for full-information reward vectors revealed after at most \(H\) rounds.
+
+## Gaps And Failure Points
+
+The current “only if” target is too strong. Unweighted delay tails can be caused by actions with negligible payoff, especially \(a=0\), and such tails need not create regret.
+
+A lower bound would need a tail event tied to an action with linear-scale comparator value, not merely a long finite hitting time.
+
+## Counterexamples Or Obstructions
+
+The sparse-vanishing-spike construction above is the main obstruction. It shows that uniform conditional tail decay is not necessary for sublinear regret.
+
+## Literature And Bibliography Candidates
+
+- Pooria Joulani, András György, Csaba Szepesvári, “Online Learning under Delayed Feedback,” ICML 2013 / PMLR, arXiv:1306.0686. Relevant for black-box delayed online-learning reductions. https://proceedings.mlr.press/v28/joulani13.html
+- Kent Quanrud, Daniel Khashabi, “Online Learning with Adversarial Delays,” NeurIPS 2015. Relevant for regret bounds in terms of total delay. https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html
+- Marcelo J. Weinberger, Erik Ordentlich, “On delayed prediction of individual sequences,” IEEE Transactions on Information Theory 48(7):1959–1976, 2002. Foundational fixed-delay prediction reference. https://ieeexplore.ieee.org/iel5/18/21818/01013136.pdf
+
+## Promising Ideas To Explore
+
+Replace \(\beta\) by a payoff-weighted or comparator-weighted tail condition. A natural candidate is \(\gamma(h)\to0\), or the horizon-level condition
+\[
+\sup_a \frac1T\sum_{t=1}^T
+\mathbb E\bigl[a\,\mathbf 1\{H(T)<\tau_t(a)<\infty\}\bigr]\to0
+\]
+for some \(H(T)=o(T/\log T)\).
+
+For necessity, search for a condition that excludes “vanishing spike” examples and rare irrelevant histories.
+
+## Notes For Critics
+
+The counterexample assumes the conjecture is meant per process. If the intended statement is minimax over a class of processes, the quantifiers need to be restated before proving or refuting necessity.

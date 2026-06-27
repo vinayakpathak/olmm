@@ -1,0 +1,86 @@
+## Summary
+
+The explorer found a genuinely useful reformulation: nested truncation windows have more structure than arbitrary heterogeneous-delay experts. However, the claimed “proved” adaptive-truncation reduction is only valid after fixing a major value-convention ambiguity. As written, \(V_m^G=\max_b\sum_t g_t^m(b)\) is pathwise, while the project’s \(\delta_T^P(H)\) is an expected fixed-comparator gap. Those are not interchangeable.
+
+So this is worth pursuing, but it is not yet a proof of a tail-adaptive upper bound.
+
+## Issue List
+
+- **Fatal gap: pathwise vs expected comparator values.**  
+  If \(V_m^G\) is pathwise, the oracle gives a charge involving
+  \[
+  \mathbb E[V_M^G(\omega)-V_m^G(\omega)],
+  \]
+  not \(\delta_T^P(H_m)=V_T^P-V_{T,H_m}^P\). The former can be much larger than the latter. If \(V_m^G\) is instead meant as \(\max_b \mathbb E\sum_t g_t^m(b)\), then the reduction is algebraically plausible, but the proposed online oracle is no longer the usual pathwise expert-regret guarantee and needs a new proof.
+
+- **False as written: increment formula misses the horizon cutoff.**  
+  The report writes
+  \[
+  z_t^m(b)=b{\bf 1}\{H_{m-1}<\tau_t(b)\le H_m\}.
+  \]
+  For finite-horizon regret it should be
+  \[
+  z_t^m(b)
+  =
+  b{\bf 1}\{H_{m-1}<\tau_t(b)\le H_m,\ \tau_t(b)\le T-t\},
+  \]
+  or equivalently use a horizon-censored hitting time. Otherwise post-horizon hits are counted as rewards.
+
+- **Plausible but incomplete: the nested oracle is unproved.**  
+  The target
+  \[
+  V_m^G-\mathbb E L^m(A)
+  \le B_m+c(V_M^G-V_m^G)
+  \]
+  is a good replacement for the generic heterogeneous-delay lemma, but no algorithm is shown to satisfy it. The promotion and event-driven Hedge sketches still risk reverting to max-delay behavior.
+
+- **Missing assumption: exogenous full-information reconstruction.**  
+  The whole increment-feedback picture requires public exogenous prices so all counterfactual \(r_t^H(b)\) are reconstructible. It fails in action-dependent price models.
+
+- **Plausible but incomplete: value-gap charge may not control learning dynamics.**  
+  Late bonuses can be dispersed over many non-comparator quotes. Such bonuses may strongly perturb Hedge-like updates while adding little to \(V_M^G-V_m^G\), since no single fixed quote captures them. This is not a formal impossibility, but it is a serious stress test for event-driven Hedge.
+
+- **Missing discretization accounting.**  
+  Even under the expected-value convention, the relation between grid gaps and continuum \(\delta_T^P(H)\) needs an explicit \(O(T/K)\) term:
+  \[
+  V_M^G-V_m^G \le \delta_T^P(H_m)+O(T/K).
+  \]
+
+## Counterexamples Or Stress Tests
+
+- **Horizon cutoff test.**  
+  Let \(t\) be near \(T\), no price exceeds \(b\) before \(T\), but a post-horizon price does. The explorer’s \(z_t^m\) counts this as a late increment if \(\tau_t(b)\le H_m\), but the market reward is zero.
+
+- **Pathwise charge vs expected \(\delta\).**  
+  Take a one-terminal-price example with \(H=0\). Pathwise, the full-window best quote is roughly the realized terminal price. In expectation, the best fixed quote is only the posted-price revenue \(\sup_b b\Pr(Y>b)\). For equal-revenue-type terminal distributions, \(\mathbb E[\max_b b{\bf 1}\{Y>b\}]\) can exceed \(\sup_b b\Pr(Y>b)\) by logarithmic factors. Thus a pathwise \(V_M-V_H\) charge is not controlled by expected \(\delta(H)\).
+
+- **Decoy late-bonus test.**  
+  Construct nested rewards where the short window has a stable best quote, while many other quotes receive delayed bonuses on disjoint rounds. Total late update mass is large, but \(V_M-V_H\) is small because no one quote accumulates much value. Event-driven Hedge may chase these bonuses unless the proof has a mechanism preventing it.
+
+- **Two-window quote-switching test.**  
+  Short window favors quote \(b_1\); long window favors quote \(b_2\). Simultaneous no-regret without a value-improvement charge is indeed too strong. The explorer’s relaxed charge is the right kind of fix, but the necessary constant \(c\) and budget \(B_m\) remain unproved.
+
+## Literature Or Known-Result Conflicts
+
+No unsupported external citation issue: the explorer did not rely on external sources.
+
+The report is consistent with the local literature map: standard delayed Hedge/residue arguments prove fixed-\(H\) bounds, and max-delay delayed experts do not give comparator-window adaptation. The new nested oracle is not supplied by any accepted known result in the notes.
+
+## What Survives The Critique
+
+- The nested increment decomposition survives after adding the finite-horizon cutoff.
+- The relaxed oracle target is a better goal than generic comparator-specific heterogeneous delays.
+- The reduction is salvageable if \(V_m^G\) is defined as an expected grid comparator value and the oracle is stated in that same expected sense.
+- Value-increment based model selection is worth pursuing, but promotion must handle nonmonotone empirical value gaps and delayed/censored observations.
+
+## Recommended Next Checks
+
+1. Rewrite the oracle with a single convention: pathwise \(V_m(\omega)\) or expected \(V_m(P)\). Do not mix them.
+
+2. If using pathwise values, replace \(\delta_T^P(H)\) by the stronger charge \(\mathbb E[V_M(\omega)-V_m(\omega)]\), then test whether that quantity is useful.
+
+3. If using expected values, prove an actual online algorithm can satisfy the expected nested oracle without knowing the law.
+
+4. Correct the increment formula with horizon censoring.
+
+5. Test the oracle on finite two-window, two- or three-quote adversarial nested reward tables before returning to the full market structure.

@@ -1,0 +1,65 @@
+## Summary
+
+I do not see a counterexample to the corrected finite-\(\Theta\), finite-grid, randomized-policy identity under public exogenous prices. The explorer’s route is basically sound, but several claims are still proof obligations rather than established facts. The strongest correction is that compactness of the attainable reward set \(C\) is probably not the main obstacle: since \(C\subset[0,T]^\Theta\) is bounded and convex, one can apply minimax to \(\overline C\), and continuity preserves both the infimum and support functions.
+
+## Issue List
+
+1. **Plausible but incomplete: public-prefix reduction.**  
+   The claim that arbitrary randomized policies reduce to kernels \(q_t(\cdot\mid P_{1:t})\) needs a formal proof. It must handle private randomness, past actions, and revealed trade events. This is true only because prices are public and exogenous, and because expected reward is additive with \(r_t\) depending only on \(a_t\) and the price path.
+
+2. **Missing assumption: exact model restrictions.**  
+   The identity needs finite horizon, finite \(\Theta\), finite quote grid \(G\), randomized measurable policies, public exogenous prices, and grid-restricted comparator \(V_\theta^G\). It fails or becomes unproved if any of these are silently relaxed.
+
+3. **Plausible but incomplete: compactness of \(C\).**  
+   If the paper claims \(C\) itself is compact, the weak-* kernel argument from idea_01 must be written carefully. But exact compactness can likely be bypassed: use \(\overline C\subset\mathbb R^\Theta\). Since \(x\mapsto \max_\theta(V_\theta-x_\theta)\) and linear support functions are continuous,
+   \[
+   \inf_C=\inf_{\overline C},\qquad \sup_C\langle \pi,x\rangle=\sup_{\overline C}\langle \pi,x\rangle.
+   \]
+
+4. **Missing assumption: support-function identification.**  
+   The step
+   \[
+   \sup_{x\in C}\sum_\theta\pi_\theta x_\theta
+   =
+   \sum_t \mathbb E_{\bar P_\pi}\max_{a\in G}a\,\bar P_\pi(M_t>a\mid P_{1:t})
+   \]
+   depends exactly on the accepted finite-grid Bayes-myopic lemma. The policy class used to define \(C\) must match the policy class in that lemma.
+
+5. **Unsupported citation if used as black box.**  
+   Wald/Arrow-Blackwell-Girshick are background, not a direct shortcut unless their hypotheses are stated and checked. Sion is enough after reduction to finite-dimensional \(\overline C\), but should be cited only for that reduced bilinear minimax step.
+
+6. **Missing convention: signed regret.**  
+   The minimax identity is for signed regret \(V_\theta^G-L_\theta(q)\), which can be negative. This is fine for the identity, but asymptotic “sublinear regret” statements need an upper-regret or positive-part convention.
+
+## Counterexamples Or Stress Tests
+
+- Deterministic policies are insufficient; the earlier two-world \(G=\{0.5,0.9\}\) example still forces randomized kernels.
+- Continuum values cannot enter the finite-grid theorem; the \(T=2\), \(P_2=3/4\), \(G=\{0,1/2\}\) stress test breaks exact equality if \(V_\theta\) is not grid-restricted.
+- Strict thresholds cause nonattainment in continuum actions, so later continuum extensions need \(\sup\) and discretization errors.
+- Action-dependent prices break the public-prefix reduction and the counterfactual reward-vector interpretation.
+
+## Literature Or Known-Result Conflicts
+
+No conflict with Sion/von Neumann once the problem is reduced to a compact convex subset of \(\mathbb R^\Theta\). The conflict is with using broad sequential-decision citations as if they automatically handle this model’s nonanticipativity, measurability, and policy-space topology.
+
+## What Survives The Critique
+
+The finite-grid minimax identity remains worth pursuing and likely true under the corrected assumptions. The explorer’s reward-set formulation is the right shape:
+\[
+\inf_A\sup_\theta R_\theta^G(A)
+=
+\sup_{\pi\in\Delta(\Theta)}
+\left[
+\sum_\theta\pi_\theta V_\theta^G
+-
+\sup_{x\in C}\sum_\theta\pi_\theta x_\theta
+\right].
+\]
+The accepted Bayes-myopic lemma should then identify the support term with \(\Psi_G(\pi)\).
+
+## Recommended Next Checks
+
+1. Prove the public-prefix reduction as a standalone lemma.
+2. Use \(\overline C\) to avoid unnecessary compactness burden, or fully write the weak-* proof if compact \(C\) is claimed.
+3. State the theorem only for finite \(\Theta\), finite \(G\), randomized policies, public exogenous prices, and \(V_\theta^G\).
+4. Keep continuum approximation separate with explicit \(O(T/K)\) errors.

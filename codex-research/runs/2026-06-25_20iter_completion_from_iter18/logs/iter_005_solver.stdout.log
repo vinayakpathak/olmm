@@ -1,0 +1,97 @@
+## Verdict
+
+SOLVED: no
+
+The original iff is false as a characterization. The “if” direction is provable under explicit public/exogenous full-information assumptions, but the “only if” direction fails under the literal instance-wise pseudo-regret reading. No replacement necessary-and-sufficient tail condition is proved.
+
+## Candidate Solution Or Main Attempt
+
+The cleanest current resolution is:
+
+1. Sufficiency: if \(\beta(h)\to0\), then delayed truncation plus a grid full-information expert algorithm gives sublinear regret, assuming exogenous public prices and counterfactual truncated grid rewards are observable after \(H\) rounds.
+
+2. Necessity: false. Sparse vanishing spikes have \(\beta(h)=1\) for every \(h\), while the always-zero learner has \(O(1)\) regret.
+
+For sufficiency, with grid size \(K\) and truncation \(H\),
+\[
+R_T \lesssim \sqrt{T(H+1)\log K}+T/K+T\beta(H).
+\]
+Taking \(K=T\) and any \(H_T\to\infty\) with \(H_T\log T=o(T)\), e.g.
+\[
+H_T=\left\lfloor\sqrt{T/\log T}\right\rfloor,
+\]
+gives \(R_T=o(T)\) when \(\beta(H_T)\to0\).
+
+For the counterexample, let \(s_n=2^n\), \(P_{s_n}=U_n/s_n\) with iid \(U_n\sim{\rm Unif}(0,1)\), and \(P_t=0\) otherwise. For any \(h\), choose \(n\) with \(2^n>h\). At time \(s_n\), quote \(a=0\) waits until \(s_{n+1}\), so
+\[
+\Pr(h<\tau_{s_n}(0)<\infty\mid P_1,\dots,P_{s_n})=1.
+\]
+Thus \(\beta(h)=1\) for all \(h\). But for any fixed \(a>0\), only spikes with height upper bound \(1/s_m>a\) can ever cross \(a\). If \(m^\star\) is the last such spike before \(T\), at most \(s_{m^\star}\) posted quotes can earn and each earns \(a\), so the fixed-action value is \(<a s_{m^\star}<1\). Hence \(\sup_a V_T(a)\le1\), and always posting \(0\) has regret at most \(1\).
+
+## Concrete Lemmas Or Reductions
+
+**General two-threshold block lemma.**  
+For \(0<c_0<c_1\le1\), consider a zero block of length \(N\), followed either by terminal price \(c_0\) or by terminal price \(c_1\). For any learner whose first \(N\) actions have the same law under the two continuations,
+\[
+\max\{R_{c_0},R_{c_1}\}
+\ge
+N\,\frac{c_0(c_1-c_0)}{c_1},
+\]
+with regret against suprema. The choice \(c_0=1/2,c_1=1\) gives \(N/4\).
+
+Proof sketch: let
+\[
+X=\mathbb E\sum_{t\le N}A_t1\{A_t<c_0\},\qquad
+Y=\mathbb E\sum_{t\le N}A_t1\{A_t<c_1\}.
+\]
+For each action,
+\[
+\frac{a1\{a<c_0\}}{c_0}
++
+\frac{a1\{c_0\le a<c_1\}}{c_1}
+\le1,
+\]
+so
+\[
+X/c_0+(Y-X)/c_1\le N.
+\]
+Writing \(R_0=Nc_0-X\) and \(R_1=Nc_1-Y\), this constraint implies
+\[
+\max\{R_0,R_1\}\ge N\,\frac{c_0(c_1-c_0)}{c_1}.
+\]
+
+This unifies the finite two-continuation lower bound and the same-path two-horizon obstruction. It also explains why \(1/2,1\) is the optimal normalized pair: the coefficient is maximized at \(1/4\).
+
+## Gaps And Failure Points
+
+The main gap is still quantifiers. Under process- and horizon-aware pseudo-regret, every exogenous process is trivially learnable by playing a horizon-optimal fixed quote. Under universal/process-unaware or horizon-oblivious quantifiers, block lower bounds are real, but they prove prefix incompatibility rather than raw tail necessity.
+
+The sufficiency theorem also needs its assumptions stated: public exogenous prices, full-information counterfactual truncated rewards on the grid, bounded rewards, and `sup` comparator. Without these, the delayed-expert reduction is not automatically valid.
+
+## Counterexamples Or Obstructions
+
+The decisive obstruction is sparse vanishing spikes: \(\beta\equiv1\) but \(O(1)\) regret.
+
+Other accepted obstructions remain important: coded delays refute instance-wise \(\gamma\)-necessity; predictable sparse spikes weaken \(\Delta_T\)-necessity; and horizon/process-aware oracle policies make every exogenous pseudo-regret instance learnable.
+
+## Literature And Bibliography Candidates
+
+No direct known characterization surfaced.
+
+Useful adjacent sources checked:
+
+- Dirk van der Hoeven and Nicolò Cesa-Bianchi, “Nonstochastic Bandits and Experts with Arm-Dependent Delays,” AISTATS 2022, https://proceedings.mlr.press/v151/van-der-hoeven22a.html. Already in notes; supports arm-dependent delayed expert framing.
+- Junzhe Jiang, Chang Yang, Xinrun Wang, Zhiming Li, Xiao Huang, Bo Li, “Resolving Latency and Inventory Risk in Market Making with Reinforcement Learning,” arXiv:2505.12465, https://arxiv.org/abs/2505.12465. Adjacent latency/market-making source, not a regret characterization.
+- Jérôme Dugast, Thomas Marta, Fabrice Riva, “Market Depth and Execution Delays,” SSRN 2026, DOI: 10.2139/ssrn.6440898, https://ssrn.com/abstract=6440898. Adjacent limit-order execution-delay economics, not directly online learning.
+
+## Promising Ideas To Explore
+
+Define a prefix-incompatibility modulus rather than a tail modulus. It should be large on \(0^N,1/2,1\) blocks, small on sparse vanishing spikes, and tied to simultaneous approximation of multiple horizon-optimal fixed quotes.
+
+A second route is adaptive truncation/skipping: replace \(T\beta(H)\) by skipped payoff mass, outstanding observations, or comparator-level truncation gaps \(\Gamma_T(H)\).
+
+## Notes For Critics
+
+Check strict-threshold issues carefully; all comparator statements should use \(\sup\) or \(\eta\)-comparators.
+
+The two-threshold lemma above is the one new reusable proof component from this pass. Critics should verify the aggregate inequality and the lift to concatenated blocks with old-reward cap \(M_i\).

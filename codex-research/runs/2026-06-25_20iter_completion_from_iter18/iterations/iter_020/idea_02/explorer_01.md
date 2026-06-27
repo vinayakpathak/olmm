@@ -1,0 +1,125 @@
+## Summary
+
+The idea works in a qualified form. For strictly increasing lows and a fixed zero-pressure active index \(k\), the exactness certificate reduces to:
+
+1. a scalar final-debt check, and
+2. an ordinary ordered max-flow/Hall feasibility test for segment capacities.
+
+The weighted final-high debt prevents a completely generic Hall theorem for the full CL-049 LP, but for the solver’s fixed-\(k\) zero-pressure certificate the monotone low levels make the minimum-debt coverage vector canonical.
+
+## Concrete Progress
+
+Assume
+\[
+0<\ell_1<\cdots<\ell_r<h,\qquad Z=Z_k.
+\]
+For a target value \(Z\), define cumulative low demand
+\[
+C_t=(S_t-Z)_+,\qquad C_0=0,\qquad \Delta_t=C_t-C_{t-1}.
+\]
+
+A zero-pressure certificate supported on
+\[
+x_{i,j}>0\Rightarrow j\ge \max\{k,i+1\}
+\]
+is feasible only if no positive demand appears before \(k\):
+\[
+C_{k-1}=0.
+\]
+
+The canonical level masses are
+\[
+y_j=\frac{\Delta_j}{\ell_j},\qquad j\ge k.
+\]
+Then segment allocation is a max-flow instance:
+
+- source to segment \(i\), capacity \(B_i\);
+- segment \(i\) to level \(j\), infinite capacity if \(j\ge \max\{k,i+1\}\);
+- level \(j\) to sink, demand \(y_j\).
+
+Because the neighbor sets are nested, max-flow feasibility is equivalent to the prefix Hall inequalities
+\[
+\sum_{j=k}^t \frac{\Delta_j}{\ell_j}
+\le
+\sum_{i=0}^{t-1}B_i,
+\qquad t=k,\ldots,r.
+\]
+
+The remaining scalar condition is
+\[
+\sum_{j=k}^r (h-\ell_j)\frac{\Delta_j}{\ell_j}\le Z.
+\]
+When \(Z=Z_k\) and the intended active crossing satisfies \(S_{k-1}\le Z\le S_k\), this debt inequality is tight by the definition of \(Z_k\).
+
+## Claims Or Lemmas
+
+**Candidate Lemma: Fixed-\(k\) Zero-Pressure Flow Certificate.**  
+In the strictly increasing one-drought CL-049 LP, fix \(k\) and \(Z=Z_k\). If \(C_{k-1}=0\), the prefix Hall inequalities above hold, and the scalar debt inequality holds, then \(D_n=Z\).
+
+**Candidate Converse.**  
+Within the support class \(j\ge\max\{k,i+1\}\), these conditions are also necessary. Any feasible certificate can be transformed to the latest-increment vector \(y_j=\Delta_j/\ell_j\), which weakly reduces both prefix mass usage and final debt because \(\ell_j\) is increasing.
+
+## Proof Attempts
+
+The lower bound \(D_n\ge Z_k\) is the solver’s zero-pressure dual.
+
+For the upper bound, take a max-flow saturating all level demands \(y_j\), and set \(x_{i,j}\) equal to that flow. Then for each low horizon \(t\),
+\[
+\sum_{i<t}\sum_{j\le t}\ell_j x_{i,j}
+=
+\sum_{j\le t}\ell_j y_j
+=
+C_t,
+\]
+so every low deficit is at most \(Z\). The scalar debt inequality makes the final-high deficit at most \(Z\). Hence the primal value is at most \(Z\), matching the dual.
+
+The min-cut obstruction is explicit: the first failed cut is
+\[
+t_*=\min\left\{t\ge k:
+\sum_{j=k}^t\frac{\Delta_j}{\ell_j}>
+\sum_{i=0}^{t-1}B_i
+\right\}.
+\]
+This is exactly the “first capacity obstruction” the idea was looking for.
+
+## Gaps And Risks
+
+This is not yet a full pooling or active-set algorithm. If a prefix cut fails, the true value exceeds \(Z_k\), but the general formula for the increment is still open.
+
+The result uses strict monotonicity of lows. Nonmonotone or duplicate lows break the simple relation \(m_{i,t}=\ell_t\), so the neighbor sets are no longer this clean.
+
+The weighted final-debt constraint is only harmless after reducing to the canonical latest-increment vector. For arbitrary supports or positive-pressure active sets, it likely requires min-cost or parametric-flow machinery rather than pure Hall inequalities.
+
+## Counterexamples Or Obstructions
+
+The two-low \(p<q\) third branch is the basic capacity obstruction. The zero-pressure certificate fails exactly when
+\[
+\frac{S_1-Z_1}{p}>B_0,
+\]
+and the value jumps to the accepted branch \(S_1-pB_0\).
+
+The three-low \(291/100\) example is not an obstruction to this fixed-\(k\) flow certificate; it is actually explained by it with \(k=2\). It remains an obstruction to irreversible left-to-right adjacent merging.
+
+## Sources Consulted
+
+Local run files: `problem.md`, all requested `working_notes/*`, `iterations/iter_020/idea_02/idea.md`, and `iterations/iter_020/solver_attempt.md`.
+
+External proof-technology sources checked:
+
+- Gallo, Grigoriadis, Tarjan, “A Fast Parametric Maximum Flow Algorithm and Applications,” SIAM J. Comput. 1989: https://doi.org/10.1137/0218003
+- Picard, Queyranne, “On the structure of all minimum cuts in a network and applications,” Mathematical Programming 1982: https://doi.org/10.1007/BF01581031
+- Fulkerson, “A Network-Flow Feasibility Theorem and Combinatorial Applications,” Canadian Journal of Mathematics 1959, pp. 440-451, via Cambridge metadata.
+
+## Bibliography Candidates
+
+- Giorgio Gallo, Michael D. Grigoriadis, Robert E. Tarjan. “A Fast Parametric Maximum Flow Algorithm and Applications.” *SIAM Journal on Computing* 18(1):30-55, 1989. https://doi.org/10.1137/0218003. Relevant if positive-pressure active sets become a parametric cut sweep.
+
+- Jean-Claude Picard, Maurice Queyranne. “On the structure of all minimum cuts in a network and applications.” *Mathematical Programming* 22:121, 1982. https://doi.org/10.1007/BF01581031. Relevant for representing all violated cuts or active cut lattices.
+
+- D. R. Fulkerson. “A Network-Flow Feasibility Theorem and Combinatorial Applications.” *Canadian Journal of Mathematics* 11:440-451, 1959. Relevant background for cut-characterized feasibility with lower/upper bounds.
+
+## Recommended Next Steps
+
+1. Formalize the fixed-\(k\) flow lemma above as a candidate LB after critic review.
+2. Test it against all increasing-low rational certificates, especially capacity-saturated cases.
+3. When the first Hall cut fails, derive the residual positive-pressure LP; this is the natural bridge to idea_03.

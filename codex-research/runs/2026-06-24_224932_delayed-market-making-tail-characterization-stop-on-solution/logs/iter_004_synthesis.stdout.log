@@ -1,0 +1,22 @@
+## Accepted Progress
+- Accepted finite-grid fixed-prior Bayes myopic optimality under public exogenous prices.
+- Kept prior accepted results intact: known-law oracle, \(\delta_T(H)\) upper bound, posterior Bayes-gap lower certificate, and hidden-terminal/\(q\)-scaled atoms.
+
+## Candidate Routes
+- Prove the corrected finite-\(\Theta\), finite-grid \(G\), randomized-policy minimax identity.
+- Then separately prove the grid-to-continuum approximation with explicit \(O(T/K)\) errors.
+- Continue multi-scale or limited-leakage lower-bound work for matching power-tail rates.
+
+## Refuted Or Weakened Claims
+- Rejected the solver’s exact continuum \(\sup_\pi\Psi_T(\pi)\) characterization as unproved and grid/continuum-mismatched.
+- Recorded that randomized policies are required for minimax/Bayes identities.
+- Recorded that regret can be negative, so final learnability statements need an upper-regret or positive-part convention.
+
+## Working Notes Updated
+Updated `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+1. Prove or refute the corrected finite-grid minimax identity.
+2. Write the Bayes myopic lemma in final notation.
+3. Track continuum discretization errors carefully.
+4. Keep tail-rate lower bounds separate from the Bayes-value characterization.

@@ -1,0 +1,136 @@
+## Summary
+
+The corrected finite-$\Theta$, finite-grid identity looks provable under the intended assumptions: finite horizon, finite law class, finite quote grid, public exogenous prices, randomized policies, and grid-restricted comparator. I found no counterexample to the finite-grid identity.
+
+The best proof strategy is to make the policy-kernel compactness argument explicit, then reduce the minimax step to a compact convex reward-vector set in finite-dimensional $\mathbb R^\Theta$. That avoids leaning too heavily on an under-specified infinite-dimensional Sion invocation.
+
+## Concrete Progress
+
+A referee-ready route should split the solver’s sketch into four lemmas:
+
+1. Public-prefix reduction: every randomized policy is reward-equivalent to kernels
+$$
+   q_t(\cdot\mid P_{1:t})\in\Delta(G).
+$$
+   Past actions and private randomness only affect the marginal distribution of $a_t$ given the public prefix; since prices are exogenous, correlations across time do not matter for expected total reward.
+
+2. Compact kernel space: with
+$$
+   \mu_t=\sum_{\theta\in\Theta}\operatorname{Law}_\theta(P_{1:t}),
+$$
+   define $Q\subset \prod_{t,a}L^\infty(\mu_t)$ by $q_{t,a}\ge0$, $\sum_a q_{t,a}=1$. This set is convex and weak-* compact.
+
+3. Continuous reward map:
+$$
+   L_\theta(q)=\sum_{t,a}\int q_{t,a}(h)\,g_{\theta,t,a}(h)\,d\mu_t(h),
+$$
+   where
+$$
+   g_{\theta,t,a}(h)
+   =
+   \frac{d\nu_{\theta,t}}{d\mu_t}(h)\,
+   a\,\Pr_\theta(M_t>a\mid P_{1:t}=h).
+$$
+   Since $g_{\theta,t,a}\in L^1(\mu_t)$, $L_\theta$ is weak-* continuous affine.
+
+4. Finite-dimensional minimax: let
+$$
+   C=\{(L_\theta(q))_{\theta\in\Theta}:q\in Q\}\subset\mathbb R^\Theta.
+$$
+   Then $C$ is compact convex, and
+$$
+   \inf_{x\in C}\max_\theta(V_\theta^G-x_\theta)
+   =
+   \sup_{\pi\in\Delta(\Theta)}
+   \left(\sum_\theta\pi_\theta V_\theta^G-\sup_{x\in C}\sum_\theta\pi_\theta x_\theta\right).
+$$
+   The last supremum over $x\in C$ is exactly the fixed-prior Bayes reward, already identified by the myopic lemma.
+
+## Claims Or Lemmas
+
+**Claim 1: finite-grid identity is plausible/provable.**
+
+Under the above assumptions,
+$$
+\mathcal R_G(\Theta,T)
+=
+\sup_{\pi\in\Delta(\Theta)}\Psi_G(\pi).
+$$
+
+**Claim 2: the weak-* proof can be repaired.**
+
+The missing details are standard but must be written: weak-* closedness of positivity/simplex constraints, domination of each prefix law by $\mu_t$, and $L^1$-representation of expected rewards.
+
+**Claim 3: continuum comparison should be separate.**
+
+The bound
+$$
+|\mathcal R_{[0,1]}-\mathcal R_{G_K}|\le T/K
+$$
+is likely true by downward rounding, but it should be proved as its own lemma, not folded into the finite-grid minimax theorem.
+
+## Proof Attempts
+
+The clean proof is:
+$$
+\mathcal R_G
+=
+\inf_q \max_\theta\{V_\theta^G-L_\theta(q)\}
+=
+\inf_q \max_{\pi\in\Delta(\Theta)}
+\sum_\theta\pi_\theta(V_\theta^G-L_\theta(q)).
+$$
+
+Apply minimax after passing to the compact convex reward set $C$, yielding
+$$
+\mathcal R_G
+=
+\sup_{\pi\in\Delta(\Theta)}
+\left[
+\sum_\theta\pi_\theta V_\theta^G
+-
+\sup_q\sum_\theta\pi_\theta L_\theta(q)
+\right].
+$$
+
+Then use fixed-prior Bayes myopic optimality:
+$$
+\sup_q\sum_\theta\pi_\theta L_\theta(q)
+=
+\sum_t
+\mathbb E_{\bar P_\pi}
+\max_{a\in G}
+a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+$$
+
+This gives exactly $\Psi_G(\pi)$.
+
+## Gaps And Risks
+
+The public-prefix reduction must explicitly use exogeneity. It fails in action-dependent price models.
+
+The weak-* compactness proof needs completed-measure measurability care: weak-* limits are $\mu_t$-a.e. kernel classes, so the final policy implementation needs measurable representatives.
+
+The identity may be negative, because adaptive policies can beat the best fixed quote. Asymptotic “sublinear regret” should use an upper-regret or positive-part convention.
+
+This is an exact finite-grid minimax-value characterization, not a scalar tail characterization or a matching power-tail lower bound.
+
+## Counterexamples Or Obstructions
+
+No new counterexample to the corrected finite-grid identity.
+
+Known obstructions still apply: deterministic policies are insufficient; continuum comparator values cannot be mixed into finite-grid identities; strict-threshold nonattainment requires $\sup$ in continuum statements; action-dependent prices invalidate the reduction.
+
+## Sources Consulted
+
+No web search used.
+
+Consulted local files: `problem.md`, all requested `working_notes/*.md`, `iterations/iter_005/idea_01/idea.md`, and `iterations/iter_005/solver_attempt.md`.
+
+## Recommended Next Steps
+
+Write the theorem with finite $\Theta$, finite $G$, randomized public-prefix kernels, and grid comparator only.
+
+Use the compact reward-vector set $C\subset\mathbb R^\Theta$ for the minimax step; it is cleaner than applying Sion directly to the infinite-dimensional kernel space.
+
+After that, add a separate continuum discretization lemma proving both inequalities via downward rounding.

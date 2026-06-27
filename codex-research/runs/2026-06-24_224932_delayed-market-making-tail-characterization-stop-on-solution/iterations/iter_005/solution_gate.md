@@ -1,0 +1,17 @@
+ACCEPT: no
+
+The loop should not stop. Both critics identify serious unresolved gaps in the central claimed result: the finite-grid minimax/Bayes identity still relies on an asserted compactness/Sion minimax step, without a precise policy-space topology, closedness/compactness proof, domination argument, or continuity proof for the risk map. The reduction from arbitrary randomized policies to kernels depending only on public price histories is also asserted rather than proved.
+
+The continuum approximation claim is plausible but underproved; the rounding inequality alone does not establish the stated two-sided $T/K$ comparison between continuum and grid minimax values.
+
+Remaining assumptions that would need to be made explicit and verified:
+
+- finite $\Theta$ and finite grid $G$;
+- public exogenous action-independent prices;
+- standard Borel histories and regular conditional probabilities;
+- randomized measurable policies with private randomness independent of $\theta$;
+- learner knows $T,\Theta,G$, but not the active law;
+- comparator, learner actions, and Bayes envelope are all grid-restricted in the finite theorem;
+- a precise upper-regret/positive-part convention for possible negative regret.
+
+The corrected identity remains a plausible theorem target, but not an accepted solution or stopping point.

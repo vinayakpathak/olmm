@@ -1,0 +1,89 @@
+## Verdict
+SOLVED: no
+
+Finite public-exogenous classes are essentially characterized, but the full original problem is not solved as a scalar tail characterization or with matching power-tail lower rates.
+
+## Candidate Solution Or Main Attempt
+For finite horizon-indexed public-exogenous classes $\Theta_T$, randomized policies, and $G_T=\{0,1/T,\ldots,(T-1)/T\}$, the right necessary/sufficient condition is the finite-grid Bayes predictability gap:
+$$
+\Psi_G(\pi)=
+\sum_\theta\pi_\theta V_\theta^G
+-
+\sum_{t=1}^T
+\mathbb E_{\bar P_\pi}\max_{a\in G}
+a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+$$
+The accepted theorem is
+$$
+\left|
+(\mathcal R_T^{[0,1]})_+
+-
+\left(\sup_{\pi\in\Delta(\Theta_T)}\Psi_{G_T}(\pi)\right)_+
+\right|\le 1.
+$$
+Thus, for finite classes, sublinear continuum upper regret is equivalent to
+$$
+\left(\sup_{\pi\in\Delta(\Theta_T)}\Psi_{G_T}(\pi)\right)_+=o(T).
+$$
+
+For general unknown exogenous classes, the strongest clean upper statement remains:
+$$
+R_T\lesssim \sqrt{T(H+1)\log K}+T/K+\sup_{P\in\mathcal C_T}\delta_T^P(H).
+$$
+So uniform sublinear regret follows from schedules with $(H_T+1)\log K_T=o(T)$, $T/K_T=o(T)$, and $\sup_P\delta_T^P(H_T)=o(T)$.
+
+## Concrete Lemmas Or Reductions
+A useful infinite-class candidate is the finite-subclass modulus
+$$
+\Phi_T=\sup_{\Theta_0\subset\Theta_T,\ |\Theta_0|<\infty}
+\sup_{\pi\in\Delta(\Theta_0)}\Psi_{G_T,\Theta_0}(\pi).
+$$
+Always, $\Phi_T$ gives a lower-bound certificate up to the grid error. It becomes a full characterization only under an additional no-compactness-gap assumption on the attainable reward set.
+
+New concrete separation: let $N$ satisfy $\Pr(N=n)=c4^{-n}$, $L_n=2^n$. Reveal $P_1=s_N<1/2$, then $L_N$ zeros, then one spike $P=1$, then zeros forever. For every $h$, conditioning on $P_1=s_n$ with $L_n>h$ gives $\beta(h)=1$. But
+$$
+\Delta_T(H)\le \mathbb E[(L_N+1-H)_+]=O(1/H),
+$$
+and the zero-quote learner has bounded regret. This formalizes the “rare bad histories break essential sup” obstruction.
+
+The tiny-price deterministic block example can also be strengthened: for $L_m=2^m$, $p_m=4^{-m}$, one has $\beta(h)=1$ for all finite $h$, yet
+$$
+\sup_T \Delta_T(H)=O(1/H).
+$$
+Reason: for a fixed quote $a$, if $M$ is the last spike with $p_M>a$, delayed-loss mass is at most
+$$
+a\sum_{j\le M}(L_j+1)\mathbf 1\{L_j+1>H\}
+\le p_M O(2^M)=O(2^{-M})=O(1/H).
+$$
+
+## Gaps And Failure Points
+The finite-class result is not an exact continuum $\Psi$ theorem and not an infinite-class theorem.
+
+The finite-subclass modulus may fail to be sufficient without compactness or closedness of the attainable reward set.
+
+No matching lower bound is known for power-tail envelopes. The $qD$ hidden-terminal atom is too weak.
+
+Action-dependent prices remain outside the proved upper-bound reduction.
+
+## Counterexamples Or Obstructions
+Raw $\beta(h)\to0$ is not necessary: known finite-horizon exogenous laws have $O(1)$ oracle regret.
+
+$\Delta_T(H)=o(T)$ is not necessary for known singleton laws, because long delayed rewards can be perfectly predictable.
+
+Valuable hidden delayed rewards do force regret: the $q$-scaled hidden-terminal pair gives $\Omega(qD)$ minimax regret.
+
+## Promising Ideas To Explore
+Prove a no-duality-gap theorem for natural infinite classes, turning $\Phi_T$ into a true characterization.
+
+Build multi-scale hidden-terminal families where information does not collapse after one reveal.
+
+Use the finite-grid $\Psi_G$ identity as a calculator for lower-bound constructions.
+
+Investigate whether posted-price structure improves the generic delayed-experts upper rate.
+
+## Notes For Critics
+Check the two new $O(1/H)$ truncation estimates carefully.
+
+All value-characterization claims above assume public exogenous prices, randomized policies, finite grids before continuum rounding, and positive-part upper regret.
+
+Do not read the finite-class Bayes gap as a scalar tail condition.

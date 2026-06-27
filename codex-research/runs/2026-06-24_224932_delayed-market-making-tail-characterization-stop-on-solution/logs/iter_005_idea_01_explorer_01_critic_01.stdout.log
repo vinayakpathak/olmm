@@ -1,0 +1,95 @@
+## Summary
+
+I do not see a counterexample to the corrected finite-\(\Theta\), finite-grid, randomized-policy identity under the intended public exogenous-price model. The explorer’s main direction is worth pursuing.
+
+However, the report still has proof obligations. The finite-grid identity should not yet be marked proved until the public-prefix reduction, weak-* kernel compactness, measurable-representative issue, and minimax step are written cleanly. The continuum \(T/K\) comparison is plausible and likely true, but it must be a separate lemma with both inequalities proved.
+
+## Issue List
+
+- **Plausible but incomplete:** Public-prefix reduction.
+  The statement “past actions and private randomness only affect the marginal distribution of \(a_t\) given the public prefix” is right only because prices are public, exogenous, and there are no inventory/capital interactions among quotes. The proof must explicitly show that for any original randomized policy, the conditional law
+  \[
+  q_t(\cdot\mid P_{1:t})
+  \]
+  is common across \(\theta\) and preserves each \(\mathbb E_\theta r_t(a_t)\). This is not automatic in models with private/censored feedback or action-dependent prices.
+
+- **Plausible but incomplete:** Weak-* compactness.
+  The \(L^\infty(\mu_t)\) simplex argument is standard, but the final proof must spell out:
+  \[
+  \mu_t=\sum_{\theta}\operatorname{Law}_\theta(P_{1:t}),
+  \]
+  weak-* closedness of positivity and \(\sum_a q_{t,a}=1\), and why weak-* limits correspond to implementable measurable kernels, up to \(\mu_t\)-null sets.
+
+- **Missing assumption:** Standard Borel/completed-measure convention.
+  Since kernels are \(L^\infty\) equivalence classes, the proof needs a measurable representative argument. On standard Borel prefix spaces this should be repairable: completed-measurable kernels can be replaced \(\mu_t\)-a.e. by Borel versions, with arbitrary values off the common support.
+
+- **Plausible but incomplete:** Reward functional representation.
+  The density formula
+  \[
+  g_{\theta,t,a}(h)=\frac{d\nu_{\theta,t}}{d\mu_t}(h)\,
+  a\,\Pr_\theta(M_t>a\mid P_{1:t}=h)
+  \]
+  is sound if regular conditional probabilities are fixed carefully. Need verify \(g_{\theta,t,a}\in L^1(\mu_t)\) and that the displayed integral indeed equals \(\mathbb E_\theta[q_{t,a}(P_{1:t})a1\{M_t>a\}]\).
+
+- **Worth pursuing:** Finite-dimensional minimax via reward set \(C\).
+  This is the strongest part of the report. Once
+  \[
+  C=\{(L_\theta(q))_{\theta\in\Theta}:q\in Q\}
+  \]
+  is compact convex, the identity follows from support-function duality/Sion in finite dimension. This avoids most infinite-dimensional minimax risk.
+
+- **Missing assumption / convention:** Signed regret.
+  The identity is for signed minimax regret
+  \[
+  \inf_A\sup_\theta(V_\theta^G-L_\theta(A)).
+  \]
+  This value can be negative because adaptive policies may beat the best fixed quote. Any “sublinear regret iff” statement must use an upper-regret or positive-part convention.
+
+- **Plausible but incomplete:** Continuum comparison.
+  The claim
+  \[
+  |\mathcal R_{[0,1]}-\mathcal R_{G_K}|\le T/K
+  \]
+  is likely true by downward rounding, but it needs both directions:
+  \(V_\theta\le V_\theta^{G_K}+T/K\), and every continuum policy can be rounded to a grid policy losing at most \(T/K\) reward.
+
+- **Not a fatal issue, but scope limit:** This identity is a minimax-value characterization, not a scalar tail characterization and not a matching power-tail lower bound.
+
+## Counterexamples Or Stress Tests
+
+- **Deterministic-policy stress test:** The known two-world \(T=2\), \(G=\{0.5,0.9\}\), \(P_2=0.6\) or \(P_2=1\) example still shows randomized policies are essential. The corrected identity survives only with mixed kernels.
+
+- **Grid/continuum mismatch:** The \(P_2=3/4\), \(G=\{0,1/2\}\) singleton test still breaks any theorem that mixes grid learner actions with continuum comparator values. The explorer avoids this, but the final statement must keep \(V_\theta^G\) throughout.
+
+- **Negative-regret stress test:** In known-law/adaptive-prefix examples, Bayes reward can exceed the best fixed quote. Then \(\Psi_G(\delta_\theta)<0\). This is not a contradiction, but it means “Bayes gap” is a signed quantity.
+
+- **Action-dependent price stress test:** If future prices depend on learner quotes, public-prefix kernels no longer represent fixed counterfactual reward vectors. The identity fails outside exogenous prices unless a new causal model is supplied.
+
+## Literature Or Known-Result Conflicts
+
+No conflict with the run’s known results. The explorer’s route aligns with finite statistical decision theory / least-favorable prior ideas.
+
+The only citation risk is using “Sion/von Neumann” informally. Either cite a precise finite statistical decision minimax theorem, or include the finite-dimensional compact convex reward-set proof directly.
+
+## What Survives The Critique
+
+The corrected finite-grid identity is credible and worth promoting to a theorem candidate:
+
+\[
+\mathcal R_G(\Theta,T)=\sup_{\pi\in\Delta(\Theta)}\Psi_G(\pi)
+\]
+
+under finite \(\Theta\), finite \(G\), randomized measurable policies, public exogenous prices, and grid-restricted comparator \(V_\theta^G\).
+
+The explorer’s recommendation to prove minimax through the compact reward set \(C\subset\mathbb R^\Theta\) is the right proof architecture.
+
+## Recommended Next Checks
+
+1. Write the public-prefix reduction as a lemma with exact filtration and observation assumptions.
+2. Prove weak-* compactness and measurable representative implementation.
+3. Prove the finite-dimensional minimax equality through \(C\), avoiding an underspecified infinite-dimensional Sion step.
+4. Add a separate continuum discretization lemma proving \(|\mathcal R_{[0,1]}-\mathcal R_{G_K}|\le T/K\).
+5. State asymptotic learnability using positive-part/upper regret:
+   \[
+   \left(\sup_\pi \Psi_{G_K}(\pi)\right)_+=o(T).
+   \]

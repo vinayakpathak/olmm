@@ -1,0 +1,64 @@
+## Summary
+
+The explorer’s main proof audit survives. I do not see a fatal gap in the finite-\(m\) inequality once it is stated with the explorer’s corrections: \(Z\in[0,1]\), at most \(m\) positive support points, \(\rho(Z)=\sup_{a\in[0,1]}a\Pr(Z>a)\), and strict crossing handled by left limits.
+
+I would promote CL-023 as local LP/posting-price geometry, not as a delayed market-making characterization. The multi-threshold block and same-path lifts still require separate transfer proofs.
+
+## Issue List
+
+- **Worth pursuing:** The finite-\(m\) upper bound appears correct:
+  \[
+  \mathbb EZ-\rho(Z)\le \left(\frac{m-1}{m}\right)^m.
+  \]
+  The AM-GM proof is coherent after zero atoms are removed, the top support is scaled to \(1\), and values below \(\rho\) are collapsed to \(\rho\).
+
+- **Missing assumption:** State “positive support points” explicitly. If support size counts a zero atom, the equality and sharpness convention changes. Zero atoms only scale the gap after conditioning on \(Z>0\).
+
+- **Plausible but incomplete:** The “low-value collapse” step should be written carefully in this order: first condition on \(Z>0\), then replace \(Z\) by \(\max\{Z,\rho\}\). Without removing zero atoms first, support count can increase.
+
+- **Plausible but incomplete:** Tightness needs a short verification that no in-between quote beats the left-limit revenue. It is not enough to check only support thresholds.
+
+- **False claim if inherited from solver wording:** “Every posted threshold has revenue \(r^{m-1}\)” is false under the model’s strict \(Z>a\) convention if read literally at \(a=c_i\). The correct statement is left-limit revenue as \(a\uparrow c_i\).
+
+- **Unsupported citation / scope warning:** The equal-revenue literature supports the surrounding geometry, but I found no direct source for exactly this finite-\(m\), support-counted constant. Treat the theorem as an internal AM-GM result unless a later literature audit finds it.
+
+## Counterexamples Or Stress Tests
+
+- **Strict crossing stress test:** If one replaces \(\sup_a\) by a maximum at posted support prices, deterministic \(Z=c\) becomes pathological: the best value is approached by \(a\uparrow c\), not attained at \(a=c\).
+
+- **Zero-atom stress test:** Let \(\Pr(Z=0)=1-q\), \(\Pr(Z=1)=q\). Then \(\rho(Z)=q\) and \(\mathbb EZ-\rho(Z)=0\). Collapsing zeros to \(\rho\) without conditioning changes the support and creates a different problem.
+
+- **Tightness check:** For \(r=(m-1)/m\), \(c_i=r^{m-i}\), and \(\Pr(Z\ge c_i)=r^{i-1}\), every interval \(a\in[c_i,c_{i+1})\) has revenue at most the left-limit value \(r^{m-1}\), and the gap is \(r^m\).
+
+## Literature Or Known-Result Conflicts
+
+No conflict found. The adjacent literature uses equal-revenue or unit-elastic demand geometry, but often with weak purchase \(v\ge p\), while this problem uses strict crossing \(Z>a\). That only changes the writeup: use suprema and left limits.
+
+Relevant checked sources:
+- Condorelli-Szentes working-paper version defines equal-revenue distributions on \([0,1]\) and shows seller indifference over support prices; this supports the continuous \(1/e\) geometry, not the exact finite-\(m\) theorem.
+- Ko-Munagala define finite equal-revenue signals where all support valuations are monopoly prices, again adjacent rather than a direct theorem.
+- Bergemann-Schlag and Chen-Hu-Wang are useful robust-pricing/duality context, not direct market-making lower bounds.
+
+## What Survives The Critique
+
+The finite-support theorem should be promoted as a local proposition. A sharper statement can use the actual number \(k\le m\) of positive support points:
+\[
+\mathbb EZ-\rho(Z)\le \left(\frac{k-1}{k}\right)^k\le \left(\frac{m-1}{m}\right)^m.
+\]
+
+What does not yet survive is any automatic lift to delayed market-making regret. That still needs same-prefix action laws, outside-reward caps, rare-event probability weights, and strict-crossing bookkeeping.
+
+## Bibliography Candidates
+
+- Dirk Bergemann and Karl H. Schlag. “Pricing Without Priors.” *Journal of the European Economic Association* 6(2-3):560-569, 2008. DOI: https://doi.org/10.1162/JEEA.2008.6.2-3.560. Relevance: minimax-regret monopoly pricing and equal-revenue-adjacent robust pricing.
+
+- Zhi Chen, Zhenyu Hu, Ruiqin Wang. “Screening with Limited Information: A Dual Perspective.” *Operations Research* 72(4):1487-1504, 2024. DOI: https://doi.org/10.1287/opre.2022.0016. Relevance: robust screening duality adjacent to the \(\kappa\) LP viewpoint.
+
+- Shao-Heng Ko, Kamesh Munagala. “Optimal Price Discrimination for Randomized Mechanisms.” EC 2022 / *ACM TEAC* 12(2), 2024; arXiv: https://arxiv.org/abs/2205.04687. Relevance: finite-support equal-revenue signal constructions.
+
+## Recommended Next Checks
+
+1. Write CL-023 as a polished proposition with the exact support-count convention.
+2. Add a one-paragraph strict-crossing/left-limit convention before the proof.
+3. Prove the finite multi-continuation block lemma separately for arbitrary finite \(C\).
+4. Only then lift to universal blocks or same-path anytime blocks, with \(M+O(m)\) outside-reward accounting explicit.

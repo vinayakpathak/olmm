@@ -1,0 +1,67 @@
+## Summary
+
+The explorer’s report mostly survives as a **partial theorem-package audit**. I do not see a fatal flaw in the finite-class finite-grid identity or the grid-to-continuum comparison, provided all accepted assumptions are stated exactly.
+
+The main break point is scope: this is not a full solution to the original problem, not a scalar tail characterization, and not a matching-rate theorem. Infinite-class claims remain conditional on product-closure/no-gap assumptions and precise policy-class alignment.
+
+## Issue List
+
+1. **Missing assumption:** \(M_t\) must be horizon-censored:
+   \[
+   M_t=\max_{t<s\le T}P_s
+   \]
+   with an empty-future convention. If post-horizon prices are included, Theorems A/B can count rewards that are not in the regret definition.
+
+2. **Missing assumption:** Theorem A needs the exact policy model: public exogenous prices, full observation of \(P_{1:t}\), randomized measurable grid policies, private randomness independent of \(\theta\), no private side signal, and no action-dependent prices.
+
+3. **Plausible but incomplete:** The infinite-class extension is only a product-closure relaxation unless \(C\) is actually product closed. The explorer says this, but the final theorem must not blur:
+   \[
+   \sup_{F\Subset\Theta}\sup_{\pi\in\Delta(F)}\Psi_{G,F}
+   \]
+   with the true full-class value absent no-gap.
+
+4. **Plausible but incomplete:** Payoff-weighted reward-measure domination proves no-gap cleanly for the completed \(L^\infty(\lambda_t;\Delta(G))\) prefix-kernel model. For original Borel private-randomized policies, the forward seed/prefix reduction and reverse Borel implementation must be written or cited.
+
+5. **Missing assumption:** The domination theorem needs standard Borel prefix spaces and sigma-finite Borel dominating measures \(\lambda_t\). Without these, Radon-Nikodym densities, Borel versions, and weak-* compactness are not automatically available.
+
+6. **False if overinterpreted:** “Payoff-weighted domination is the right compactness hypothesis” is safe as “right for this compactness proof,” not as necessary. Identifiable nondominated classes can be easy by public decoding.
+
+7. **Unsupported citation risk:** The explorer correctly flags “standard randomization” and “Borel-version” facts as proof obligations. They should not be left as informal folklore in a final theorem.
+
+8. **Worth pursuing:** The finite-grid finite-class identity via reward-set minimax is the cleanest route. It avoids the earlier weak-* Sion over-policy-space problem.
+
+## Counterexamples Or Stress Tests
+
+- **Grid/continuum mismatch:** finite-grid identities fail if \(V_\theta\) or the Bayes envelope uses continuum quotes.
+- **Deterministic-policy stress test:** minimax/Bayes equality can fail without randomized policies.
+- **Non-Borel label gap:** finite subclasses can have value \(0\) while the full Borel-policy class has linear value, so arbitrary infinite-class extension is false.
+- **Hidden/labeled pair:** identical per-world \(\beta,\Delta,\delta\) profiles can have hidden regret \(\Omega(qD)\) versus labeled regret \(0\), ruling out scalar per-law tail iff claims.
+- **Null-set stress test:** completed-kernel Borelization may change behavior on prefix-law-positive but payoff-measure-null sets; safe only for expected additive reward coordinates.
+- **Action-dependent prices:** break the delayed full-information and prefix-kernel reductions.
+
+## Literature Or Known-Result Conflicts
+
+No conflict with the local literature map. The finite-dimensional minimax proof is standard and should be self-contained. Delayed-feedback references support only the fixed-\(H\) upper bound, not adaptive/comparator-specific delay claims. Measure-theoretic steps require standard Borel randomization/version facts if not proved inline.
+
+## What Survives The Critique
+
+- Finite \(\Theta\), finite \(G\), public-exogenous randomized-policy identity:
+  \[
+  \mathcal R_G(\Theta)=\sup_{\pi\in\Delta(\Theta)}\Psi_G(\pi).
+  \]
+- Grid-to-continuum minimax comparison:
+  \[
+  |\mathcal R_{[0,1]}-\mathcal R_{G_K}|\le T/K.
+  \]
+- Positive-part finite-class corollary with \(G_T\), up to \(1\).
+- Product-closure/no-gap infinite-class statement.
+- Payoff-weighted domination no-gap theorem for completed finite-grid prefix kernels.
+- The warning that this is a value/predictability characterization, not a scalar tail theorem.
+
+## Recommended Next Checks
+
+1. Write Theorem A with all policy and horizon assumptions explicitly.
+2. State the infinite-class theorem first for completed \(L^\infty\) kernels, then separately prove original-policy alignment.
+3. Include the Borel-version and finite-grid randomization lemmas.
+4. Keep continuum only as a \(T/K\) corollary.
+5. Add a “not claimed” paragraph: no arbitrary infinite-class theorem, no scalar tail iff, no matching power-tail lower rate.

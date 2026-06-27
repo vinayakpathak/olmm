@@ -1,0 +1,53 @@
+## Summary
+
+The iteration 5 attempt is directionally coherent and fixes the grid/continuum mismatch from iteration 4. I do not see a counterexample to the corrected finite-$\Theta$, finite-grid identity. However, the proof is still not referee-ready, and the attempt overstates what has been established.
+
+## Fatal Gaps
+
+The main identity still rests on an asserted minimax step. The proof says the kernel space is weak-* compact and $L_\theta$ is weak-* continuous, then invokes Sion. That may be repairable, but the attempt does not verify the needed hypotheses: exact topology, closedness of simplex constraints, domination, measurability of conditional reward functions, and continuity of the risk map.
+
+The continuum claim
+$$
+\left|\mathcal R_{[0,1]}-\sup_\pi\Psi_{G_K}(\pi)\right|\le T/K
+$$
+is underproved. Downward rounding is relevant, but the argument must compare comparator values, learner policy classes, minimax values, and Bayes envelopes two-sidedly. The one-line “rounded learner reward loss” argument is not enough.
+
+The claimed “necessary-and-sufficient characterization” is only for finite unknown exogenous classes, finite horizon, and grid actions, modulo the unproved minimax step. It does not solve the original tail characterization or matching-rate problem.
+
+## Missing Assumptions
+
+Need to state explicitly:
+
+- prices are public, exogenous, and action-independent;
+- $P_{1:T}$ lives in a standard Borel space so regular conditionals exist;
+- learner randomization is private and independent of the active law;
+- policies are randomized measurable kernels, not deterministic policies;
+- the learner knows $\Theta,T,G$, but not $\theta$;
+- comparator, learner action set, and Bayes envelope are all grid-restricted in the finite theorem;
+- regret convention handles negative minimax values.
+
+## False Or Unsupported Claims
+
+“Each expected reward vector is weak-* continuous affine” is unsupported as written. It likely follows by writing
+$$
+L_\theta(q)=\sum_{t,a}\int q_t(a\mid h)\,g_{\theta,t,a}(h)\,d\operatorname{Law}_\theta(P_{1:t})(h),
+$$
+then using $\operatorname{Law}_\theta\ll\mu_t$, but this derivation is absent.
+
+“Sion/minimax applies” is not yet a proof. This was already the known gap from iteration 4.
+
+“The exact identity is proved” is too strong. At best, iteration 5 gives a plausible proof route.
+
+## Plausible But Incomplete Parts
+
+The corrected finite-grid identity is plausible and probably true under the right statistical-decision/minimax theorem.
+
+The fixed-prior Bayes-myopic part is already supported by earlier notes.
+
+The $T/K$ continuum approximation is also plausible, but needs a clean two-sided minimax comparison.
+
+The truncation upper bound and power-tail upper rate remain accepted background, not new progress from this solution.
+
+## Verdict
+
+ACCEPTABLE: no

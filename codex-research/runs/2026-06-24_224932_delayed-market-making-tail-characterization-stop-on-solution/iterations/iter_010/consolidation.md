@@ -1,0 +1,31 @@
+## Accepted Progress
+
+- Finite-class public-exogenous Bayes value characterization remains the accepted core.
+- Iteration 10 clarified the original-policy alignment gap: policy-to-prefix reward marginals and Borel implementation of completed kernels are plausible under finite-grid, standard-Borel, public-exogenous assumptions.
+- Completed $L^\infty$ no-gap remains accepted only for the relaxed kernel model.
+
+## Candidate Routes
+
+- Prove policy-to-kernel alignment via seed representation and induction.
+- Prove/cite the completed-measurable-to-Borel-version lemma.
+- Identify the density-form support formula with conditional $\Psi_{G,F}$.
+- Explore tail-profile no-go pairs and adaptive truncation bounds.
+
+## Refuted Or Weakened Claims
+
+- Iteration 10 does not close the original Borel-policy domination theorem.
+- Borel implementation preserves expected reward vectors, not pathwise behavior.
+- Still no scalar tail iff characterization or matching power-tail lower bound.
+
+## Working Notes Updated
+
+Updated:
+`canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+
+1. Precisely define admissible Borel randomized policies.
+2. Prove forward policy-to-prefix kernel reduction.
+3. Prove Borel implementation of completed finite-grid kernels.
+4. Connect density-form and conditional Bayes formulas.
+5. Keep tail-rate lower bounds separate from no-gap alignment.

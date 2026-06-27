@@ -1,0 +1,71 @@
+## Summary
+
+No fatal gap found. The explorer’s main claim is correct under the intended finite assumptions: for finite $F$, finite $G$, public exogenous prices, and payoff-weighted domination, the density-form support term equals the conditional Bayes envelope in $\Psi_{G,F}$.
+
+The result is worth promoting, but only as a narrow formula-identification lemma. It does not close policy-class alignment, continuum quotes, arbitrary infinite priors/classes, or any scalar tail characterization.
+
+## Issue List
+
+1. **Plausible but incomplete:** common-dominator invariance proof needs the RN chain-rule details written.
+   With $\eta=\rho+\rho'$, $u_a=d\nu_a/d\eta$, $r=d\rho/d\eta$, one should state
+$$
+   \frac{d\nu_a}{d\rho}=\frac{u_a}{r}\quad \rho\text{-a.e. on }\{r>0\},
+$$
+   and since $\nu_a\ll\rho$, $u_a=0$ on $\{r=0\}$. Finite $G$ makes $\max_a$ measurable and integrable.
+
+2. **Missing assumption:** explicitly require $G\neq\varnothing$ finite and $F$ finite.
+   The proof uses finite maxima and finite sums $\sum_{\theta\in F}\pi_\theta f^\theta_{t,a}$. Infinite $G$ reintroduces measurable-sup/selector issues; infinite priors require additional measurability and domination assumptions.
+
+3. **Missing assumption:** state regular conditional probabilities exist.
+   This is fine on the current standard Borel path space $X_t=[0,1]^t$, but it should appear in the lemma statement. Then
+$$
+   \frac{d\nu_{t,a}}{dm_t}(h)
+   =
+   \mathbb E_{\bar P_\pi}[a\mathbf{1}\{M_t>a\}\mid P_{1:t}=h]
+$$
+   is well-defined $m_t$-a.e.
+
+4. **Plausible but incomplete:** the explorer identifies the Bayes reward/support term, not the whole minimax theorem.
+   The comparator term $\sum_\theta\pi_\theta V_\theta^G$ is unchanged, so $\Psi_{G,F}$ follows once definitions match. But this lemma alone does not prove product compactness or policy-class alignment.
+
+5. **Worth pursuing:** prefix-law mass outside $\lambda_t$ is handled correctly, but the final proof should say why.
+   Since
+$$
+   \nu_{t,a}(B)\le m_t(B),
+$$
+   $m_t$ dominates every $\nu_{t,a}$. If a $\lambda_t$-null prefix set has positive mixture-prefix mass, payoff-weighted domination forces zero integrated payoff there for every grid action.
+
+## Counterexamples Or Stress Tests
+
+- **Continuum $G$:** the argument should not be extended by replacing $\max_{a\in G}$ with $\sup_{a\in[0,1]}$ without measurable-sup and selector work.
+
+- **Infinite prior/class:** finite $F$ is essential for the displayed density sum. An arbitrary prior over an infinite class would need a measurable density field or a direct definition of $\nu_{t,a}$.
+
+- **Action-dependent prices:** outside scope. Then $\nu_{t,a}$ may not be a fixed exogenous payoff measure.
+
+- **Original Borel policies:** this formula does not prove that original private-randomized policies equal completed $L^\infty$ prefix kernels. It only identifies two expressions once the kernel model/density support formula is already in place.
+
+## Literature Or Known-Result Conflicts
+
+No conflict. The proof is just Radon-Nikodym chain rule plus conditional expectation. It aligns with the existing finite-grid Bayes-myopic lemma and the density-form support formula in the lemma bank.
+
+## What Survives The Critique
+
+The main lemma survives:
+$$
+\sum_t\int \max_{a\in G}\sum_{\theta\in F}\pi_\theta f^\theta_{t,a}\,d\lambda_t
+=
+\sum_t\mathbb E_{\bar P_\pi}
+\max_{a\in G}
+a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+$$
+
+This should be recorded as proved for finite $F,G$, finite horizon, public exogenous prices, and payoff-weighted domination.
+
+## Recommended Next Checks
+
+1. Write the lemma with $m_t$, $\nu_{t,a}$, $\lambda_t$, and all finite/standard-Borel assumptions explicit.
+2. Include the common-dominator invariance proof in full.
+3. Prove $\nu_{t,a}\ll m_t$ and identify $d\nu_{t,a}/dm_t$ with the conditional reward curve.
+4. Insert the lemma after the density-form finite-prior support formula.
+5. Keep a warning that this closes only the density-vs-$\Psi$ notation gap, not the original-policy no-gap theorem.

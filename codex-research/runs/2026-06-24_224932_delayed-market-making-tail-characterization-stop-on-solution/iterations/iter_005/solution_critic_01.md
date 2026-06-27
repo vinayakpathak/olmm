@@ -1,0 +1,59 @@
+## Summary
+
+The attempt is materially stronger than iteration 4: it now states the corrected finite-$\Theta$, finite-grid identity with grid comparator $V_\theta^G$ and grid Bayes envelope. I do not see an immediate counterexample to that corrected identity under strong assumptions.
+
+But the proof is still not referee-ready. The main theorem is still carried by an under-specified compactness/Sion argument, and the continuum approximation is asserted too tersely. Even if repaired, the result is a minimax/Bayes-value characterization, not a scalar tail characterization or matching tail-rate theorem.
+
+## Fatal Gaps
+
+- The minimax step is not proved. Lines 77-94 assert weak-* compactness, weak-* continuity, and Sion applicability, but do not define the policy space/topology precisely or verify Sion’s hypotheses. This is the central theorem, not a technical detail.
+
+- The reduction from arbitrary randomized policies to kernels $q_t(\cdot\mid P_{1:t})$ is only asserted. It needs proof that past actions/private randomness carry no information about $\theta$ beyond public prices, and that every such kernel family is implementable.
+
+- Weak-* compactness needs real verification. The set of measurable simplex-valued kernels in $\prod_{t,a}L^\infty(\mu_t)$ must be shown weak-* closed, convex, and compact; expected rewards must be represented by $L^1(\mu_t)$ coefficients.
+
+- The continuum approximation
+$$
+  \left|\mathcal R_{[0,1]}-\sup_\pi\Psi_{G_K}(\pi)\right|\le T/K
+$$
+  is plausible, but not proved. It must compare four objects separately: continuum comparator, grid comparator, continuum learner value, and rounded grid learner value.
+
+- The claimed “necessary-and-sufficient condition” is essentially the minimax value itself. It may be formally exact after proof, but it does not answer the original tail-characterization/rate-matching goal.
+
+## Missing Assumptions
+
+- $\Theta$ finite, or otherwise compact with stated topology. The proof only plausibly covers finite $\Theta$.
+
+- Public exogenous prices. No part applies to action-dependent prices.
+
+- Standard Borel histories and regular conditional probabilities for $\bar P_\pi(M_t>a\mid P_{1:t})$.
+
+- Randomized policies with private randomness independent of $\theta$.
+
+- A precise regret convention: since adaptive learners can beat the best fixed quote, negative regret is possible.
+
+- Horizon-indexed classes $\Theta_T$ and one learner per horizon $T$, if this is used asymptotically.
+
+## False Or Unsupported Claims
+
+- “This is the exact finite-grid necessary-and-sufficient condition” is unsupported until the minimax theorem is fully proved.
+
+- “Sion/minimax applies” is currently an assertion. The policy space is infinite-dimensional and measurable; a citation or complete compact risk-set proof is needed.
+
+- The continuum $T/K$ equivalence is unsupported as stated. The rounding inequality is only the first step.
+
+- The attempt still does not provide matching lower rates under power-tail envelopes; it only restates the accepted sufficient truncation upper bound.
+
+## Plausible But Incomplete Parts
+
+- The corrected finite-grid identity is plausible under finite $\Theta$, finite $G$, randomized policies, and public exogenous prices.
+
+- The fixed-prior Bayes myopic step is credible and consistent with prior accepted notes.
+
+- The downward-rounding inequality should likely yield an $O(T/K)$ continuum comparison if all minimax quantities are tracked carefully.
+
+- The accepted $\delta_T(H)$ upper bound and hidden-terminal/q-scaled lower atoms remain valid, but they are separate from the proposed exact identity.
+
+## Verdict
+
+ACCEPTABLE: no

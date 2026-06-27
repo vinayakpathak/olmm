@@ -1,0 +1,77 @@
+## Summary
+
+I do not see a fatal counterexample to the explorer’s equal-low single-drought formula. The proposed value
+\[
+D=\bigl[\ell A_r-hH\bigr]_+\left(1-\frac{\ell}{h}\right),
+\qquad H=(M-1)_+,\ A_r=s_r-1,
+\]
+looks plausible in the formal two-level left-limit randomized-marginal model.
+
+But the report should not yet be promoted as a proved lemma. The main missing work is the reduction from the full finite-prefix LP \(D_n(P)\) to the displayed reduced LP, plus edge-case cleanup.
+
+## Issue List
+
+1. **Plausible but incomplete: LP reduction not fully justified.**  
+   The report jumps to variables \(x_i\) as “low-quote mass.” It still needs a proof that an optimal formal marginal can be reduced to mixtures of only \(\ell^-\) and \(h^-\), with no benefit from quotes in \((0,\ell)\), \((\ell,h)\), or from low mass in the initial high-baseline coordinates.
+
+2. **Missing assumption: formal randomized-marginal model.**  
+   The formula is for the left-limit LP with fractional/randomized marginals. It is not automatically a deterministic sequence theorem, and actual strict crossing requires \((1-\eta)\ell,(1-\eta)h\) implementation.
+
+3. **Plausible but incomplete: horizon reduction.**  
+   The report constrains only low horizons \(s_j\) and the final high horizon. It should explicitly prove that horizons inside zero gaps and inside the initial high prefix are dominated or already covered.
+
+4. **Minor proof gap: earlier-low domination case split.**  
+   The displayed inequality for earlier lows can fail syntactically when \(S_j=0\), because \(S_j=[\ell U_j-(h-\ell)H]_+\). The conclusion still seems true, but the proof should split \(S_j=0\) from \(S_j>0\).
+
+5. **Missing assumption: equal low level is essential.**  
+   The last-low-only conclusion uses that all low-horizon surplus and useful capacity grow with the same slope \(\ell\). It should be stated as false or unproved for unequal lows.
+
+6. **Worth pursuing: dual certificate is strong.**  
+   The dual choice
+   \[
+   \lambda_r=\frac{h-\ell}{h},\qquad \mu=\frac{\ell}{h}
+   \]
+   is a clean certificate once the reduced LP is established.
+
+## Counterexamples Or Stress Tests
+
+- **High-dominated case:** if \(\ell A_r\le hH\), formula gives \(D=0\). This is consistent: always quote \(h^-\), and low horizons are already high-comparator dominated.
+
+- **Consecutive lows:** allow \(N_i=0\). The segment capacity \(B_i=N_i+1=1\) correctly counts the quote posted at the previous low, which can trade at the next equal low.
+
+- **Large post-low gap \(L\):** formula says \(L\) drops out. This is plausible because post-last-low zero horizons match the last-low horizon, and post-low quote opportunities can be set to \(h^-\) for the final high without helping low horizons.
+
+- **Unequal lows stress test:** paths like
+  \[
+  0^N,\ell_0,0^L,\ell_1,h,\qquad \ell_0\gg \ell_1
+  \]
+  should break any naive “last low alone” rule. Early high low-horizons can bind.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict found. A narrow check turned up only adjacent material already reflected in the run notes: Lindley-style surplus/debt recursions are a useful analogy, and minimax/intertemporal pricing papers are background, not proof support.
+
+Relevant existing sources already in the bibliography include Lindley 1952, DOI: https://doi.org/10.1017/S0305004100027638, and Caldentey-Liu-Lobel 2017, DOI: https://doi.org/10.1287/opre.2016.1548.
+
+## What Survives The Critique
+
+The candidate lemma likely survives for equal lows, deterministic exogenous two-level paths, formal left-limit actions, randomized marginals, and single-fill rewards.
+
+The cleanest surviving proof route is:
+
+1. reduce full \(D_n\) to two action types \(\ell^-,h^-\);
+2. show only low horizons and final high matter;
+3. derive the reduced LP;
+4. use front-loaded primal mass \(P^*=S_r/h\);
+5. match it with the two-point dual certificate.
+
+## Bibliography Candidates
+
+No new bibliography candidates.
+
+## Recommended Next Checks
+
+- Write the full reduction from \(D_n(P)\) to the reduced LP.
+- Patch the \(S_j=0\) case in the earlier-low domination proof.
+- Verify edge cases \(M=0\), \(M=1\), \(N_i=0\), \(r=0\), \(S_r=0\), and \(L=0\).
+- Then test the genuinely harder unequal-low drought.

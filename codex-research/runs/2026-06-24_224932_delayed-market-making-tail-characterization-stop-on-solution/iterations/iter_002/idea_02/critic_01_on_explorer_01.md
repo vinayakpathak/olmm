@@ -1,0 +1,59 @@
+## Summary
+
+I do not see a fatal flaw in the explorer’s upper-bound route, provided the final theorem is explicitly restricted to exogenous/public-price processes. The $\delta_T^P(H)$ theorem is worth pursuing and is close to proof-ready.
+
+The main weakness is that the “self-contained” delayed-experts argument is still a sketch. It needs a formal lemma with timing, update order, and regret-to-one-global-grid-arm written out.
+
+## Issue List
+
+1. **Plausible but incomplete:** The residue-splitting Hedge proof is not yet a proof. It should state: for any fixed reward vectors $g_t\in[0,1]^K$ revealed by time $t+H$ or before the next same-residue decision, $H+1$ Hedge copies satisfy
+$$
+\max_b \sum_t g_t(b)-\mathbb E\sum_t g_t(a_t)
+\le C\sqrt{T(H+1)\log K}.
+$$
+Need specify rewards vs losses, learning rates, and the summation over residues.
+
+2. **Missing assumption, fatal if omitted:** The price path must be exogenous/oblivious: $P_{1:T}$ is fixed or sampled independently of learner actions and randomization. Without this, counterfactual vectors $(r_t^H(b))_b$ are not fixed full-information rewards.
+
+3. **Missing assumption:** The learner must observe the full public prices $P_s$, not merely whether its own quote traded. The reduction relies on reconstructing all counterfactual grid rewards from future prices.
+
+4. **Missing assumption:** Feedback timing needs formalization. With $H+1$ residues the proof is safe if the vector for round $t$ is processed before the decision at $t+H+1$. If someone later changes this to $H$ residues, an off-by-one issue appears.
+
+5. **Plausible but incomplete:** The uniform class corollary should say the algorithm may use the horizon $T$ and schedules $H_T,K_T$, or else add a doubling/model-selection argument. Current statement is existential, not adaptive to unknown $\delta$.
+
+6. **Unsupported citation:** The external delayed-feedback citations support the general method, but the exact finite-grid bound used here should either be proved inline or cited precisely. The 2016 Joulani-Gyorgy-Szepesvari OCO paper is broader than needed.
+
+## Counterexamples Or Stress Tests
+
+- **Action-dependent prices:** If $P_{t+1}$ changes as a function of the learner’s quote at $t$, then the realized future price path does not define counterfactual rewards for unplayed grid quotes. This breaks the full-information reduction.
+
+- **Known terminal spike:** The singleton law with $P_1=\cdots=P_{T-1}=0$, $P_T\sim U[0,1]$ has $\delta_T(H)=\Omega(T)$ for $H=o(T)$, yet a law-aware learner has zero regret. This confirms $\delta$ is only a sufficient proof term.
+
+- **Strict threshold/nonattainment:** Because trades require $P>a$, comparator values may use $\sup_a$, not $\max_a$. The explorer notes this correctly; final theorem must preserve it.
+
+- **Small $H$ timing check:** For $H=1$, using residues mod $2$, feedback from round $t$ is available before round $t+2$. The split works if updates are processed before reuse.
+
+## Literature Or Known-Result Conflicts
+
+No conflict found. Joulani, Gyorgy, and Szepesvari’s delayed-feedback model includes full-information feedback as delayed reward functions, matching the intended reduction when reward vectors are fixed independently of actions. Their discussion of fixed known delay also matches the $\tau+1$ independent-predictor/residue idea. ([proceedings.mlr.press](https://proceedings.mlr.press/v28/joulani13.pdf)) ([proceedings.mlr.press](https://proceedings.mlr.press/v28/joulani13.pdf))
+
+The 2016 delay-tolerant OCO paper is relevant background for full-information delayed learning, but it is not the cleanest citation for finite experts; an inline Hedge proof would be cleaner. ([ojs.aaai.org](https://ojs.aaai.org/index.php/AAAI/article/view/10320))
+
+## What Survives The Critique
+
+The theorem survives as a sufficient upper theorem:
+$$
+\sup_{P\in\mathcal C_T}R_T^P
+\lesssim
+\sqrt{T(H+1)\log K}+T/K+\sup_{P\in\mathcal C_T}\delta_T^P(H)
+$$
+
+under exogenous public prices, fixed $T,H,K$, and a uniform learner over the class. The grid discretization and comparator-gap truncation steps are sound.
+
+## Recommended Next Checks
+
+1. Write the delayed-grid Hedge lemma fully, including timing.
+2. State the filtration/model assumption: public exogenous $P_t$, learner action after observing $P_t$, no action dependence.
+3. Define $V_T^P,V_{T,H}^P,\delta_T^P(H)$ with $\sup_a$.
+4. Make the corollary explicitly existential in schedules $H_T,K_T$, unless adding adaptivity.
+5. Keep the theorem labeled sufficient, not necessary.

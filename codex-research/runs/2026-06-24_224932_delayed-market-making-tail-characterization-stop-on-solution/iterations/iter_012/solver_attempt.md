@@ -1,0 +1,124 @@
+## Verdict
+
+SOLVED: no
+
+The full problem is not solved: there is no scalar tail-profile characterization, arbitrary infinite classes still need no-gap hypotheses, and matching lower rates for power tails remain open. But under public exogenous prices, finite grids, and finite/product-closed or payoff-measure dominated classes, there is now a sharp value characterization.
+
+## Candidate Solution Or Main Attempt
+
+For finite $G$, finite horizon $T$, public exogenous laws $\Theta$, define
+$$
+V_\theta^G=\max_{a\in G}\sum_{t=1}^T \mathbb E_\theta[a\mathbf{1}\{M_t>a\}],
+\quad M_t=\max_{s>t}P_s.
+$$
+For finite $F\subset\Theta$ and prior $\pi$,
+$$
+\Psi_{G,F}(\pi)=
+\sum_{\theta\in F}\pi_\theta V_\theta^G
+-
+\sum_t\mathbb E_{\bar P_\pi}\max_{a\in G}
+a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+$$
+
+Then, for finite $\Theta$,
+$$
+\mathcal R_G(\Theta)
+=
+\inf_A\sup_{\theta\in\Theta}(V_\theta^G-L_\theta(A))
+=
+\sup_{\pi\in\Delta(\Theta)}\Psi_{G,\Theta}(\pi).
+$$
+
+For infinite $\Theta$, the same formula holds with
+$$
+\mathcal R_G(\Theta)
+=
+\sup_{F\Subset\Theta}\sup_{\pi\in\Delta(F)}\Psi_{G,F}(\pi)
+$$
+provided the attainable reward set is product closed. A sufficient condition is payoff-weighted reward-measure domination:
+$$
+\mu^\theta_{t,a}(B)
+=
+\mathbb E_\theta[\mathbf{1}\{P_{1:t}\in B\}a\mathbf{1}\{M_t>a\}]
+\ll \lambda_t
+$$
+for all $\theta,t,a$, with finite $G$.
+
+Continuum quotes are recovered by
+$$
+|\mathcal R_{[0,1]}(\Theta,T)-\mathcal R_{G_K}(\Theta,T)|\le T/K.
+$$
+Thus, under the no-gap hypothesis and with $G_T=\{0,1/T,\dots,(T-1)/T\}$, sublinear upper regret is equivalent up to $O(1)$ to
+$$
+\left(\sup_{F\Subset\Theta_T}\sup_{\pi\in\Delta(F)}\Psi_{G_T,F}(\pi)\right)_+=o(T).
+$$
+
+## Concrete Lemmas Or Reductions
+
+1. The density-form support formula equals conditional $\Psi$.  
+For $\nu_{t,a}=\sum_{\theta\in F}\pi_\theta\mu^\theta_{t,a}$,
+$$
+\int\max_{a\in G}\frac{d\nu_{t,a}}{d\lambda_t}\,d\lambda_t
+=
+\mathbb E_{\bar P_\pi}\max_{a\in G}
+a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+$$
+Reason: $\int\max_a d\nu_a/d\rho\,d\rho$ is independent of the dominating measure $\rho$. Use $\rho=\lambda_t$ for the density side and $\rho=\bar P_{\pi,1:t}$ for the conditional-probability side.
+
+2. Original Borel policies reduce to public-prefix kernels under the explicit finite-grid public-exogenous model.  
+If private randomness is independent and all feedback is determined by public prices plus past quotes, then by induction
+$$
+a_t=\alpha_t(P_{1:t},U_{1:t})
+$$
+for Borel $\alpha_t$. Hence
+$$
+q_{t,a}(h)=\Pr_U(\alpha_t(h,U_{1:t})=a)
+$$
+is Borel and law-independent, and
+$$
+L_\theta(A)=\sum_{t,a}\int q_{t,a}(h)\,d\mu^\theta_{t,a}(h).
+$$
+Conversely, every Borel finite-grid prefix kernel is implementable with fresh uniforms.
+
+3. The accepted tail upper bound remains:
+$$
+\sup_{P\in\mathcal C_T}R_T^P
+\lesssim
+\sqrt{T(H+1)\log K}+T/K+\sup_{P\in\mathcal C_T}\delta_T^P(H).
+$$
+
+## Gaps And Failure Points
+
+The theorem above is a minimax value characterization, not a scalar tail condition.
+
+It does not cover action-dependent prices, arbitrary infinite nondominated classes without product closure, anytime known-law policies, pathwise/high-probability regret, or computational constraints.
+
+Matching lower rates for power-tail envelopes remain open. The $q$-scaled hidden-terminal atom gives only $\Omega(qD)$, too weak to match the truncation upper exponent.
+
+## Counterexamples Or Obstructions
+
+Raw $\beta(h)\to0$ is not necessary: known finite-horizon exogenous laws are oracle-learnable with $O(1)$ regret.
+
+Per-world tail/truncation profiles cannot characterize unknown-class learnability: hidden and publicly labeled two-world terminal classes have identical per-world $\beta,\Delta,\delta$ profiles, but hidden regret is $\Omega(qD)$ while labeled regret is zero.
+
+Rare-history and tiny-price examples keep $\beta(h)=1$ for all finite $h$ while expected regret or value-weighted truncation loss stays bounded/small.
+
+Infinite classes can have finite-subclass/full-class gaps unless product closure or a no-gap condition is imposed.
+
+## Promising Ideas To Explore
+
+Prove the policy-alignment theorem in polished form with an exact admissible Borel policy model.
+
+Use the value formula to design multi-scale Bayes-gap lower bounds for power-tail envelopes.
+
+Develop adaptive truncation algorithms competing with the best $H$ in hindsight.
+
+Search for natural nondominated but product-closed or identifiable class hypotheses beyond payoff-measure domination.
+
+## Notes For Critics
+
+The strongest new claim here is the closure of the density-form $\Psi$ identification and the policy-to-prefix reward-kernel reduction under explicit finite-grid public-exogenous assumptions.
+
+Do not read this as solving scalar tail characterization. The hidden/labeled no-go rules that out for per-law tail profiles.
+
+The infinite-class theorem still needs the no-gap/product-closed condition; without it, the non-Borel label obstruction remains fatal.

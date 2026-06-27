@@ -1,0 +1,50 @@
+## Summary
+
+The attempt is a useful synthesis, but not a referee-ready proof. The finite-class value characterization is largely aligned with the accepted notes, assuming public exogenous prices, randomized policies, horizon awareness, finite \(\Theta_T\), grid approximation, and positive-part/signed regret conventions.
+
+The claimed infinite-class extension is the weak point. It is stated too tersely and depends on a product-closed/no-gap hypothesis whose policy-space and measurability content is not defined in the attempt. The result is also not a tail characterization and does not solve the matching-rate part of the original problem.
+
+## Fatal Gaps
+
+1. **Infinite-class theorem is not proved or fully specified.**  
+   The attempt says the same iff holds “for infinite classes with a product-closed/no-gap condition,” but it does not define the attainable reward set \(C\), the product topology closure, the policy class, or the exact no-gap assumption at horizon \(T\) and grid \(G_T\). The notes show this is a real issue, not bookkeeping.
+
+2. **The dominated-prefix claim is only conditional.**  
+   “Common domination ... should imply this via weak-* compactness” is not an established proof in the attempt. The known remaining work includes policy-to-prefix-kernel reduction, measurable versions, simplex weak-* closedness, and continuity of reward coordinates.
+
+3. **It does not solve the original rate question.**  
+   The attempt explicitly admits no matching lower bound for the power-tail upper rate. So it cannot be accepted as solving the full stated problem, which asked for lower and upper bounds and ideally matching rates.
+
+4. **The final iff is a minimax value characterization, not a tail characterization.**  
+   That may be the correct conclusion, but the attempt should not be framed as a “tail characterization” solution. It is an information/Bayes-gap characterization of finite-class learnability.
+
+## Missing Assumptions
+
+- Prices must be public and exogenous/action-independent.
+- Learner must be randomized; deterministic policies do not satisfy the minimax/Bayes identity.
+- Learner may depend on \(T\), \(\Theta_T\), and the grid.
+- Regret value must be the signed upper-regret minimax value, with learnability interpreted through positive part.
+- \(\Theta_T\) must be finite unless the exact product-closed/no-gap condition is imposed.
+- For infinite classes, product closedness must hold for the fixed finite grid \(G_T\) at each \(T\).
+- Policies need a precise measurable/Borel kernel formulation.
+- \(M_T\) needs an empty-future convention.
+- Regular conditional probabilities under mixture laws should be assumed.
+
+## False Or Unsupported Claims
+
+- “There is a clean necessary-and-sufficient characterization ... for infinite classes with a product-closed/no-gap condition” is unsupported as written. The abstract criterion is plausible/accepted in notes, but the attempt does not state it precisely enough to be a theorem.
+- “No finitely supported least-favorable prior creates linear Bayes predictability gap” is false for arbitrary infinite classes without the no-gap/product-closure hypothesis.
+- The displayed \(\le 1\) comparison is accepted for finite classes; for infinite classes it needs an explicit argument that grid-to-continuum comparison and no-gap reduction remain valid under the same policy class.
+- The “common domination should imply” statement is not a proved lemma in this attempt.
+
+## Plausible But Incomplete Parts
+
+- The finite-grid finite-class minimax identity is plausible and matches the accepted ledger.
+- The grid-to-continuum \(T/K\) comparison is plausible, but should be stated separately from the Bayes identity.
+- The \(\delta_T(H)\) truncation upper bound and power-tail rate are credible under exogenous public prices.
+- The raw-\(\beta\) counterexamples are valid and correctly weaken the original conjecture.
+- The hidden-terminal and \(q\)-scaled atoms are valid finite-horizon minimax lower-bound examples, but not matching-rate lower bounds.
+
+## Verdict
+
+ACCEPTABLE: no

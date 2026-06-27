@@ -1,0 +1,161 @@
+## Summary
+
+A prefix-compatibility modulus looks worthwhile if it is defined as a **local simultaneous-payoff feasibility gap**, not as full regret. The clean object is: given a common prefix and several indistinguishable continuations/horizons, can one distribution over prefix quotes nearly attain the prefix comparator value for all candidates at once?
+
+For zero-block gadgets, this gives an explicit LP. Its dual exactly recovers the accepted \(1/4\) obstruction for thresholds \(\{1/2,1\}\). It also behaves correctly on easy counterexamples if the candidates are **conditional expected payoff laws**, not realized stochastic futures.
+
+## Concrete Progress
+
+Proposed local definition. Let \(I=\{1,\dots,m\}\) be prefix decision times common to candidate continuations \(u\in\mathcal U\). For each \(u\), define the prefix payoff function
+\[
+\phi_{u,t}(a)=\mathbb E_u\!\left[a\,1\{\exists s\in(t,T_u]:P_s>a\}\mid \text{common prefix}\right].
+\]
+Define the local fixed-quote prefix value
+\[
+v_u=\sup_{b\in[0,1]}\sum_{t\in I}\phi_{u,t}(b).
+\]
+Then define the normalized prefix-compatibility gap
+\[
+\kappa_I(\mathcal U)
+=
+\frac1{|I|}
+\inf_{\mu_1,\dots,\mu_m}
+\sup_{u\in\mathcal U}
+\left[
+v_u-\sum_{t\in I}\int \phi_{u,t}(a)\,d\mu_t(a)
+\right].
+\]
+
+For homogeneous zero blocks, \(\phi_{u,t}=\phi_u\), so only the average empirical distribution \(\mu\) matters:
+\[
+\kappa(\mathcal U)
+=
+\inf_{\mu}
+\sup_{u\in\mathcal U}
+\left[
+v_u-\int \phi_u(a)\,d\mu(a)
+\right].
+\]
+
+For deterministic terminal threshold \(c\),
+\[
+\phi_c(a)=a1\{a<c\},\qquad v_c=c
+\]
+where \(v_c\) is a supremum, not necessarily attained.
+
+For two thresholds \(0<c<d\),
+\[
+\kappa(\{c,d\})=\frac{c(d-c)}{d}.
+\]
+Thus \(\kappa(\{1/2,1\})=1/4\), matching the accepted block lower bound.
+
+## Claims Or Lemmas
+
+**Candidate Lemma 1: Prefix LP dual.**  
+For finite \(\mathcal U=\{1,\dots,J\}\) and regular payoff functions,
+\[
+\kappa(\mathcal U)
+=
+\max_{\lambda\in\Delta_J}
+\left[
+\sum_{j=1}^J\lambda_jv_j
+-
+\sup_{a\in[0,1]}\sum_{j=1}^J\lambda_j\phi_j(a)
+\right].
+\]
+For strict threshold indicators, state this first on a finite grid or with \(\eta\)-comparators, then pass to a supremum limit.
+
+**Candidate Lemma 2: Local lower-bound transfer.**  
+If a learner must use the same prefix action law for all candidates \(u\in\mathcal U\), then some candidate has prefix regret at least
+\[
+|I|\kappa_I(\mathcal U).
+\]
+In concatenated dominant-block arguments, total endpoint regret is at least this local amount minus the old-reward cap.
+
+**Candidate Lemma 3: Two-threshold formula.**  
+For deterministic zero-block thresholds \(0<c<d\),
+\[
+\kappa(\{c,d\})=\frac{c(d-c)}{d}.
+\]
+The primal near-optimizer mixes mass \(c/d\) near \(c\) and \(1-c/d\) near \(d\).
+
+## Proof Attempts
+
+Dual derivation:
+\[
+\inf_\mu\max_j(v_j-\langle\mu,\phi_j\rangle)
+=
+\inf_\mu\max_{\lambda\in\Delta_J}
+\sum_j\lambda_j(v_j-\langle\mu,\phi_j\rangle).
+\]
+Under finite-grid or compact/continuous assumptions, minimax gives
+\[
+=
+\max_{\lambda\in\Delta_J}
+\left[
+\sum_j\lambda_jv_j
+-
+\sup_a\sum_j\lambda_j\phi_j(a)
+\right].
+\]
+
+For \(\{c,d\}\), put weight \(q\) on \(c\). Then
+\[
+\sum_j\lambda_jv_j=qc+(1-q)d,
+\]
+while
+\[
+\sup_a\{q\,a1(a<c)+(1-q)a1(a<d)\}
+=
+\max\{c,\ d(1-q)\}
+\]
+up to strict-threshold limits. The objective is
+\[
+\min\{qc,\ (1-q)(d-c)\},
+\]
+maximized at \(q=(d-c)/d\), giving \(c(d-c)/d\).
+
+## Gaps And Risks
+
+The main design choice is what goes into \(\mathcal U\). For pseudo-regret under stochastic processes, \(\mathcal U\) should consist of conditional future **laws** or expected payoff kernels, not realized sample continuations. Otherwise coded-delay examples produce false positives.
+
+A positive \(\kappa\) gives a lower-bound ingredient only when the same prefix actions are forced across candidates: universal/process-unaware learners, or horizon-oblivious same-path policies. It says nothing against horizon-aware process-law oracle learners.
+
+Small \(\kappa\) is not a learnability theorem. It only rules out this local simultaneous-prefix obstruction.
+
+Strict crossing requires care: comparator values should be suprema, and formal statements should use grids or \(\eta\)-comparators.
+
+## Counterexamples Or Obstructions
+
+Sparse vanishing spikes: if all relevant thresholds in a long block are at most \(\epsilon\), then choosing \(\mu=\delta_0\) gives \(\kappa\le\epsilon\). Thus the modulus vanishes with payoff scale, unlike raw \(\beta\).
+
+Coded delay: if the code only changes delay length and the conditional expected payoff is always a scalar multiple of \(a(1-a)\), the same quote \(a=1/2\) is optimal for all candidates, so \(\kappa=0\). This is correct only if candidates are laws, not realized \(U\)-thresholds.
+
+Predictable binary spikes: long delays with a single predictable high threshold have singleton or common-optimizer candidate sets, so \(\kappa=0\). This matches the “delay mass is not hardness” lesson.
+
+## Sources Consulted
+
+Local run files: `problem.md`, all requested `working_notes/*.md`, and `iterations/iter_005/idea_02/idea.md`.
+
+External sources:
+- Abernethy, Bartlett, Hazan, “Blackwell Approachability and No-Regret Learning are Equivalent,” COLT/PMLR 2011: https://proceedings.mlr.press/v19/abernethy11b.html
+- Mannor, Tsitsiklis, Yu, “Online Learning with Sample Path Constraints,” JMLR 2009: https://jmlr.org/beta/papers/v10/mannor09a.html
+- Blackwell, “An analog of the minimax theorem for vector payoffs,” Pacific J. Math. 1956: https://msp.org/pjm/1956/6-1/pjm-v6-n1-p01-s.pdf
+- Kwon and Perchet, “Online Learning and Blackwell Approachability with Partial Monitoring,” AISTATS/PMLR 2017: https://proceedings.mlr.press/v54/kwon17a.html
+- Kwon, “Refined approachability algorithms and application to regret minimization with global costs,” JMLR 2021: https://jmlr.org/papers/v22/20-1019.html
+
+## Bibliography Candidates
+
+- David Blackwell. “An analog of the minimax theorem for vector payoffs.” Pacific Journal of Mathematics 6(1):1-8, 1956. https://msp.org/pjm/1956/6-1/pjm-v6-n1-p01-s.pdf. Relevance: conceptual ancestor for vector-payoff feasibility and dual separation.
+
+- Joon Kwon, Vianney Perchet. “Online Learning and Blackwell Approachability with Partial Monitoring: Optimal Convergence Rates.” AISTATS 2017, PMLR 54:604-613. https://proceedings.mlr.press/v54/kwon17a.html. Relevance: approachability with multi-criteria objectives and incomplete signals; possible framework if prefix compatibility becomes an online vector-target problem.
+
+- Joon Kwon. “Refined approachability algorithms and application to regret minimization with global costs.” JMLR 22(200):1-38, 2021. https://jmlr.org/papers/v22/20-1019.html. Relevance: global-cost/vector-payoff regret tools related to minimizing a chosen distance to a target set.
+
+## Recommended Next Steps
+
+1. Formalize \(\kappa_I(\mathcal U)\) first for finite grids and finite candidate sets.
+2. Add a proposition deriving the dual and the \(\{c,d\}\) formula.
+3. State the lower-bound transfer lemma with the exact “same prefix law” assumption.
+4. Test \(\kappa\) explicitly on CE-001, CE-003, CE-005, and both accepted block lower bounds.
+5. Only after that, consider an approachability-style dynamic version.

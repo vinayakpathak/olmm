@@ -1,0 +1,58 @@
+## Summary
+
+The explorer’s central Borelization claim is **worth pursuing** and is probably correct for fixed finite $T$, finite grid $G$, standard Borel prefix spaces $X_t=[0,1]^t$, and sigma-finite Borel dominating measures $\lambda_t$. The key null-set argument does preserve all payoff-weighted reward integrals simultaneously because every $\mu^\theta_{t,a}\ll\lambda_t$.
+
+It does **not** by itself close the full original-policy theorem. The remaining serious work is the policy-class alignment: proving that arbitrary private-randomized Borel policies reduce to law-independent public-prefix marginal kernels, and that the $L^\infty$ compactness image is exactly the reward set of the intended Borel policy class.
+
+## Issue List
+
+1. **Plausible but incomplete: Borel representative lemma needs exact formulation.**  
+   The claim is true only if $q\in L^\infty(\lambda;\Delta(G))$ means there exists a completed-measurable representative that is $\Delta(G)$-valued $\lambda$-a.e. The proof should explicitly use the standard theorem that completed-measurable functions on a standard Borel space have Borel versions modulo a Borel measure.
+
+2. **Missing assumption: standard Borel finite-grid setting is essential.**  
+   The Borel representative argument relies on $X_t=[0,1]^t$ being standard Borel and $G$ finite. It should not be advertised for arbitrary measurable prefix spaces or continuum quote kernels without extra measurable-selection work.
+
+3. **Plausible but incomplete: forward policy reduction.**  
+   The explorer sketches that any private-randomized policy induces law-independent kernels $q_t(P_{1:t})$. This needs a real induction with assumptions:
+   public exogenous prices, full public observation of $P_t$, feedback carrying no information beyond public prices plus past actions, Borel policy maps, and private randomness independent of $\theta$. Without these, the claim is false.
+
+4. **Missing assumption: reward preservation is only payoff-coordinate preservation.**  
+   Borelizing on a $\lambda_t$-null set may change actions on histories with positive prefix-law mass if $P^\theta_{1:t}\not\ll\lambda_t$. This is harmless only because the theorem preserves expected additive rewards through $\mu^\theta_{t,a}$, and because actions do not affect future prices or future public observations. It does not preserve pathwise behavior or feedback-state laws.
+
+5. **Missing assumption: same policy class must be used in all values.**  
+   The compact $L^\infty$ theorem, finite-subclass values, and full-class value must all use either the completed-kernel model or the Borel public-prefix randomized model after alignment is proved. Mixing them can reintroduce the product-closure gap from earlier iterations.
+
+6. **Unsupported citation / proof obligation: weak-* limit feasibility.**  
+   The explorer uses the output of weak-* compactness. The final proof still needs to show positivity and simplex constraints are weak-* closed, so weak-* limits are genuinely $\Delta(G)$-valued a.e. This is known from the prior lemma bank, but should be restated.
+
+7. **Worth pursuing: simultaneous uncountable-$\Theta$ preservation is sound.**  
+   This part survives: if $\tilde q=q$ outside one $\lambda_t$-null set, then every dominated $\mu^\theta_{t,a}$ ignores that set, even for uncountable $\Theta$.
+
+## Counterexamples Or Stress Tests
+
+- **Non-Borel label gap:** not a counterexample to the explorer’s lemma because domination fails there, but it remains the main warning against dropping product-closed/no-gap hypotheses.
+
+- **Uncountable Dirac/Feller classes:** weak/Feller continuity alone does not imply domination. The explorer’s route correctly avoids claiming otherwise.
+
+- **Completed null-set policy:** take a completed-measurable kernel differing on a $\lambda$-null non-Borel set charged by some prefix law. Borelization preserves reward integrals only if the relevant payoff-weighted measures are dominated. This stress test forces the theorem to be framed as reward-value preservation, not behavioral equivalence.
+
+- **Action-dependent prices:** fatal outside the exogenous model. Then public-prefix kernels do not determine counterfactual reward vectors, and forward reduction fails.
+
+## Literature Or Known-Result Conflicts
+
+No conflict with standard measure theory under the stated standard Borel assumptions. The proof should cite or prove the standard “completed-measurable has Borel version a.e.” fact. The result would conflict with known measurability pathologies only if it were stated without domination or without restricting to standard Borel prefix spaces.
+
+## What Survives The Critique
+
+- Lemma 1, Borel representative: likely correct.
+- Lemma 2, reward preservation under $\mu^\theta_{t,a}\ll\lambda_t$: correct.
+- Lemma 3, finite-grid randomized implementation by fresh uniforms: correct under Borel kernel assumptions.
+- The claim that the reverse implementation issue is “probably not fatal” for finite grids is reasonable.
+
+## Recommended Next Checks
+
+1. Write the Borel representative lemma formally for finite $G$, including the completed-measurable-to-Borel-version theorem.
+2. Prove the private-randomized-policy to public-prefix-kernel reduction by induction.
+3. State clearly that the theorem preserves expected reward vectors, not pathwise policy behavior.
+4. Keep the completed $L^\infty$ theorem and original Borel-policy theorem separate until alignment is fully proved.
+5. After that, identify the density-form finite-prior support formula with the conditional $\Psi_{G,F}$ Bayes envelope.

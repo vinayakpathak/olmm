@@ -1,0 +1,25 @@
+## Accepted Progress
+Promoted the finite-\(m\) equal-revenue theorem: for \(Z\in[0,1]\) with at most \(m\) positive support points,
+\[
+\mathbb EZ-\sup_a a\Pr(Z>a)\le \left(\frac{m-1}{m}\right)^m.
+\]
+Also accepted the finite multi-continuation terminal-block lift for universal/process-unaware lower bounds, with constants approaching \(1/e\) via \(m\to\infty\).
+
+## Candidate Routes
+Same-path multi-threshold anytime lift remains promising but not proved; it still needs intermediate threshold-round bookkeeping. Primal equal-revenue action laws and rare-event multi-threshold stress tests are now good next targets.
+
+## Refuted Or Weakened Claims
+Recorded that the finite-\(m\) dual law is not a hard stochastic process under pseudo-regret. Also added warnings: strict crossing needs left limits, zero atoms must be handled separately, and the sharp constant is not the value of every fixed \(m\)-threshold set.
+
+## Literature Updates
+Added verified adjacent sources: Bergemann-Brooks-Morris 2015, Bergemann-Schlag 2008, Chen-Hu-Wang 2024, Cummings-Devanur-Huang-Wang 2020, and Ko-Munagala 2022/2024. No direct source for the exact finite-support constant was found; notes mark it as an internal AM-GM result.
+
+Sources checked include: https://doi.org/10.1257/aer.20130848, https://doi.org/10.1162/JEEA.2008.6.2-3.560, https://doi.org/10.1287/opre.2022.0016, https://doi.org/10.1137/1.9781611975994.149, https://doi.org/10.1145/3490486.3538335.
+
+## Working Notes Updated
+Updated `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `promising_directions.md`, `bibliography.md`, and `iteration_summaries.md`.
+
+## Next Iteration Focus
+1. Polish CL-023/LB-018 and CL-025/LB-019 into theorem-proof blocks.
+2. Formalize the \(1/e\) universal terminal-block diagonal construction.
+3. Prove or break the same-path multi-threshold anytime lift with explicit \(O(m)\) terms.

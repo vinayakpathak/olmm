@@ -1,0 +1,81 @@
+## Summary
+
+I do not see a fatal counterexample. The explorer’s formula appears correct in the formal left-limit finite-prefix model:
+
+\[
+D_n(h^M,0^N,\ell,0^L,h)
+=
+[\ell(M+N)-h(M-1)_+]_+\left(1-\frac{\ell}{h}\right).
+\]
+
+The main critique is proof completeness, not truth: the report should spell out the horizon-by-horizon comparator values and the exact dual cancellation for the low-time/post-low coordinates.
+
+## Issue List
+
+- **Plausible but incomplete:** The primal upper bound needs an explicit table of horizon classes. In particular, for \(T=r,\ldots,r+L\), the comparator value is unchanged:
+  \[
+  V_T^*=\max\{h(M-1)_+,\ell(M+N)\},
+  \]
+  and quote times \(r,\ldots,T-1\) have no positive future before \(T\), so they contribute neither comparator nor learner payoff.
+
+- **Plausible but incomplete:** The dual computation is asserted too quickly. It should show the cancellation:
+  \[
+  V_r^*=hH+S,\qquad V_n^*=h(H+G+L+1),
+  \]
+  with
+  \[
+  H=(M-1)_+,\quad G=N+\mathbf 1_{\{M\ge1\}},\quad
+  S=[\ell(M+N)-hH]_+.
+  \]
+  For weights \(\lambda_0=1-\ell/h,\lambda_1=\ell/h\), the support costs are
+  \[
+  hH+\ell G+\ell(L+1).
+  \]
+  Thus the dual objective is
+  \[
+  \lambda_0(hH+S)+\lambda_1h(H+G+L+1)-hH-\ell G-\ell(L+1)
+  =
+  \lambda_0 S.
+  \]
+
+- **Missing assumption:** The statement is an infimum/left-limit result. In the original strict-crossing action space, \(h^-\) and \(\ell^-\) are not literal actions. Promotion should say “formal left-limit model” or add an \(\eta\)-implementation lemma.
+
+- **Missing assumption / notation risk:** The “post-low coordinates” count must include the quote at the low time \(t=r\). That quote does not trade at \(P_r=\ell\); it is final-only and cancels with the final-high comparator contribution.
+
+- **Worth pursuing:** The formula is a good regression test for two-level debt bookkeeping, but it should not be stated as evidence of additivity across multiple lows/droughts.
+
+## Counterexamples Or Stress Tests
+
+No counterexample found.
+
+Stress checks:
+
+- \(M=0\): gives \(D=N\ell(1-\ell/h)\), matching the separated block \(0^N,\ell,0^L,h\).
+- \(M=1\): gives \(D=\ell(N+1)(1-\ell/h)\); the initial high-time quote is a conflict coordinate because it cannot trade at its own high.
+- \(M=N=0\): gives \(D=0\); there is no pre-low quote coordinate.
+- \(N=0\): gives \([\ell M-h(M-1)]_+(1-\ell/h)\), so old highs can fully damp the low/high conflict.
+- Large \(L\): the value is independent of \(L\), so normalized \(D_n/n\to0\) for fixed \(M,N\), consistent with the diluted-drought obstruction.
+
+## Literature Or Known-Result Conflicts
+
+No conflict with the local ledger. The claim extends CL-044 from \(L=0\) and is consistent with the separated-block formula when \(M=0\).
+
+No external bibliography seems needed for this finite LP identity.
+
+## What Survives The Critique
+
+The main identity survives.
+
+The primal construction survives if written as: quote \(h^-\) everywhere, then replace total mass \(q=S/h\) by \(\ell^-\) only on the \(G\) conflict coordinates. Feasibility follows from \(S\le hG\).
+
+The dual survives with only the two horizons \(r=M+N+1\) and \(n=M+N+L+2\), provided the final-only \(L+1\) coordinates are explicitly canceled.
+
+## Bibliography Candidates
+
+None.
+
+## Recommended Next Checks
+
+1. Promote the lemma only after adding the explicit primal horizon table and the dual cost-count algebra above.
+2. Add a strict-crossing \(\eta\)-implementation remark.
+3. Use this as a regression test, but next test multi-low droughts where low quote mass creates shared high debt across more than one later high.

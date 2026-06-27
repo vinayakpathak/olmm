@@ -1,0 +1,94 @@
+## Summary
+
+The explorer’s core proof looks sound under the intended model: one fixed deterministic infinite path, one horizon-oblivious policy, regret evaluated at all prefixes, `sup` comparator, and no terminal-round signal. I do not see a fatal mathematical gap in the inequality
+\[
+\max\{R_{T_i^0},R_{T_i^1}\}\ge N_i/4-M_i-O(1).
+\]
+
+The main risks are definitional rather than algebraic. The theorem must be stated as a horizon-oblivious same-path obstruction, not as a tail characterization and not as an ordinary unknown-horizon online-learning result.
+
+## Issue List
+
+- **Missing assumption: exact policy model.**  
+  The proof needs a single policy whose action at time \(t\) is a function of the infinite path law or known deterministic path, current time, observed prices/rewards so far, and private randomness, but not the evaluation horizon \(T\). It must also receive no “last round” signal.
+
+- **Missing assumption: same random seed/coupling.**  
+  To compare \(T_i^0\) and \(T_i^1\), the first \(M_i+N_i\) actions should be coupled under the same policy randomness. This is easy but should be explicit.
+
+- **Plausible but incomplete: endpoint feedback order.**  
+  The proof is consistent with the problem’s order: price revealed, learner posts, old quotes trade. Then the quote posted at \(T_i^0\) cannot earn by \(T_i^0\), but can earn by \(T_i^1\), contributing at most \(1\). State this to avoid an off-by-one ambiguity.
+
+- **Missing assumption: `sup`, not `max`.**  
+  The comparator values \(N_i/2\) and \(N_i\) are supremal values approached by quotes \(1/2-\eta\) and \(1-\eta\). With `max`, the claims are false because of strict crossing.
+
+- **Worth pursuing: prefix reward cap is crude but valid.**  
+  Old learner rewards can partially offset current-block regret, but at each endpoint they are at most \(M_i\). In the summed inequality this becomes \(2M_i\). This is enough if \(M_i=o(N_i)\).
+
+- **Plausible but incomplete: limsup conversion.**  
+  The report should explicitly divide by \(T_i^b=M_i+N_i+O(1)\). With \(M_i/N_i\to0\), the bound gives
+  \[
+  \limsup_T R_T/T\ge 1/4.
+  \]
+
+- **False if overgeneralized.**  
+  This does not prove raw \(\beta\)-necessity, \(\gamma\)-necessity, or any instance-wise characterization. It only proves one deterministic process is hard for horizon-oblivious policies.
+
+## Counterexamples Or Stress Tests
+
+- **Horizon-aware policy defeats it.**  
+  If the policy knows whether the horizon is \(T_i^0\) or \(T_i^1\), it can play near \(1/2\) or near \(1\) on the zero block. This is exactly why the theorem must be horizon-oblivious.
+
+- **No dominance, no linear result.**  
+  If \(N_i\) is not much larger than \(M_i\), the finite lower bound remains true but may not imply linear regret as a fraction of \(T_i^b\).
+
+- **Endpoint action stress test.**  
+  At \(T_i^0\), after seeing \(P=1/2\), the learner can post near \(1\) and earn at \(T_i^1\). The explorer’s extra \(-1\) handles this.
+
+- **Old outstanding quote stress test.**  
+  The learner may have many old high quotes that all trade at the \(1\) endpoint. The \(M_i\) cap handles this because each old quote pays at most once and at most \(1\).
+
+- **Strict threshold stress test.**  
+  Actions exactly \(1/2\) do not trade at the \(1/2\) endpoint, and actions exactly \(1\) do not trade at the \(1\) endpoint. This reinforces the need for `sup` or \(\eta\)-comparators.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict found. Standard unknown-horizon online-learning results do not apply directly because here the prefix reward of an old action depends on whether a future crossing occurs before the evaluation horizon; there is no fixed per-round reward/loss sequence independent of \(T\).
+
+Luo and Schapire’s unknown-horizon paper is relevant conceptual context, especially because it studies adversarially chosen horizons, but it should be cited as contrast only, not proof support.
+
+## What Survives The Critique
+
+The main proof survives:
+
+\[
+X_i+Y_i\le N_i
+\]
+captures the current-block incompatibility.
+
+The regret lower bounds
+\[
+R_{T_i^0}\ge N_i/2-M_i-X_i,
+\qquad
+R_{T_i^1}\ge N_i-M_i-1-Y_i
+\]
+are valid under the stated model.
+
+Thus
+\[
+\max\{R_{T_i^0},R_{T_i^1}\}\ge N_i/4-M_i-O(1),
+\]
+and if \(M_i=o(N_i)\), the deterministic known path gives \(\limsup_T R_T/T\ge1/4\) for every horizon-oblivious policy.
+
+## Bibliography Candidates
+
+- Haipeng Luo and Robert E. Schapire. “Towards Minimax Online Learning with Unknown Time Horizon.” ICML 2014, PMLR 32(1):226-234. https://proceedings.mlr.press/v32/luo14.html. Relevance: conceptual background for unknown-horizon/adversarial-stopping online learning; useful contrast because this market-making obstruction comes from horizon-censored rewards.
+
+## Recommended Next Checks
+
+1. Write a formal theorem defining horizon-oblivious policy and prefix regret on one infinite deterministic path.
+
+2. State the proof with \(\eta\)-comparators first, then take \(\eta\downarrow0\) or use `sup` throughout.
+
+3. Add a short lemma verifying the feedback/order-of-events convention at \(T_i^0,T_i^1\).
+
+4. Promote this as a horizon-oblivious obstruction only; keep a warning that sparse vanishing spikes still refute raw \(\beta\)-necessity.

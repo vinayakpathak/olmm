@@ -1,0 +1,184 @@
+## Summary
+
+The empirical-process reformulation is worthwhile. The clean route is not VC theory: the monotone-boundary set class has unbounded VC dimension. The right tool is one-dimensional monotone-function bracketing in the time coordinate, combined with a one-sided Hoeffding union bound over brackets.
+
+This appears to strengthen the solver’s finite-grid proof: it should give a deterministic equal-revenue quote sequence with uniform monotone-threshold error \(O(n^{2/3})\), improving the solver sketch’s \(O(n^{2/3}\sqrt{\log n})\). This validates the derandomization theorem, but it does not solve the original tail-characterization problem.
+
+## Concrete Progress
+
+Let \(A_t\stackrel{iid}{\sim}\mu\), where
+\[
+d\mu(a)=a^{-1}{\bf 1}\{e^{-1}\le a\le 1\}\,da,
+\qquad
+g(c)=\mathbb E[A{\bf 1}\{A<c\}]=(c-e^{-1})_+.
+\]
+
+For every nonincreasing threshold sequence \(c_1\ge\cdots\ge c_n\), define
+\[
+S_c=\sum_{t=1}^n A_t{\bf 1}\{A_t<c_t\}.
+\]
+
+The target one-sided ULLN is
+\[
+\inf_{c_1\ge\cdots\ge c_n}
+\left[
+S_c-\sum_{t=1}^n g(c_t)
+\right]
+\ge -e_n,
+\qquad e_n=o(n).
+\]
+
+Using monotone bracketing, this should hold almost surely for all sufficiently large \(n\) with
+\[
+e_n=O(n^{2/3}).
+\]
+
+This is enough to derandomize the known-path \(1/e\) upper bound.
+
+## Claims Or Lemmas
+
+**Lemma 1: Monotone-threshold bracketing.**  
+Let \(Q_n\) be the uniform measure on \(\{1,\ldots,n\}\). For every \(\eta>0\), the class of nonincreasing sequences \(c:\{1,\ldots,n\}\to[0,1]\) has \(L_1(Q_n)\)-brackets \([\ell,u]\) with
+\[
+Q_n(u-\ell)\le \eta,
+\qquad
+\log N_{[]}(\eta)\le C/\eta,
+\]
+uniformly in \(n\).
+
+This is a direct application of the standard monotone-function bracketing theorem.
+
+**Lemma 2: Payoff brackets inherit \(L_1\) width.**  
+If \(\ell\le c\le u\), then
+\[
+A{\bf 1}\{A<\ell_t\}
+\le
+A{\bf 1}\{A<c_t\}
+\le
+A{\bf 1}\{A<u_t\}.
+\]
+Moreover
+\[
+\frac1n\sum_t
+\mathbb E\left[A{\bf 1}\{\ell_t\le A<u_t\}\right]
+\le
+\frac1n\sum_t(u_t-\ell_t)
+\le \eta.
+\]
+
+The equal-revenue law makes this especially clean because \(a\,d\mu(a)=da\) on \([e^{-1},1]\).
+
+**Lemma 3: Uniform one-sided deviation.**  
+With probability at least \(1-n^{-3}\),
+\[
+\inf_{c_1\ge\cdots\ge c_n}
+\left[
+\sum_t A_t{\bf 1}\{A_t<c_t\}
+-
+\sum_t g(c_t)
+\right]
+\ge
+-C n^{2/3}.
+\]
+
+By Borel-Cantelli, some deterministic realization \(a_1,a_2,\ldots\) satisfies this for all large \(n\).
+
+## Proof Attempts
+
+For a bracket \([\ell^j,u^j]\), define
+\[
+L_j(t,A_t)=A_t{\bf 1}\{A_t<\ell^j_t\}.
+\]
+For any \(c\in[\ell^j,u^j]\),
+\[
+\sum_t f_c(t,A_t)-\sum_t\mathbb E f_c(t,A_t)
+\ge
+\sum_t(L_j-\mathbb E L_j)-n\eta.
+\]
+
+There are at most \(\exp(C/\eta)\) brackets. Hoeffding gives
+\[
+\Pr\left[
+\exists j:\sum_t(L_j-\mathbb E L_j)\le -x
+\right]
+\le
+\exp(C/\eta-2x^2/n).
+\]
+
+Choose
+\[
+x=\sqrt{\frac n2(C/\eta+3\log n)}.
+\]
+Then failure probability is at most \(n^{-3}\), and the uniform lower error is
+\[
+n\eta+\sqrt{n(C/\eta+3\log n)}.
+\]
+Optimizing at \(\eta\asymp n^{-1/3}\) gives \(O(n^{2/3})\).
+
+For a deterministic price path and horizon \(T\), set
+\[
+M_{t,T}=\max_{t<s\le T}P_s.
+\]
+Then \(M_{1,T}\ge\cdots\ge M_{T-1,T}\), so the deterministic sequence gives
+\[
+\sum_{t<T}r_t(a_t)
+\ge
+\sum_{t<T}g(M_{t,T})-O(T^{2/3}).
+\]
+Since
+\[
+\sup_a\sum_{t<T}a{\bf 1}\{a<M_{t,T}\}
+\le
+\sum_{t<T}M_{t,T},
+\]
+and \(M-g(M)\le e^{-1}\), we get
+\[
+R_T\le (T-1)/e+O(T^{2/3}).
+\]
+
+## Gaps And Risks
+
+The result is nonconstructive: it proves existence of one deterministic quote sequence via the probabilistic method.
+
+This is a derandomization of the known-path horizon-oblivious \(1/e\) theorem, not a solution to the original iff/tail characterization.
+
+The proof assumes exogenous deterministic prices, or exogenous stochastic prices handled by conditioning on the realized path. It does not apply to endogenous prices reacting to quotes.
+
+The final writeup should keep `sup` comparators and strict crossing \(a<M_{t,T}\). The bracket inequalities are compatible with strict crossing.
+
+## Counterexamples Or Obstructions
+
+The VC route is a trap. The class
+\[
+\{(t,a):a<c_t,\ c_1\ge\cdots\ge c_n\}
+\]
+can shatter arbitrarily large antichains with \(t_i\) increasing and \(a_i\) decreasing, so no fixed finite VC dimension controls it.
+
+Generic \(L_2\)-Donsker bracketing is also the wrong level of force: the induced \(L_2\) entropy is borderline. The \(L_1\) bracket plus Hoeffding argument is more direct and gives the needed \(o(n)\) rate.
+
+## Sources Consulted
+
+- Aad W. van der Vaart and Jon A. Wellner, *Weak Convergence and Empirical Processes*, Springer, 1996. https://link.springer.com/book/10.1007/978-1-4757-2545-2
+- Aad van der Vaart, “Entropy Methods in Statistics,” 2009 lecture notes. https://diamhomes.ewi.tudelft.nl/~avandervaart/talks/09hilversum.pdf
+- Fuchang Gao and Jon A. Wellner, “Entropy estimate for high-dimensional monotonic functions,” arXiv/JMVA. https://arxiv.org/abs/math/0512641 and https://doi.org/10.1016/j.jmva.2006.09.003
+- V. N. Vapnik and A. Ya. Chervonenkis, “On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities.” https://link.springer.com/chapter/10.1007/978-3-319-21852-6_3
+
+## Bibliography Candidates
+
+- Aad W. van der Vaart and Jon A. Wellner. *Weak Convergence and Empirical Processes: With Applications to Statistics*. Springer Series in Statistics, 1996. DOI: https://doi.org/10.1007/978-1-4757-2545-2. Relevance: canonical source for empirical-process bracketing, including monotone-function entropy.
+
+- Fuchang Gao and Jon A. Wellner. “Entropy estimate for high-dimensional monotonic functions.” *Journal of Multivariate Analysis* 98(9):1751-1764, 2007. DOI: https://doi.org/10.1016/j.jmva.2006.09.003. Relevance: useful cautionary source for multidimensional monotone bracketing and critical \(L_2\) behavior.
+
+- V. N. Vapnik and A. Ya. Chervonenkis. “On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities.” *Theory of Probability and Its Applications* 16(2):264-280, 1971. DOI: https://doi.org/10.1137/1116025. Relevance: background for why a VC argument would be natural, though this class is not finite-VC.
+
+## Recommended Next Steps
+
+Write the monotone-threshold derandomization as a formal lemma with the \(O(n^{2/3})\) bound and Borel-Cantelli diagonalization.
+
+Then combine it with CL-029 to state the deterministic horizon-oblivious known-path theorem:
+\[
+R_T\le (T-1)/e+O(T^{2/3})
+\]
+for one fixed deterministic quote sequence.
+
+Keep it separate from the original tail characterization, which remains false under the earlier counterexamples.

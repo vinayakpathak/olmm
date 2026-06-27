@@ -1,0 +1,73 @@
+## Verdict
+SOLVED: maybe
+
+As written, the iff conjecture is false. Assumption \(\beta(h)\to0\) is a valid sufficient condition under the public/exogenous full-information interpretation, but it is not necessary for instance-wise pseudo-regret. A true necessity theorem still needs stronger quantifiers, such as universal/minimax learning over a class.
+
+## Candidate Solution Or Main Attempt
+The clean result is:
+
+\[
+R_T \le C\sqrt{T(H+1)\log K}+T/K+T\beta(H).
+\]
+
+This follows by running delayed full-information Hedge on the grid \(\mathcal G_K=\{0,1/K,\dots,(K-1)/K\}\), using public prices to reveal every truncated grid reward by delay \(H\). Downward discretization gives \(T/K\), and truncation gives \(T\beta(H)\). Taking \(K=T\) and \(H_T=\lfloor \sqrt{T/\log(eT)}\rfloor\) gives \(R_T=o(T)\) whenever \(\beta(h)\to0\).
+
+But necessity fails. Let \(s_n=2^n\), \(P_{s_n}=U_n/s_n\), \(P_t=0\) otherwise, with iid \(U_n\sim{\rm Unif}(0,1)\). For any \(h\), choose \(n\) with \(2^n>h\). At \(t=s_n\), quote \(a=0\) waits until \(s_{n+1}\), so \(\beta(h)=1\). Yet for any fixed \(a>0\), only times before the last spike with \(1/s_m>a\) can ever earn, so total fixed-action reward is \(<1\). The always-zero learner has regret at most \(1\) for all \(T\). Thus the original only-if direction is refuted.
+
+## Concrete Lemmas Or Reductions
+1. **Sufficiency with sharper tails.**
+
+The same proof works with
+
+\[
+\gamma(h)=\sup_{t,a}\operatorname*{ess\,sup}_{\mathcal F_t}
+a\,\Pr(h<\tau_t(a)<\infty\mid\mathcal F_t)
+\]
+
+or with the horizon/comparator gaps \(\Delta_T(H)\), \(\Gamma_T(H)\). The sharpest clean bound is
+
+\[
+R_T\le C\sqrt{T(H+1)\log K}+T/K+\Gamma_T(H).
+\]
+
+2. **Universal-class block lower bound.**
+
+For any process-unaware randomized learner, choose deterministic blocks \(0^{N_i}c_i\), \(c_i\in\{1/2,1\}\), with previous length \(M_i=o(N_i)\). Conditional on the previous prefix and first \(N_i\) zeros, the learner cannot distinguish the two continuations. Averaging over \(c=1/2,1\), current-block learner reward is at most \(N_i/2\), while the comparator supremum averages \(3N_i/4\). Prefix effects cost at most \(M_i\). Hence one continuation has endpoint regret
+
+\[
+R_T\ge N_i/4-M_i,
+\]
+
+so \(\limsup_T R_T/T\ge 1/4\). This supports minimax/universal necessity, not instance-wise necessity.
+
+## Gaps And Failure Points
+The original statement does not specify the quantifier behind “possible.” If the learner may know both the exogenous law and horizon, pseudo-regret collapses: play an \(\varepsilon_T\)-optimal fixed quote for \(V_T(a)\), giving \(o(T)\) regret for every process.
+
+The finite-grid upper bound also needs explicit assumptions: public exogenous prices, counterfactual grid rewards observable after truncation delay, and regret against \(\sup_a\), not \(\max_a\).
+
+## Counterexamples Or Obstructions
+The sparse vanishing-spike process refutes \(\beta\)-necessity.
+
+Coded-delay examples refute instance-wise \(\gamma\)-necessity: long positive-payoff tails can be perfectly predictable and therefore harmless.
+
+Predictable sparse spikes obstruct \(\Delta_T\)-necessity: raw delayed reward mass can be linear while a process-aware learner knows the right quote.
+
+## Literature And Bibliography Candidates
+No new exact characterization source found. Relevant verified sources remain:
+
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari. “Online Learning under Delayed Feedback.” ICML/PMLR 2013. Supports the delayed-feedback reduction used in the finite-grid sufficiency proof. ([proceedings.mlr.press](https://proceedings.mlr.press/v28/joulani13.html))
+- Nicolò Cesa-Bianchi, Tommaso Cesari, Roberto Colomboni, Luigi Foscari, Vinayak Pathak. “Market Making without Regret.” COLT/PMLR 2025. Adjacent market-making regret framework and pricing geometry. ([proceedings.mlr.press](https://proceedings.mlr.press/v291/cesa-bianchi25a.html))
+
+## Promising Ideas To Explore
+Formalize the concatenated block lower bound as a theorem for universal/minimax learning.
+
+Replace tail necessity with an information condition: long delayed mass must be payoff-relevant, frequent, and unpredictable.
+
+Develop adaptive truncation/skipping algorithms so \(H\) need not be fixed from a known tail bound.
+
+## Notes For Critics
+Check the block lower bound’s cross-block accounting, especially pending quotes from previous blocks; the \(M_i\) bound should cover them.
+
+Do not allow the lower bound to be reinterpreted as instance-wise process-aware impossibility.
+
+Use \(\sup\), not \(\max\), everywhere unless comparator attainment is proved.

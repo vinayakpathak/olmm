@@ -1,0 +1,111 @@
+## Summary
+
+The $\mathrm{ba}$ dual looks proof-ready as an abstract finite-grid value theorem. The right proof strategy is ordered Banach-space separation in $X=\ell^\infty(\Theta)$, not a posterior/Bayes argument.
+
+It gives the exact signed finite-grid minimax value for a fixed convex randomized-policy reward set $C$. It does not give a scalar tail condition, a posterior-predictive formula, or rates.
+
+## Concrete Progress
+
+Standalone proposition:
+
+Let $\Theta\neq\emptyset$, $X=\ell^\infty(\Theta)$, $V\in X$, and $C\subset X$ be nonempty, bounded, and convex. Define
+$$
+\rho=\inf_{c\in C}\sup_{\theta\in\Theta}(V_\theta-c_\theta).
+$$
+Then
+$$
+\rho=
+\sup_{\nu\in ba_1^+(\Theta)}
+\left\{
+\langle V,\nu\rangle-\sup_{c\in C}\langle c,\nu\rangle
+\right\},
+$$
+where $ba_1^+(\Theta)$ is the set of positive finitely additive probabilities, equivalently positive normalized functionals on $\ell^\infty(\Theta)$.
+
+For the market problem, take
+$$
+V_\theta=V_\theta^G,\qquad
+C=\{(L_\theta(A))_\theta:A\text{ admissible randomized grid policy}\}.
+$$
+
+## Claims Or Lemmas
+
+1. Weak duality is immediate from positivity:
+$$
+\langle V,\nu\rangle-\sigma_C(\nu)
+\le \langle V-c,\nu\rangle
+\le \sup_\theta(V_\theta-c_\theta).
+$$
+
+2. If $\alpha<\rho$, then
+$$
+V-\alpha\mathbf{1}\notin \overline{C-X_+}^{\|\cdot\|_\infty}.
+$$
+
+3. Separating $V-\alpha\mathbf{1}$ from $\overline{C-X_+}$ gives a nonzero $\phi\in(\ell^\infty)^*$. Downward closedness of $C-X_+$ forces $\phi\ge0$.
+
+4. A nonzero positive $\phi$ has $\phi(\mathbf{1})>0$, so $\nu=\phi/\phi(\mathbf{1})\in ba_1^+$.
+
+5. Finite-support priors recover the finite-subclass/product-closure relaxation. The full $\mathrm{ba}$ dual recovers the true arbitrary-class value.
+
+## Proof Attempts
+
+The separation proof is the safest route.
+
+Set $S=C-X_+$. If $z_\alpha=V-\alpha\mathbf{1}$ were in $\overline S$, then for some $c_n\in C$, $x_n\ge0$,
+$$
+c_n-x_n\to z_\alpha.
+$$
+Hence $c_n\ge V-\alpha\mathbf{1}-o(1)$ uniformly, so
+$$
+\sup_\theta(V_\theta-c_{n,\theta})\le \alpha+o(1),
+$$
+contradicting $\alpha<\rho$.
+
+Strong norm separation gives
+$$
+\phi(z_\alpha)>\sup_{s\in S}\phi(s).
+$$
+If $\phi(u)<0$ for some $u\ge0$, then $s-\lambda u\in S$ and $\phi(s-\lambda u)\to+\infty$, contradiction. Thus $\phi\ge0$. Also
+$$
+\sup_{s\in C-X_+}\phi(s)=\sup_{c\in C}\phi(c).
+$$
+Normalize and get a dual value $>\alpha$. Let $\alpha\uparrow\rho$.
+
+## Gaps And Risks
+
+The final write-up must cite or prove $(\ell^\infty(\Theta))^*=ba(\Theta)$, strong Hahn-Banach separation, and positive-functional facts.
+
+Convexity of $C$ is essential. Without ex-ante randomized policies, the dual computes the convexified game.
+
+The theorem dualizes whichever policy class defines $C$. It does not solve the Borel-policy versus completed-kernel alignment issue.
+
+General $\mathrm{ba}$ priors do not induce mixture laws, posteriors, or conditional reward curves. Keep the support term abstract.
+
+## Counterexamples Or Obstructions
+
+Nonconvex stress test: with $\Theta=\{1,2\}$, $V=(1,1)$, and $C=\{(1,0),(0,1)\}$, deterministic value is $1$, but the convexified dual value is $1/2$.
+
+Finite-support gap: with $\Theta=\mathbb N$, $V\equiv1$, and
+$$
+C=\{c\in[0,1]^\mathbb N:c\text{ has finite support}\},
+$$
+the full value is $1$, every finite subclass has value $0$, and a finitely additive mass at infinity witnesses the $\mathrm{ba}$ value $1$.
+
+The hidden/labeled terminal pair still blocks scalar per-world tail characterizations.
+
+## Sources Consulted
+
+No web sources consulted.
+
+Local files: `problem.md`, all requested `working_notes/*.md`, `iterations/iter_021/idea_02/idea.md`, plus recent iteration 19/20 $\mathrm{ba}$ dual reports and critiques.
+
+## Recommended Next Steps
+
+Write this as “Finite-Grid Arbitrary-Class Finitely Additive Duality.”
+
+Immediately add a “not a Bayes theorem” paragraph.
+
+Add the finite-support example as the canonical reason $\mathrm{ba}$ is needed.
+
+Keep continuum quotes behind the existing $T/K$ grid comparison, and keep tail rates separate.

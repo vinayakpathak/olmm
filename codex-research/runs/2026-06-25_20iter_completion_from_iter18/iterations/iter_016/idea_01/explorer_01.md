@@ -1,0 +1,197 @@
+## Summary
+
+The post-low extension appears correct in the formal left-limit finite-prefix model:
+
+\[
+D_n(h^M,0^N,\ell,0^L,h)
+=
+\bigl[\ell(M+N)-h(M-1)_+\bigr]_+
+\left(1-\frac{\ell}{h}\right),
+\quad 0<\ell<h.
+\]
+
+The post-low zeros create no extra intermediate-horizon constraint. They add only final-high quote opportunities, which can be handled by posting \(h^-\). The only real conflict is still between the low horizon and the final high horizon on the coordinates whose suffix maximum changes from \(\ell\) to \(h\).
+
+## Concrete Progress
+
+Let
+
+\[
+r=M+N+1,\qquad n=M+N+L+2
+\]
+
+so \(P_r=\ell\) and \(P_n=h\). Define
+
+\[
+H=(M-1)_+,\qquad
+G=N+\mathbf 1_{\{M\ge1\}},
+\qquad
+S=\bigl[\ell(M+N)-hH\bigr]_+.
+\]
+
+Here:
+
+- \(H\) is the number of old quote times that already see a future high before the low.
+- \(G\) is the number of conflict coordinates: at the low horizon their suffix maximum is \(\ell\), while at the final horizon it is \(h\).
+- \(S\) is the low-horizon surplus of the \(\ell^-\) comparator over the stable \(h^-\) comparator.
+
+The value is
+
+\[
+D_n=S(1-\ell/h).
+\]
+
+For \(L>0\), every intermediate horizon \(T=r,r+1,\ldots,r+L\) has the same comparator value and the same pre-low payoff structure as \(T=r\). The extra quote times after \(\ell\) have no positive future price before the final \(h\), so they do not create a new low-side constraint.
+
+## Claims Or Lemmas
+
+**Lemma: post-low zeros do not change the single-drought value.**  
+In the formal left-limit model, for \(0<\ell<h\),
+
+\[
+D_{M+N+L+2}(h^M,0^N,\ell,0^L,h)
+=
+\bigl[\ell(M+N)-h(M-1)_+\bigr]_+
+\left(1-\frac{\ell}{h}\right).
+\]
+
+This extends CL-044 from \(L=0\) to arbitrary \(L\ge0\).
+
+Edge checks:
+
+\[
+M=0:\quad D=N\ell(1-\ell/h),
+\]
+
+matching the separated block \(0^N,\ell,0^L,h\).
+
+\[
+M=1:\quad D=\ell(N+1)(1-\ell/h).
+\]
+
+\[
+N=0:\quad D=[\ell M-h(M-1)]_+(1-\ell/h).
+\]
+
+\[
+M=N=0:\quad D=0,
+\]
+
+because there is no pre-low quote coordinate.
+
+## Proof Attempts
+
+### Primal Upper Bound
+
+Post \(h^-\) on all coordinates by default. This gives zero deficit at the final high horizon.
+
+If \(S=0\), this already has zero deficit at the low and intermediate horizons, so \(D_n=0\).
+
+If \(S>0\), place total \(\ell^-\)-mass
+
+\[
+q=\frac{S}{h}
+\]
+
+across the \(G\) conflict coordinates, and keep \(h^-\)-mass elsewhere. This is feasible because \(q\le G\).
+
+At the low and post-low intermediate horizons, the added \(\ell^-\)-mass increases payoff by \(\ell q\), so the deficit is
+
+\[
+S-\ell q=S\left(1-\frac{\ell}{h}\right).
+\]
+
+At the final high horizon, replacing \(h^-\) by \(\ell^-\) on total mass \(q\) loses
+
+\[
+(h-\ell)q=S\left(1-\frac{\ell}{h}\right).
+\]
+
+All earlier horizons have zero deficit: old high coordinates are quoted \(h^-\), and conflict/post-low coordinates have no relevant positive future before \(\ell\) or \(h\).
+
+Thus
+
+\[
+D_n\le S(1-\ell/h).
+\]
+
+### Dual Lower Bound
+
+Use only two horizons:
+
+\[
+T_0=M+N+1,\qquad T_1=n,
+\]
+
+with weights
+
+\[
+\lambda_0=1-\ell/h,\qquad \lambda_1=\ell/h.
+\]
+
+At old-high coordinates, the dual support cost is \(h\).  
+At conflict coordinates, the key pointwise inequality is
+
+\[
+\lambda_0 a\mathbf 1\{a\le \ell\}
++
+\lambda_1 a\mathbf 1\{a\le h\}
+\le \ell
+\]
+
+in the formal left-limit model.  
+At post-low coordinates, only the final high horizon matters, so the support cost is also \(\lambda_1h=\ell\).
+
+Computing the dual objective gives exactly
+
+\[
+S(1-\ell/h).
+\]
+
+Therefore
+
+\[
+D_n\ge S(1-\ell/h),
+\]
+
+matching the primal construction.
+
+## Gaps And Risks
+
+The identity is a formal left-limit value. In the original strict-crossing action space, quotes \(h^-\) and \(\ell^-\) must be implemented as \(h-\eta\) and \(\ell-\eta\). This gives the same value as an infimum, with finite-prefix loss \(O(\eta n)\), but not necessarily an attained optimum.
+
+The proof is local. It does not imply additivity across multiple droughts or multiple lows, because low quote mass creates persistent high-horizon debt that can interact across later highs.
+
+## Counterexamples Or Obstructions
+
+No counterexample found. The suspected obstruction from post-low intermediate horizons disappears because those horizons have the same active suffix maxima as the low horizon; post-low quote times have suffix maximum \(0\) until the final high.
+
+The quote-at-low-time convention is essential: the quote posted at time \(r\), after observing \(P_r=\ell\), does not trade on \(P_r\). It only matters at the final high horizon.
+
+## Sources Consulted
+
+Local run files only:
+
+- `problem.md`
+- `working_notes/canonical_summary.md`
+- `working_notes/claim_ledger.md`
+- `working_notes/lemma_bank.md`
+- `working_notes/failed_attempts.md`
+- `working_notes/counterexamples.md`
+- `working_notes/literature_map.md`
+- `working_notes/bibliography.md`
+- `working_notes/promising_directions.md`
+- `working_notes/iteration_summaries.md`
+- assigned `iterations/iter_016/idea_01/idea.md`
+
+No external literature search was needed for this finite LP identity.
+
+## Bibliography Candidates
+
+None.
+
+## Recommended Next Steps
+
+Promote the lemma as the resolved post-low single-drought identity, replacing the iteration-15 “plausible extension” note.
+
+Then use this as a regression test for any two-level surplus/debt recursion. The next hard case is not \(0^L\) after a single low; it is multiple lows or overlapping droughts where several low-surplus episodes share the same later high debt.

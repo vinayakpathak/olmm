@@ -1,0 +1,63 @@
+## Summary
+
+The explorer’s main sufficiency claims mostly survive: replacing \(\beta\) by the payoff-weighted \(\gamma\) works, and the averaged tail mass \(\Delta_T(H)\) gives a valid truncation-style upper bound.
+
+The weak point is characterization. Neither \(\gamma(h)\to0\) nor the averaged \(\Delta_T\) condition should be treated as necessary for sublinear expected regret without much sharper quantifiers. The sparse-time and rare-history obstructions are real.
+
+## Issue List
+
+- **Plausible but incomplete:** The \(\Delta_T(H)\) bound should use the horizon-censored tail
+  \[
+  \Delta_T^{\mathrm{hor}}(H)=\sup_a\sum_{t=1}^T \mathbb E[a\,1\{H<\tau_t(a)\le T-t\}]
+  \]
+  for sharpness. The explorer’s version with \(<\infty\) is a valid upper bound, but can count trades after the game ends.
+
+- **Missing assumption:** The learner’s choice of \(H_T\) needs a quantifier. For \(\gamma(h)\to0\), any fixed \(H_T\to\infty\) with \(H_T\log T=o(T)\) works. For \(\Delta_T(H_T)=o(T)\), the condition may be instance/schedule dependent unless an adaptive truncation scheme is supplied.
+
+- **Fatal gap for the original formulation:** The regret comparator uses \(\max_{a\in[0,1]}\), but the maximum may not exist under the strict trade rule \(P>a\). Replace all maxima by suprema or impose compactness/continuity assumptions that restore attainment.
+
+- **Unsupported citation / plausible but incomplete:** The delayed finite-grid bound \(O(\sqrt{TH\log K})\) is plausible for full-information delayed experts, but the proof must cite a precise theorem and specify that the public price path reveals all counterfactual grid rewards after \(H\) steps. If feedback were only own-action trade feedback, this would be false.
+
+- **False claim if read as necessity:** \(\gamma(h)\to0\) is not necessary for ordinary expected regret from the initial distribution. Failure at sparse times or rare histories need not create linear expected regret.
+
+- **Missing assumption:** The sparse deterministic counterexample refutes necessity only for initial-distribution expected regret. It does not refute necessity for a stronger uniform post-history guarantee.
+
+## Counterexamples Or Stress Tests
+
+1. **No comparator maximum.** If \(P_t=1\) deterministically for all future times, then for \(a<1\) the per-round payoff approaches \(a\), while \(a=1\) never trades. The supremum is \(1\), but it is not attained.
+
+2. **Sparse blocks break \(\gamma\)-necessity.** Let epochs consist of \(n\) zeros followed by \(n^3\) ones. For any \(h\), choose \(n>h\) and post \(a=1/2\) at the first zero of that block; then \(\tau>h\) with probability \(1\), so \(\gamma(h)\ge 1/2\). But through epoch \(N\), zero-block positions are \(O(N^2)\) and total time is \(O(N^4)\), so the long-delay payoff mass is \(o(T)\).
+
+3. **Rare-history essential-sup stress.** A tiny-probability branch with arbitrarily long positive-payoff delays makes the essential-sup tail fail if the branch has positive probability, while its contribution to expected regret can be negligible.
+
+4. **Uniform guarantee stress.** If regret is required after every reachable history, starting inside the first zero of a long sparse block makes the long delay non-sparse locally. The explorer’s counterexample depends on the weaker initial-time expected-regret criterion.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict found. Existing delayed online learning results support the finite-grid delayed-expert step, but they also suggest using total delay or realized delay mass, not only a hard cap.
+
+Relevant primary sources:
+- [Joulani, Gyorgy, Szepesvari, “Online Learning under Delayed Feedback,” ICML 2013](https://proceedings.mlr.press/v28/joulani13.html): delayed-feedback meta-algorithms and regret effects.
+- [Quanrud, Khashabi, “Online Learning with Adversarial Delays,” NeurIPS 2015](https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html): regret bounds in terms of total delay \(D\).
+- [Bistritz et al., “Online EXP3 Learning in Adversarial Bandits with Delayed Feedback,” NeurIPS 2019](https://proceedings.neurips.cc/paper/2019/hash/ae2a2db40a12ec0131d48acc1218d2ef-Abstract.html): distinguishes delayed bandit feedback and missing feedback beyond the horizon.
+
+## What Survives The Critique
+
+- The payoff-weighted truncation lemma with \(T\gamma(H)\) is sound.
+- The equivalence between \(\gamma(h)\to0\) and uniform positive-scale tail tightness over \(a\ge\epsilon\) is sound.
+- The averaged-tail upper bound is a useful sufficient condition.
+- The sparse-block example is a strong obstruction to any necessity theorem using \(\sup_t\) under initial expected regret.
+
+## Bibliography Candidates
+
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari. “Online Learning under Delayed Feedback.” ICML 2013. https://proceedings.mlr.press/v28/joulani13.html. Relevant for delayed-feedback reductions and finite-arm delayed regret bounds.
+- Kent Quanrud, Daniel Khashabi. “Online Learning with Adversarial Delays.” NeurIPS 2015. https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html. Relevant for total-delay regret bounds.
+- Ilai Bistritz, Zhengyuan Zhou, Xi Chen, Nicholas Bambos, Jose Blanchet. “Online EXP3 Learning in Adversarial Bandits with Delayed Feedback.” NeurIPS 2019. https://proceedings.neurips.cc/paper/2019/hash/ae2a2db40a12ec0131d48acc1218d2ef-Abstract.html. Relevant for delayed bandit/missing-feedback distinctions.
+
+## Recommended Next Checks
+
+1. Restate the theorem with `sup` instead of `max`.
+2. Replace \(\Delta_T\) by the horizon-censored \(\Delta_T^{\mathrm{hor}}\).
+3. Formalize the sparse-block construction for all horizons \(T\), not only epoch endpoints.
+4. Decide whether the target is initial expected regret, uniform post-history regret, or minimax regret over a process class.
+5. Pin the delayed-experts bound to a specific theorem, likely via total delay \(D\le TH\).

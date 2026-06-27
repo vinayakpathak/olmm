@@ -1,0 +1,177 @@
+## Summary
+
+For the assigned multi-low single-drought idea, the finite LP collapses cleanly. In the formal two-level left-limit model, early low horizons do **not** create extra binding front-loading constraints when all lows have the same level \(\ell\). The exact value is governed only by the last low horizon and the final high debt.
+
+For
+\[
+h^M,0^{N_0},\ell,0^{N_1},\ell,\ldots,0^{N_r},\ell,0^L,h,
+\qquad 0<\ell<h,
+\]
+let \(s_r\) be the last low time, \(A_r=s_r-1\), and \(H=(M-1)_+\). Then the finite-prefix value should be
+\[
+D
+=
+\left[\ell A_r-hH\right]_+
+\left(1-\frac{\ell}{h}\right)
+\]
+in the formal left-limit randomized-marginal model. The post-low zero length \(L\) drops out.
+
+## Concrete Progress
+
+Define low times
+\[
+s_j=M+\sum_{i=0}^j N_i+j+1,\qquad j=0,\ldots,r,
+\]
+and
+\[
+A_j=s_j-1,\qquad H=(M-1)_+,\qquad d=h-\ell.
+\]
+At low horizon \(s_j\), the high baseline earns \(hH\), while the low comparator earns \(\ell A_j\). The low-horizon surplus over the high baseline is
+\[
+S_j=[\ell A_j-hH]_+.
+\]
+
+Let
+\[
+U_j=A_j-H
+\]
+be the number of useful quote coordinates after the initial high baseline and before low \(j\). Let \(x_i\) be the total low-quote mass placed in segment \(i\), with capacities
+\[
+0\le x_i\le B_i,\qquad B_0=U_0,\quad B_i=U_i-U_{i-1}=N_i+1.
+\]
+The exact reduced LP is:
+\[
+\min z
+\]
+subject to
+\[
+z\ge S_j-\ell\sum_{i=0}^j x_i,\qquad j=0,\ldots,r,
+\]
+\[
+z\ge d\sum_{i=0}^r x_i,
+\]
+\[
+0\le x_i\le B_i.
+\]
+
+The first constraints are low-horizon residual surplus. The final constraint is final-high debt from using low quotes instead of high quotes.
+
+## Claims Or Lemmas
+
+**Lemma candidate.** In the above one-drought equal-low path, the reduced LP value is
+\[
+D
+=
+[S_r]_+\frac{h-\ell}{h}
+=
+[\ell A_r-hH]_+
+\left(1-\frac{\ell}{h}\right).
+\]
+
+Moreover, the last low constraint and final high constraint form a complete primal-dual certificate; earlier low constraints are slack or dominated.
+
+## Proof Attempts
+
+For a fixed total low mass
+\[
+P=\sum_i x_i,
+\]
+the best allocation is greedy/front-loaded: put low mass as early as possible. Then the cumulative low mass available by low \(j\) is
+\[
+P_j=\min(P,U_j).
+\]
+
+Take
+\[
+P^*=\frac{S_r}{h}.
+\]
+This is feasible because \(S_r\le \ell U_r<hU_r\). The final high debt is
+\[
+dP^*=\frac{dS_r}{h}.
+\]
+At the last low,
+\[
+S_r-\ell P^*
+=
+S_r\left(1-\frac{\ell}{h}\right)
+=
+\frac{dS_r}{h}.
+\]
+For any earlier low \(j<r\), either \(U_j\le P^*\), in which case it is fully covered, or \(U_j>P^*\), in which case
+\[
+S_j-\ell P^*
+\le
+\ell(U_j-P^*)-dH
+\le
+\ell(U_r-P^*)-dH
+=
+S_r-\ell P^*.
+\]
+So no earlier low exceeds the last-low deficit.
+
+The finite LP dual is also clean. With dual weights \(\lambda_j\) on low constraints and \(\mu\) on final-high debt, \(\sum_j\lambda_j+\mu=1\), the dual can be written as
+\[
+\max_{\lambda,\mu}
+\left[
+\sum_j\lambda_jS_j
+-
+\sum_i B_i\,[\ell\Lambda_i-d\mu]_+
+\right],
+\qquad
+\Lambda_i=\sum_{j\ge i}\lambda_j.
+\]
+Choose only
+\[
+\lambda_r=\frac{h-\ell}{h},\qquad \mu=\frac{\ell}{h}.
+\]
+Then \(\ell\Lambda_i=d\mu\) for every useful segment \(i\le r\), so all capacity penalty terms vanish and the dual value is
+\[
+\frac{h-\ell}{h}S_r.
+\]
+This matches the primal construction.
+
+## Gaps And Risks
+
+This is for the formal left-limit randomized-marginal LP. Actual strict crossing needs \(\ell^-\) and \(h^-\) implemented as \((1-\eta)\ell\), \((1-\eta)h\), with the usual small additive loss.
+
+The claim uses equal low level \(\ell\). If the lows have different heights, early horizons may genuinely bind.
+
+This does not yet solve repeated droughts. Low mass used in one drought can create high debt that interacts with later droughts.
+
+## Counterexamples Or Obstructions
+
+The assigned risk that “early lows create additional front-loading constraints” appears false in the equal-low single-drought case. The reason is structural: both the low surplus \(S_j\) and the cumulative useful capacity \(U_j\) grow with the same slope \(\ell\). Thus the last low dominates once low mass is greedily front-loaded.
+
+A real obstruction should be sought in unequal lows, multiple droughts, or non-high old prefixes.
+
+## Sources Consulted
+
+Local run files only:
+
+- `problem.md`
+- `working_notes/canonical_summary.md`
+- `working_notes/claim_ledger.md`
+- `working_notes/lemma_bank.md`
+- `working_notes/failed_attempts.md`
+- `working_notes/counterexamples.md`
+- `working_notes/literature_map.md`
+- `working_notes/bibliography.md`
+- `working_notes/promising_directions.md`
+- `working_notes/iteration_summaries.md`
+- `iterations/iter_016/idea_02/idea.md`
+
+No external web sources were consulted.
+
+## Bibliography Candidates
+
+None.
+
+## Recommended Next Steps
+
+Promote this as a candidate lemma and have a critic check edge cases: \(M=0\), \(N_i=0\), \(S_r=0\), and strict-crossing implementation.
+
+Then test the first genuinely harder variant:
+\[
+h^M,0^{N_0},\ell_0,0^{N_1},\ell_1,\ldots,0^{N_r},\ell_r,0^L,h
+\]
+with varying \(\ell_j\). That is where early front-loading constraints may become real.

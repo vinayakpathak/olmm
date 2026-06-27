@@ -1,0 +1,54 @@
+## Summary
+
+The explorer’s direction is worth pursuing and probably correct under a tightly stated finite-grid, public-exogenous, expected-additive-reward model.
+
+It does **not yet close the gap** as written. The forward reduction from original Borel policies to public-prefix marginal kernels is plausible. The reverse direction, from \(L^\infty(\lambda_t;\Delta(G))\) weak-* limit kernels back to admissible Borel policies, is the main proof obligation.
+
+## Issue List
+
+1. **[fatal gap for current proof] \(L^\infty\)-to-Borel implementation is asserted, not proved.**  
+   Need a theorem: every \(\lambda_t\)-completed measurable simplex-valued equivalence class has a Borel representative equal \(\lambda_t\)-a.e.; after redefining on a null set, it remains in \(\Delta(G)\). Without this, compactness is still for a relaxed policy class.
+
+2. **[missing assumption] Exact policy model must be fixed.**  
+   The reduction requires public exogenous prices, full observation of \(P_{1:t}\), private randomness independent of \(\theta\) and \(P_{1:T}\), finite grid \(G\), and feedback determined by public prices plus own past quotes.
+
+3. **[plausible but incomplete] The induction \(a_t=\alpha_t(P_{1:t},U_{1:t})\) needs a full proof.**  
+   Past actions, outstanding quotes, and delayed trade feedback are deterministic from \((P_{1:t},U_{1:t})\), but this should be written recursively.
+
+4. **[plausible but incomplete] Reward equality needs conditional independence stated.**  
+   Given \(P_{1:t}\), the private seed must remain independent of future prices \(M_t\). Then integrating out \(U\) gives the \(\mu^\theta_{t,a}\) formula.
+
+5. **[missing assumption] Same policy class must be used for full and finite-subclass values.**  
+   The finite-intersection/no-gap argument fails if finite subclasses are allowed a larger or different policy class than the full problem.
+
+6. **[unsupported known-result dependency] Randomization and Borel-lifting lemmas need proof or precise citation.**  
+   These are standard on standard Borel spaces, but should not be left implicit in a referee-ready theorem.
+
+7. **[worth pursuing] Payoff-weighted domination is enough only because rewards are additive and actions do not affect future prices.**  
+   This is a strength, but the proof must explicitly say correlations across actions are irrelevant; only one-time action marginals enter \(L_\theta\).
+
+## Counterexamples Or Stress Tests
+
+- **Action-dependent prices:** if future \(P_s\) depends on past quotes, public-prefix marginals no longer preserve counterfactual rewards.
+- **Private/censored feedback:** if the learner sees signals not determined by \(P_{1:t}\), kernels \(q_t(P_{1:t})\) are insufficient.
+- **Randomness correlated with the law:** then \(q_t\) can become \(\theta\)-dependent.
+- **Non-Borel label obstruction:** still breaks arbitrary infinite-class finite-subclass claims without domination/product-closure assumptions.
+- **Continuum quotes:** the argument is finite-grid only; continuum requires the separate \(T/K\) minimax comparison.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict. The needed external facts are standard measurable selection/randomization and completed-measure Borel representative results on standard Borel spaces. They need exact statements.
+
+## What Survives The Critique
+
+The original-policy \(\to\) public-prefix marginal kernel direction looks solid under the stated assumptions.
+
+The \(L^\infty\) compactness/no-gap theorem likely upgrades to original Borel policies once the Borel implementation lemma is proved.
+
+## Recommended Next Checks
+
+1. Write the admissible policy definition.
+2. Prove the recursive seed representation.
+3. Prove the reward-vector equality.
+4. Prove the Borel representative/implementation lemma.
+5. Re-run the no-gap proof using one policy class throughout.

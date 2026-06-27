@@ -1,0 +1,108 @@
+## Summary
+
+The infinite-class extension is viable under a real compactness assumption on the attainable reward set, and there is a clean way to state it:
+
+For fixed finite grid $G$, let
+$$
+C=\{(L_\theta(A))_{\theta\in\Theta}: A\text{ admissible randomized grid policy}\}\subset [0,T]^\Theta.
+$$
+Then the finite-subclass modulus
+$$
+\Phi_G(\Theta)=\sup_{F\subset\Theta,\ |F|<\infty}\mathcal R_G(F)
+$$
+equals the full grid minimax value iff passing to the product closure of $C$ does not improve the minimax value. In particular, if $C$ is compact/closed in the product topology, then there is no infinite-class duality gap:
+$$
+\mathcal R_G(\Theta)=\Phi_G(\Theta)
+=
+\sup_{F\Subset\Theta}\sup_{\pi\in\Delta(F)}\Psi_{G,F}(\pi).
+$$
+
+A useful sufficient condition for this compactness is common domination of all public-prefix laws. Without such compactness, strict gaps are possible.
+
+## Concrete Progress
+
+Fixed finite $T$, finite quote grid $G$, public exogenous laws $\Theta$. Write policies as measurable kernels
+$$
+q_{t,a}(h_t),\qquad h_t=P_{1:t},\quad a\in G.
+$$
+Since prices are exogenous and rewards are additive, expected reward in world $\theta$ is
+$$
+L_\theta(q)=
+\sum_{t=1}^T\sum_{a\in G}
+\mathbb E_\theta\left[
+q_{t,a}(P_{1:t})\,a\,\mathbf{1}\{M_t>a\}
+\right].
+$$
+
+If for each prefix length $t$ there is a $\sigma$-finite measure $\lambda_t$ dominating all $P^\theta_{1:t}$, then
+$$
+L_\theta(q)=
+\sum_{t,a}\int q_{t,a}(h)\, f^\theta_{t,a}(h)\,d\lambda_t(h)
+$$
+for some $f^\theta_{t,a}\in L^1(\lambda_t)$. The feasible kernel set
+$$
+K_t=\{q_t\in L^\infty(\lambda_t;\Delta(G))\}
+$$
+is weak-* compact by Banach-Alaoglu, and every coordinate map $q\mapsto L_\theta(q)$ is weak-* continuous. Hence $C$ is compact in $[0,T]^\Theta$. Therefore the finite-subclass modulus is a full infinite-class characterization under this dominated-prefix assumption.
+
+This gives a serious theorem candidate, not merely a lower-bound certificate.
+
+## Claims Or Lemmas
+
+**Lemma 1: Product-Closure Relaxation.**  
+For arbitrary $C\subset[0,T]^\Theta$, let $\overline C^{pt}$ be its product-topology closure. Then
+$$
+\Phi_G(\Theta)
+=
+\inf_{c\in\overline C^{pt}}\sup_{\theta\in\Theta}
+(V_\theta^G-c_\theta).
+$$
+So $\Phi_G$ is exactly the minimax value of the relaxed game allowing pointwise limits of attainable reward vectors.
+
+**Lemma 2: Compact No-Gap Criterion.**  
+If $C$ is product compact, equivalently product closed inside $[0,T]^\Theta$, then
+$$
+\mathcal R_G(\Theta)=\Phi_G(\Theta).
+$$
+Proof is finite-intersection compactness: if every finite subset can be controlled at level $\alpha+\varepsilon$, compactness gives one $c\in C$ controlling all $\theta$.
+
+**Lemma 3: Dominated-Prefix Compactness.**  
+If all public prefix laws $P^\theta_{1:t}$ are dominated by common $\lambda_t$, then the grid-policy reward set $C$ is product compact. Hence no infinite-class duality gap.
+
+## Proof Attempts
+
+The direct $\ell^\infty(\Theta)$ minimax dual route naturally introduces the full dual $ba(\Theta)$, i.e. finitely additive priors. This is a warning sign: finite priors need not approximate the full dual unless compactness/tightness is imposed.
+
+The cleaner route avoids $ba$: prove compactness of the attainable reward set directly, then use finite-intersection compactness. Under common domination, weak-* compactness of $L^\infty$-kernels gives exactly this.
+
+## Gaps And Risks
+
+The dominated-prefix assumption is strong. It excludes many nondominated deterministic classes, especially uncountable classes of Dirac price paths.
+
+The theorem is fixed-grid. Continuum quotes still need the accepted $T/K$ grid-to-continuum comparison.
+
+Policy measurability matters. If the admissible policy class is changed, the compactness and counterexample conclusions can change.
+
+This remains a value characterization, not a scalar tail condition or matching power-tail rate theorem.
+
+## Counterexamples Or Obstructions
+
+Abstract strict gap: take $\Theta=\mathbb N$, $V\equiv1$, and
+$$
+C=\{c\in[0,1]^\mathbb N:c\text{ has finite support}\}.
+$$
+Every finite subclass has value $0$, but the full value is $1$. The missing least-favorable prior is a finitely additive “mass at infinity.”
+
+Market-model measurable gap: let $A\subset[0,1]$ be non-Borel, $T=2$, $G=\{1/3,2/3\}$. World $x$ has $P_1=x$, and $P_2=1$ if $x\in A$, while $P_2=1/2$ otherwise. Any finite subclass can be handled by a Borel policy memorizing those finitely many labels, so finite-subclass value is $0$. But a Borel policy with regret $<1/6$ would need to separate $A$ by a Borel threshold set, impossible. Constant randomization gives regret $1/6$, so the full value is $1/6$. This is pathological but shows the compactness/measurability gap is real.
+
+## Sources Consulted
+
+Local project files only: `problem.md`, `working_notes/*`, and `iterations/iter_007/idea_01/idea.md`. No web search used.
+
+## Recommended Next Steps
+
+Formalize the dominated-prefix no-gap theorem as the main positive infinite-class extension.
+
+Record the non-Borel label construction as a compactness-gap obstruction, clearly marked pathological.
+
+Next, look for a less pathological nondominated gap, or prove no gap for compact parametric classes where $\theta\mapsto L_\theta(q)$ has enough continuity/equicontinuity.

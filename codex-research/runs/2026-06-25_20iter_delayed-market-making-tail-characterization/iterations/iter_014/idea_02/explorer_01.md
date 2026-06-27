@@ -1,0 +1,156 @@
+## Summary
+
+Finite alphabets give a real simplification of the finite-prefix dual, but I do **not** see a proof yet of the desired uncrossing/localization theorem. The main concrete progress is an exact reduced dual formula in terms of next/last exceedance times. It exposes a consecutive-ones interval structure, but the hard part remains the interaction of two maxima: the comparator’s horizon-wise max over price levels and the learner-side time-wise max over price levels.
+
+My current view: finite alphabet is the right first test bed for the \(D_n=o(n)\) gluing problem. For one positive level the obstruction vanishes. For two levels there is a clean exact “positive-part gap” formula that may be the best starting point for an uncrossing proof.
+
+## Concrete Progress
+
+Work in the formal left-limit model. If the finite price alphabet is
+\[
+0<c_1<\cdots<c_k,
+\]
+interpret action \(c_j^-\) as payoff \(c_j1\{M_{t,T}\ge c_j\}\). In the original strict-crossing model this means using \(c_j-\eta\) and taking \(\eta\downarrow0\).
+
+For a deterministic prefix \(P_{1:n}\), define
+\[
+N_j(t)=\min\{s>t:P_s\ge c_j\},
+\]
+with \(N_j(t)=\infty\) if no such future time exists. For dual horizon weights \(\lambda\in\Delta_n\), write
+\[
+\Lambda_s=\sum_{T=s}^n\lambda_T,\qquad \Lambda_\infty=0.
+\]
+
+Then the per-time dual term in CL-036/LB-031 becomes exactly
+\[
+\sup_a\sum_{T>t}\lambda_Ta1\{a<M_{t,T}\}
+=
+\max_{1\le j\le k} c_j\Lambda_{N_j(t)}.
+\]
+
+The comparator term is
+\[
+V_T^*=\max_{1\le j\le k}c_j(L_j(T)-1)_+,
+\]
+where
+\[
+L_j(T)=\max\{s\le T:P_s\ge c_j\}.
+\]
+
+Thus the finite-prefix dual reduces to
+\[
+D_n(P)=
+\max_{\lambda\in\Delta_n}
+\left[
+\sum_{T\le n}\lambda_T
+\max_j c_j(L_j(T)-1)_+
+-
+\sum_{t<n}\max_j c_j\Lambda_{N_j(t)}
+\right].
+\]
+
+This is the clean finite-alphabet laminar dual.
+
+## Claims Or Lemmas
+
+**Lemma 1: Finite-Alphabet Dual Reduction.**  
+The displayed formula above is exact in the finite alphabet left-limit model.
+
+Proof idea: for fixed \(t\), the function
+\[
+a\mapsto \sum_{T>t}\lambda_Ta1\{a<M_{t,T}\}
+\]
+is linear between alphabet thresholds and can be maximized at a left-limit threshold \(c_j^-\). The condition \(M_{t,T}\ge c_j\) is equivalent to \(N_j(t)\le T\), giving the tail mass \(\Lambda_{N_j(t)}\).
+
+**Lemma 2: One-Level Alphabets Have No Horizon Conflict.**  
+If \(k=1\), then \(D_n(P)=0\) for every prefix.
+
+Reason: with one level \(c\),
+\[
+V_T^*=c(L(T)-1)_+
+\]
+and
+\[
+\sum_{t<n}c\Lambda_{N(t)}
+=
+\sum_T\lambda_Tc(L(T)-1)_+.
+\]
+The two dual terms cancel.
+
+**Lemma 3: Two-Level Exact Positive-Part Formula.**  
+Let the two levels be \(\ell<h\). Set
+\[
+A_T=(L_\ell(T)-1)_+,\qquad B_T=(L_h(T)-1)_+,
+\]
+and
+\[
+U_t=\lambda\{T:L_\ell(T)>t\},\qquad W_t=\lambda\{T:L_h(T)>t\}.
+\]
+For any \(\lambda\),
+\[
+\Phi(\lambda)
+=
+\mathbb E_\lambda[(\ell A_T-hB_T)_+]
+-
+\sum_{t<n}(\ell U_t-hW_t)_+.
+\]
+This exactly measures the noncommutation between “take the better quote level after summing over time” and “take the better quote level separately at each time.”
+
+## Proof Attempts
+
+The natural uncrossing route is:
+
+1. Group dual constraints by the vectors
+\[
+(N_1(t),\ldots,N_k(t)).
+\]
+For fixed \(j\), the sets \(\{T:N_j(t)\le T\}\) are suffix intervals, hence have consecutive-ones structure.
+
+2. Try to show that if \(\Phi(\lambda)\) is large, then most useful mass of \(\lambda\) can be moved onto a window of horizons whose scale is comparable to the quote times affected by the conflict.
+
+3. Start with \(k=2\), using Lemma 3. The obstruction is carried by times where the low quote helps before the next high exceedance, while the high quote later dominates. This is exactly the \(0^N,\ell,h\) block conflict.
+
+Small brute-force checks were consistent with this:
+- \(0^N,c\): dual value \(0\).
+- \(0^N,\ell,h\): dual support concentrates on the two adjacent terminal horizons and gives the known \(N\ell(h-\ell)/h\) gap.
+- separated blocks localize to the later close conflict rather than preserving an old far-separated conflict.
+- alternating \(\ell,h,\ell,h,\ldots\) gives value \(0\), matching the known easy path.
+
+These are sanity checks only, not proofs.
+
+## Gaps And Risks
+
+The consecutive-ones structure is not enough by itself. The dual has weighted threshold columns and two nested maxima, so total unimodularity or interval-matrix facts do not immediately imply localization.
+
+The idea file writes \(L_j(T)=\max\{s:P_s>p_j\}\). For strict crossing this is correct for literal quote \(p_j\), but for finite-alphabet left-limit actions \(p_j^-\) the right convention is
+\[
+L_j(T)=\max\{s:P_s\ge p_j\}.
+\]
+This convention must be fixed before any theorem statement.
+
+Quantizing arbitrary paths to a finite alphabet is risky. Payoff indicators are discontinuous at atoms/thresholds; any extension from finite alphabet to general paths needs an explicit \(\eta T\)-type approximation argument.
+
+## Counterexamples Or Obstructions
+
+No finite-alphabet separator was found. In fact, the simple separated-block parity-style attempt still appears diluted, as in the existing notes.
+
+The strongest obstruction to a proof is conceptual: \(D_n=o(n)\) gives a new finite-prefix optimizer for each \(n\), while the fixed-envelope criterion requires one projectively consistent sequence. The finite-alphabet laminar structure may remove the abstract parity obstruction, but this remains unproved.
+
+## Sources Consulted
+
+- Project notes listed in the prompt, especially CL-035 through CL-040 and LB-030 through LB-035.
+- D. R. Fulkerson and O. A. Gross, “Incidence matrices and interval graphs,” Pacific Journal of Mathematics 15(3), 1965. https://msp.org/pjm/1965/15-3/pjm-v15-n3-p11-s.pdf
+- Alexander Rakhlin, Karthik Sridharan, Ambuj Tewari, “Online Learning: Beyond Regret,” COLT/JMLR W&CP 19, 2011. https://proceedings.mlr.press/v19/rakhlin11a.html
+
+## Bibliography Candidates
+
+- D. R. Fulkerson and O. A. Gross. “Incidence matrices and interval graphs.” Pacific Journal of Mathematics 15(3):835-855, 1965. https://msp.org/pjm/1965/15-3/pjm-v15-n3-p11-s.pdf. Relevance: classical consecutive-ones/interval-incidence structure; useful background for the finite-alphabet dual’s suffix-interval matrices, though not a localization theorem.
+
+- Alexander Rakhlin, Karthik Sridharan, Ambuj Tewari. “Online Learning: Beyond Regret.” COLT 2011 / JMLR Workshop and Conference Proceedings 19:559-594. https://proceedings.mlr.press/v19/rakhlin11a.html. Relevance: broad framework for online learning with non-additive/global objectives; conceptual background only for the finite-prefix value/gluing viewpoint.
+
+## Recommended Next Steps
+
+1. Prove or refute the two-level localization theorem using Lemma 3.
+2. Compute exact \(D_n\) for more two-level finite paths via a small LP solver or custom simplex implementation.
+3. If \(k=2\) works, try adjacent-level decomposition for \(k>2\).
+4. Keep all statements in the formal left-limit model first; add strict-crossing \(\eta\)-implementation only after the structural theorem is stable.

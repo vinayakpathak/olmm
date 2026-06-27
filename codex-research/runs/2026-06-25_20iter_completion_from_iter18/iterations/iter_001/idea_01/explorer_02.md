@@ -1,0 +1,120 @@
+## Summary
+
+The sparse vanishing-spike refutation is valid under the literal per-process reading of the conjecture. The failure is quantifier-level: \(\beta\) takes a worst-case supremum over actions, times, and histories, and therefore counts long delays for \(a=0\), even though those delays carry zero payoff and need not create regret.
+
+The counterexample does not refute a different minimax theorem over a specified class of processes. For that, “possible” must be restated with class-uniform algorithm and regret quantifiers.
+
+## Concrete Progress
+
+Verified the solver’s construction:
+
+Let \(s_n=2^n\), \(U_n\sim \mathrm{Unif}(0,1)\), and
+\[
+P_t =
+\begin{cases}
+U_n/2^n, & t=2^n,\\
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+For every \(h\), choose \(n\) with \(2^n>h\). At \(t=s_n\), action \(a=0\) has
+\[
+\tau_{s_n}(0)=s_{n+1}-s_n=2^n
+\]
+almost surely, so
+\[
+\Pr[h<\tau_{s_n}(0)<\infty\mid P_{1:s_n}]=1.
+\]
+Thus \(\beta(h)=1\) for all \(h\).
+
+For any fixed \(a>0\) and horizon \(T\), let
+\[
+m^*=\max\{m:s_m\le T,\ a<1/s_m\}.
+\]
+If the set is empty, the comparator reward is zero. Otherwise only \(t<s_{m^*}\) can possibly trade, hence
+\[
+\mathbb E\sum_{t=1}^T r_t(a)\le a s_{m^*}<1.
+\]
+Action \(a=0\) earns zero. Therefore the always-zero learner has regret at most \(1\) for every \(T\), despite \(\beta(h)\not\to0\).
+
+## Claims Or Lemmas
+
+**Lemma 1: Sparse vanishing spikes refute individual-law necessity.**  
+There exists a process with \(\beta(h)=1\) for all \(h\) and a fixed learner with \(R(T)\le 1=o(T)\). This proves the “only if” direction false if interpreted as
+\[
+\exists \pi\; R^\pi_P(T)=o(T) \implies \beta_P(h)\to0
+\]
+for each individual process \(P\).
+
+**Lemma 2: The continuum comparator maximum exists.**  
+For finite \(T\), write
+\[
+M_t=\max_{m:t<s_m\le T} U_m/s_m,
+\]
+with \(M_t=0\) if the set is empty. Then
+\[
+\mathbb E r_t(a)=a\,\Pr[M_t>a].
+\]
+Each \(M_t\) has a continuous distribution on \((0,\infty)\), and the product by \(a\) removes the possible discontinuity at \(0\). The finite sum over \(t\le T\) is continuous on compact \([0,1]\), so the stated \(\max_{a\in[0,1]}\) is attained.
+
+**Lemma 3: Envelope strengthening.**  
+For any eventually positive nondecreasing envelope \(q(T)=o(T)\), one can build a process with \(\beta(h)=1\) for all \(h\) and an always-zero learner satisfying \(R(T)\le q(T)/2\) for all sufficiently large \(T\).
+
+Take gaps \(s_{n+1}-s_n\to\infty\), for example \(s_n=2^n\), choose \(c_n\in(0,1]\) with \(c_n\le q(s_n)/2\), and set
+\[
+P_{s_n}=c_nU_n/s_n,\qquad P_t=0\text{ otherwise.}
+\]
+The same \(a=0\) argument gives \(\beta(h)=1\). If fixed \(a>0\) can trade by horizon \(T\), let \(m^*\) be the last possible crossing spike. Then
+\[
+\mathbb E\sum_{t=1}^T r_t(a)\le a s_{m^*}<c_{m^*}\le q(s_{m^*})/2\le q(T)/2.
+\]
+
+## Proof Attempts
+
+The proof audit succeeded. No hidden dependence on rare null events is needed: \(U_n>0\) almost surely, and the conditional probability of a future positive spike is \(1\) for almost every realized history.
+
+The main quantifier diagnosis is:
+
+\[
+\beta(h)=\sup_t\sup_a\operatorname*{ess\,sup}_{P_{1:t}}
+\Pr[h<\tau_t(a)<\infty\mid P_{1:t}]
+\]
+is too strong for necessity because it is unweighted by payoff \(a\), insensitive to time density, and sensitive to worst-case histories.
+
+## Gaps And Risks
+
+The word “possible” is underdefined. If algorithms may depend on the full process law and horizon, per-process learnability becomes too weak. A meaningful necessity theorem should specify a process class \(\mathcal C\) and ask for one learner with
+\[
+\sup_{P\in\mathcal C} R^\pi_P(T)=o(T).
+\]
+
+The counterexample does not rule out a minimax lower bound under stronger assumptions, such as long-delay mass at actions \(a\ge\epsilon\), positive time density, and unpredictability.
+
+If the action set were \([\epsilon,1]\) instead of \([0,1]\), this specific obstruction disappears.
+
+## Counterexamples Or Obstructions
+
+The sparse-spike construction is a direct obstruction to unweighted \(\beta\)-necessity.
+
+The envelope variant shows the obstruction is not just “sublinear”; regret can be made smaller than any prescribed positive nondecreasing \(o(T)\) envelope.
+
+A similar obstruction likely exists from the essential supremum over histories: rare bad histories can keep \(\beta(h)\) large without contributing linear expected regret.
+
+## Sources Consulted
+
+Local: `problem.md`, all required `working_notes/*.md`, `iterations/iter_001/idea_01/idea.md`, and `iterations/iter_001/solver_attempt.md`.
+
+External:
+- [Joulani, Gyorgy, Szepesvari, “Online Learning under Delayed Feedback,” ICML/PMLR 2013](https://proceedings.mlr.press/v28/joulani13.html).
+- [Thune, Cesa-Bianchi, Seldin, “Nonstochastic Multiarmed Bandits with Unrestricted Delays,” NeurIPS 2019](https://papers.nips.cc/paper_files/paper/2019/hash/0e4f5cc9f4f3f7f1651a6b9f9214e5b1-Abstract.html).
+
+## Bibliography Candidates
+
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari, “Online Learning under Delayed Feedback,” ICML 2013, PMLR 28(3):1453-1461. Relevant for the delayed-feedback reduction behind the sufficient direction. https://proceedings.mlr.press/v28/joulani13.html
+- Tobias Sommer Thune, Nicolo Cesa-Bianchi, Yevgeny Seldin, “Nonstochastic Multiarmed Bandits with Unrestricted Delays,” NeurIPS 2019. Relevant for refined conditions with unrestricted delays and skipped excessive delays. https://papers.nips.cc/paper_files/paper/2019/hash/0e4f5cc9f4f3f7f1651a6b9f9214e5b1-Abstract.html
+
+## Recommended Next Steps
+
+Restate the target theorem with explicit quantifiers over process classes and learner dependence.
+
+Replace unweighted \(\beta\) by a payoff-weighted or horizon-level condition. The sparse-spike example has \(\beta\equiv1\) but satisfies the heuristic bound \(a\Pr[h<\tau_t(a)<\infty]\lesssim 1/h\), which is why it is easy despite maximal unweighted tail failure.

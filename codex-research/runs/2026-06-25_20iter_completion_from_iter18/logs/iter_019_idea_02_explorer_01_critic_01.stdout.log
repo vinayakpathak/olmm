@@ -1,0 +1,81 @@
+## Summary
+
+The explorer’s concrete three-low certificate checks out: the proposed primal and dual certify \(z=291/100=2.91\) for \(0,0.2,0^8,0.3,0,0.4,1\) in the CL-049 reduced LP. The KKT/support-rule direction is worth pursuing.
+
+The main critique is that this does not yet justify a pooling/PAVA rule. The zero-pressure “pool” formula needs strong missing hypotheses, and the example only refutes a greedy rule that permanently finalizes the first adjacent pair. It does not refute a revisable PAVA-style active-set method.
+
+## Issue List
+
+1. **Missing assumption:** Candidate Lemma 2 needs isolation/normalization assumptions.  
+   The formula
+   \[
+   \beta=c_k/h,\qquad \alpha_j=c_k/c_j-c_k/c_{j+1}
+   \]
+   follows only when the active pool is essentially the whole remaining dual mass and the relevant \(W_i(c)\) are ordinary tail sums over that pool. In a larger instance, other positive \(\alpha\)'s or running-max effects can change \(\beta\) and the equations.
+
+2. **Plausible but incomplete:** KKT support rule is correct but must include the positive-part/pressure details.  
+   For \(x_{i,c}>0\), complementary slackness gives
+   \[
+   cW_i(c)-\beta(h-c)=\psi_i.
+   \]
+   If \(\psi_i=0\), this requires equality to zero, not merely being below the maximum. If the raw maximum is negative, no positive \(x_{i,c}\) can appear.
+
+3. **False if read broadly:** “Three-low refutes greedy left-to-right pooling.”  
+   It refutes only a rule that permanently finalizes the first adjacent pair. Standard PAVA/active-set methods are allowed to revise earlier pools after later violations appear.
+
+4. **Missing assumption / degeneracy:** Capacity binding is not the same as positive pressure.  
+   In the three-low certificate, segment capacities \(B_0=1\) and \(B_2=2\) bind, but all dual pressures satisfy \(\psi_i=0\). So “capacity boundaries” and “positive-pressure shifted pooling” must be separated.
+
+5. **Plausible but incomplete:** “Last two lows form a pool” is dual-active language, not a full primal-local statement.  
+   The primal uses \(x_{0,0.4}=1\), so mass from before the first low participates in the active certificate even though the first low constraint is slack. A pooling rule must say whether pools are over low constraints, quote segments, quote levels, or all three.
+
+6. **Unsupported citation if upgraded:** PAVA/nested-allocation papers are proof-technology analogies only. They do not imply associativity, local merge correctness, or a market-making theorem for CL-049.
+
+## Counterexamples Or Stress Tests
+
+The explorer’s three-low certificate verifies as follows:
+\[
+x_{0,0.4}=1,\quad x_{1,0.3}=0.3,\quad x_{1,0.4}=1.5,\quad x_{2,0.4}=2.
+\]
+Low deficits are
+\[
+0.2,\quad 2.91,\quad 2.91,
+\]
+and final-high debt is \(2.91\). The dual
+\[
+\alpha=(0,1/4,9/20),\qquad \beta=3/10
+\]
+has \(\sum\alpha_j+\beta=1\), objective \(2.91\), and \(\psi_0=\psi_1=\psi_2=0\).
+
+Useful stress tests next:
+- Nonmonotone lows, e.g. \(0.4,0.9,0.5\), where \(m_{i,j}\) may break simple suffix-tail equations.
+- Capacity-saturated cases from the two-low formula, especially outside the middle equal-revenue case.
+- Duplicate lows and zero gaps.
+- A revisable PAVA test: first solve \(0,0.2,0^8,0.3,1\), then append \(0,0.4,1\), and check whether the algorithm revises rather than finalizes.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict found, but the external sources do not prove the explorer’s pooling principle. PAVA sources assume isotone/chain structure; nested-resource-allocation sources require a mapping that has not been established for the running-max CL-049 constraints.
+
+The relevant citations remain proof technology, not theorem support for delayed market making.
+
+## What Survives The Critique
+
+- The KKT support-rule route is valid and should be formalized.
+- The three-low \(z=291/100\) certificate is credible and worth adding as a regression case.
+- The scalar binary merge idea remains doubtful.
+- A certificate-producing active-set or nested-allocation algorithm is still worth pursuing.
+
+## Bibliography Candidates
+
+- Dorit S. Hochbaum. “Lower and Upper Bounds for the Allocation Problem and Other Nonlinear Optimization Problems.” *Mathematics of Operations Research* 19(2):390-409, 1994. DOI: https://doi.org/10.1287/moor.19.2.390. Relevance: allocation/scaling proof technology for possible CL-049 algorithms.
+
+Already-recorded background remains relevant: Ayer et al. 1955 for PAVA origins, de Leeuw-Hornik-Mair 2009 for generalized PAVA, and Vidal-Jaillet-Maculan 2016 for nested resource allocation.
+
+## Recommended Next Checks
+
+1. Formalize the KKT support lemma directly from CL-049 duality.
+2. Add the three-low primal/dual certificate with a pressure table.
+3. Define “pool” precisely before proving any merge rule.
+4. Test nonmonotone and capacity-saturated three-low examples.
+5. Require every proposed pooling rule to output primal masses, dual weights, and \(\psi_i\) values.

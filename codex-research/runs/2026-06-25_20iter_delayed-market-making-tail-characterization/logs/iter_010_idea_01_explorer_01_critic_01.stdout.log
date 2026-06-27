@@ -1,0 +1,81 @@
+## Summary
+
+The explorer’s core mathematical claim is worth pursuing: the monotone-threshold derandomization lemma appears sound after a careful audit. I do not see a counterexample to the grid + Hoeffding + union bound + Borel-Cantelli route.
+
+But it should not be accepted as a solution to the original tail-characterization problem. At most, it derandomizes the iteration-9 known-path horizon-oblivious \(1/e\) upper bound. The original iff remains false under the established counterexamples.
+
+## Issue List
+
+- **Fatal gap** if framed as solving the original conjecture: the result only concerns deterministic derandomization of the known-path \(1/e\) theorem, not a tail characterization.
+
+- **Plausible but incomplete**: the Borel-Cantelli step needs to be written with explicit events and constants. For grid size \(m_n=\lceil n^{1/3}\rceil\) and deviation
+  \[
+  u_n=C\sqrt{n m_n\log n},
+  \]
+  one needs
+  \[
+  \binom{n+m_n}{m_n}\exp(-2u_n^2/n)
+  \]
+  summable after choosing \(C\) large.
+
+- **Missing assumption**: prices must be deterministic exogenous, or stochastic exogenous handled pathwise by conditioning. Endogenous/reactive prices break the suffix-max reduction.
+
+- **Missing assumption**: the deterministic policy may be nonconstructive/noncomputable. The proof gives existence, not an explicit algorithm.
+
+- **Plausible but incomplete**: finite exceptional \(n\) from Borel-Cantelli must be absorbed into the claimed \(O(n^{2/3}\sqrt{\log n})\) error, e.g. by enlarging the realization-dependent constant and using \(\log(n+2)\).
+
+- **Missing assumption**: strict crossing must be maintained throughout. Choose the frozen random realization with no \(a_t\) equal to any relevant countable grid endpoint, or work directly with strict inequalities and left-limit conventions.
+
+- **Worth pursuing**: the passage from the derandomization lemma to regret is clean once \(M_{t,T}=\max_{t<s\le T}P_s\) is used, since \(M_{1,T}\ge\cdots\ge M_{T-1,T}\).
+
+## Counterexamples Or Stress Tests
+
+- Boundary \(c=1\): safe if \(\mu\) has no atom at \(1\); \(g(1)=1-e^{-1}\) uses \([0,1)\).
+
+- Boundary \(c=e^{-1}\): safe; \(g(c)=0\), and strict crossing creates no loss.
+
+- Equal thresholds and non-strict monotonicity: safe; the grid count allows repetitions.
+
+- Stochastic exogenous paths: likely safe, but write
+  \[
+  \sup_a \mathbb E\sum_t a1\{a<M_{t,T}\}
+  \le
+  \mathbb E\sum_t M_{t,T}.
+  \]
+
+- Endogenous paths: not safe. If future prices depend on the learner’s realized quotes, \(M_{t,T}\) is not a fixed scalar independent of \(a_t\).
+
+## Literature Or Known-Result Conflicts
+
+No conflict found. The proof is elementary and internal. The cited empirical-process and quasi-Monte Carlo sources are background only, not proof support for the delayed-market-making theorem.
+
+Hoeffding’s original inequality is the most directly relevant external source. Gao-Wellner and van der Vaart-Wellner are overkill unless the proof is recast as empirical-process bracketing.
+
+## What Survives The Critique
+
+The following theorem looks viable:
+
+There exists a deterministic horizon-oblivious sequence \(a_t\in(e^{-1},1)\) such that for every deterministic exogenous path,
+\[
+R_T\le (T-1)/e+O(T^{2/3}\sqrt{\log T}).
+\]
+Thus deterministic horizon-oblivious policies should achieve the same sharp worst-case limsup constant \(1/e\) as randomized policies, when combined with CL-027.
+
+## Bibliography Candidates
+
+- Wassily Hoeffding. “Probability Inequalities for Sums of Bounded Random Variables.” *JASA* 58(301):13-30, 1963. DOI: https://doi.org/10.1080/01621459.1963.10500830. Direct source for the bounded independent-sum concentration used in the proof.
+
+- Noga Alon and Joel H. Spencer. *The Probabilistic Method*, 4th ed., Wiley, 2016. https://www.wiley.com/en-be/The%2BProbabilistic%2BMethod%2C%2B4th%2BEdition-p-9781119062073. General background for existence by random construction plus union bounds.
+
+- Aad W. van der Vaart and Jon A. Wellner. *Weak Convergence and Empirical Processes*, Springer, 1996. https://link.springer.com/book/10.1007/978-1-4757-2545-2. Background for uniform convergence; not needed for the elementary proof.
+
+- Fuchang Gao and Jon A. Wellner. “Entropy Estimate For High Dimensional Monotonic Functions.” arXiv:math/0512641, 2005; *Journal of Multivariate Analysis* 98(9):1751-1764, 2007. https://arxiv.org/abs/math/0512641. Relevant only if replacing the elementary grid count with monotone bracketing entropy.
+
+- Harald Niederreiter. *Random Number Generation and Quasi-Monte Carlo Methods*, SIAM, 1992. DOI: https://doi.org/10.1137/1.9781611970081. Relevant for possible constructive deterministic replacements.
+
+## Recommended Next Checks
+
+1. Write the derandomization lemma with explicit \(E_n\), \(m_n\), \(u_n\), and summability constants.
+2. Add strict-crossing boundary cleanup for \(c=1\), \(c=e^{-1}\), and grid endpoints.
+3. State the final theorem only for exogenous deterministic paths, with stochastic exogenous extension by conditioning.
+4. Keep this as a deterministic-policy strengthening of the \(1/e\) known-path theorem, not as progress on raw tail necessity.

@@ -1,0 +1,143 @@
+## Verdict
+
+SOLVED: no
+
+The strongest honest result is an exact value characterization for finite public-exogenous classes, plus no-gap extensions. The original broader goal remains open: no scalar tail iff, no arbitrary infinite-class Borel theorem without extra hypotheses, and no matching power-tail lower rate.
+
+## Candidate Solution Or Main Attempt
+
+For fixed finite $T$, public exogenous laws $\Theta_T$, finite grid $G$, and horizon-censored
+$$
+M_t=\max_{t<s\le T}P_s,
+$$
+define
+$$
+V_\theta^G=\max_{a\in G}\sum_{t=1}^T\mathbb E_\theta[a\mathbf{1}\{M_t>a\}],
+$$
+and for a prior $\pi$ on a finite class,
+$$
+\Psi_G(\pi)=
+\sum_\theta\pi_\theta V_\theta^G
+-\sum_{t=1}^T
+\mathbb E_{\bar P_\pi}
+\max_{a\in G}a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+$$
+
+Then, for finite $\Theta_T$,
+$$
+\mathcal R_T^G
+=
+\inf_A\sup_{\theta\in\Theta_T}
+\left(V_\theta^G-L_\theta(A)\right)
+=
+\sup_{\pi\in\Delta(\Theta_T)}\Psi_G(\pi).
+$$
+With $G_T=\{0,1/T,\ldots,(T-1)/T\}$,
+$$
+\left|
+(\mathcal R_T^{[0,1]})_+
+-
+\left(\sup_{\pi\in\Delta(\Theta_T)}\Psi_{G_T}(\pi)\right)_+
+\right|\le 1.
+$$
+So for finite horizon-indexed public-exogenous classes, sublinear upper regret is equivalent to
+$$
+\left(\sup_{\pi\in\Delta(\Theta_T)}\Psi_{G_T}(\pi)\right)_+=o(T).
+$$
+
+For arbitrary infinite classes, a possible exact but less probabilistic completion is the finitely additive dual:
+$$
+\mathcal R_T^G
+=
+\sup_{\mu\in ba_1^+(\Theta_T)}
+\left\{
+\langle V^G,\mu\rangle
+-
+\sup_A\langle L(A),\mu\rangle
+\right\},
+$$
+where $ba_1^+$ is the set of finitely additive probability measures on $\Theta_T$. This follows by separating the attainable reward set $C=\{L(A)\}\subset\ell^\infty(\Theta_T)$ from the upper cone $V^G-\alpha\mathbf{1}+\ell^\infty_+$. This is an exact game-value iff, but not a useful scalar tail condition.
+
+## Concrete Lemmas Or Reductions
+
+1. Sufficient truncation theorem:
+$$
+\sup_{\theta\in\Theta_T}R_T^\theta
+\lesssim
+\sqrt{T(H+1)\log K}
++T/K
++\sup_\theta\delta_T^\theta(H),
+$$
+where
+$$
+\delta_T^\theta(H)
+=
+\sup_a\mathbb E_\theta\sum_t r_t(a)
+-
+\sup_a\mathbb E_\theta\sum_t r_t^H(a).
+$$
+If $\delta_T(H)\le T H^{-\alpha}$, this gives
+$$
+R_T\lesssim
+T^{(\alpha+1)/(2\alpha+1)}
+(\log T)^{\alpha/(2\alpha+1)}.
+$$
+
+2. Known finite-horizon exogenous law oracle:
+for every known law on $P_{1:T}$, conditional grid maximization gives $R_T\le T/K$, hence $O(1)$ with $K=T$. This kills any fixed-law tail necessity.
+
+3. Hidden-terminal lower atom:
+two indistinguishable worlds with terminal mass $q$ after $D$ rounds give
+$$
+\inf_A\sup_\theta R_T^\theta(A)\ge qD/8.
+$$
+With absorbing post-horizon prices, $\beta(h)=q$ for $h<D$ and $0$ for $h\ge D$, and $\Delta,\delta\asymp q(D-H)$.
+
+4. Last-exceedance identity:
+$$
+r_t(a)=a\mathbf{1}\{L_a>t\},\qquad
+\sum_t r_t(a)=a(L_a-1)_+,
+$$
+where $L_a=\max\{s\le T:P_s>a\}$. Comparator value depends on last future exceedances, not raw first-hitting tails.
+
+## Gaps And Failure Points
+
+The finite-class $\Psi_G$ theorem is a value characterization, not a tail characterization.
+
+The finitely additive dual likely gives an exact arbitrary-class minimax formula, but its “priors” are not stochastic mixtures, so the posterior Bayes envelope no longer has an ordinary conditional-probability meaning.
+
+Matching lower bounds for the power-tail upper rate are still open. The one-block $qD$ atom is too weak.
+
+Tail-adaptive truncation remains conditional on an unproved heterogeneous-delay experts theorem. The stronger simultaneous nested-window oracle is already refuted.
+
+Action-dependent prices are outside the current proof machinery.
+
+## Counterexamples Or Obstructions
+
+Raw $\beta$ necessity fails for known laws, iid uniform prices, tiny-price blocks, and rare-history processes.
+
+Per-world tail/truncation profiles cannot characterize unknown-class minimax learnability: the hidden/labeled terminal pair has identical per-law $\beta,\Delta,\delta,V$ profiles but regret $qD/8$ versus zero.
+
+Finite-subclass priors do not characterize arbitrary infinite classes without no-gap assumptions; the non-Borel label construction gives a linear gap for Borel policies.
+
+Naive repeated hidden-terminal blocks fail because persistent quotes can trade on later spikes, and independent hidden bits collapse against a single fixed comparator.
+
+## Promising Ideas To Explore
+
+Decide whether finitely additive least-favorable priors are acceptable as the arbitrary-class “iff”; if yes, formalize the dual cleanly.
+
+If ordinary priors are required, focus on product-closed/payoff-measure dominated no-gap classes.
+
+For rate lower bounds, work directly with last-exceedance structure rather than block-additive intuition.
+
+For adaptive upper bounds, solve or refute comparator-specific delayed experts first in the two-arm delayed-advantage game.
+
+## Notes For Critics
+
+Check all finite-horizon formulas use $M_t=\max_{t<s\le T}P_s$.
+
+Keep grid learner, grid comparator, and grid Bayes envelope aligned.
+
+Use positive-part upper regret; adaptive learners can beat the best fixed quote.
+
+The finitely additive dual is new relative to the notes and needs a careful separation proof before promotion.

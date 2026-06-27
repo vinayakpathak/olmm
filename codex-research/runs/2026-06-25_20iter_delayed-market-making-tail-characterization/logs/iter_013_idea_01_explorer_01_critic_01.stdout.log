@@ -1,0 +1,76 @@
+## Summary
+
+The explorer’s concrete lemmas look correct, with strict-crossing/left-limit caveats. The proposed gluing theorem is not established. The central gap is still fatal for any proof claim: \(D_n(P)=o(n)\) gives only outer-scale control and does not supply a fixed sublinear envelope \(e_T\) feasible across all finite prefixes. Monotonicity of \(M_{t,T}\) is built into every market path, so it is not by itself an extra stabilizing hypothesis.
+
+The report is best read as a useful proof-strategy note, not as evidence that \(D_n=o(n)\) suffices.
+
+## Issue List
+
+1. **Fatal gap: dyadic dual localization is unproved and may be too strong.**  
+   The candidate lemma needs to show that failure of global \(o(T)\) regret yields large finite-prefix dual value supported on horizons \(T\in[n/2,n]\). Current compactness only gives fixed-envelope sufficiency. It does not prevent separating certificates from using older horizons or from moving across scales in a way that is small relative to \(n\) but large relative to the horizons being sacrificed.
+
+2. **Missing assumption: “monotonicity of \(M_{t,T}\)” is not an added condition.**  
+   For every deterministic exogenous path, \(M_{t,T}\) is nondecreasing in \(T\). Any real theorem must exploit something stronger, such as the last-exceedance laminar structure, finite price alphabet, bounded number of record levels, or a stability condition on near-optimal comparator quotes.
+
+3. **Plausible but incomplete: last-exceedance representation.**  
+   The identity
+   \[
+   \sum_{t<T} b1\{b<M_{t,T}\}=b(L_b(T)-1)_+
+   \]
+   is correct for strict crossing and comparator suprema. But it only rewrites comparator values. The learner-side finite-prefix dual still needs control of
+   \[
+   \sup_a a\sum_{T>t}\lambda_T1\{a<M_{t,T}\},
+   \]
+   equivalently \( \sup_a a\sum_{T:t<L_a(T)}\lambda_T \). That weighted object is where localization must be proved.
+
+4. **False or overstated: splicing gives a “hard cost equal to repaired prefix length.”**  
+   The splicing bound proves only
+   \[
+   |d_T(\mu)-d_T(\nu)|\le m
+   \]
+   when changing the first \(m\) marginals. This is an upper bound on possible damage, not a lower bound showing unavoidable cost. A repair can cost much less if the changed marginals are payoff-equivalent for later suffix maxima.
+
+5. **Plausible but incomplete: no market-specific counterexample found.**  
+   Absence of a counterexample is weak evidence. The known abstract obstruction CE-019 remains live: finite-prefix optimizers may be projectively inconsistent even when scalar \(D_n/n\) is small.
+
+## Counterexamples Or Stress Tests
+
+- **Moving-scale block paths.**  
+  Test concatenations of \(0^{N_i},1/2,1\) or equal-revenue blocks where no block dominates total time, e.g. \(N_i=o(\sum_{j\le i}N_j)\). These are designed to make each local conflict small relative to the outer prefix while possibly blocking one global marginal sequence.
+
+- **Finite alphabet LP experiments.**  
+  Work in prices \(\{0,1/2,1\}\) and formal left-limit actions \(\{1/2^-,1^-\}\). If gluing fails anywhere cleanly, a finite LP counterexample should appear here.
+
+- **Old-horizon sacrifice test.**  
+  Look for paths where the optimizer for prefix \(n\) changes early marginals to satisfy horizons near \(n\), while allowing linear regret at a much older horizon \(m\ll n\). This is exactly what \(D_n=o(n)\) does not rule out.
+
+- **Dual mass leakage test.**  
+  Given a finite-prefix dual certificate, inspect whether its horizon weight can be forced into one dyadic annulus. If mass must spread over many older scales, dyadic localization fails.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict found. The uniform-value sources support the explorer’s caution rather than the conjectured gluing theorem: they typically require additional compactness, total boundedness, nonexpansiveness, or stability assumptions.
+
+The cited sources should remain analogies, not proof support for the market LP.
+
+## What Survives The Critique
+
+- The last-exceedance representation is valid and worth adding to the lemma bank with strict-crossing/sup conventions.
+- The splicing bound is valid as a crude robustness estimate.
+- The dual-localization route is the right place to attack the problem, but it is currently just a candidate lemma.
+- A finite-price-alphabet version is the right reduced model for trying to prove or refute gluing.
+
+## Bibliography Candidates
+
+- Jérôme Renault. “Uniform value in dynamic programming.” *Journal of the European Mathematical Society* 13(2):309-330, 2011. DOI: https://doi.org/10.4171/JEMS/254. Relevant as uniform-value background with explicit sufficient structural conditions.
+
+- Xiaoxi Li and Xavier Venel. “Recursive games: uniform value, Tauberian theorem and the Mertens conjecture.” *International Journal of Game Theory* 45:155-189, 2016. DOI: https://doi.org/10.1007/s00182-015-0496-4; arXiv: https://arxiv.org/abs/1506.00949. Relevant for total-boundedness/stability conditions in uniform-value gluing.
+
+- J.-F. Mertens and A. Neyman. “Stochastic games.” *International Journal of Game Theory* 10:53-66, 1981. DOI: https://doi.org/10.1007/BF01769259. Classical uniform-value background; analogy only.
+
+## Recommended Next Checks
+
+1. Prove or refute dyadic dual localization in the finite alphabet, formal left-limit model.
+2. Compute \(D_n\) on moving-scale block paths where no block dominates.
+3. Rewrite the finite-prefix dual using last-exceedance sets \(t<L_a(T)\); this is the real market-specific structure.
+4. Do not promote \(D_n=o(n)\Rightarrow o(T)\) until a fixed-envelope construction or a localization theorem is proved.

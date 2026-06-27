@@ -1,0 +1,110 @@
+## Summary
+
+The idea appears provable. With a precise horizon-oblivious model and `sup` comparator, the concatenated same-path theorem gives the stronger bound
+\[
+\max\{R_{T_i^0},R_{T_i^1}\}\ge \frac{N_i}{4}-M_i-O(1).
+\]
+If \(M_i=o(N_i)\), this yields \(\limsup_T R_T/T\ge 1/4\) for every process-aware but horizon-oblivious policy on one fixed deterministic path.
+
+This is not a raw \(\beta\)-necessity theorem. It proves a prefix-incompatibility obstruction.
+
+## Concrete Progress
+
+Let
+\[
+M_i=\sum_{j<i}(N_j+2),
+\]
+and define block \(i\) by
+\[
+P_{M_i+1},\dots,P_{M_i+N_i}=0,\quad
+P_{M_i+N_i+1}=1/2,\quad
+P_{M_i+N_i+2}=1.
+\]
+Set
+\[
+T_i^0=M_i+N_i+1,\qquad T_i^1=M_i+N_i+2.
+\]
+
+For any horizon-oblivious policy \(\pi\), even one knowing the entire infinite path, the current zero-block actions are the same random variables under prefix evaluation at \(T_i^0\) and \(T_i^1\). Define
+\[
+X_i=\mathbb E\sum_{t=M_i+1}^{M_i+N_i} A_t1\{A_t<1/2\},
+\]
+\[
+Y_i=\mathbb E\sum_{t=M_i+1}^{M_i+N_i} A_t1\{A_t<1\}.
+\]
+Pointwise,
+\[
+a1\{a<1/2\}+a1\{a<1\}\le 1,
+\]
+so \(X_i+Y_i\le N_i\).
+
+The comparator value from the current zero block alone is at least \(N_i/2\) at \(T_i^0\) and at least \(N_i\) at \(T_i^1\), using suprema. Old learner rewards contribute at most \(M_i\), and the quote posted at the \(1/2\) endpoint contributes at most \(1\) by \(T_i^1\). Hence
+\[
+R_{T_i^0}\ge N_i/2-M_i-X_i,
+\]
+\[
+R_{T_i^1}\ge N_i-M_i-1-Y_i.
+\]
+Adding and using \(X_i+Y_i\le N_i\),
+\[
+R_{T_i^0}+R_{T_i^1}\ge N_i/2-2M_i-1,
+\]
+so
+\[
+\max\{R_{T_i^0},R_{T_i^1}\}\ge N_i/4-M_i-1/2.
+\]
+
+## Claims Or Lemmas
+
+**Lemma 1: Prefix reward cap.** At either paired endpoint, all learner rewards from actions before block \(i\) are at most \(M_i\), since each earlier quote pays at most once and payoff is at most \(1\).
+
+**Lemma 2: Current-block incompatibility.** The same zero-block actions cannot simultaneously earn near \(N_i/2\) by \(T_i^0\) and near \(N_i\) by \(T_i^1\). The inequality \(X_i+Y_i\le N_i\) is the exact tradeoff.
+
+**Lemma 3: Concatenated same-path lower bound.** If \(M_i/N_i\to0\), then every horizon-oblivious process-aware policy has
+\[
+\limsup_T R_T/T\ge 1/4
+\]
+on the deterministic concatenated path.
+
+## Proof Attempts
+
+The main proof attempt succeeds, provided regret is written with \(\sup_a\), not `max`. If the final writeup insists on approximate comparators, use \(1/2-\eta\) and \(1-\eta\), giving
+\[
+\max\{R_{T_i^0},R_{T_i^1}\}\ge N_i(1/4-\eta)-M_i-O(1).
+\]
+
+## Gaps And Risks
+
+The theorem needs an explicit policy model: the learner may know the path and current time, but not the evaluation horizon and not a “last round” signal.
+
+The proof assumes each quote pays at most once, matching the \(\tau_t(a)\)-based reward definition.
+
+Use `sup`; strict crossing makes comparator maxima fail at prices \(1/2\) and \(1\).
+
+This proves non-anytime learnability for one deterministic process, not necessity of \(\beta(h)\to0\). Sparse vanishing spikes still refute raw \(\beta\)-necessity.
+
+## Counterexamples Or Obstructions
+
+A horizon-aware policy defeats this obstruction by choosing the horizon-optimal fixed quote, as in CL-014.
+
+If \(N_i\) does not dominate \(M_i\), the lower bound remains true but may not be linear in \(T_i\).
+
+Later blocks cannot retroactively affect rewards at \(T_i^0,T_i^1\), because rewards are horizon-censored.
+
+## Sources Consulted
+
+Run notes: `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `bibliography.md`, `promising_directions.md`, `iteration_summaries.md`, and the assigned `idea.md`.
+
+External context: [Daniely, Gonen, and Shalev-Shwartz 2015](https://proceedings.mlr.press/v37/daniely15.html) on strongly adaptive online learning, and [Luo and Schapire 2014](https://proceedings.mlr.press/v32/luo14.html) on unknown-horizon online learning. These are conceptual context only; the proof above is direct.
+
+## Bibliography Candidates
+
+Haipeng Luo and Robert Schapire. “Towards Minimax Online Learning with Unknown Time Horizon.” ICML 2014, PMLR 32(1):226-234. https://proceedings.mlr.press/v32/luo14.html. Relevance: useful background for unknown-horizon/adversarial-stopping quantifiers; contrasts ordinary anytime regret with this horizon-censored market-making obstruction.
+
+## Recommended Next Steps
+
+Promote CL-018 to an accepted theorem after a model-definition audit.
+
+Write the theorem with `sup` regret, \(M_i=\sum_{j<i}(N_j+2)\), and \(M_i=o(N_i)\).
+
+Add a short warning that this separates horizon-aware from horizon-oblivious learning but does not characterize \(\beta\)-tails.

@@ -1,0 +1,124 @@
+## Verdict
+
+SOLVED: maybe
+
+Solved only in the abstract public-exogenous minimax sense, not as a scalar tail theorem or matching-rate theorem.
+
+## Candidate Solution Or Main Attempt
+
+For fixed finite horizon $T$, arbitrary public-exogenous class $\Theta_T$, finite grid $G$, and randomized $G$-valued policies, define
+$$
+M_t=\max_{t<s\le T}P_s,
+\qquad
+V_\theta^G=\max_{a\in G}\sum_{t=1}^T\mathbb E_\theta[a\mathbf{1}\{M_t>a\}],
+$$
+
+and let
+$$
+C_T^G=\{(L_\theta(A))_{\theta\in\Theta_T}: A \text{ admissible randomized }G\text{-policy}\}
+\subset \ell^\infty(\Theta_T).
+$$
+
+Then the exact signed grid minimax value is
+$$
+\mathcal R_T^G
+=
+\inf_A\sup_{\theta\in\Theta_T}(V_\theta^G-L_\theta(A))
+=
+\sup_{\nu\in ba_1^+(\Theta_T)}
+\left\{
+\langle V^G,\nu\rangle-\sup_{c\in C_T^G}\langle c,\nu\rangle
+\right\}.
+$$
+
+Here $ba_1^+$ is the set of finitely additive probability measures on $\Theta_T$. With $G_T=\{0,1/T,\dots,(T-1)/T\}$,
+$$
+\left|
+(\mathcal R_T^{[0,1]})_+-(\mathcal R_T^{G_T})_+
+\right|\le 1.
+$$
+
+So a necessary and sufficient condition for sublinear upper regret over horizon-indexed public-exogenous classes is
+$$
+\left[
+\sup_{\nu\in ba_1^+(\Theta_T)}
+\left\{
+\langle V^{G_T},\nu\rangle-\sup_{c\in C_T^{G_T}}\langle c,\nu\rangle
+\right\}
+\right]_+
+=o(T).
+$$
+
+This is exact but abstract: it is a reward-set/predictability characterization, not a tail-profile characterization.
+
+## Concrete Lemmas Or Reductions
+
+1. Grid-to-continuum:
+$$
+|\mathcal R_T^{[0,1]}-\mathcal R_T^{G_K}|\le T/K
+$$
+by downward rounding comparator quotes and learner actions.
+
+2. Finite-class reduction:
+if $\Theta_T$ is finite, the $ba$ dual reduces to ordinary priors:
+$$
+\mathcal R_T^G=\sup_{\pi\in\Delta(\Theta_T)}\Psi_G(\pi),
+$$
+where
+$$
+\Psi_G(\pi)=
+\sum_\theta\pi_\theta V_\theta^G
+-
+\sum_t\mathbb E_{\bar P_\pi}
+\max_{a\in G}a\,\bar P_\pi(M_t>a\mid P_{1:t}).
+$$
+
+3. Upper bound:
+for exogenous classes,
+$$
+\sup_{\theta\in\Theta_T}R_T^\theta
+\lesssim
+\sqrt{T(H+1)\log K}+T/K+\sup_{\theta\in\Theta_T}\delta_T^\theta(H).
+$$
+If $\delta_T(H)\lesssim T H^{-\alpha}$, this gives
+$$
+R_T\lesssim
+T^{(\alpha+1)/(2\alpha+1)}(\log T)^{\alpha/(2\alpha+1)}
+$$
+with $K=T$.
+
+## Gaps And Failure Points
+
+The exact $ba$ condition is not an ordinary Bayes/posterior formula. A finitely additive prior need not induce a mixture law or conditional reward curve.
+
+No matching lower rate is known for power-tail classes. The $q$-scaled hidden-terminal atom gives only $\Omega(qD)$, too weak to match the truncation upper rate.
+
+The result assumes public exogenous prices. If prices depend on learner actions, the delayed full-information reduction and counterfactual rewards are not justified.
+
+The Borel-policy/no-gap dominated-kernel theorem is still theorem-hygiene work unless the policy class and measurable-version lemmas are written cleanly.
+
+## Counterexamples Or Obstructions
+
+Raw $\beta(h)\to0$ is not necessary: known finite-horizon exogenous laws are oracle-learnable with $O(1)$ regret.
+
+Per-world tail profiles cannot characterize unknown-class learnability: hidden and labeled terminal-pair classes have identical $\beta,\Delta,\delta$ profiles but regret differs by $\Omega(qD)$ versus zero.
+
+Finite-subclass ordinary priors do not characterize arbitrary infinite classes without product closure; $\mathrm{ba}$ witnesses are needed for true infinite-class gaps.
+
+## Promising Ideas To Explore
+
+Polish the $ba$ dual proof as the clean arbitrary-class finite-grid value theorem.
+
+Keep finite/no-gap ordinary-prior $\Psi_G$ results as the statistically interpretable version.
+
+Continue lower-rate work via limited-leakage or codebook constructions, but first compute their finite-grid Bayes value.
+
+For adaptive upper bounds, focus on comparator-specific heterogeneous-delay experts; the strong nested-window oracle route is refuted.
+
+## Notes For Critics
+
+The main claim is exact only under fixed finite $T$, finite grid $G$, randomized policies, and public exogenous prices.
+
+Use $M_t=\max_{t<s\le T}P_s$ everywhere; no post-horizon prices enter rewards.
+
+This should not be advertised as a scalar tail characterization. The right object is the attainable reward set $C_T^G$, or ordinary Bayes gaps only under finite/no-gap hypotheses.

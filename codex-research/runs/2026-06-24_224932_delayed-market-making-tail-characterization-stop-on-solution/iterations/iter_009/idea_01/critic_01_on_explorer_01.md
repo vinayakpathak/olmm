@@ -1,0 +1,66 @@
+## Summary
+
+The explorer’s proof strategy is worth pursuing and likely correct for a carefully defined relaxed policy class: fixed finite $T$, finite grid $G$, public exogenous prices, and admissible policies taken to be $\lambda_t$-measurable public-prefix kernels modulo dominated null sets.
+
+But it has not yet closed the main gap as stated. The hard point is still policy-class alignment: showing the compact $L^\infty$ kernel object is exactly implementable by the original private-randomized Borel public-price policies, not just a relaxation.
+
+## Issue List
+
+1. **[fatal gap] Policy-class alignment is still not proved.**  
+   The theorem claims no-gap for “randomized public-prefix grid policies,” but the compactness proof works over $Q_t=L^\infty(\lambda_t;\Delta(G))$ equivalence classes. To prove the intended result, one needs both directions:
+   - every admissible private-randomized policy induces such kernels with the same reward vector;
+   - every weak-* limit kernel has an admissible Borel/completed-measure implementation.
+
+2. **[missing assumption] The prefix-kernel reduction needs an explicit policy model.**  
+   Lemma 1 is valid only if private randomness is independent of the active law and price path, prices are exogenous, full public prices $P_{1:t}$ are observed, and delayed trade feedback contains no extra information beyond public prices and past quotes.
+
+3. **[plausible but incomplete] The induction $a_t=\alpha_t(P_{1:t},U)$ must be written.**  
+   Delayed rewards and memory are harmless here because they are deterministic from $(P_{1:t},U)$, but this is a proof obligation, not a one-line assertion.
+
+4. **[plausible but incomplete] Borel-version lemma is essential.**  
+   For $\lambda_t$-measurable $L^\infty$ kernels, one must prove existence of Borel representatives taking values in $\Delta(G)$ outside a $\lambda_t$-null set, then set a default action on the null set. This should work on $[0,1]^t$ with sigma-finite Borel $\lambda_t$, but it must be stated.
+
+5. **[plausible but incomplete] Weak-* compactness details are standard but need precision.**  
+   Need to invoke $L^\infty=(L^1)^*$ for sigma-finite measures, Banach-Alaoglu, weak-* closedness of positivity via $L^1_+$, and weak-* closedness of $\sum_a q_{t,a}=1$.
+
+6. **[missing assumption] Finite-subclass values must use the same policy class.**  
+   The finite-intersection step compares $\mathcal R_G(\Theta)$ to $\sup_F\mathcal R_G(F)$. This is valid only if all $\mathcal R_G(F)$ are computed over the same $Q$-implementable policy class, or if equality with the original Borel class has already been proved.
+
+7. **[plausible but incomplete] Density-form Bayes support formula needs identification with $\Psi_{G,F}$.**  
+   The formula
+$$
+   \sup_q\sum_\theta\pi_\theta L_\theta(q)
+   =
+   \sum_t\int \max_{a\in G}\sum_\theta\pi_\theta f^\theta_{t,a}\,d\lambda_t
+$$
+   is right as a measure-theoretic support function, but the write-up must prove it equals the earlier conditional-probability Bayes envelope.
+
+8. **[missing assumption] The result is fixed-grid only.**  
+   It cannot be advertised as a continuum theorem except after separately applying
+$$
+   |\mathcal R_{[0,1]}-\mathcal R_{G_K}|\le T/K.
+$$
+
+## Counterexamples Or Stress Tests
+
+- **Non-Borel label example:** still breaks arbitrary infinite-class claims without domination/product closedness.
+- **Uncountable Dirac/Feller classes:** weak/Feller continuity does not imply domination or no-gap.
+- **Action-dependent prices:** destroys the prefix-kernel/full-information reduction.
+- **Private randomness correlated with the law:** would make Lemma 1 false.
+- **Censored/private feedback instead of full public prices:** future decisions may depend on information not captured by $P_{1:t}$.
+
+## Literature Or Known-Result Conflicts
+
+No direct external conflict. The main conflicts are with the run’s established obstructions: finite-subclass Bayes values do not characterize arbitrary infinite classes, weak/Feller continuity alone is insufficient, and continuum $\Psi$ formulas remain delicate because of strict-threshold nonattainment.
+
+## What Survives The Critique
+
+The core compactness theorem survives under a clean relaxed-policy formulation. Payoff-weighted reward-measure domination should imply product compactness of the attainable reward set, hence no infinite-class finite-subclass gap on a finite grid. The finite-prior density formula is also a useful way to avoid conditional-probability version issues.
+
+## Recommended Next Checks
+
+1. Write the exact admissible policy definition.
+2. Prove policy-to-prefix-kernel reduction by induction.
+3. Prove the Borel/completed-measure implementation lemma for $L^\infty$ kernels.
+4. Reprove finite-subclass no-gap using the same policy class throughout.
+5. Only then add the finite-grid Bayes identity and continuum discretization corollary.

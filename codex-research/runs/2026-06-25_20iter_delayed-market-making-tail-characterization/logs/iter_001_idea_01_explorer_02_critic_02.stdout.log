@@ -1,0 +1,63 @@
+## Summary
+
+The explorer’s core claim survives: the sparse vanishing-spike construction is a valid refutation of the “only if” direction under the literal per-process reading. I found no fatal gap in \(\beta(h)=1\), the \(O(1)\) comparator bound, or the always-zero learner argument.
+
+The main weaknesses are scope and polish: the result depends on the interpretation of “possible,” the envelope strengthening needs a finite-prefix fix, and the “rare bad histories” obstruction is only a conjectural direction.
+
+## Issue List
+
+- **Worth pursuing:** Core sparse-spike refutation. For \(a=0\), at spike time \(s_n=2^n\), the next positive price occurs at \(s_{n+1}\) almost surely, so \(\tau_{s_n}(0)=2^n\). Thus \(\beta(h)=1\) for every \(h\).
+
+- **Worth pursuing:** Comparator bound. If fixed \(a>0\) can trade by horizon \(T\), then \(a < 1/s_{m^*}\) for the last possible crossing spike, and at most \(s_{m^*}\) posted quotes can earn. Hence total expected reward is \(< a s_{m^*}<1\).
+
+- **Missing assumption:** The refutation only proves failure of instance-wise necessity:
+  \[
+  \exists \pi:\ R_P^\pi(T)=o(T)\quad\not\Rightarrow\quad \beta_P(h)\to0.
+  \]
+  It does not refute a minimax theorem over a process class unless the class-uniform learner/regret quantifiers are stated.
+
+- **Plausible but incomplete:** Envelope strengthening needs a finite-prefix repair. If \(q\) is only eventually positive/nondecreasing, choose spike times after that threshold and set, for example,
+  \[
+  c_n=\min\{1,q(s_n)/4\}>0.
+  \]
+  As written, early \(c_n\)'s could violate the claimed \(q(T)/2\) bound for bounded envelopes.
+
+- **Plausible but incomplete:** Continuum maximum proof is basically right, but should explicitly use “no positive atoms” of \(M_t\). The possible atom at \(0\) is harmless because the objective has the factor \(a\).
+
+- **Missing assumption:** The obstruction relies on \(0\in[0,1]\), reward scale \(a\), and strict crossing \(P>a\). If actions are restricted to \([\epsilon,1]\), this exact example no longer forces \(\beta(h)=1\).
+
+- **Unsupported claim:** “Rare bad histories can keep \(\beta\) large without contributing linear expected regret” is plausible but not proved by this construction. Keep it as a direction, not a lemma.
+
+## Counterexamples Or Stress Tests
+
+- Restricting to \(a\ge\epsilon\) kills this example: after \(s_m>1/\epsilon\), no spike can exceed \(\epsilon\). This confirms the flaw is the unweighted inclusion of vanishing payoff actions.
+
+- Worst horizons \(T=s_m\) still satisfy the comparator bound; there is no hidden growth at spike horizons.
+
+- The construction needs both long gaps and vanishing heights: long gaps give \(\beta=1\), while vanishing heights keep comparator payoff bounded.
+
+## Literature Or Known-Result Conflicts
+
+No conflict found. Joulani-Gyorgy-Szepesvari supports the delayed-feedback reduction behind the sufficient direction, not the necessity claim. Thune-Cesa-Bianchi-Seldin and Zimmert-Seldin support the broader point that unrestricted delays are often handled by total-delay or skip-set quantities, not uniform worst-case tail decay.
+
+## What Survives The Critique
+
+- Sparse vanishing spikes refute unweighted \(\beta\)-necessity under individual-law learnability.
+- The always-zero learner has \(R(T)\le1=o(T)\).
+- \(\beta(h)=1\) for all \(h\).
+- The right next target is a payoff-weighted, horizon-averaged, or minimax-information condition.
+
+## Bibliography Candidates
+
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari, “Online Learning under Delayed Feedback,” ICML/PMLR 2013. https://proceedings.mlr.press/v28/joulani13.html Relevant for bounded/total delayed-feedback reductions.
+
+- Tobias Sommer Thune, Nicolo Cesa-Bianchi, Yevgeny Seldin, “Nonstochastic Multiarmed Bandits with Unrestricted Delays,” NeurIPS 2019. https://papers.nips.cc/paper_files/paper/2019/hash/0e4f5cc9f4f3f7f1651a6b9f9214e5b1-Abstract.html Relevant for skipping excessive delays.
+
+- Julian Zimmert, Yevgeny Seldin, “An Optimal Algorithm for Adversarial Bandits with Arbitrary Delays,” AISTATS 2020 / arXiv:1910.06054. https://arxiv.org/abs/1910.06054 Relevant for refined skip-set delay bounds.
+
+## Recommended Next Checks
+
+1. Formalize the sparse-spike example as a proposition with explicit quantifiers.
+2. Fix the envelope-strengthening proof by shifting spike times past the eventual monotonicity/positivity threshold of \(q\).
+3. Decide whether the target theorem is instance-wise, class-uniform minimax, or distribution-free.
+4. Test payoff-weighted \(\gamma(h)\) and horizon-level tail loss against rare-history examples.

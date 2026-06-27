@@ -1,0 +1,125 @@
+## Verdict
+
+SOLVED: maybe
+
+I think there is now a credible exact characterization for the finite-horizon exogenous minimax model, but it is not a tail-only characterization. The right object is a least-favorable Bayes predictability gap. The original \(\beta(h)\to0\) condition is only a sufficient tail condition.
+
+## Candidate Solution Or Main Attempt
+
+Assume finite horizon \(T\), public exogenous prices, learner knows the class \(\mathcal C_T=\{P^\theta:\theta\in\Theta_T\}\) but not \(\theta\), actions do not affect prices, and the learner may depend on \(T\).
+
+Let
+\[
+M_t=\max_{t<s\le T}P_s,\qquad r_t(a)=a{\bf 1}\{M_t>a\},
+\]
+and
+\[
+V_\theta(T)=\sup_{a\in[0,1]}\sum_{t=1}^T\mathbb E_\theta r_t(a).
+\]
+
+For a prior \(\pi\) over \(\Theta_T\), let \(\bar P_\pi\) be the mixture law. Define the Bayes predictability gap
+\[
+\Psi_T(\pi)
+=
+\mathbb E_{\theta\sim\pi}V_\theta(T)
+-
+\sum_{t=1}^T
+\mathbb E_{\bar P_\pi}
+\left[
+\sup_{a\in[0,1]}
+a\,\bar P_\pi(M_t>a\mid P_{1:t})
+\right].
+\]
+
+Claim: for finite model classes and finite action grids, the minimax regret equals
+\[
+\sup_\pi \Psi_T(\pi).
+\]
+For the continuum action set, this should hold under standard measurable-selection/minimax regularity, or up to the usual \(T/K\) grid error.
+
+Thus the information-theoretic characterization is:
+
+\[
+\text{sublinear minimax regret is possible}
+\quad\Longleftrightarrow\quad
+\left(\sup_\pi \Psi_T(\pi)\right)_+=o(T).
+\]
+
+This explains all known examples. Degenerate known-law priors have no positive obstruction because the learner can use posterior predictive maximization. Hidden-terminal two-world priors have a positive Bayes gap because the active reward curve is not identifiable before many decisions.
+
+The practical sufficient theorem remains:
+
+\[
+\sup_{\theta\in\Theta_T}R_T^\theta
+\lesssim
+\sqrt{T(H+1)\log K}+T/K+\sup_{\theta\in\Theta_T}\delta_T^\theta(H),
+\]
+where
+\[
+\delta_T^\theta(H)
+=
+V_\theta(T)
+-
+\sup_a\sum_t\mathbb E_\theta r_t^H(a).
+\]
+Since \(\delta_T^\theta(H)\le \Delta_T^\theta(H)\le T\beta_\theta(H)\), the original \(\beta\)-condition gives sublinear regret but is not necessary.
+
+For \(\beta(h)\lesssim h^{-\alpha}\), this upper route gives
+\[
+R_T\lesssim
+T^{(\alpha+1)/(2\alpha+1)}(\log T)^{\alpha/(2\alpha+1)}
+\]
+with \(K=T\).
+
+## Concrete Lemmas Or Reductions
+
+1. Known-law oracle: for every known finite-horizon exogenous law, conditional grid maximization gives \(R_T\le T/K\), hence \(O(1)\) with \(K=T\).
+
+2. Bayes myopic optimality: for a fixed prior \(\pi\), actions do not affect future observations, so the Bayes-optimal learner maximizes
+\[
+a\,\bar P_\pi(M_t>a\mid P_{1:t})
+\]
+separately at each time \(t\). There is no exploration value.
+
+3. Least-favorable prior reduction: under minimax equality, the minimax value is the supremum over priors of the Bayes regret \(\Psi_T(\pi)\).
+
+4. Truncated full-information reduction: with \(H\)-truncated rewards, use \(H+1\) residue-class Hedge instances on a \(K\)-grid to get
+\[
+O(\sqrt{T(H+1)\log K}).
+\]
+
+5. Hidden-terminal atom: two indistinguishable worlds for \(D\) rounds, with terminal distributions on \([1/2,5/8]\) and \([3/4,7/8]\), force regret \(D/8\). The \(q\)-scaled version forces \(qD/8\).
+
+## Gaps And Failure Points
+
+The exact Bayes-gap characterization still needs a clean minimax theorem statement for general law classes and continuum actions. A finite-class, finite-grid version is safe.
+
+This is not a satisfying scalar tail characterization. It is essentially an information-value characterization: valuable delayed rewards matter only when the learner cannot predict which reward curve is active.
+
+The power-tail lower bound is still not matched. The \(q\)-scaled one-block atom gives only \(\Omega(DB(D))\), too weak for \(B(h)=h^{-\alpha}\).
+
+## Counterexamples Or Obstructions
+
+Raw \(\beta\) necessity is false: iid uniform prices have \(\beta(h)=1\) for all \(h\), but a known-law learner can match the fixed comparator.
+
+\(\Delta_T(H)=o(T)\) necessity is false: a known terminal-spike law has linear truncation loss but zero regret for a law-aware learner.
+
+Same tail, different minimax behavior: a singleton \(q\)-terminal law is learnable when known; the two-world hidden-terminal class with comparable tail has regret \(\Omega(qD)\). Tail alone misses indistinguishability.
+
+Action-dependent prices remain outside the reduction; counterfactual reward vectors are not fixed unless prices are exogenous.
+
+## Promising Ideas To Explore
+
+Formalize the finite-grid minimax/Bayes theorem first, then pass to continuum via downward rounding.
+
+Use \(\Psi_T(\pi)\) as the lower-bound language in the paper: it cleanly contains the hidden-terminal examples and rules out false tail iff claims.
+
+For matching rates, pursue multi-scale or limited-leakage priors. The construction must accumulate Bayes gap across scales without iid block-splicing collapsing the fixed comparator.
+
+## Notes For Critics
+
+Check the sign convention: \(\Psi_T(\pi)\) can be negative because adaptive learners may beat the fixed comparator. The obstruction is its positive least-favorable part.
+
+Check whether the posterior predictive term should condition only on \(P_{1:t}\) or also on learner private randomness. Under exogenous prices, private randomness carries no information about \(\theta\), so \(P_{1:t}\) should suffice.
+
+Do not promote the Bayes-gap characterization as a clean tail theorem. It is exact-looking, but it says the answer is about predictability plus value, not raw delay.

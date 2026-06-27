@@ -1,0 +1,110 @@
+## Verdict
+
+SOLVED: no
+
+The original iff tail characterization remains false. I do have a concrete new partial result: the finite suffix-menu upper framework appears to extend cleanly to arbitrary compact/infinite menus, giving a path-dependent known-path anytime sufficient condition.
+
+## Candidate Solution Or Main Attempt
+
+For a deterministic known exogenous path, define
+\[
+M_{t,T}=\max_{t<s\le T}P_s,\qquad C_t=\overline{\{M_{t,T}:T>t\}}.
+\]
+For a compact menu \(C\subset[0,1]\), let \(m=\max C\). If \(m=0\), set \(\delta(C)=0\). Otherwise define the successor map
+\[
+s_C(x)=\min(C\cap[x,m])
+\]
+and define \(\delta(C)\in[0,m]\) by the root
+\[
+\int_{\delta(C)}^m \frac{dx}{s_C(x)}=1.
+\]
+This root exists and is unique, with \(\delta(C)\le m/e\le1/e\).
+
+A formal left-limit quote distribution is: sample \(X\) on \([\delta,m]\) with density \(dx/s_C(x)\), then quote \(s_C(X)^-\). For every \(c\in C\),
+\[
+\mathbb E[A1\{A<c\}]=(c-\delta)_+,
+\]
+so the local deficit is at most \(\delta(C)\).
+
+Thus, using actual quotes \(s_C(X)-\varepsilon_t\) with summable \(\varepsilon_t\), a process-aware horizon-oblivious randomized policy satisfies for every horizon
+\[
+R_T\le \sum_{t<T}\delta(C_t)+O(1).
+\]
+Hence if
+\[
+\sum_{t<T}\delta(C_t)=o(T),
+\]
+then this known deterministic path admits sublinear horizon-oblivious regret.
+
+This recovers the finite-menu formula in the notes: for \(C=\{c_1<\cdots<c_m\}\), the integral becomes
+\[
+\sum_i \frac{(c_i-\delta)_+-(c_{i-1}-\delta)_+}{c_i}=1.
+\]
+
+## Concrete Lemmas Or Reductions
+
+**Infinite-menu local lemma.** For compact \(C\subset[0,1]\),
+\[
+\inf_\mu \sup_{c\in C}\left(c-\int_{[0,c)}a\,d\mu(a)\right)=\delta(C),
+\]
+with infimum understood through left-limit or \(\eta\)-implementation.
+
+Upper bound: the successor-map distribution above gives deficit \(\le\delta\).
+
+Lower bound: let \(\rho=\lim_{x\downarrow\delta}s_C(x)\). Define a threshold law \(Z\in C\) with survival approximately
+\[
+\Pr(Z>x)=
+\begin{cases}
+1,&x<\rho,\\
+\rho/s_C(x),&x\ge\rho.
+\end{cases}
+\]
+Then \(\sup_a a\Pr(Z>a)=\rho\), while the root equation gives \(\mathbb E Z=\rho+\delta\). By duality, every quote law has worst-menu deficit at least \(\delta\).
+
+**Path reduction.** Since
+\[
+r_t(a;T)=a1\{a<M_{t,T}\},
+\]
+and any fixed comparator earns at most \(\sum_{t<T}M_{t,T}\), applying the local menu policy at each time \(t\) gives the displayed suffix-menu regret bound.
+
+## Gaps And Failure Points
+
+This is not a full characterization. The upper bound compares the fixed comparator to \(\sum_t M_{t,T}\), which can be loose because one comparator action must serve all \(t\).
+
+The policy is process-aware and knows the deterministic future path. It is not an online universal algorithm for unknown exogenous paths.
+
+Strict crossing prevents exact attainment of \(c^-\); actual actions require \(\varepsilon_t\)-approximations with \(\sum_t\varepsilon_t<\infty\).
+
+Endogenous/reactive prices are outside the argument because \(M_{t,T}\) must be independent of the quote drawn at time \(t\).
+
+## Counterexamples Or Obstructions
+
+Sparse vanishing spikes still refute raw \(\beta\)-necessity.
+
+The horizon/process-aware oracle collapse still rules out any nontrivial instance-wise necessary tail condition under pseudo-regret.
+
+Random threshold mixtures remain unsafe as hard stochastic instances because regret is \(\sup_a\mathbb E[\cdot]-\mathbb E[\cdot]\), not \( \mathbb E[\sup_a\cdot]-\mathbb E[\cdot]\).
+
+## Literature And Bibliography Candidates
+
+No new direct delayed-market-making source found. The closest checked sources remain adjacent robust/minimax pricing:
+
+- Dirk Bergemann and Karl H. Schlag, “Pricing Without Priors,” Cowles Foundation Discussion Paper No. 1625, 2007, SSRN. Relevant for support-only minimax pricing and randomized prices bounded away from zero. 
+- Dirk Bergemann and Karl H. Schlag, “Robust Monopoly Pricing,” Journal of Economic Theory 146(6):2527-2543, 2011, DOI 10.1016/j.jet.2011.10.018. Adjacent robust/minimax pricing context. 
+- René Caldentey, Ying Liu, and Ilan Lobel, “Intertemporal Pricing Under Minimax Regret,” Operations Research 65(1):104-129, 2017. Adjacent dynamic minimax-pricing model. 
+
+## Promising Ideas To Explore
+
+Polish the infinite-menu lemma as CL-032/LB-028.
+
+Use \(\sum_t\delta(C_t)\) as a known-path sufficient condition and test it on sparse spikes, increasing threshold blocks, and superexponential spike examples.
+
+Investigate whether a matching lower bound needs horizon-aligned dual laws rather than independent local menu duals.
+
+## Notes For Critics
+
+Check measurability of \(s_C\) and the survival-law construction for arbitrary compact \(C\).
+
+Check the boundary cases \(C=\{0\}\), singleton positive \(C\), and \(C\) accumulating at \(0\).
+
+The theorem should be stated as an infimum theorem under strict crossing, with explicit \(\varepsilon_t\)-implementation for actual quote actions.

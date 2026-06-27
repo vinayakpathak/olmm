@@ -1,0 +1,53 @@
+## Summary
+
+The finite-class core is plausible: finite $\Theta_T$, finite grid $G$, public exogenous prices, randomized policies, grid-restricted comparator, Bayes-myopic lemma, finite-dimensional minimax, then $T/K$ grid-to-continuum approximation.
+
+But the attempt is not acceptable as a full solution. It packages several previously accepted lemmas into a “maybe solved” theorem while leaving the main hard points either assumed, restricted away, or explicitly unresolved. The result is an information-value characterization under strong model assumptions, not a tail characterization or matching-rate theorem.
+
+## Fatal Gaps
+
+- The infinite-class statement is not proved. The equality with finitely supported priors requires a product-closed attainable reward set $C_{T,G}$. The attempt states this condition but does not prove it for natural classes, and “common domination should imply this” remains a proof obligation.
+
+- The claimed “necessary-and-sufficient characterization” is only for finite or no-gap infinite public-exogenous classes. It does not solve arbitrary unknown classes, nondominated classes, action-dependent prices, anytime policies, or high-probability/pathwise regret.
+
+- The theorem is not a scalar tail characterization. $\sup_{\pi}\Psi_{T,G_T}(\pi)$ is essentially the minimax value written in Bayes form. That may be a valid value characterization, but it does not answer the original tail-characterization goal in the intended sense.
+
+- No matching lower bound is given for the power-tail upper rate. The attempt explicitly admits the $qD$ hidden-terminal atom is too weak, so goals 2-3 remain incomplete.
+
+## Missing Assumptions
+
+- Prices must be public, exogenous, and action-independent.
+
+- The learner must know $T$, $\Theta_T$, and the grid; policies may depend on $T$.
+
+- Policies must be randomized measurable policies with private randomness independent of the active law.
+
+- Regret must use the signed upper-regret value plus positive-part convention for learnability.
+
+- For infinite classes, product closedness must hold for the specific finite-grid attainable reward set at each $(T,G_T)$.
+
+- Regular conditional probabilities and measurable maximizers/selectors are needed; grids avoid most continuum selector issues, but the assumptions still need to be stated.
+
+## False Or Unsupported Claims
+
+- “In fact, $|(\mathcal R_T^{[0,1]})_+-(\sup_{\pi\in\Delta_f}\Psi_{T,G_T})_+|\le1$” is unsupported for arbitrary infinite classes. It is only justified under the product-closed/no-gap hypothesis.
+
+- “Common domination should imply this” is not a theorem as written. The missing pieces are policy-to-prefix-kernel reduction, weak-* compactness, weak-* closed simplex constraints, and measurable representatives.
+
+- Calling this “the best current iff” is misleading unless explicitly qualified as a finite-class/product-closed value iff.
+
+- The tail upper bound is only sufficient. The attempt does not connect $\delta_T(H)=o(T)$, $\Delta_T(H)=o(T)$, or $\beta(h)\to0$ to necessity.
+
+## Plausible But Incomplete Parts
+
+- The finite-grid minimax/Bayes identity is plausible and already supported by the ledger under finite $\Theta$, finite $G$, randomized policies, and grid-restricted comparator $V_\theta^G$.
+
+- The grid-to-continuum comparison $|\mathcal R_{[0,1]}-\mathcal R_{G_K}|\le T/K$ is plausible and likely extends beyond finite classes if stated carefully.
+
+- The $\delta_T(H)$ truncation upper bound is credible under exogenous public prices, with the $H+1$-residue Hedge proof.
+
+- The hidden-terminal and $q$-scaled lower atoms are valid finite-horizon minimax lower-bound examples, but they do not yield matching power-tail rates.
+
+## Verdict
+
+ACCEPTABLE: no

@@ -1,0 +1,79 @@
+## Summary
+
+The tiny-price block idea works. It gives a deterministic singleton process with $\beta(h)=1$ for every $h$, while the best fixed-quote value is uniformly bounded over all horizons. Thus the zero-quote learner has $O(1)$ regret. This is a clean counterexample to raw delay-probability necessity.
+
+## Concrete Progress
+
+Define $L_m=2^m$, $p_m=2^{-2m}$, $m\ge 1$. Let
+$$
+S_m=\sum_{j=1}^m(L_j+1)=2^{m+1}-2+m.
+$$
+Set $P_t=0$ for $S_{m-1}<t<S_m$, and $P_{S_m}=p_m$. So each block has $2^m$ zeros, then one spike $2^{-2m}$.
+
+For any $h$, choose $m$ with $L_m>h$, take $t=S_{m-1}+1$, and quote $a=p_m/2$. Then all future prices for the next $L_m-1$ steps are zero and $P_{t+L_m}=p_m>a$, so
+$$
+\tau_t(a)=L_m>h.
+$$
+Since the process is deterministic, the conditional probability is $1$. Hence
+$$
+\beta(h)=1\quad\text{for all }h.
+$$
+
+For any horizon $T$ and quote $a$, let
+$$
+M=\max\{m:S_m\le T,\ p_m>a\},
+$$
+if this set is nonempty. Then the quote earns reward exactly for times $t<S_M$, so
+$$
+\sum_{t\le T}r_t(a)=a(S_M-1)\le p_M(S_M-1).
+$$
+But
+$$
+p_M(S_M-1)=2^{-2M}(2^{M+1}+M-3)\le \frac12.
+$$
+If no such $M$ exists, the reward is zero. Therefore
+$$
+\sup_T\sup_{a\in[0,1]}\sum_{t\le T}r_t(a)\le \frac12.
+$$
+The learner $a_t\equiv0$ gets reward $0$, so its regret is at most $1/2$ for every horizon.
+
+## Claims Or Lemmas
+
+**Lemma 1:** The deterministic tiny-price process has $\beta(h)=1$ for every finite $h$.
+
+**Lemma 2:** Its fixed-comparator value is uniformly bounded:
+$$
+\sup_T\sup_a\sum_{t\le T}r_t(a)\le 1/2.
+$$
+
+**Lemma 3:** Consequently, sublinear regret is possible despite complete failure of the raw essential-sup tail condition.
+
+A useful extra observation: this example is not an obstruction to value-weighted truncation criteria. One can likely show $\sup_T \Delta_T(H)=O(1/H)$, because long delays occur only at spike values $p_m\asymp L_m^{-2}$.
+
+## Proof Attempts
+
+The main proof succeeds by separating delay probability from reward magnitude. The long waits are certain, but only for quotes below a future spike whose value is already tiny. The product “number of quote times affected” times “payoff per quote” is
+$$
+L_m p_m = 2^m2^{-2m}=2^{-m},
+$$
+so even optimizing over horizons and quotes cannot accumulate linear value.
+
+## Gaps And Risks
+
+The counterexample targets the infinite-process $\beta(h)=\sup_t\sup_a\cdots$ definition. If someone instead defines a fixed finite-horizon $\beta_T(h)$, then $\beta_T(h)=0$ trivially for $h\ge T$; the right finite-horizon statement would be that no uniform-in-$T$ raw-delay tail is necessary.
+
+Use $\sup_a$, not $\max_a$: the best quote may be approached from below because trades require $P>a$.
+
+This does not refute $\delta_T(H)$-style sufficient conditions; it supports the view that value-weighted delayed reward is the right object.
+
+## Counterexamples Or Obstructions
+
+This is a deterministic, no-estimation, singleton-law obstruction to any theorem saying raw $\beta(h)\to0$ is necessary for sublinear regret. The obstruction is specifically that raw hitting delay ignores payoff scale.
+
+## Sources Consulted
+
+No web sources. Consulted the required run notes, especially `counterexamples.md`, `claim_ledger.md`, `lemma_bank.md`, and the assigned `iterations/iter_006/idea_02/idea.md`, plus `iterations/iter_006/solver_attempt.md`.
+
+## Recommended Next Steps
+
+Add this as a formal counterexample in project memory. Also add the optional $\Delta_T(H)=O(1/H)$ calculation if the final write-up wants to contrast raw $\beta$ with value-weighted truncation.

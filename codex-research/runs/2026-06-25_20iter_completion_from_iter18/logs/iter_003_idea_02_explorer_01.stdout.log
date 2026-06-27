@@ -1,0 +1,124 @@
+## Summary
+
+The horizon-oblivious, process-aware regime is genuinely different from the horizon-aware oracle regime, but it does **not** rescue the original \(\beta\)-tail necessity. Existing counterexamples such as sparse vanishing spikes still give a single anytime policy with sublinear regret while \(\beta(h)\not\to0\).
+
+Concrete progress: I found a deterministic, known-law obstruction showing that a generic “anytime oracle collapse” is false. The obstruction is not process uncertainty; it is **prefix incompatibility**: the same pre-horizon quotes must serve two nearby horizons with different optimal fixed quotes.
+
+## Concrete Progress
+
+Consider the deterministic finite block
+
+\[
+P_1=\cdots=P_N=0,\qquad P_{N+1}=1/2,\qquad P_{N+2}=1.
+\]
+
+The learner knows this whole path but not whether regret will be evaluated at \(T_0=N+1\) or \(T_1=N+2\).
+
+For the first \(N\) actions \(A_t\):
+
+\[
+G_0=\mathbb E\sum_{t=1}^N A_t{\bf 1}\{A_t<1/2\}
+\]
+
+is the learner’s contribution from those actions by horizon \(T_0\), while
+
+\[
+G_1=\mathbb E\sum_{t=1}^N A_t{\bf 1}\{A_t<1\}
+\]
+
+is their contribution by horizon \(T_1\).
+
+The fixed comparator at \(T_0\) can use \(a\uparrow 1/2\), giving supremum \(N/2\). The fixed comparator at \(T_1\) can use \(a\uparrow1\), giving supremum \(N\). But for every action \(A\),
+
+\[
+A{\bf 1}\{A<1/2\}+A{\bf 1}\{A<1\}\le 1.
+\]
+
+Hence
+
+\[
+R_{T_0}+R_{T_1}
+\gtrsim
+N/2+N-N
+=
+N/2,
+\]
+
+so one of the two regrets is at least about \(N/4\). This holds even for randomized learners and even when the process is deterministic and fully known.
+
+## Claims Or Lemmas
+
+**Lemma candidate: Same-path two-horizon lower bound.**  
+For the deterministic block \(0^N,(1/2),1\), every horizon-oblivious policy suffers
+
+\[
+\max\{R_{N+1},R_{N+2}\}\ge N(1/4-o(1))
+\]
+
+with regret against \(\sup_a\), using epsilon comparators \(1/2-\eta\) and \(1-\eta\) to avoid strict-threshold nonattainment.
+
+**Infinite-process corollary candidate.**  
+Concatenate blocks \(0^{N_i},1/2,1\) with \(M_i=\sum_{j<i}(N_j+2)=o(N_i)\). Then for every process-aware but horizon-oblivious policy,
+
+\[
+\limsup_T \frac{R_T}{T} \ge 1/4
+\]
+
+up to epsilon losses. This gives a deterministic known process with no anytime sublinear pseudo-regret policy.
+
+## Proof Attempts
+
+The finite proof is essentially complete. For epsilon comparators,
+
+\[
+R_{N+1}\ge N(1/2-\eta)-G_0,
+\qquad
+R_{N+2}\ge N(1-\eta)-G_1-O(1),
+\]
+
+where \(O(1)\) accounts for the action posted at time \(N+1\). Since \(G_0+G_1\le N\),
+
+\[
+R_{N+1}+R_{N+2}
+\ge
+N(1/2-2\eta)-O(1).
+\]
+
+The infinite concatenation only needs standard dominant-block accounting: previous rewards contribute at most \(M_i=o(N_i)\), so they cannot erase the current-block lower bound.
+
+## Gaps And Risks
+
+The construction refutes generic anytime collapse, but it is **not** a characterization.
+
+It also does not prove \(\beta\)-necessity. Sparse vanishing spikes already show \(\beta(h)=1\) can coexist with an anytime learner of \(O(1)\) regret.
+
+The right necessary object seems closer to a **prefix-compatibility** or **conflicting-deadline** condition: can one causal quote sequence approximate the best fixed quote simultaneously for all prefixes?
+
+The argument depends on the model allowing only one scalar quote per round. If the learner could split capital across multiple simultaneous quotes, this lower bound would need reformulation.
+
+## Counterexamples Or Obstructions
+
+The block \(0^N,1/2,1\) is a same-process obstruction: unlike the earlier two-continuation lower bound, there is no hidden continuation. The learner knows both prices will occur, but the same early quotes cannot both cash out at \(1/2\) for the shorter horizon and wait for \(1\) for the longer horizon.
+
+This process also violates \(\beta\) and \(\gamma\): for any \(h\), choose a block with \(N_i>h\), and a quote \(a=3/4\) posted early waits more than \(h\) steps and then trades at the terminal \(1\).
+
+## Sources Consulted
+
+Local run notes: `canonical_summary.md`, `claim_ledger.md`, `lemma_bank.md`, `failed_attempts.md`, `counterexamples.md`, `literature_map.md`, `bibliography.md`, `promising_directions.md`, `iteration_summaries.md`, and the assigned `idea.md`.
+
+External context:
+- Joulani, Gyorgy, Szepesvari, “Online Learning under Delayed Feedback,” ICML 2013: https://proceedings.mlr.press/v28/joulani13.html
+- Cesa-Bianchi and Lugosi, *Prediction, Learning, and Games*, 2006: https://cesa-bianchi.di.unimi.it/predbook/
+- Abernethy, Bartlett, Hazan, “Blackwell Approachability and No-Regret Learning are Equivalent,” COLT/PMLR 2011: https://proceedings.mlr.press/v19/abernethy11b.html
+
+## Bibliography Candidates
+
+- Jacob Abernethy, Peter L. Bartlett, Elad Hazan. “Blackwell Approachability and No-Regret Learning are Equivalent.” COLT 2011, PMLR 19:27-46. https://proceedings.mlr.press/v19/abernethy11b.html. Relevance: useful if the Blackwell/calibration route is pursued, but not directly sufficient for horizon-censored delayed market-making regret.
+
+## Recommended Next Steps
+
+Formalize the same-path two-horizon lemma and add it as a candidate claim.
+
+Then formalize the concatenated \(0^{N_i},1/2,1\) deterministic process with \(N_i\gg M_i\).
+
+Finally, refine the quantifier taxonomy: horizon-oblivious process-aware learnability is nontrivial, but raw tail failure is neither necessary nor sufficient for impossibility. The useful condition should measure simultaneous prefix compatibility, not just delay length.

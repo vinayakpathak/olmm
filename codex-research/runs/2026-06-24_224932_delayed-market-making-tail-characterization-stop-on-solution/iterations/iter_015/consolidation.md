@@ -1,0 +1,31 @@
+## Accepted Progress
+- Added the iteration 15 solvency invariant: pending-exposure control gives $A_T\ge -B$, so the fast-comparator side of the delayed-advantage game is now clean.
+- Recorded the repaired $D$-scale lower-bound stress test using common fast baseline / advantage-only feedback.
+- Accepted the periodic two-window finite-grid market construction as a refutation of the strong simultaneous expected nested-window oracle.
+
+## Candidate Routes
+- Continue the two-arm delayed-advantage route with reserve/fractional-wealth or direct potential methods.
+- Look for weaker min-over-window adaptive truncation guarantees instead of all-window oracle inequalities.
+- Test dense-grid/continuum variants of the periodic nested-window obstruction.
+
+## Refuted Or Weakened Claims
+- Refuted the naive safe-clipped delayed-Hedge rule by budget depletion.
+- Weakened the all-$\pm1$ first-$D$-round lower-bound argument; it needs common fast baseline or advantage-only feedback.
+- Refuted the simultaneous expected nested-window oracle with standard budgets. This does not refute adaptive truncation as a whole.
+
+## Working Notes Updated
+Updated:
+[canonical_summary.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/working_notes/canonical_summary.md),
+[claim_ledger.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/working_notes/claim_ledger.md),
+[lemma_bank.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/working_notes/lemma_bank.md),
+[failed_attempts.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/working_notes/failed_attempts.md),
+[counterexamples.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/working_notes/counterexamples.md),
+[literature_map.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/working_notes/literature_map.md),
+[promising_directions.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/working_notes/promising_directions.md),
+and [bibliography.md](/Users/vinayakpathak/olmm/codex-research/runs/2026-06-24_224932_delayed-market-making-tail-characterization-stop-on-solution/working_notes/bibliography.md).
+
+## Next Iteration Focus
+1. Prove or refute slow capture in the delayed-advantage game after adding a reserve/wealth mechanism.
+2. Formalize the periodic nested-window obstruction as a standalone lemma.
+3. Check whether continuum quotes or compromise quotes change that obstruction.
+4. Keep lower-rate codebook/noisy-common-type work separate from adaptive upper-bound work.

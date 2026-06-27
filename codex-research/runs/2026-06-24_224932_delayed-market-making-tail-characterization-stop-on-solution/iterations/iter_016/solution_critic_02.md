@@ -1,0 +1,44 @@
+## Summary
+
+The attempt is a useful summary of the accepted theorem package, but it is not a referee-ready solution to the original problem. The finite-class Bayes predictability characterization is plausible under tight assumptions, and the $\delta_T(H)$ upper bound is accepted. However, the claimed “SOLVED: maybe” status overstates what has been proved.
+
+## Fatal Gaps
+
+- The original problem asks for necessary/sufficient learnability conditions and regret rates. Matching lower rates remain explicitly open, so the solution is incomplete.
+- The infinite-class statement is not proved as written. Product closure/no-gap is only a structural condition on the attainable reward set, and payoff-weighted domination is accepted only for the completed $L^\infty$ prefix-kernel model unless the Borel policy alignment theorem is fully written.
+- The displayed $\Psi_G$ characterization is only finite-class, finite-grid, public-exogenous, randomized-policy, horizon-aware. The attempt’s “best current iff” language is too broad unless all of those restrictions are part of the theorem.
+- The formula $M_t=\max_{s>t}P_s$ is horizon-ambiguous. It must be $M_t=\max_{t<s\le T}P_s$; otherwise post-horizon prices can be incorrectly counted.
+- No scalar tail characterization is supplied. The hidden/labeled construction shows per-law tail profiles cannot characterize unknown-class minimax learnability.
+
+## Missing Assumptions
+
+- $\Theta_T$ must be finite for the main equality $\mathcal R_T^G=\sup_\pi\Psi_G(\pi)$.
+- $G$ must be finite, and learner actions, comparator values, and Bayes envelope must all use the same grid.
+- Policies must be randomized measurable/common Borel policies with private randomness independent of the active law.
+- Prices must be public, exogenous, action-independent, and fully observed before each quote.
+- The learner must know $T$, $G$, and the class $\Theta_T$, though not the active $\theta$.
+- Regret learnability must use the positive-part/upper-regret convention.
+- Regular conditional probabilities under mixture laws must exist.
+- The upper rate from $\delta_T(H)\lesssim T H^{-\alpha}$ needs a uniform-in-class bound and a common schedule $H_T,K_T$.
+
+## False Or Unsupported Claims
+
+- “SOLVED: maybe” is not supported.
+- “Infinite-class extension works” is too strong without specifying the exact policy class and proving the original Borel-policy no-gap theorem.
+- The rate statement is only an upper bound; it is not paired with a matching lower bound.
+- The raw-$\beta$ counterexamples refute fixed-law or per-world scalar-tail necessity, but not every possible predictability-aware minimax condition.
+
+## Plausible But Incomplete Parts
+
+- The finite-grid finite-class minimax/Bayes identity is plausible and consistent with the ledger.
+- The grid-to-continuum positive-part comparison with $G_T=\{0,1/T,\dots,(T-1)/T\}$ is plausible.
+- The truncation upper bound
+$$
+  \sqrt{T(H+1)\log K}+T/K+\sup_P\delta_T^P(H)
+$$
+  is sound under public exogenous prices and fixed $H$.
+- The counterexample suite is accurately summarized and useful.
+
+## Verdict
+
+ACCEPTABLE: no

@@ -1,0 +1,54 @@
+## Summary
+
+The explorer’s core oracle lemma survives under its narrow assumptions: finite horizon $T$, known exogenous/action-independent law on $P_{1:T}$, horizon-aware learner, and regret against $\sup_a \mathbb E\sum_t r_t(a)$. I do not see a fatal gap in the rounding or measurability argument.
+
+The main risk is overgeneralization. The result should not be stated as “known fixed laws are always trivial” unless horizon-aware policies are explicitly allowed. It also says nothing about unknown-law/minimax, computational, or action-dependent models.
+
+## Issue List
+
+- **Worth pursuing:** The pathwise rounding inequality is correct. If $b=\lfloor Ka\rfloor/K\le a$, then
+$$
+  a\mathbf{1}\{M_t>a\}\le b\mathbf{1}\{M_t>b\}+1/K.
+$$
+  Strict thresholds and atoms do not break it.
+
+- **Missing assumption:** Horizon awareness is essential. The learner uses $T$ both in $M_t=\max_{t<s\le T}P_s$ and in choosing $K=T$. If the intended regret notion requires one anytime policy for all horizons, the proof does not apply.
+
+- **Missing assumption / fatal if omitted:** Prices must be action-independent. If future $P_s$ can depend on current or past quotes, then $M_t$’s conditional law is policy-dependent and the counterfactual reward curve $g_t(b)$ is not determined by the realized exogenous law.
+
+- **Plausible but incomplete:** “No nontrivial fixed-law tail condition can be necessary” is true for horizon-aware, law-aware, information-theoretic learners. It is not established for anytime fixed-law learning, efficient computation, unknown laws, or minimax classes.
+
+- **Unsupported citation, minor:** The regular-conditional-probability discussion is standard, but the proof can avoid heavy measurability machinery: only finite-grid conditional expectations are needed for the learner, and continuum $a$ enters through the pathwise rounding inequality.
+
+- **Missing assumption:** “Horizon-dependent laws” are harmless only if the learner is told $T$ and the $T$-indexed law. Otherwise this is not a single-process learning statement.
+
+## Counterexamples Or Stress Tests
+
+- **Nonattainment stress test:** $T=2$, deterministic $P_2=1$. Then $\sup_a r_1(a)=1$ but no maximizer exists because trade is strict. This confirms `sup_a` is mandatory.
+
+- **Anytime stress test:** Consider a deterministic known infinite price sequence with repeated super-growing blocks:
+  $N_m$ zeros, then price $1/2$, then $N_m$ zeros, then price $1$, with $N_m$ dominating all previous lengths. For the first $N_m$ quotes in a pair, the low horizon benchmark gets about $N_m/2$, while the high horizon benchmark gets about $N_m$. For any horizon-free choices $a_i$,
+$$
+  A=N_m/2-\sum_i a_i\mathbf{1}\{a_i<1/2\},\qquad
+  B=N_m-\sum_i a_i
+$$
+  satisfy $A+B\ge N_m/2$, so one of the two horizons has regret at least $N_m/4$ from that block. This would break the broad claim without horizon-aware policies.
+
+- **Known counterexamples still stand:** iid uniform prices refute raw $\beta$-necessity in the law-aware horizon-aware model; terminal-spike singleton refutes $\Delta_T(H)=o(T)$ as a necessary condition under the same model.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict. The lemma is an oracle conditional-optimization argument, not a delayed-feedback learning theorem. It bypasses standard delayed-experts lower bounds because the learner is assumed to know the law.
+
+## What Survives The Critique
+
+The finite-horizon oracle lemma is valid and useful as a boundary result. It cleanly shows that any necessity theorem must involve learner ignorance, minimax uniformity, computational restrictions, action-dependence, or an anytime requirement.
+
+The explorer’s cautions about `sup_a`, strict thresholds, and action-dependence are correct.
+
+## Recommended Next Checks
+
+1. State the lemma with exact quantifiers: known $T$, known exogenous law on $[0,1]^T$, horizon-aware deterministic learner, regret $\le T/K$.
+2. Decide whether the project allows horizon-dependent algorithms. If not, formalize the two-deadline deterministic stress test.
+3. Add a model paragraph separating exogenous laws from action-dependent markets.
+4. Avoid saying “fixed-law necessity is vacuous” without the horizon-aware qualifier.

@@ -1,0 +1,79 @@
+## Summary
+
+The explorer’s transfer proof is worth pursuing, but only as a conditional lower-bound lemma. The algebra is mostly sound once the hypotheses are explicit. It is not a characterization and it does not apply automatically to continuous-action learners, process-aware learners, rare events, or suffix-compensated instances.
+
+The sharpest concrete break: the exact two-threshold \(\kappa=c_0(c_1-c_0)/c_1\) is false for arbitrary finite grids under strict crossing. It is a continuum/sup or limiting-grid statement.
+
+## Issue List
+
+- **Fatal gap if uncorrected:** A finite-grid \(\kappa\) only lower-bounds grid-restricted learners. The original learner can choose any \(a\in[0,1]\). To get a lower bound for the original problem, define \(\kappa\) over the full action space, or prove a limiting/discretization argument that controls unrestricted actions.
+
+- **False claim / missing assumption:** In finite grids, \(v_c=c\) is generally false with strict crossing. If the grid is \(\{0,1/2,1\}\) and \(c=1/2\), then the best grid quote below \(c\) is \(0\), not \(1/2\).
+
+- **Plausible but incomplete:** The probability-weighted conclusion
+  \[
+  \max_u R_u\ge p|I|\kappa_I-B
+  \]
+  needs \(\kappa_I\ge0\), or at least the selected deficit \(d_u(\mu)\ge0\). If \(\kappa_I<0\), multiplying by \(p_u\ge p\) reverses the desired comparison for negative deficits.
+
+- **Missing assumption:** The normalization of \(v_u\) is inconsistent. With \(v_u=\sup_b\sum_{t\in I}\phi_{u,t}(b)\), the two-threshold homogeneous block has \(v_c=|I|c\) in the continuum/sup convention, not \(c\). Either make \(v\) per-round or keep total \(v\) and divide only in \(\kappa\).
+
+- **Missing assumption:** Same conditional action marginals are not enough unless the payoff factorization is explicitly assumed. If \(E_u\) contains multiple histories and actions correlate with future-relevant information inside \(E_u\), then
+  \[
+  \mathbb E[1_E r_t(A_t)]
+  =
+  p\int \phi_{u,t}(a)d\mu_t(a)
+  \]
+  can fail.
+
+- **Missing assumption:** The comparator lower bound
+  \[
+  V_u^*\ge p_uv_u+C_u
+  \]
+  is not automatic. The same fixed quote must deliver the prefix value and whatever outside baseline \(C_u\) is being credited. For block lower bounds, safest is usually \(C_u=0\).
+
+- **Missing assumption:** The same-prefix law must come from the policy model. It holds for process-unaware universal learners on identical prefixes, and for same-path horizon-oblivious policies. It fails for process-aware or horizon-aware learners that know which candidate law/horizon they face.
+
+- **Worth pursuing:** The no-\(O(1)\) sharpening for the same-path \(0^N,c_0,c_1\) block looks plausible with `sup` comparators, because the longer-horizon comparator’s intermediate quote cancels the learner’s possible intermediate payoff. It still needs a clean written proof; \(\eta\)-comparators lose \(O(\eta N)\).
+
+## Counterexamples Or Stress Tests
+
+- Finite-grid strict-crossing test: take \(\mathcal A=\{0,1/2,1\}\), \(c_0=1/2\), \(c_1=1\). Then \(v_{c_0}=0\), \(v_{c_1}=1/2\), and \(\kappa=0\), not \(1/4\).
+
+- Coarser grid test: \(\mathcal A=\{0,1/4,1/2,3/4\}\), \(c_0=1/2\), \(c_1=1\). The finite-grid value is \(1/6\), not \(1/4\).
+
+- Rare-prefix test: if the hard common-prefix event has probability \(p_N\), the lemma can only give \(p_N|I|\kappa\). If \(p_N|I|=o(T)\), this does not imply linear regret.
+
+- Suffix-compensation test: append a long post-divergence suffix where the learner can earn enough after the candidate is revealed. Positive local \(\kappa\) alone does not force endpoint regret.
+
+## Literature Or Known-Result Conflicts
+
+No direct conflict found. Sion’s minimax theorem supports the finite convex minimax step, but finite zero-sum game duality is already enough. Blackwell is useful background for approachability/vector-payoff framing, not direct support for this market-making transfer.
+
+Do not use Sion to bypass strict-crossing discontinuities in the continuum action space; prove the continuum two-threshold formula directly with `sup`/limits or via \(\eta\)-comparators.
+
+## What Survives The Critique
+
+- The conditional transfer lemma survives as a bookkeeping lemma under explicit same-prefix-law, factorization, comparator-lower-bound, outside-cap, probability, and \(\kappa\ge0\) assumptions.
+
+- The finite-grid duality statement survives for grid-restricted action domains.
+
+- The two-threshold coefficient survives in the continuum/sup setting, or as a limiting value for grids with actions approaching \(c_0\) and \(c_1\) from below.
+
+- The lemma is useful for universal/minimax and horizon-oblivious prefix-conflict lower bounds. It does not repair raw \(\beta\), \(\gamma\), \(\Delta_T\), or \(\Gamma_T\) necessity.
+
+## Bibliography Candidates
+
+No new bibliography candidates needed. Existing verified sources remain relevant:
+
+- Maurice Sion, “On general minimax theorems,” *Pacific Journal of Mathematics* 8(1):171-176, 1958. https://projecteuclid.org/journals/pacific-journal-of-mathematics/volume-8/issue-1/On-general-minimax-theorems/pjm/1103040253.short. Relevance: background minimax theorem for finite/convex duality.
+
+- David Blackwell, “An analog of the minimax theorem for vector payoffs,” *Pacific Journal of Mathematics* 6(1):1-8, 1956. https://projecteuclid.org/journals/pacific-journal-of-mathematics/volume-6/issue-1/An-analog-of-the-minimax-theorem-for-vector-payoffs/pjm/1103044235.short. Relevance: approachability/vector-payoff background only.
+
+## Recommended Next Checks
+
+1. Rewrite the transfer theorem with explicit action domain: grid-restricted, continuum, or limiting grid.
+2. Add the condition \(\kappa_I\ge0\), or formulate the conclusion using positive deficits only.
+3. Prove the finite-grid two-threshold value as grid-dependent, then take the continuum limit.
+4. Write the same-path no-\(O(1)\) sharpening separately with full strict-crossing/sup accounting.
+5. Test the final theorem against CE-001, CE-003, CE-005, CE-006, and CE-011 before promoting it.

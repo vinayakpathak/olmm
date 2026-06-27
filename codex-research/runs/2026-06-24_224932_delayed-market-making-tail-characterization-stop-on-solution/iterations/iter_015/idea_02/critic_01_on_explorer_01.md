@@ -1,0 +1,76 @@
+## Summary
+
+The explorer’s single-boundary-block algebra is mostly correct and useful, but the report understates the obstruction. The construction does more than refute arbitrary nested reward layers: a scalable market-realizable periodic version appears to refute the proposed **simultaneous expected nested-window oracle** with standard budgets. That is a fatal problem for that oracle inequality, though not yet a lower bound against every possible adaptive-truncation algorithm.
+
+## Issue List
+
+- **Missing assumption:** The claim $V_1^G=\ell D$ requires $\ell D\ge h=\ell+d$. Otherwise the high quote’s one short hit at the terminal boundary can be the short-window comparator.
+
+- **Plausible but incomplete:** The proof conditions on “high at $t=D$.” The lemma should be stated for arbitrary randomized policies. This is easy to repair: if $M$ is the expected number of high quotes and $Y\le1$ is high-at-boundary mass, long regret gives $M$ large, and short regret is still at least $\ell(D-1-B_2/d)-d$.
+
+- **Missing assumption:** The obstruction is finite-grid. If continuum quotes are allowed, intermediate quotes near the medium price can change constants, and quotes near the high spike can change the full comparator. The finite-grid stress test is valid for a finite-grid oracle, but continuum consequences need a separate threshold-spike version.
+
+- **False or at least unsupported:** “Naive repetition destroys the small-gap property” is not true in general. Repeating the exact block with zeros may fail, but a periodic medium/high market path preserves the conflict and scales it.
+
+- **Fatal gap for the proposed oracle:** If the oracle requires, for all windows $m$,
+$$
+  V_m^G-\mathbb E L^m(A)\le B_m+c(V_M^G-V_m^G),
+$$
+  then the boundary-block idea can be scaled to violate it for fixed $c$ and standard $B_1\sim\sqrt T$, $B_2\sim\sqrt{TD}$.
+
+- **Not a fatal gap for adaptive truncation as a whole:** The failure is for a strong simultaneous oracle. It does not rule out a weaker algorithmic theorem that only guarantees the final $\min_H\{\delta(H)+B(H)\}$ bound by another route.
+
+## Counterexamples Or Stress Tests
+
+A scalable market-realizable version:
+
+Take $G=\{\ell,h\}$, $h=\ell+d<1$, windows $H_1=1$, $H_2=D$, and $T=ND+1$. Let $m\in(\ell,h)$. Put high spikes $P_{jD+1}>h$ for $j=0,\dots,N$, and set all other prices to $m$.
+
+For active rounds $t=1,\dots,ND$:
+$$
+V_1^G=\ell ND \quad(\text{if }\ell D\ge h),\qquad
+V_2^G=hND,\qquad
+V_2^G-V_1^G=dND.
+$$
+
+Let $M$ be the expected number of high quotes in active rounds. Long-window regret is
+$$
+V_2^G-\mathbb E L^2=d(ND-M).
+$$
+So long regret $\le B_2$ forces $M\ge ND-B_2/d$.
+
+High quotes get short-window reward only immediately before the $N$ high spikes. Hence
+$$
+V_1^G-\mathbb E L^1
+\ge \ell M-hN
+\ge \ell ND-\ell B_2/d-hN.
+$$
+
+Thus the short-window oracle would require
+$$
+\ell ND-\ell B_2/d-hN
+\le B_1+c\,dND.
+$$
+For fixed $c$, choose $d\ll \ell/c$, $D\gg h/\ell$, and then $N\gg d^{-2}$. With $B_1=O(\sqrt{ND})$ and $B_2=O(D\sqrt N)$, this inequality fails.
+
+This is a stronger stress test than the explorer’s single block.
+
+## Literature Or Known-Result Conflicts
+
+No external literature conflict is needed. The conflict is internal: this attacks the iteration 14 “expected nested oracle” candidate, not the accepted fixed-$H$ truncation theorem and not the conditional heterogeneous-delay reduction.
+
+It also agrees with the existing warning that pathwise and expected comparator conventions must not be mixed. Here the path is deterministic, so that ambiguity is absent.
+
+## What Survives The Critique
+
+- The boundary-block calculation is a valid local obstruction after adding the missing parameter assumptions.
+- The distinction between arbitrary nested layers and market-realizable nested rewards remains important.
+- The explorer’s caution survives: these examples do not yet disprove the broader adaptive-truncation rate, only a too-strong simultaneous oracle route.
+- The construction is worth keeping as a canonical stress test for any nested-window proof.
+
+## Recommended Next Checks
+
+1. Formalize the periodic construction above as a lemma refuting the simultaneous expected nested oracle.
+2. Repeat the calculation for dense grids or continuum quotes by using medium price $m$ and spike price $p=m+\varepsilon$.
+3. Clarify whether the target adaptive theorem really needs all-window oracle inequalities, or only a weaker min-over-windows guarantee.
+4. Test whether adding a third “compromise” quote changes the Pareto frontier enough to salvage a modified oracle.

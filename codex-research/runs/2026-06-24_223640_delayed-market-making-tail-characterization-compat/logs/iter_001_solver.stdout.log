@@ -1,0 +1,204 @@
+## Verdict
+
+SOLVED: no
+
+The conjectured “if and only if” with the uniform conditional tail condition is false. The tail condition is a clean sufficient condition, but it is not necessary. A sharper truncation-based sufficient condition is available, and there are concrete counterexamples showing why a full necessity theorem needs an information/learnability condition, not just a raw hitting-delay tail condition.
+
+## Candidate Solution Or Main Attempt
+
+Use the comparator value, not the worst conditional delay tail, as the main object. Define
+
+\[
+V_T(a)=\mathbb E\sum_{t=1}^T r_t(a),\qquad
+V^H_T(a)=\mathbb E\sum_{t=1}^T r^H_t(a),
+\]
+
+where
+
+\[
+r^H_t(a)=a\mathbf 1\{\tau_t(a)\le \min(H,T-t)\}.
+\]
+
+Use sup rather than max unless atomlessness or upper-semicontinuity is assumed:
+
+\[
+V_T^\star=\sup_{a\in[0,1]}V_T(a),\qquad
+V_{T,H}^\star=\sup_{a\in[0,1]}V_T^H(a).
+\]
+
+Define the horizon-wise comparator truncation loss
+
+\[
+B_T(H)=V_T^\star-V_{T,H}^\star.
+\]
+
+Then delayed Hedge on a grid \(\mathcal G_K=\{0,1/K,\dots,(K-1)/K\}\) gives the candidate upper bound
+
+\[
+R(T)
+\;\le\;
+C\sqrt{T(H+1)\log K}
++\frac{T}{K}
++B_T(H).
+\]
+
+Thus sublinear regret follows if there are \(H_T,K_T\) such that
+
+\[
+H_T\log K_T=o(T),\qquad T/K_T=o(T),\qquad B_T(H_T)=o(T).
+\]
+
+With \(K=T\), this becomes
+
+\[
+R(T)\lesssim \sqrt{T(H+1)\log T}+B_T(H)+1.
+\]
+
+The original \(\beta\)-condition implies this because
+
+\[
+B_T(H)
+\le
+\sup_a \mathbb E\sum_{t=1}^T
+a\mathbf 1\{H<\tau_t(a)<\infty\}
+\le T\beta(H).
+\]
+
+So the LaTeX upper bound is valid, but it uses a stronger-than-needed tail assumption.
+
+If \(\beta(h)\lesssim h^{-\alpha}\), taking \(K=T\) and balancing gives
+
+\[
+H(T)\asymp (T/\log T)^{1/(2\alpha+1)}
+\]
+
+and
+
+\[
+R(T)\lesssim
+T^{(\alpha+1)/(2\alpha+1)}
+(\log T)^{\alpha/(2\alpha+1)}.
+\]
+
+If \(\beta\) decays exponentially, \(H(T)\asymp \log T\) gives roughly \(\sqrt T\) regret up to logarithms.
+
+## Concrete Lemmas Or Reductions
+
+1. Comparator-side exact reduction:
+
+Let
+
+\[
+M_t=\max_{t<s\le T}P_s,\qquad
+M_{t,H}=\max_{t<s\le \min(t+H,T)}P_s.
+\]
+
+Then
+
+\[
+V_T(a)=a\sum_{t=1}^T\Pr(M_t>a),
+\qquad
+V_T^H(a)=a\sum_{t=1}^T\Pr(M_{t,H}>a).
+\]
+
+So \(B_T(H)\) measures whether the best fixed quote’s value is preserved by looking only \(H\) steps ahead.
+
+2. Truncation theorem:
+
+For any learner,
+
+\[
+R_T
+\le
+B_T(H)
++
+\left[
+V_{T,H}^\star-\mathbb E\sum_{t=1}^T r_t^H(a_t)
+\right].
+\]
+
+The second bracket is just regret in the bounded-delay truncated game.
+
+3. Grid discretization:
+
+For the grid \(\mathcal G_K\),
+
+\[
+V_{T,H}^\star
+\le
+\sup_{b\in\mathcal G_K}V_T^H(b)+T/K.
+\]
+
+This is the rounding-down argument already in `delays.tex`.
+
+4. Delayed full-information learning:
+
+For \(K\) grid arms and feedback delay at most \(H\),
+
+\[
+\sup_{b\in\mathcal G_K}V_T^H(b)
+-
+\mathbb E\sum_{t=1}^T r_t^H(a_t)
+\le
+C\sqrt{T(H+1)\log K}.
+\]
+
+This is the standard delayed expert-advice bound.
+
+## Gaps And Failure Points
+
+The condition \(B_T(H_T)=o(T)\) is only a sufficient condition, not a full characterization. It says the optimal comparator’s value is not mostly hidden beyond a sublinear delay window. But a learner can sometimes exploit long-delayed rewards if the good quote is predictable from observed prices.
+
+The current regret definition uses \(\max_a\). With strict trade condition \(P>a\), deterministic atomic prices can make the maximum fail to exist. The clean formulation should use \(\sup_a\), or impose atomlessness/regularity.
+
+A true iff theorem needs a model choice: exogenous stochastic process, adaptive adversary, horizon-dependent process, whether the learner knows \(T\), and whether guarantees are process-specific or uniform over a class.
+
+## Counterexamples Or Obstructions
+
+Uniform \(\beta\) is not necessary.
+
+Let \(t_n=2^n\), set \(P_{t_n}=U_n/n\) with \(U_n\sim \mathrm{Unif}[1,2]\), and set \(P_t=0\) otherwise. Then for \(a=0\), after each peak the next positive price is an arbitrarily long deterministic time away, so
+
+\[
+\beta(h)=1
+\]
+
+for every \(h\). But for \(T\in[2^n,2^{n+1})\), the best fixed quote value is at most \(O(2^n/n)=o(T)\). Since all learner rewards are nonnegative, every learner has regret at most \(V_T^\star=o(T)\). Thus sublinear regret is possible while the stated tail condition fails maximally.
+
+There is also an opposite obstruction: long delays can be fatal when the delayed event hides the relevant quote. For horizon \(T\), take two paths identical until the last round:
+
+\[
+P_1=\cdots=P_{T-1}=0,\qquad P_T\in\{p_L,p_H\},
+\]
+
+with \(0<p_L<p_H<1\). Before time \(T\), the learner cannot distinguish the two environments. For one of them, any learner suffers \(\Omega(T)\) regret against the best fixed quote. With \(p_L=1/3,p_H=2/3\), the lower-bound constant is at least \(1/6\) per active round, up to the usual \(\epsilon\) issue from strict inequality.
+
+So the right necessity statement cannot be “long tails bad” in isolation; it must say that long-delayed value is both significant and not inferable from earlier observations.
+
+## Promising Ideas To Explore
+
+A plausible paper theorem is:
+
+\[
+R(T)\lesssim
+\inf_{H,K}
+\left\{
+\sqrt{T(H+1)\log K}
++T/K
++B_T(H)
+\right\}.
+\]
+
+Then present \(\beta\) as an easy checkable sufficient condition via \(B_T(H)\le T\beta(H)\).
+
+For necessity, pursue indistinguishable-prefix lower bounds: construct pairs or families of price processes with identical observed histories up to time \(T-H\), different optimal quotes, and large comparator value arriving only after the indistinguishable region.
+
+A stronger characterization may need to decompose regret into “truncatable comparator value” plus “predictable long-delay value.”
+
+## Notes For Critics
+
+Check the delayed-expert reduction under the exact feedback model: observing \(P_t\) reveals all grid arms whose outstanding quotes would have traded, and untraded quotes can be closed after \(H\) steps in the truncated game.
+
+The counterexample against \(\beta\)-necessity is robust because the failure occurs at \(a=0\), but the attainable comparator value is \(o(T)\). This directly attacks the essential supremum over all actions/histories.
+
+The main unresolved issue is a genuine iff theorem. The current best candidate is a sharp sufficient theorem plus lower-bound templates showing what an additional information condition must rule out.

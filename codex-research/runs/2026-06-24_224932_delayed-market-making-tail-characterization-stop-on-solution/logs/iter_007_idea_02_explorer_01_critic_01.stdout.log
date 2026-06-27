@@ -1,0 +1,67 @@
+## Summary
+
+No fatal gap found. The explorer’s repaired rare-history construction is mathematically sound for the expected-regret, public-exogenous, infinite-process setting. It cleanly shows \(\beta(h)\equiv 1\) while \(\sup_T V_T<\infty\) and \(\sup_T\Delta_T(H)=O(1/H)\).
+
+Main caution: its scope must be stated tightly. It refutes raw essential-sup delay tails as a necessary condition; it is not a minimax lower-bound construction, not a high-probability statement, and not a finite-horizon \(\beta_T\) statement.
+
+## Issue List
+
+- **Missing assumption:** The result is for the infinite-process raw \(\beta\). For each fixed finite horizon, tails vanish once \(h\ge T\), so the statement should be framed as failure of any uniform/infinite-process raw-tail necessity.
+
+- **Missing assumption:** The regret guarantee is expected regret under a singleton exogenous law. On rare atoms \(N=n\), pathwise regret of the zero learner at \(T=S_n\) is order \(2^n\). So this does not imply high-probability or adversarial-path learnability.
+
+- **Plausible but incomplete:** The claim \(\delta_T(H)=\Delta_T(H)\) is correct here, but should be proved explicitly by writing
+  \[
+  V_T^H=\sum_{n:S_n\le T}p_n\min(H,S_n-1)
+  \]
+  with suprema over \(a\uparrow1\).
+
+- **Missing assumption:** State \(H\) integer, or replace counts by floor/ceiling terms. The \(O(1/H)\) bound is unaffected.
+
+- **Plausible but overbroad:** “Counterexample to any necessity proof based on raw essential-sup hitting tails” should be narrowed to expected-regret/sublinear-learnability necessity. It does not rule out raw-tail conditions in stronger models, high-probability goals, or restricted classes with large comparator value.
+
+- **Worth pursuing:** Encoding the revealed symbol as \(P_1=x_N\) is a valid repair because the protocol reveals \(P_1\) before the learner picks \(a_1\), and there are no earlier quotes for \(P_1\) to trigger.
+
+## Counterexamples Or Stress Tests
+
+- **High-probability stress test:** Condition on \(N=n\) and take \(T=S_n=2^n+2\). The pathwise best fixed quote has value close to \(S_n-1\), while zero quote earns \(0\). Thus the construction relies essentially on expectation over rare histories.
+
+- **Finite-horizon stress test:** If someone defines \(\beta_T(h)\) only within horizon \(T\), then \(\beta_T(h)=0\) for \(h\ge T\). The bad-tail claim must use the infinite-process definition.
+
+- **No-symbol variant:** If \(N\) were not revealed by \(P_1=x_N\), the \(\beta(h)=1\) proof would no longer be immediate. The atom encoding is not cosmetic; it drives the essential-sup calculation.
+
+## Literature Or Known-Result Conflicts
+
+No conflict with the accepted \(\delta_T(H)\) upper theorem: this example has \(\Delta_T(H)=O(1/H)\), so it is exactly a case where value-weighted truncation succeeds while raw essential sup fails.
+
+No conflict with the known-law oracle lemma or finite-class Bayes-value characterization. This is a singleton expected-regret counterexample, not a lower-bound family.
+
+## What Survives The Critique
+
+The following theorem package survives:
+
+\[
+\beta(h)=1\quad\forall h<\infty,
+\]
+because conditioning on \(P_1=x_n\) with \(2^n+1>h\) gives \(\tau_1(1/2)=2^n+1\) with probability \(1\).
+
+Also,
+\[
+V_T=\sup_a\mathbb E\sum_{t\le T}r_t(a)
+=\sum_{n:S_n\le T}p_n(S_n-1)
+\le 4,
+\]
+so zero quoting has \(O(1)\) expected regret.
+
+Finally,
+\[
+\Delta_T(H)=\delta_T(H)
+=\sum_{n:S_n\le T}p_n(S_n-1-H)_+
+\le C/H.
+\]
+
+## Recommended Next Checks
+
+1. Add the construction to `counterexamples.md` as “rare-history essential-sup separation.”
+2. Include the explicit \(V_T^H\), \(\delta_T(H)\), and \(\Delta_T(H)\) derivation.
+3. Mark clearly: expected regret only; infinite-process raw \(\beta\); singleton exogenous law; no high-probability claim.

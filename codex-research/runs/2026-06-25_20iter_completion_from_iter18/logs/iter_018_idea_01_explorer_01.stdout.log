@@ -1,0 +1,104 @@
+## Summary
+
+The unequal-low full-to-reduced LP reduction looks structurally provable in the formal left-limit model. I do not see a fatal proof obstruction. The clean proof route is: partition quote coordinates, eliminate dominated coordinates/actions, then show every non-low/non-final horizon is duplicate or harmless.
+
+One important warning: the recorded regression value for the reduced-LP path \(0,0.4,0.9,1\) appears inconsistent with the candidate LP as written. Under my reading, both the full finite-prefix LP and the reduced LP give \(14/45\approx0.3111\), not \(68/225\approx0.3022\). This may be an indexing/convention mismatch, but it should be checked before promotion.
+
+## Concrete Progress
+
+For
+\[
+h^M,0^{N_0},\ell_1,0^{N_1},\ell_2,\ldots,0^{N_{r-1}},\ell_r,0^L,h,
+\]
+define low times \(s_j\), \(H=(M-1)_+\), and useful segments
+\[
+I_0=\{H+1,\ldots,s_1-1\},\qquad
+I_i=\{s_i,\ldots,s_{i+1}-1\}\quad 1\le i<r.
+\]
+Then
+\[
+|I_0|=N_0+1_{\{M\ge1\}},\qquad |I_i|=N_i+1.
+\]
+
+For \(0\le i<j\le r\), set
+\[
+m_{i,j}=\max_{q=i+1,\ldots,j}\ell_q,
+\qquad
+S_j=V^*_{s_j}-hH.
+\]
+The candidate reduced LP should be exactly
+\[
+\begin{aligned}
+\min\quad &z\\
+\text{s.t.}\quad
+&z\ge S_j-\sum_{i=0}^{j-1}\sum_{\substack{c\in\mathcal L\\ c\le m_{i,j}}}c\,x_{i,c},
+\qquad j=1,\ldots,r,\\
+&z\ge\sum_{i=0}^{r-1}\sum_{c\in\mathcal L}(h-c)x_{i,c},\\
+&\sum_{c\in\mathcal L}x_{i,c}\le |I_i|,\qquad x_{i,c}\ge0.
+\end{aligned}
+\]
+
+## Claims Or Lemmas
+
+**Action-menu dominance.** On a useful segment \(I_i\), every formal action \(a\in[0,h]\) is weakly dominated by rounding \(a\) upward to the next element of \(\mathcal L\cup\{h\}\). The low-horizon success pattern is unchanged because all relevant suffix maxima are low levels, and the final-high payoff weakly increases.
+
+**Coordinate elimination.** The first \(H\) old-high coordinates should be fixed to \(h^-\): they are protected by a future old high at every relevant horizon. Coordinates after the last low and before the final high should also be fixed to \(h^-\): before the final high they have no positive future, and at the final high \(h^-\) is best.
+
+**Horizon dominance.** It suffices to constrain the low horizons \(s_j\) and the final horizon \(n\). Horizons in zero stretches after a low duplicate the latest low-horizon deficit; horizons before the first low have zero deficit after the protected old-high baseline.
+
+## Proof Attempts
+
+The proof should proceed from the accepted finite-prefix primal \(D_n\).
+
+1. Fix \(h^-\) on protected old-high and final-only coordinates by dominance.
+
+2. For each useful segment \(I_i\), round every action to \(\mathcal L\cup\{h\}\). This converts arbitrary marginal laws into aggregate masses \(x_{i,c}\), with only the capacity constraint \(\sum_c x_{i,c}\le |I_i|\).
+
+3. At low horizon \(s_j\), the protected coordinates contribute exactly \(hH\). Segment \(I_i\), \(i<j\), contributes \(c\) from mass \(x_{i,c}\) iff \(c\le m_{i,j}\). This gives the low-horizon constraint.
+
+4. At the final high, all \(h^-\) quotes match the comparator \(h^-\). Replacing one unit of \(h^-\) by \(c^-\) creates debt \(h-c\), giving the final constraint.
+
+5. Any feasible reduced-LP solution is implementable by distributing the aggregate masses across exchangeable coordinates in each segment. Thus the reduction is two-sided.
+
+## Gaps And Risks
+
+The proof needs careful indexing; most possible mistakes are off-by-one errors around the last old high, low-time quote coordinates, and post-last-low quote coordinates.
+
+The definition \(S_j=V^*_{s_j}-hH\) should remain exact. Replacing it by a simpler expression such as \(\ell_j(s_j-1)-hH\) is unsafe when another low level or the old high comparator dominates.
+
+Strict crossing is not handled by literal threshold actions. The theorem should first be stated in the formal left-limit model, then converted to the original model by using \(c-\eta\), \(h-\eta\), with controlled finite-prefix or sublinear cumulative loss.
+
+## Counterexamples Or Obstructions
+
+No structural counterexample to the reduction emerged.
+
+But the toy value in the notes should be rechecked. For \(h=1,M=0,N_0=1,N_1=0,(\ell_1,\ell_2)=(0.4,0.9)\), i.e. path \(0,0.4,0.9,1\), the candidate LP gives the feasible solution
+\[
+x_{0,0.4}=2/9,\quad x_{0,0.9}=7/9,\quad x_{1,0.9}=1,
+\]
+with
+\[
+z=14/45.
+\]
+The low-1 and final constraints are tight; the low-2 constraint is slack. My exact small full-LP check matched \(14/45\). This conflicts with the recorded \(68/225\).
+
+## Sources Consulted
+
+Local files: all requested run notes and the assigned idea file.
+
+Web/literature spot check, proof-technology only:
+- [Federgruen and Groenevelt, “The Greedy Procedure for Resource Allocation Problems,” Operations Research 1986](https://business.columbia.edu/faculty/research/greedy-procedure-resource-allocation-problems-necessary-and-sufficient-conditions).
+- [Chakravarti, “Isotonic Median Regression: A Linear Programming Approach,” Mathematics of Operations Research 1989](https://pubsonline.informs.org/doi/10.1287/moor.14.2.303).
+- [Fulkerson and Gross, “Incidence matrices and interval graphs,” Pacific Journal of Mathematics 1965](https://msp.org/pjm/1965/15-3/pjm-v15-n3-p11-s.pdf).
+
+No external source found that directly proves this delayed-market-making reduction.
+
+## Bibliography Candidates
+
+No new bibliography candidates beyond sources already present in the run notes. The three web-checked sources above remain relevant as proof-technology background only, not as direct support for the market-making theorem.
+
+## Recommended Next Steps
+
+1. Promote the reduction only after fixing the \(0,0.4,0.9,1\) arithmetic discrepancy.
+2. Write the reduction as a formal theorem in the left-limit model, with the three lemmas above as the proof spine.
+3. Derive the reduced LP dual after the primal reduction is accepted; then use it for pooling/PAVA-style rules.

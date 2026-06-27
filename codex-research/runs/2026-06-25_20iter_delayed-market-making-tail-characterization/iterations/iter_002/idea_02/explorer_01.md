@@ -1,0 +1,141 @@
+## Summary
+
+The two-continuation idea gives a clean lower bound, but only under a minimax/universal-class interpretation. It does not rescue the original instance-wise “only if” conjecture.
+
+The finite block theorem is solid: for horizon \(N+1\), with prices
+\[
+P_1=\cdots=P_N=0,\qquad P_{N+1}\in\{1/2,1\},
+\]
+any randomized learner suffers \(\Omega(N)\) regret on one of the two continuations. The sharp constant is \(N/4\) up to strict-threshold epsilon issues.
+
+Superexponential concatenation then gives: for any universal learner over the deterministic class of block sequences \(0^{N_i}c_i\), \(c_i\in\{1/2,1\}\), there exists a sequence in the class with \(\limsup_T R_T/T\ge 1/4\), provided previous blocks are \(o(N_i)\).
+
+## Concrete Progress
+
+Finite-block lower bound:
+
+Let \(I_c^N\) be the deterministic instance
+\[
+P_1=\cdots=P_N=0,\qquad P_{N+1}=c,
+\]
+with \(c\in\{1/2,1\}\). Through rounds \(1,\dots,N\), the learner sees the same history in both instances, so the joint law of \(A_1,\dots,A_N\) is independent of \(c\).
+
+For \(c=1/2\), the fixed-action comparator value is a supremum \(N/2\). For \(c=1\), it is \(N\). Define
+\[
+G_c=\mathbb E_\pi\sum_{t=1}^N A_t\,\mathbf 1\{A_t<c\}.
+\]
+Then
+\[
+R_{1/2}=N/2-G_{1/2},\qquad R_1=N-G_1.
+\]
+
+For every \(a\in[0,1]\),
+\[
+\frac12 a\mathbf 1\{a<1/2\}+\frac12 a\mathbf 1\{a<1\}\le \frac12.
+\]
+Hence
+\[
+\frac{G_{1/2}+G_1}{2}\le N/2,
+\]
+and therefore
+\[
+\frac{R_{1/2}+R_1}{2}
+=
+\frac{3N}{4}-\frac{G_{1/2}+G_1}{2}
+\ge \frac N4.
+\]
+So one continuation has regret at least \(N/4\).
+
+This is essentially tight: quote near \(1/2\) with probability \(1/2\) and near \(1\) with probability \(1/2\) each round.
+
+## Claims Or Lemmas
+
+**Lemma 1: Two-continuation block lower bound.**  
+For every randomized learner and every \(N\),
+\[
+\sup_{c\in\{1/2,1\}} R^\pi(I_c^N)\ge N/4,
+\]
+where regret is against \(\sup_{a\in[0,1]}\), not necessarily a maximizing action.
+
+**Lemma 2: Epsilon version avoiding unattained suprema.**  
+For any \(\eta\in(0,1/2)\), comparing only to actions \(1/2-\eta\) and \(1-\eta\) gives
+\[
+\sup_{c\in\{1/2,1\}} R^\pi(I_c^N)\ge N(1/4-\eta).
+\]
+This is useful if the final writeup wants to avoid relying on unattained comparator suprema.
+
+**Lemma 3: Superexponential block concatenation.**  
+Let \(N_i\) satisfy
+\[
+M_i:=\sum_{j<i}(N_j+1)=o(N_i).
+\]
+Consider deterministic sequences made of blocks \(0^{N_i}c_i\), with \(c_i\in\{1/2,1\}\). For every randomized learner \(\pi\), there exists a deterministic choice of \(c_i\)’s such that at block-end horizons \(T_i=M_i+N_i+1\),
+\[
+R^\pi(T_i)\ge N_i/4-M_i.
+\]
+Thus
+\[
+\limsup_i \frac{R^\pi(T_i)}{T_i}\ge \frac14.
+\]
+
+**Lemma 4: Tail failure of the concatenated class.**  
+Every sequence in this block class has
+\[
+\beta(h)=1
+\]
+for all \(h\), and even
+\[
+\gamma(h)\ge 1/4
+\]
+for all \(h\), since in a sufficiently long zero block the quote \(a=1/4\) waits more than \(h\) steps and then trades at a terminal price at least \(1/2\).
+
+## Proof Attempts
+
+The finite-block proof works cleanly by indistinguishability before the terminal price. The learner’s actions during the \(N\) zero rounds cannot depend on whether the terminal continuation is \(1/2\) or \(1\). The learner must split mass between low quotes, which work under both continuations but leave value on the table when \(c=1\), and high quotes, which help under \(c=1\) but fail completely under \(c=1/2\).
+
+For concatenation, fix a learner and construct the terminal bits inductively. At the start of block \(i\), after the previous prefix is fixed, the current zero-round action distribution is independent of \(c_i\). By Lemma 1, choose \(c_i\in\{1/2,1\}\) causing current-block regret at least \(N_i/4\). At horizon \(T_i\), ignore all comparator reward outside the current block and upper-bound all learner reward from previous postings by \(M_i\). This yields
+\[
+R^\pi(T_i)\ge N_i/4-M_i.
+\]
+
+## Gaps And Risks
+
+This is not an instance-wise necessity theorem. A process-aware learner that knows the deterministic sequence can often quote near the dominant current block’s optimal level.
+
+Do not formulate the lower bound as a single stochastic process with iid terminal bits under the original regret definition. For the stochastic mixture, the comparator is
+\[
+\sup_a \mathbb E[\text{reward of }a],
+\]
+and the learner can match the best expected fixed action up to epsilon. The randomization over continuations is a Yao/minimax proof device for deterministic instances, not a hard stochastic process under the current regret definition.
+
+The concatenation proof needs superexponential or otherwise dominant block lengths. Without \(M_i=o(N_i)\), the fixed comparator across the whole horizon may not inherit the per-block lower bound.
+
+Strict crossing means comparator maxima are unattained at \(1/2\) and \(1\). Use `sup` in the theorem, or use the epsilon-comparator version.
+
+## Counterexamples Or Obstructions
+
+The construction cannot imply “every tail-failing process is hard.” Prior sparse and predictable examples remain obstructions.
+
+A uniform random continuation process is easy under the problem’s expected-regret definition, despite the two deterministic continuations being hard in the minimax sense.
+
+The result is a limsup lower bound along block endpoints. That is enough to rule out \(o(T)\) regret, but it is not a uniform-in-all-horizons linear lower bound.
+
+## Sources Consulted
+
+- Pooria Joulani, Andras Gyorgy, Csaba Szepesvari, “Online Learning under Delayed Feedback,” ICML/PMLR 2013. https://proceedings.mlr.press/v28/joulani13.html  
+- Kent Quanrud, Daniel Khashabi, “Online Learning with Adversarial Delays,” NeurIPS 2015. https://proceedings.neurips.cc/paper_files/paper/2015/hash/72da7fd6d1302c0a159f6436d01e9eb0-Abstract.html  
+- Andrew C. C. Yao, “Probabilistic Computations: Toward a Unified Measure of Complexity,” FOCS 1977. https://doi.org/10.1109/SFCS.1977.24
+
+## Bibliography Candidates
+
+- Andrew C. C. Yao. “Probabilistic Computations: Toward a Unified Measure of Complexity.” 18th Annual Symposium on Foundations of Computer Science, 1977, pp. 222-227. DOI: https://doi.org/10.1109/SFCS.1977.24. Relevance: source for the minimax/Yao framing used to turn a hard distribution over deterministic continuations into a randomized-learner lower bound.
+
+## Recommended Next Steps
+
+Formalize Lemma 1 as the core lower-bound proposition.
+
+Then write the concatenated theorem with explicit quantifiers:
+
+“One universal learner over the deterministic block class cannot guarantee \(o(T)\) regret uniformly.”
+
+Keep a warning immediately after the theorem: this is not an instance-wise characterization and not a stochastic-process lower bound under the current expected-comparator regret definition.

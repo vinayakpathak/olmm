@@ -1,0 +1,33 @@
+## Accepted Progress
+- Iteration 16 confirms the finite/no-gap Bayes theorem package as valid partial progress under narrow public-exogenous, finite-grid, randomized-policy assumptions.
+- Added the key hygiene correction: finite-horizon formulas must use $M_t=\max_{t<s\le T}P_s$, not post-horizon futures.
+- The completed $L^\infty$ payoff-measure dominated no-gap theorem remains accepted for the relaxed kernel model.
+
+## Candidate Routes
+- Write the finite/no-gap theorem package in referee style with explicit scope guards.
+- Finish the original Borel-policy bridge by proving both inclusions $C_{\rm Borel}=C_{L^\infty}$.
+- Continue separate work on heterogeneous delays, weaker adaptive truncation, and codebook/noisy lower bounds.
+
+## Refuted Or Weakened Claims
+- The iteration 16 “SOLVED: maybe” claim is rejected.
+- The Bayes/no-gap package is not a scalar tail iff, not an arbitrary infinite-class theorem, and not a matching power-tail rate theorem.
+- Payoff-weighted domination is only sufficient for the current compactness proof, not known necessary.
+- The Borel-policy upgrade preserves expected reward coordinates only, not pathwise or behavioral equivalence.
+
+## Working Notes Updated
+Updated:
+- `working_notes/canonical_summary.md`
+- `working_notes/claim_ledger.md`
+- `working_notes/lemma_bank.md`
+- `working_notes/failed_attempts.md`
+- `working_notes/counterexamples.md`
+- `working_notes/literature_map.md`
+- `working_notes/promising_directions.md`
+- `working_notes/bibliography.md`
+- `working_notes/iteration_summaries.md`
+
+## Next Iteration Focus
+1. Draft the finite/no-gap theorem package with horizon-censored $M_t$, finite-grid consistency, and positive-part convention.
+2. Prove or explicitly defer the Borel-policy bridge inclusions.
+3. Verify/cite Borel-version, randomization, section-integral, and weak-* compactness facts.
+4. Keep matching lower rates and adaptive truncation separate from theorem-hygiene closure.

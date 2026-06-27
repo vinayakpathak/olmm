@@ -1,0 +1,111 @@
+## Verdict
+SOLVED: no
+
+The original iff remains false under the problem as written. I did not find a full replacement characterization. I did get two clean lower-bound statements that appear provable and sharpen the quantifier story: one for universal process-unaware anytime learners, and one for process-aware but horizon-oblivious learners.
+
+## Candidate Solution Or Main Attempt
+
+The useful target is no longer raw \(\beta\)-necessity. It is a prefix-incompatibility theorem.
+
+For a universal anytime learner, concatenate dominant blocks
+\[
+0^{N_i}c_i,\qquad c_i\in\{1/2,1\},
+\]
+with previous length \(M_i=o(N_i)\). For any fixed randomized learner, choose each \(c_i\) after the \(N_i\) zero prefix by the two-continuation argument. At endpoint
+\[
+T_i=M_i+N_i+1,
+\]
+one continuation satisfies
+\[
+R_{T_i}\ge N_i(1/4-\eta_i)-M_i,
+\]
+so with \(\eta_i\downarrow0\),
+\[
+\limsup_i \frac{R_{T_i}}{T_i}\ge \frac14.
+\]
+Every such constructed sequence has \(\beta(h)=1\) for all \(h\), and in fact \(\gamma(h)\ge1/4\), but the theorem is class-uniform/minimax, not instance-wise necessity.
+
+A parallel deterministic known-process theorem also works for horizon-oblivious policies. Concatenate blocks
+\[
+0^{N_i},\,1/2,\,1.
+\]
+Let the two relevant endpoints be
+\[
+T_i^0=M_i+N_i+1,\qquad T_i^1=M_i+N_i+2.
+\]
+The same first \(N_i\) quotes must serve both prefixes, and one gets
+\[
+\max\{R_{T_i^0},R_{T_i^1}\}
+\ge
+N_i(1/4-\eta_i)-M_i-O(1).
+\]
+Thus a process-aware but horizon-oblivious learner can still have linear regret along a subsequence.
+
+## Concrete Lemmas Or Reductions
+
+**Lemma 1: concatenated universal block lower bound.**  
+Fix an anytime learner \(\pi\) that does not know future continuations. Let \(N_i\to\infty\) with \(M_i=\sum_{j<i}(N_j+1)=o(N_i)\). There exists a deterministic sequence made of blocks \(0^{N_i}c_i\), \(c_i\in\{1/2,1\}\), such that
+\[
+\limsup_T R_T^\pi/T\ge1/4.
+\]
+
+Proof sketch: condition on the realized previous prefix. During the next \(N_i\) zeros, the histories under terminal continuations \(1/2\) and \(1\) are identical, so the current-block action laws match. If
+\[
+G_c=\mathbb E\sum_{s=1}^{N_i}A_s1\{A_s<c\},
+\]
+then
+\[
+G_{1/2}+G_1\le N_i
+\]
+because for every \(a\in[0,1]\),
+\[
+a1\{a<1/2\}+a1\{a<1\}\le1.
+\]
+Using comparators \(1/2-\eta_i\) and \(1-\eta_i\), one continuation has current-block regret at least \(N_i(1/4-\eta_i)\). Old learner rewards contribute at most \(M_i\), giving the bound.
+
+**Lemma 2: same-path two-horizon concatenation.**  
+For the deterministic path made of blocks \(0^{N_i},1/2,1\), any process-aware but horizon-oblivious policy satisfies
+\[
+\limsup_T R_T/T\ge1/4
+\]
+provided \(M_i=o(N_i)\).
+
+The proof is the same averaging argument, except the two alternatives are horizons \(T_i^0\) and \(T_i^1\) on one fixed path. The only extra accounting is the learner’s quote at the intermediate \(1/2\), which can add at most \(1\) reward by \(T_i^1\).
+
+## Gaps And Failure Points
+
+These results do not characterize exactly when sublinear regret is possible. They prove obstructions under stronger quantifiers: universal process-unaware learning, or horizon-oblivious simultaneous-prefix learning.
+
+They also do not rescue the original \(\beta\)-only iff. Sparse vanishing spikes still show that \(\beta(h)\not\to0\) can coexist with \(O(1)\) regret for an anytime learner.
+
+## Counterexamples Or Obstructions
+
+The main obstruction remains CE-001: sparse vanishing spikes have \(\beta(h)=1\) for every \(h\), yet always quoting zero has regret at most \(1\). This kills any raw instance-wise \(\beta\)-necessity theorem.
+
+The new lower bounds show a different obstruction: not long delay alone, but incompatible optimal prefixes before delayed information resolves.
+
+## Literature And Bibliography Candidates
+
+I checked for directly related delayed market-making work and did not find a closer match to this tail-characterization problem.
+
+New adjacent candidate:
+- Julius Graf and Thibaut Mastrolia, “Learning Market Making with Closing Auctions,” arXiv:2601.17247, 2026. https://arxiv.org/pdf/2601.17247. Relevant only as recent RL/market-making background with regret language; not a direct delayed-fill characterization source.
+
+Also relevant recent delayed-bandit source:
+- Ofir Schlisselberg, Tal Lancewicki, Peter Auer, Yishay Mansour, “Improved Best-of-Both-Worlds Regret for Bandits with Delayed Feedback,” arXiv:2505.24193 / NeurIPS 2025. https://arxiv.org/abs/2505.24193. Relevant for modern delay bounds in terms of cumulative delay/missing observations, but not directly for this public-price full-information model.
+
+## Promising Ideas To Explore
+
+Formalize the two concatenation theorems above as accepted claims if critics find no accounting flaw.
+
+Then define a decision-relevant obstruction quantity based on simultaneous-prefix incompatibility:
+\[
+\inf_\pi \max\{R_{T_0}^\pi,R_{T_1}^\pi\}
+\]
+over indistinguishable prefixes or same-path horizon pairs. This seems closer to necessity than \(\beta,\gamma,\Delta_T\).
+
+## Notes For Critics
+
+Check the cross-block reward cap carefully: previous actions may trade at the current terminal price, but there are at most \(M_i\) such actions and each pays at most \(1\), so \(M_i\) is a valid crude upper bound.
+
+Check horizon-aware variants separately. The universal block theorem as stated is for one anytime learner; a family \(\pi_T\) that knows \(T\) needs a diagonal or endpoint-specific construction.

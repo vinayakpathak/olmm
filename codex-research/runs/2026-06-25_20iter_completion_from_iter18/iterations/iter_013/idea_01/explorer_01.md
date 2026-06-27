@@ -1,0 +1,98 @@
+## Summary
+
+The idea is worth pursuing, but I do not see a proof from \(D_n(P)=o(n)\) yet. The main obstacle in the notes is real: finite-prefix optimizers may spend \(o(n)\) regret at the outer scale while spending linear regret on much older horizons. Monotonicity of \(M_{t,T}\) helps structurally, but by itself does not make deficits monotone or projectively consistent.
+
+The most promising proof strategy is dual/localization: show that any failure of gluing produces a finite-prefix dual certificate with horizon-weight mass on a single comparable scale, forcing \(D_n(P)=\Omega(n)\). I did not find such a lemma in the literature or prove it here.
+
+## Concrete Progress
+
+A useful exact rewrite:
+
+For fixed quote \(b\), define
+\[
+L_b(T)=\max\{s\le T:P_s>b\},
+\]
+with \(L_b(T)=0\) if the set is empty. Then
+\[
+M_{t,T}>b \iff t<L_b(T),
+\]
+so the fixed-comparator value can be written as
+\[
+V_T^*=\sup_{b\in[0,1]} b\,(L_b(T)-1)_+.
+\]
+This exposes a laminar “last exceedance” structure stronger than generic monotonicity of \(M_{t,T}\).
+
+Also, if two marginal sequences differ only on the first \(m\) quote times, then for every horizon \(T>m\), their learner rewards differ by at most \(m\). Thus any primal repair of old horizons has a hard cost equal to the repaired prefix length.
+
+## Claims Or Lemmas
+
+**Lemma 1: Last-Exceedance Representation.**  
+For deterministic exogenous paths,
+\[
+\sum_{t<T} b\,1\{b<M_{t,T}\}=b(L_b(T)-1)_+.
+\]
+Proof is immediate from \(M_{t,T}>b\) iff some \(s\in(t,T]\) has \(P_s>b\), equivalently \(t<L_b(T)\).
+
+**Lemma 2: Splicing Bound.**  
+If \(\mu\) and \(\nu\) are two marginal sequences and \(\mu_t=\nu_t\) for all \(t>m\), then for every \(T>m\),
+\[
+|d_T(\mu)-d_T(\nu)|\le m,
+\]
+where
+\[
+d_T(\mu)=V_T^*-\sum_{t<T}\bar g_{\mu_t}(M_{t,T}).
+\]
+This is because only the first \(m\) payoff terms change, each by at most \(1\).
+
+**Candidate Lemma: Dyadic Dual Localization.**  
+If no global \(o(T)\)-regret marginal sequence exists, then for some \(\epsilon>0\) and arbitrarily large \(n\), there should be a dual horizon distribution \(\lambda\) supported on a dyadic annulus, say \(T\in[n/2,n]\), whose finite-prefix dual value is at least \(\epsilon n\). This would contradict \(D_n=o(n)\). This is the key unproved step.
+
+## Proof Attempts
+
+The naive primal patching route fails. Replacing an old prefix of length \(m\) by a better old-horizon solution repairs horizons \(\le m\), but costs up to \(m\) on every later horizon. Dyadic repairs therefore accumulate a linear loss at the current scale.
+
+An overlapping-window version also stalls. A finite optimizer for a long prefix can be good through its own horizon, but switching from one scale optimizer to the next creates a transition region where the global sequence is not close to either optimizer on a comparable fraction of the prefix.
+
+The dual route looks cleaner. If fixed-envelope compactness fails, finite separation gives weighted horizon certificates. The missing argument is to force those certificates onto comparable-scale horizons rather than allowing them to place mass on much older horizons where normalization by the outer \(n\) loses information.
+
+## Gaps And Risks
+
+Monotonicity of \(M_{t,T}\) does not imply monotonicity of regret deficits. On \(0^N,1/2,1\), quotes near \(1\) have large regret at \(T=N+1\) and small regret at \(T=N+2\), while quotes near \(1/2\) do the opposite.
+
+The scalar condition \(D_n=o(n)\) may still be too weak. Existing compactness only gives sufficiency for a fixed sublinear envelope feasible at every finite prefix.
+
+Uniform-value literature suggests this kind of gluing often needs extra compactness or stability hypotheses, not just asymptotic finite-horizon smallness.
+
+## Counterexamples Or Obstructions
+
+No market-specific counterexample separating \(D_n=o(n)\) from global \(o(T)\) regret was found.
+
+The main obstruction remains CE-019: optimizers for growing prefixes may be projectively inconsistent. The basic block \(0^N,1/2,1\) shows why local prefix conflicts are real, but there \(D_n\) is linear when the block is dominant, so it does not refute the conjectured gluing.
+
+## Sources Consulted
+
+Project files requested by the prompt, especially CL-035 to CL-037, LB-030 to LB-032, FA-025, CE-019, and promising direction 13.
+
+External sources checked:
+- [Mertens and Neyman, “Stochastic Games,” IJGT 1981](https://link.springer.com/article/10.1007/BF01769259)
+- [Renault, “Uniform value in dynamic programming,” JEMS 2011](https://ems.press/journals/jems/articles/2273)
+- [Li and Venel, “Recursive games: Uniform value, Tauberian theorem and the Mertens conjecture,” arXiv:1506.00949](https://arxiv.org/abs/1506.00949)
+- [Luo and Schapire, “Towards Minimax Online Learning with Unknown Time Horizon,” ICML 2014](https://proceedings.mlr.press/v32/luo14.pdf)
+
+## Bibliography Candidates
+
+- Jérôme Renault. “Uniform value in dynamic programming.” Journal of the European Mathematical Society 13(2):309-330, 2011. https://ems.press/journals/jems/articles/2273. Relevant as a uniform-value/gluing analogue with explicit sufficient structural conditions.
+
+- Xiaoxi Li and Xavier Venel. “Recursive games: Uniform value, Tauberian theorem and the Mertens conjecture.” arXiv:1506.00949, 2015. https://arxiv.org/abs/1506.00949. Relevant because it highlights total-boundedness/stability conditions converting finite-horizon value behavior into uniform strategies.
+
+- J.-F. Mertens and A. Neyman. “Stochastic Games.” International Journal of Game Theory 10:53-66, 1981. DOI: 10.1007/BF01769259. Relevant classical uniform-value background; analogy only, not a proof for this market LP.
+
+## Recommended Next Steps
+
+1. Try to prove the dyadic dual localization lemma. This is the most direct route from \(D_n=o(n)\) to fixed-envelope feasibility.
+
+2. Work first in a finite price alphabet and formal left-limit action model. If gluing fails there, an explicit LP counterexample should be extractable.
+
+3. Add the last-exceedance representation to the lemma bank; it is a useful structural simplification for all known-path arguments.
+
+4. Run LP experiments on moving-scale block paths where no block dominates, to see whether \(D_n=o(n)\) empirically produces compatible finite-prefix optimizers.
