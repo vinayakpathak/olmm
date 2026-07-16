@@ -1,0 +1,725 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\ind}[1]{\mathbf{1}\!\left\{#1\right\}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Reg}{\mathfrak{R}}
+\newcommand{\Tau}{\tau}
+\newcommand{\GammaTail}{\Gamma}
+
+\title{Delays adversarial}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Model}
+
+Fix a horizon $T\in\N$.  Before the game begins, an oblivious adversary chooses a
+deterministic sequence
+\[
+    p=(p_1,\ldots,p_T)\in[0,1]^T.
+\]
+At every round $t=1,\ldots,T$:
+\begin{enumerate}[label=(\arabic*)]
+    \item the learner observes $p_t$;
+    \item the learner posts a possibly randomized quote $A_t\in[0,1]$ based only
+    on $p_1,\ldots,p_t$ and its internal randomization.
+\end{enumerate}
+The learner's actions do not affect the price sequence.
+
+For a deterministic quote $a\in[0,1]$ posted at time~$t$, define its execution
+delay by
+\[
+    \Tau_t^p(a)
+    :=
+    \min\bigl\{d\in\{1,\ldots,T-t\}:p_{t+d}>a\bigr\},
+\]
+with the convention $\min\varnothing=\infty$.  Its reward is defined as
+\[
+    r_t^p(a)
+    :=
+    a\,\ind{\Tau_t^p(a)<\infty}.
+\]
+Thus, the order executes at the first strictly larger future price and earns its
+posted quote.
+
+A randomized policy $\pi$ is a collection of nonanticipating decision rules for
+$A_1,\ldots,A_T$.  Its regret on $p$ is
+\begin{equation}\label{eq:regret}
+    R_T(\pi,p)
+    :=
+    \sup_{a\in[0,1]}
+    \sum_{t=1}^T r_t^p(a)
+    -
+    \E_\pi\!\left[\sum_{t=1}^T r_t^p(A_t)\right],
+\end{equation}
+where the expectation is only over the learner's randomization.
+
+\section{Reward-weighted delay tails}
+
+For an integer truncation level $H\ge 0$, define the truncated reward
+\[
+    r_{t,H}^p(a)
+    :=
+    a\,\ind{\Tau_t^p(a)\le H}.
+\]
+The reward lost by truncating quote $a$ after $H$ rounds is therefore
+\[
+    \sum_{t=1}^T\bigl(r_t^p(a)-r_{t,H}^p(a)\bigr)
+    =
+    \sum_{t=1}^T
+    a\,\ind{H<\Tau_t^p(a)<\infty}.
+\]
+This motivates the cumulative reward-weighted tail
+\begin{equation}\label{eq:Gamma}
+    \GammaTail_{T,H}(p)
+    :=
+    \sup_{a\in[0,1]}
+    \sum_{t=1}^T
+    a\,\ind{H<\Tau_t^p(a)<\infty}.
+\end{equation}
+It measures the largest total reward that a single fixed quote obtains from
+orders whose execution delay is strictly larger than~$H$.
+
+Let
+\[
+    g:\N_0\longrightarrow[0,1]
+\]
+be nonincreasing, where $\N_0=\{0,1,2,\ldots\}$.  For each horizon~$T$, define
+the maximal tail-envelope class of price sequences
+\begin{equation}\label{eq:class}
+    \C_T(g)
+    :=
+    \left\{
+        p\in[0,1]^T:
+        \GammaTail_{T,H}(p)\le T g(H)
+        \text{ for every }H\in\N_0
+    \right\}.
+\end{equation}
+We restrict attention to adversaries that select a sequence from this class.
+The learner knows $T$ and $g$, but not the sequence selected from $\C_T(g)$.
+Define the minimax regret
+\begin{equation}\label{eq:minimax}
+    \Reg_T(g)
+    :=
+    \inf_{\pi}
+    \sup_{p\in\C_T(g)}R_T(\pi,p).
+\end{equation}
+
+\subsection*{Examples of tail envelopes}
+
+Every price sequence satisfies $\GammaTail_{T,H}(p)\le T$, and hence belongs
+to $\C_T(g)$ for the uninformative envelope $g\equiv 1$.  The following
+examples give more informative envelopes.
+
+\paragraph{Uniformly fast execution.}
+Suppose that, for some $D\ge 1$, every order that eventually executes does so
+within $D$ rounds:
+\[
+    \Tau_t^p(a)<\infty
+    \quad\Longrightarrow\quad
+    \Tau_t^p(a)\le D
+    \qquad\text{for every $t$ and $a$.}
+\]
+Then $\GammaTail_{T,H}(p)=0$ for $H\ge D$, so $p\in\C_T(g_D)$ for
+$g_D(H):=\ind{H<D}$.  In particular, every nonincreasing price sequence has
+this property with $D=1$: if some later price exceeds $a$, then already
+$p_{t+1}>a$.
+
+\paragraph{Recurring spikes.}
+Let $p_t\in\{0,1\}$, assume $p_1=1$, and write
+$1=s_1<s_2<\cdots<s_m$ for the times at which $p_t=1$.  If
+$d_i:=s_{i+1}-s_i$, then
+\[
+    \GammaTail_{T,H}(p)
+    =
+    \sum_{i=1}^{m-1}(d_i-H)_+,
+    \qquad
+    (u)_+:=\max\{u,0\}.
+\]
+Indeed, within a gap of length $d_i$, exactly $(d_i-H)_+$ orders wait more
+than $H$ rounds for the next spike; the supremum in \eqref{eq:Gamma} is
+approached as $a\uparrow 1$.  Thus regularly spaced spikes with gap $D$
+satisfy
+\[
+    \GammaTail_{T,H}(p)
+    \le
+    T\left(1-\frac{H}{D}\right)_+,
+\]
+so one may take $g(H)=(1-H/D)_+$.  More generally, long gaps are allowed
+provided that they occupy a suitably small fraction of time.
+
+\paragraph{A single terminal jump.}
+For $p=(0,\ldots,0,x)$ with $x\in(0,1]$,
+\[
+    \GammaTail_{T,H}(p)
+    =
+    x(T-H-1)_+.
+\]
+Consequently, this sequence belongs to $\C_T(g_x)$ for the constant envelope
+$g_x(H)\equiv x$.  Although any one finite path has zero tail once
+$H\ge T-1$, the family of terminal-jump paths across all horizons cannot be
+covered by a single envelope that tends to zero.
+
+\section{Main characterization}
+
+\begin{theorem}[Adversarial delay-tail characterization]\label{thm:main}
+Let $g:\N_0\to[0,1]$ be nonincreasing, and let $\Reg_T(g)$ be defined by
+\eqref{eq:minimax}.
+
+\begin{enumerate}[label=(\roman*)]
+    \item For every $T\in\N$, every integer $H\ge0$, and every integer $K\ge2$,
+    \begin{equation}\label{eq:upper-main}
+        \Reg_T(g)
+        \le
+        \sqrt{\frac{T(H+1)\log K}{2}}
+        +\frac{T}{K}
+        +Tg(H).
+    \end{equation}
+
+    \item Let
+    \[
+        c:=\lim_{H\to\infty}g(H),
+    \]
+    which exists because $g$ is nonincreasing.  If $c>0$, then for every
+    $T\in\N$,
+    \begin{equation}\label{eq:lower-main}
+        \Reg_T(g)
+        \ge
+        \frac{c}{e}(T-1).
+    \end{equation}
+\end{enumerate}
+Consequently,
+\begin{equation}\label{eq:iff}
+    \boxed{
+    \Reg_T(g)=o(T)
+    \quad\Longleftrightarrow\quad
+    \lim_{H\to\infty}g(H)=0.
+    }
+\end{equation}
+\end{theorem}
+
+\subsection*{Why the theorem is true}
+
+If $g(H)$ is small, then no fixed quote can obtain much total reward from orders
+that remain unresolved for more than~$H$ rounds.  We may therefore truncate all
+orders after $H$ rounds at a cost of at most $Tg(H)$ against the best fixed
+comparator.  After truncation, the complete reward vector for round~$t$ is known
+by time $t+H$.  Splitting time into $H+1$ residue classes eliminates this delay:
+before the next decision in a residue class, the preceding reward vector in that
+class is already known.  Hedge can then be run separately on each class.  Finally,
+rounding every comparator quote downward to a grid loses at most $1/K$ per round.
+
+For the converse, suppose $g(H)$ remains bounded below by $c>0$.  The class then
+contains every terminal-jump sequence
+\[
+    (0,\ldots,0,x),\qquad 0\le x\le c.
+\]
+Before the final round, all such sequences have exactly the same observed prefix,
+so the learner must post its first $T-1$ quotes without knowing~$x$.  A suitable
+distribution over terminal values creates an unavoidable loss of $c/e$ per
+preterminal round relative to the best fixed quote in hindsight.
+
+The proof is divided into an upper-bound part and a lower-bound part.
+
+\section{Upper bound}
+
+\subsection{Truncation}
+
+\begin{lemma}[Pathwise truncation comparison]\label{lem:truncation}
+Fix $T,H$, a sequence $p\in[0,1]^T$, and a policy $\pi$.  Define the truncated
+regret
+\[
+    R_{T,H}(\pi,p)
+    :=
+    \sup_{a\in[0,1]}
+    \sum_{t=1}^T r_{t,H}^p(a)
+    -
+    \E_\pi\!\left[\sum_{t=1}^T r_{t,H}^p(A_t)\right].
+\]
+Then
+\begin{equation}\label{eq:truncation}
+    R_T(\pi,p)
+    \le
+    R_{T,H}(\pi,p)+\GammaTail_{T,H}(p).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For every fixed $a\in[0,1]$, definition \eqref{eq:Gamma} gives
+\[
+    \sum_{t=1}^T r_t^p(a)
+    \le
+    \sum_{t=1}^T r_{t,H}^p(a)
+    +\GammaTail_{T,H}(p).
+\]
+Taking the supremum over $a$ yields
+\[
+    \sup_a\sum_{t=1}^T r_t^p(a)
+    \le
+    \sup_a\sum_{t=1}^T r_{t,H}^p(a)
+    +\GammaTail_{T,H}(p).
+\]
+Moreover, $r_t^p(a)\ge r_{t,H}^p(a)$ for every $t,a$, so pathwise
+\[
+    \sum_{t=1}^T r_t^p(A_t)
+    \ge
+    \sum_{t=1}^T r_{t,H}^p(A_t).
+\]
+Taking expectations and combining the two inequalities proves
+\eqref{eq:truncation}.
+\end{proof}
+
+\subsection{Discretization}
+
+For $K\ge2$, let
+\begin{equation}\label{eq:grid}
+    \G_K
+    :=
+    \left\{0,\frac1K,\ldots,\frac{K-1}{K}\right\}.
+\end{equation}
+
+\begin{lemma}[Downward discretization]\label{lem:discretization}
+Fix $T,H,p$, and suppose that the learner always chooses $A_t\in\G_K$.  Define
+its grid-comparator truncated regret by
+\[
+    R_{T,H,K}(\pi,p)
+    :=
+    \max_{b\in\G_K}
+    \sum_{t=1}^T r_{t,H}^p(b)
+    -
+    \E_\pi\!\left[\sum_{t=1}^T r_{t,H}^p(A_t)\right].
+\]
+Then
+\begin{equation}\label{eq:disc}
+    R_{T,H}(\pi,p)
+    \le
+    R_{T,H,K}(\pi,p)+\frac{T}{K}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For $a\in[0,1]$, define its downward grid approximation
+\[
+    b(a)
+    :=
+    \frac{\min\{\lfloor Ka\rfloor,K-1\}}{K}.
+\]
+Then $b(a)\in\G_K$, $b(a)\le a$, and
+\[
+    0\le a-b(a)\le\frac1K.
+\]
+Fix $a$ and write $b=b(a)$.  Since $b\le a$, every future price that exceeds
+$a$ also exceeds $b$.  Hence
+\[
+    \ind{\Tau_t^p(a)\le H}
+    \le
+    \ind{\Tau_t^p(b)\le H}.
+\]
+Therefore, pathwise,
+\begin{align*}
+    r_{t,H}^p(a)
+    &=a\ind{\Tau_t^p(a)\le H}\\
+    &=b\ind{\Tau_t^p(a)\le H}
+      +(a-b)\ind{\Tau_t^p(a)\le H}\\
+    &\le b\ind{\Tau_t^p(b)\le H}+\frac1K\\
+    &=r_{t,H}^p(b)+\frac1K.
+\end{align*}
+Summing over $t$ and taking the supremum over $a$ gives
+\[
+    \sup_{a\in[0,1]}\sum_{t=1}^T r_{t,H}^p(a)
+    \le
+    \max_{b\in\G_K}\sum_{t=1}^T r_{t,H}^p(b)
+    +\frac{T}{K}.
+\]
+Subtracting the learner's expected truncated reward proves \eqref{eq:disc}.
+\end{proof}
+
+\subsection{A self-contained Hedge bound}
+
+We first record Hoeffding's lemma in the form needed below.
+
+\begin{lemma}[Hoeffding's lemma]\label{lem:hoeffding}
+If $X\in[0,1]$ almost surely, then for every $\eta\in\R$,
+\[
+    \log\E[e^{\eta X}]
+    \le
+    \eta\E[X]+\frac{\eta^2}{8}.
+\]
+\end{lemma}
+
+\begin{proof}
+Let
+\[
+    \phi(\eta)
+    :=
+    \log\E[e^{\eta X}]-\eta\E[X].
+\]
+Under the exponentially tilted distribution proportional to $e^{\eta X}$,
+$\phi''(\eta)$ is the variance of $X$.  Every random variable supported on
+$[0,1]$ has variance at most $1/4$, so $\phi''(\eta)\le1/4$.  Also
+$\phi(0)=\phi'(0)=0$.  Integrating the second-derivative bound twice gives
+$\phi(\eta)\le\eta^2/8$.
+\end{proof}
+
+\begin{lemma}[Hedge with full-information gains]\label{lem:hedge}
+Let $x_1,\ldots,x_n\in[0,1]^K$ be arbitrary gain vectors.  There is a
+randomized online algorithm which chooses $I_s\in\{1,\ldots,K\}$ before seeing
+$x_s$, observes all of $x_s$ afterward, and satisfies
+\begin{equation}\label{eq:hedge}
+    \max_{i\in\{1,\ldots,K\}}\sum_{s=1}^n x_{s,i}
+    -
+    \E\!\left[\sum_{s=1}^n x_{s,I_s}\right]
+    \le
+    \sqrt{\frac{n\log K}{2}}.
+\end{equation}
+For $n=0$, the regret is zero.
+\end{lemma}
+
+\begin{proof}
+Assume $n\ge1$.  Initialize $w_{1,i}=1$ for every $i$.  At local round~$s$,
+play arm $i$ with probability
+\[
+    q_{s,i}=\frac{w_{s,i}}{\sum_jw_{s,j}},
+\]
+and, after observing $x_s$, update
+\[
+    w_{s+1,i}=w_{s,i}e^{\eta x_{s,i}}.
+\]
+Let $W_s=\sum_iw_{s,i}$.  By Lemma~\ref{lem:hoeffding}, applied to a random
+variable that equals $x_{s,i}$ with probability $q_{s,i}$,
+\[
+    \log\frac{W_{s+1}}{W_s}
+    =
+    \log\sum_iq_{s,i}e^{\eta x_{s,i}}
+    \le
+    \eta\sum_iq_{s,i}x_{s,i}+\frac{\eta^2}{8}.
+\]
+Summing over $s$ gives
+\[
+    \log\frac{W_{n+1}}{W_1}
+    \le
+    \eta\sum_{s=1}^n\sum_iq_{s,i}x_{s,i}
+    +\frac{n\eta^2}{8}.
+\]
+For every fixed arm~$i$,
+\[
+    W_{n+1}
+    \ge
+    w_{n+1,i}
+    =
+    \exp\!\left(\eta\sum_{s=1}^n x_{s,i}\right),
+\]
+while $W_1=K$.  Hence
+\[
+    \sum_{s=1}^n x_{s,i}
+    -
+    \sum_{s=1}^n\sum_jq_{s,j}x_{s,j}
+    \le
+    \frac{\log K}{\eta}+\frac{n\eta}{8}.
+\]
+The expected gain of the randomized algorithm at round~$s$ is
+$\sum_jq_{s,j}x_{s,j}$.  Maximizing over~$i$ and choosing
+\[
+    \eta=\sqrt{\frac{8\log K}{n}}
+\]
+proves \eqref{eq:hedge}.
+\end{proof}
+
+\subsection{Learning the truncated problem}
+
+\begin{lemma}[Interlaced Hedge]\label{lem:interlaced}
+For every $T,H,K$, there exists a nonanticipating grid-valued policy $\pi_{H,K}$
+such that, for every deterministic sequence $p\in[0,1]^T$,
+\begin{equation}\label{eq:interlaced}
+    R_{T,H,K}(\pi_{H,K},p)
+    \le
+    \sqrt{\frac{T(H+1)\log K}{2}}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Partition the rounds into $H+1$ residue classes modulo $H+1$:
+\[
+    S_j
+    :=
+    \{t\in\{1,\ldots,T\}:t\equiv j\pmod{H+1}\},
+    \qquad j=1,\ldots,H+1,
+\]
+using any consistent convention for residues.  Run one independent Hedge
+instance on each $S_j$, with arms indexed by the quotes in $\G_K$.
+
+For a round $t$, define the full-information gain vector
+\[
+    x_t(b):=r_{t,H}^p(b),\qquad b\in\G_K.
+\]
+This vector is completely determined after observing
+\[
+    p_{t+1},\ldots,p_{\min\{t+H,T\}}.
+\]
+If $t'$ is the next round after $t$ in the same residue class, then
+$t'=t+H+1$.  Thus $x_t$ is known no later than round $t'-1$, before the next
+decision of the same Hedge instance.  Consequently, each residue-class
+instance receives ordinary immediate full-information feedback on its own local
+time scale.
+
+Let $n_j=|S_j|$.  Lemma~\ref{lem:hedge} gives local expected regret at most
+$\sqrt{n_j\log K/2}$.  Since
+\[
+    \max_{b\in\G_K}\sum_{t=1}^T x_t(b)
+    \le
+    \sum_{j=1}^{H+1}
+    \max_{b\in\G_K}\sum_{t\in S_j}x_t(b),
+\]
+the global grid-comparator regret is at most the sum of the local regrets.
+By Cauchy--Schwarz,
+\begin{align*}
+    R_{T,H,K}(\pi_{H,K},p)
+    &\le
+    \sum_{j=1}^{H+1}\sqrt{\frac{n_j\log K}{2}}\\
+    &\le
+    \sqrt{(H+1)\left(\sum_{j=1}^{H+1}n_j\right)\frac{\log K}{2}}\\
+    &=
+    \sqrt{\frac{T(H+1)\log K}{2}}.
+\end{align*}
+\end{proof}
+
+\subsection{Proof of the upper bound}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}(i)]
+Fix $H\ge0$ and $K\ge2$, and use the policy $\pi_{H,K}$ from
+Lemma~\ref{lem:interlaced}.  For every $p\in\C_T(g)$, Lemmas
+\ref{lem:truncation}, \ref{lem:discretization}, and \ref{lem:interlaced} give
+\begin{align*}
+    R_T(\pi_{H,K},p)
+    &\le
+    R_{T,H}(\pi_{H,K},p)+\GammaTail_{T,H}(p)\\
+    &\le
+    R_{T,H,K}(\pi_{H,K},p)
+    +\frac{T}{K}
+    +\GammaTail_{T,H}(p)\\
+    &\le
+    \sqrt{\frac{T(H+1)\log K}{2}}
+    +\frac{T}{K}
+    +Tg(H).
+\end{align*}
+The right-hand side is uniform over $p\in\C_T(g)$.  Taking the supremum over
+$p$ and then the infimum over all policies proves \eqref{eq:upper-main}.
+\end{proof}
+
+\section{Lower bound}
+
+The lower bound uses sequences whose only positive price occurs at the terminal
+round.
+
+\begin{lemma}[Tail mass of a terminal jump]\label{lem:terminal-tail}
+For $x\in[0,1]$, let
+\[
+    p^x=(0,\ldots,0,x)\in[0,1]^T.
+\]
+Then, for every integer $H\ge0$,
+\begin{equation}\label{eq:terminal-gamma}
+    \GammaTail_{T,H}(p^x)
+    =
+    x\,(T-H-1)_+,
+\end{equation}
+where $(z)_+=\max\{z,0\}$.
+\end{lemma}
+
+\begin{proof}
+Fix a quote $a$.  If $a\ge x$, it never executes.  If $a<x$, then for every
+$t<T$ its first execution occurs at time~$T$, so
+\[
+    \Tau_t^{p^x}(a)=T-t.
+\]
+The delay is strictly larger than $H$ exactly for
+$t=1,\ldots,T-H-1$, when this set is nonempty.  Hence the late-trade reward of
+$a<x$ is
+\[
+    a\,(T-H-1)_+.
+\]
+Taking the supremum over $a<x$ gives $x(T-H-1)_+$.  The value need not be
+attained because a quote equal to $x$ does not execute.
+\end{proof}
+
+\begin{lemma}[Membership of terminal jumps]\label{lem:terminal-membership}
+Let $c=\lim_{H\to\infty}g(H)>0$.  Then
+\[
+    p^x\in\C_T(g)
+    \qquad\text{for every }x\in[0,c].
+\]
+\end{lemma}
+
+\begin{proof}
+Because $g$ is nonincreasing with limit $c$, we have $g(H)\ge c$ for every
+$H$.  By Lemma~\ref{lem:terminal-tail}, for $x\le c$,
+\[
+    \GammaTail_{T,H}(p^x)
+    =x(T-H-1)_+
+    \le xT
+    \le cT
+    \le Tg(H).
+\]
+This is precisely the defining condition of $\C_T(g)$.
+\end{proof}
+
+\begin{lemma}[Hard distribution over terminal prices]\label{lem:hard-prior}
+Fix $c\in(0,1]$.  There exists a random variable $X\in[0,c]$ such that
+\begin{equation}\label{eq:hard-properties}
+    \E[X]=\frac{2c}{e}
+    \qquad\text{and}\qquad
+    a\,\Pr(X>a)\le\frac{c}{e}
+    \quad\text{for every }a\in[0,1].
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Define $X$ through its survival function
+\[
+    \Pr(X>x)
+    =
+    \begin{cases}
+        1, & 0\le x<c/e,\\[1mm]
+        \dfrac{c}{ex}, & c/e\le x<c,\\[2mm]
+        0, & x\ge c.
+    \end{cases}
+\]
+Equivalently, $X$ has density $c/(ex^2)$ on $[c/e,c)$ and an atom of mass
+$1/e$ at $c$.  Using the tail-integral formula,
+\begin{align*}
+    \E[X]
+    &=\int_0^c\Pr(X>x)\,dx\\
+    &=\frac{c}{e}
+      +\int_{c/e}^c\frac{c}{ex}\,dx\\
+    &=\frac{c}{e}+\frac{c}{e}
+    =\frac{2c}{e}.
+\end{align*}
+If $a<c/e$, then $a\Pr(X>a)=a<c/e$.  If $c/e\le a<c$, then
+$a\Pr(X>a)=c/e$.  If $a\ge c$, the product is zero.  This proves
+\eqref{eq:hard-properties}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}(ii)]
+Fix an arbitrary randomized policy $\pi$.  Draw $X$ according to
+Lemma~\ref{lem:hard-prior}, and present the terminal-jump sequence $p^X$.
+By Lemma~\ref{lem:terminal-membership}, every realization belongs to
+$\C_T(g)$.
+
+For each $t<T$, the observed history under every realization of $X$ is the
+all-zero prefix.  Therefore $A_t$ is independent of~$X$.  The learner's reward
+from round~$t$ is
+\[
+    A_t\ind{A_t<X}.
+\]
+Conditioning on $A_t$ and applying \eqref{eq:hard-properties},
+\[
+    \E\bigl[A_t\ind{A_t<X}\bigr]
+    =
+    \E\bigl[A_t\Pr(X>A_t\mid A_t)\bigr]
+    \le
+    \frac{c}{e}.
+\]
+There is no reward from a quote submitted at time~$T$.  Hence
+\begin{equation}\label{eq:learner-hard}
+    \E\!\left[\sum_{t=1}^T r_t^{p^X}(A_t)\right]
+    \le
+    \frac{c}{e}(T-1).
+\end{equation}
+
+For a realized terminal value $X=x$, every quote $a<x$ posted before time~$T$
+executes at time~$T$.  Thus the best fixed comparator value is
+\[
+    \sup_{a<x}(T-1)a=(T-1)x.
+\]
+Averaging over $X$ and using \eqref{eq:hard-properties},
+\begin{equation}\label{eq:comparator-hard}
+    \E\!\left[
+        \sup_{a\in[0,1]}
+        \sum_{t=1}^T r_t^{p^X}(a)
+    \right]
+    =(T-1)\E[X]
+    =\frac{2c}{e}(T-1).
+\end{equation}
+Subtracting \eqref{eq:learner-hard} from \eqref{eq:comparator-hard} shows that
+$\pi$ has average regret at least $c(T-1)/e$ under this distribution over
+deterministic sequences.  Therefore at least one realization $p^x$ satisfies
+\[
+    R_T(\pi,p^x)\ge\frac{c}{e}(T-1).
+\]
+Since this holds for every policy $\pi$ and every such $p^x$ lies in
+$\C_T(g)$, taking the infimum over policies proves \eqref{eq:lower-main}.
+\end{proof}
+
+\section{Deriving the if-and-only-if statement}
+
+\begin{proof}[Proof of \eqref{eq:iff}]
+Suppose first that $g(H)\to0$.  For $T\ge2$, choose
+\[
+    H_T=\lfloor T^{1/3}\rfloor,
+    \qquad
+    K_T=T.
+\]
+The upper bound \eqref{eq:upper-main} gives
+\[
+    \frac{\Reg_T(g)}{T}
+    \le
+    \sqrt{\frac{(H_T+1)\log T}{2T}}
+    +\frac1T
+    +g(H_T).
+\]
+Here $H_T\to\infty$ and $H_T\log T/T\to0$, so all three terms converge to
+zero.  Therefore $\Reg_T(g)=o(T)$.
+
+Conversely, if $g(H)$ does not converge to zero, then monotonicity implies that
+$c=\lim_Hg(H)>0$.  By \eqref{eq:lower-main},
+\[
+    \liminf_{T\to\infty}\frac{\Reg_T(g)}{T}
+    \ge
+    \frac{c}{e}>0.
+\]
+Thus the minimax regret is not sublinear.
+\end{proof}
+
+\section{Remarks on the scope of the characterization}
+
+\begin{remark}[Why maximality matters]
+The iff statement is for the maximal class $\C_T(g)$ containing every sequence
+that satisfies the tail envelope.  A smaller structured class can have very long
+delays and still be easy.  For example, if the learner is told in advance that
+the unique possible sequence is $(0,\ldots,0,1)$, it can post quotes arbitrarily
+close to~$1$ from the first round.  Thus a delay-tail condition alone cannot
+characterize every arbitrary subclass of deterministic sequences; it becomes
+necessary precisely because the maximal class includes all hard terminal-jump
+continuations allowed by the envelope.
+\end{remark}
+
+\begin{remark}[Interpretation of $\GammaTail_{T,H}$]
+For the terminal-jump sequence $p^x$, Lemma~\ref{lem:terminal-tail} gives
+\[
+    \GammaTail_{T,H}(p^x)=x(T-H-1)_+.
+\]
+The final $H+1$ submission times do not count because their waiting times are at
+most~$H$ or there is no future round.  The expression is nevertheless of order
+$xT$ whenever $H=o(T)$.
+\end{remark}
+
+\end{document}
