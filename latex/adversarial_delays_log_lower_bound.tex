@@ -1,0 +1,292 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\Pr}{\mathbb{P}}
+\newcommand{\Ind}[1]{\mathbb{I}\big\{{#1}\big\}}
+\newcommand{\bp}{\boldsymbol{p}}
+\newcommand{\cV}{\mathcal{V}}
+
+\title{A Logarithmic Lower Bound for Adversarial Delays}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{theorem}
+\label{thm:log-lower-bound}
+For every horizon $T\ge2$ and every possibly randomized online policy
+$\pi$, there exists a deterministic, oblivious, nonincreasing price
+sequence
+\[
+1=p_1\ge p_2\ge\cdots\ge p_T>0
+\]
+such that
+\[
+\cV_T=0
+\]
+and
+\[
+R_T
+\ge
+\frac{3}{16}\bigl(H_T-1\bigr).
+\]
+\end{theorem}
+
+\begin{proof}
+
+The proof uses a distribution over deterministic oblivious sequences.
+All random choices defining the sequence are sampled before the game
+starts.  We prove that the regret averaged over this distribution is at
+least the desired quantity; hence at least one deterministic sequence in
+its support has at least that much regret.
+
+For $t=2,\ldots,T$, set
+\[
+\varepsilon_t:=\frac{1}{2t}.
+\]
+Let $Z_2,\ldots,Z_T$ be independent Bernoulli random variables satisfying
+\[
+\Pr(Z_t=1)=\varepsilon_t.
+\]
+Define the random price sequence $(P_t)_{t=1}^T$ by
+\[
+P_1:=1,
+\qquad
+P_t:=\prod_{s=2}^t(1-\varepsilon_s)^{Z_s},
+\qquad t\ge2.
+\]
+Equivalently, conditional on $P_{t-1}=x$,
+\[
+P_t=
+\begin{cases}
+ x, & \text{with probability }1-\varepsilon_t,\\[1mm]
+ (1-\varepsilon_t)x, & \text{with probability }\varepsilon_t.
+\end{cases}
+\tag{1}
+\label{eq:transition}
+\]
+Every realization is nonincreasing.  Therefore, for every realization
+$\bp_T$,
+\[
+M_t=p_t
+\qquad\text{for every }t,
+\]
+and consequently
+\[
+\cV_T=0.
+\tag{2}
+\label{eq:variation-zero}
+\]
+
+\begin{lemma}
+\label{lem:one-round}
+Fix $t\ge2$.  Conditional on any price history with $P_{t-1}=x$, the
+conditional expected reward of the learner at round $t$ is at most
+\[
+(1-\varepsilon_t)x.
+\]
+\end{lemma}
+
+\begin{proof}
+Let $A_t=a$.
+There are three cases.
+
+If $a<(1-\varepsilon_t)x$, then the order executes in both possible
+states, and its reward is
+\[
+a\le(1-\varepsilon_t)x.
+\]
+If
+\[
+(1-\varepsilon_t)x\le a<x,
+\]
+then the order executes only when $P_t = P_{t-1}$, and its conditional
+expected reward is
+\[
+(1-\varepsilon_t)a
+\le
+(1-\varepsilon_t)x.
+\]
+Finally, if $a\ge x$, the order never executes and its reward is zero.
+\end{proof}
+
+Let
+\[
+m_t:=\E[P_t],
+\qquad t=1,\ldots,T,
+\]
+and introduce the convenient conventions
+\[
+m_0:=1,
+\qquad
+\varepsilon_1:=0.
+\]
+
+\begin{lemma}
+\label{lem:price-path}
+For every $t=1,\ldots,T$,
+\[
+m_t=(1-\varepsilon_t^2)m_{t-1}.
+\tag{3}
+\label{eq:mean-recursion}
+\]
+Moreover,
+\[
+m_t\ge\frac34
+\qquad\text{for every }t=0,\ldots,T.
+\tag{4}
+\label{eq:mean-lower-bound}
+\]
+\end{lemma}
+
+\begin{proof}
+The claim is immediate for $t=1$.  For $t\ge2$, conditioning on
+$P_{t-1}=x$ and using \eqref{eq:transition} gives
+\[
+\begin{aligned}
+\E[P_t\mid P_{t-1}=x]
+&=(1-\varepsilon_t)x
+  +\varepsilon_t(1-\varepsilon_t)x\\
+&=(1-\varepsilon_t^2)x.
+\end{aligned}
+\]
+Taking expectations proves \eqref{eq:mean-recursion}.
+
+Iterating the recursion gives
+\[
+m_t
+=
+\prod_{s=2}^t\left(1-\frac{1}{4s^2}\right).
+\]
+For numbers $x_i\in[0,1]$, one has
+$\prod_i(1-x_i)\ge1-\sum_i x_i$.  Hence
+\[
+\begin{aligned}
+m_t
+&\ge
+1-\sum_{s=2}^t\frac{1}{4s^2}\\
+&\ge
+1-\frac14\sum_{s=2}^{\infty}\frac{1}{s(s-1)}\\
+&=1-\frac14
+=
+\frac34,
+\end{aligned}
+\]
+which proves \eqref{eq:mean-lower-bound}.
+\end{proof}
+
+\begin{lemma}
+\label{lem:benchmark}
+For every realization $\bp_T$ of the random sequence,
+\[
+B_T(\bp_T)\ge T p_T.
+\]
+\end{lemma}
+
+\begin{proof}
+Because $\bp_T$ is nonincreasing, for every $a<p_T$ one has
+$a<M_t=p_t$ for every $t$.  Therefore
+\[
+\sum_{t=1}^T r_t(a)=Ta.
+\]
+Taking the supremum over $a<p_T$ yields
+\[
+B_T(\bp_T)\ge\sup_{a<p_T}Ta=Tp_T.
+\]
+\end{proof}
+
+We now combine the three lemmas.  At round $1$, the learner's reward is
+at most $1=m_0$.  For every $t\ge2$, Lemma~\ref{lem:one-round} gives
+\[
+\E\bigl[r_t(A_t)\bigr]
+\le
+(1-\varepsilon_t)m_{t-1}.
+\]
+Thus, with the convention $\varepsilon_1=0$, the learner's expected
+cumulative reward, where the expectation is now over both the random
+sequence and the learner's internal randomization, is at most
+\[
+\sum_{t=1}^T(1-\varepsilon_t)m_{t-1}.
+\tag{5}
+\label{eq:learner-upper-bound}
+\]
+
+By Lemma~\ref{lem:benchmark}, the expected benchmark is at least $Tm_T$.
+Consequently, the regret averaged over the random price sequence satisfies
+\[
+\E[R_T]
+\ge
+Tm_T-
+\sum_{t=1}^T(1-\varepsilon_t)m_{t-1}.
+\tag{6}
+\label{eq:regret-start}
+\]
+
+We use the telescoping identity
+\[
+\sum_{t=1}^T m_{t-1}-Tm_T
+=
+\sum_{t=1}^T t\bigl(m_{t-1}-m_t\bigr).
+\tag{7}
+\label{eq:telescoping}
+\]
+Indeed, expanding the right-hand side gives
+$m_0+m_1+\cdots+m_{T-1}-Tm_T$.
+By \eqref{eq:mean-recursion},
+\[
+m_{t-1}-m_t
+=
+\varepsilon_t^2m_{t-1}.
+\tag{8}
+\label{eq:mean-drop}
+\]
+Substituting \eqref{eq:telescoping} and \eqref{eq:mean-drop} into
+\eqref{eq:regret-start} yields
+\[
+\begin{aligned}
+\E[R_T]
+&\ge
+\sum_{t=1}^T
+\bigl(\varepsilon_t-t\varepsilon_t^2\bigr)m_{t-1}\\
+&=
+\sum_{t=2}^T
+\left(\frac{1}{2t}-\frac{1}{4t}\right)m_{t-1}\\
+&=
+\frac14\sum_{t=2}^T\frac{m_{t-1}}{t}.
+\end{aligned}
+\tag{9}
+\label{eq:harmonic-sum}
+\]
+Using Lemma~\ref{lem:price-path},
+\[
+\E[R_T]
+\ge
+\frac14\cdot\frac34\sum_{t=2}^T\frac1t
+=
+\frac{3}{16}\bigl(H_T-1\bigr).
+\tag{10}
+\label{eq:average-lower-bound}
+\]
+
+Therefore at least one deterministic sequence
+$\bp_T$ in the support satisfies
+\[
+R_T
+\ge
+\frac{3}{16}\bigl(H_T-1\bigr).
+\]
+This proves the theorem.
+\end{proof}
+
+\end{document}

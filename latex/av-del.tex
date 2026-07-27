@@ -1,0 +1,256 @@
+\documentclass{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsfonts}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\Pr}{\mathbb{P}}
+\newcommand{\Ind}[1]{\mathbb{I}\big\{{#1}\big\}}
+\newcommand{\bp}{\boldsymbol{p}}
+\newcommand{\cV}{\mathcal{V}}
+
+\title{Adversarial delays revisited}
+\author{Nicolò Cesa-Bianchi}
+\date{July 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Model}
+%
+The player's action space is $[0,1]$. The game is parameterized by an unknown sequence $\bp = (p_1,p_2,\ldots) \in [0,1]$ (oblivious adversary). This sequence defines the delay functions $d_t : [0,1] \to \Nat\cup\{\infty\}$ for each $t=1,2,\ldots,$ such that
+\[
+    d_t(a) = \min\big\{\tau\in\Nat_0 \,:\, p_{t+\tau} > a\big\}
+\]
+where $\Nat_0 = \{0,1,\ldots\}$ with $d_t(a) = \infty$ if the set is empty.
+
+At time $t$:
+\begin{enumerate}
+    \item The player posts order $A_t \in [0,1]$ possibly using randomization
+    \item The environment reveals $p_t \in [0,1]$
+    \item for each $s \le t$: if $p_t > A_s$, then $A_s$ is executed
+\end{enumerate}
+The resulting regret is
+\[
+    R_T = \sup_{a \in [0,1]} \sum_{t=1}^T a\,\Ind{t + d_t(a) \le T} - \E\left[\sum_{t=1}^T A_t\,\Ind{t + d_t(A_t) \le T}\right]
+\]
+where $\Ind{\cdot}$ is the indicator function and the expectation $\E$ is with respect to the player's internal randomization.
+We now upper and lower bounds on $R_T$ in terms of $(d_1,\ldots,d_T)$
+
+Let $\bp_T = (p_1,\ldots,p_T)$ and define the benchmark
+\begin{equation}
+\label{eq:benchmark-def}
+    B_T(\bp_T)
+=
+    \sup_{a\in[0,1]} \sum_{t=1}^T a\,\Ind{t+d_t(a)\le T}
+\end{equation}
+For each $t\le T$, define the suffix maximum
+\begin{equation}\label{eq:M-def}
+    M_t:=\max_{t\le s\le T}p_s
+\end{equation}
+Then $M_1\ge M_2\ge\cdots\ge M_T$.
+
+By definition, $t+d_t(a)\le T$ if and only if there is some $s\in\{t,\ldots,T\}$ such that $p_s>a$, which is equivalent to $M_t > a$. Now, $d_t(a)=0$ if and only if $a<p_t$.  Hence $1 \le d_t(a) \le T-t$ precisely when:
+\begin{enumerate}
+    \item \label{item:1} $a\ge p_t$
+    \item \label{item:2} and $p_s > a$ for some $s\in\{t+1,\ldots,T\}$~.
+\end{enumerate}
+Since condition~\eqref{item:2} is equivalent to $t+d_t(a)\le T$, which is in turn equivalent to $a < M_t$, conditions~\eqref{item:1} and~\eqref{item:2} are jointly equivalent to $p_t\le a<M_t$, proving
+\begin{equation}
+\label{eq:useful}
+    \big\{a\in[0,1] \,:\, 1\le d_t(a)\le T-t\big\} = [p_t,M_t)
+\end{equation}
+where the interval is empty when $p_t=M_t$.
+
+Let the reward function for horizon $T$ associated with the order posted at time $t$ be $r_t(a) = a\,\Ind{a<M_t}$. The player's payoff is then $\sum_{t=1}^T r_t(A_t)$.
+%
+\begin{lemma}
+\label{lem:benchmark}
+For every $\bp_T$,
+\begin{equation}
+\label{eq:benchmark-formula}
+    B_T(\bp_T) \le \max_{1\le k\le T} k\,M_k
+\end{equation}
+\end{lemma}
+%
+\begin{proof}
+% We start by proving
+% \[
+%     B_T(\bp_T) \le \max_{1\le k\le T} k\,M_k
+% \]
+For $a\in[0,1]$, let
+\[
+    N(a) = \max\{ 1 \le t \le T \,:\, a < M_t \}
+\]
+Since $M_1 \ge M_2 \ge\cdots\ge M_T$,
+\[
+    \sum_{t=1}^T r_t(a) = \sum_{t=1}^T a\,\Ind{a < M_t} = a\,N(a)
+\]
+If $N(a)=0$, this is zero. If $N(a) \ge 1$, then $a < M_{N(a)}$, and hence
+\[
+    a\,N(a) < N(a)M_{N(a)} \le \max_{1 \le k \le T} k\,M_k
+\]
+concluding the proof.
+% To prove
+% \[
+%     B_T(\bp_T) \ge \max_{1\le k\le T} k\,M_k
+% \]
+% let $j$ achieve the max in the above. If $M_j=0$, then $j\,M_j = 0$ and there is nothing to prove. If $M_j > 0$, take any sequence $a_1,a_2,\ldots$ with
+% \[
+%     \lim_{n\to\infty} a_n = M_j
+% \]
+% and $0 \le a_n < M_j$ for all $n$.
+% For every $t\le j$, one has $M_t\ge M_j > a_n$, so
+% \[
+%     \sum_{t=1}^T r_t(a_n) = \sum_{t=1}^T a_n\,\Ind{a_n < M_t} \ge j\,a_n
+% \]
+% Letting $n\to\infty$ concludes the proof.
+\end{proof}
+%
+Define the clairvoyant actions
+\begin{equation}\label{eq:ideal-action}
+    A^*_1:=0
+\qquad
+    A^*_t = \frac{t-1}{t} M_{t-1} \quad (t\ge2)
+\end{equation}
+and their partial cumulative reward
+\[
+    S^*_t = \sum_{s=1}^t r_s(A^*_s)
+\]
+\begin{lemma}[Clairvoyant potential bound]
+\label{lem:ideal-potential}
+For every $t=1,\ldots,T$,
+\begin{equation}\label{eq:ideal-potential}
+    S^*_t \ge tM_t-H_t \qquad\text{where}\qquad H_t = \sum_{s=1}^t \frac1s
+\end{equation}
+Consequently, $S^*_T \ge B_T(\bp_T) - H_T$.
+\end{lemma}
+%
+\begin{proof}
+We prove the statement by induction on $t$. For $t=1$, $S^*_1 = r_1(0) = 0$, while $M_1 - H_1 = M_1 - 1 \le 0$.
+
+Now fix $t\ge2$ and assume $S^*_{t-1} \ge (t-1)M_{t-1} - H_{t-1}$. There are two cases.
+\begin{enumerate}
+    \item If $A^*_t < M_t$, then $A^*_t$ is eventually executed and $r_t(A^*_t) = \frac{t-1}{t} M_{t-1}$. Therefore
+\begin{align*}
+    S^*_t
+&\ge
+    (t-1)M_{t-1} - H_{t-1} + \frac{t-1}{t}M_{t-1}
+\\&=
+    \left(t-\frac1t\right) M_{t-1} - H_{t-1}
+\\&\ge
+    t M_t-H_t
+\end{align*}
+For the last step, we used $M_{t-1}\ge M_t$ and observed that
+\[
+    \left(t-\frac1t\right)M_t + \frac{1}{t} - t M_t
+=
+    \frac{1-M_t}{t} \ge 0
+\]
+\item If $A^*_t\ge M_t$, then $A^*_t$ is never executed and $r_t(A^*_t) = 0$. By definition of $A^*_t$, The case condition $A^*_t\ge M_t$ is equivalent to $t M_t \le (t-1)M_{t-1}$ and hence
+\[
+    S^*_t = S^*_{t-1}
+\ge
+    (t-1)M_{t-1} - H_{t-1}
+\ge
+    t M_t - H_t
+\]
+\end{enumerate}
+This completes the induction. To prove the last statement, choose $k$ achieving $\max_s s\,M_s$.  Rewards are nonnegative, so, by Lemma~\ref{lem:benchmark},
+\[
+    S^*_T
+\ge
+    S^*_k
+\ge
+    k\,M_k - H_k
+ \ge
+    B_T(\bp_T) - H_k
+\ge
+    B_T(\bp_T) - H_T
+\]
+concluding the proof.
+\end{proof}
+%
+Let $U$ be uniformly distributed on $[0,1]$. Define
+\begin{align}
+    \cV_T
+=
+    \sum_{t=1}^{T-1} \Pr\bigl(1 \le d_t(U) \le T-t\bigr)
+\end{align}
+%
+\begin{lemma}
+\label{lem:one-sided-lipschitz}
+For every $t$ and every $0\le x\le y\le1$,
+$
+r_t(x) \ge r_t(y) - (y-x)
+$.
+\end{lemma}
+%
+\begin{proof}
+If $y < M_t$, then also $x < M_t$, and $r_t(x) = x = r_t(y) - (y-x)$. If $y \ge M_t$, then $r_t(y)=0$, and so $r_t(y) - (y-x) \le 0$
+whereas $r_t(x) \ge 0$.
+\end{proof}
+%
+\begin{theorem}
+\label{thm:main}
+For every horizon $T$ and every oblivious sequence $\bp = (p_1,p_2,\ldots)$, the deterministic policy
+\begin{equation}
+\label{eq:algorithm}
+    A_1 = 0
+\qquad
+    A_t = \frac{t-1}{t}p_{t-1} \quad (t \ge 2)
+\end{equation}
+satisfies
+$
+    R_T
+\le
+    H_T + \cV_T
+$.
+\end{theorem}
+%
+\begin{proof}
+For $t \ge 2$, one has $p_{t-1} \le M_{t-1}$, and therefore $A_t \le A^*_t$.  Applying Lemma~\ref{lem:one-sided-lipschitz} gives
+\begin{align*}
+    r_t(A_t)
+\ge
+    r_t(A^*_t)-(A^*_t - A_t)
+=
+    r_t(A^*_t)
+-
+    \frac{t-1}{t}\big(M_{t-1} - p_{t-1}\big)
+\end{align*}
+The same inequality is trivial at $t=1$, because both actions equal zero.
+Summing over $t$ we obtain
+\begin{align*}
+    \sum_{t=1}^T r_t(A_t)
+&\ge
+    S^*_T - \sum_{t=2}^T \frac{t-1}{t} \big(M_{t-1} - p_{t-1}\big)
+\\&\ge
+    B_T(\bp_T) - H_T - \sum_{s=1}^{T-1} \frac{s}{s+1} \big(M_s - p_s\big) \tag{Lemma~\ref{lem:ideal-potential}}
+\\&\ge
+    B_T(\bp_T) - H_T - \sum_{s=1}^{T-1} \big(M_s - p_s\big)
+\\&=
+    B_T(\bp_T) - H_T - \cV_T \tag{using~\eqref{eq:useful}}
+\end{align*}
+concluding the proof.
+\end{proof}
+%
+\begin{corollary}
+For every horizon $T$ and every oblivious sequence $\bp = (p_1,p_2,\ldots)$,
+$
+    R_T
+=
+    \cV_T + \mathcal{O}(\ln T)
+$.
+\end{corollary}
+
+
+\end{document}
