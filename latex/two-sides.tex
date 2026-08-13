@@ -1,0 +1,40 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+We might want to do market making with delays in a similar environment as we have discussed. So at each $t$ we want to post two orders, the ask $A_t$ and the bid $B_t$ such that $B_t < A_T$. The environment reveals $p_t\in [0,1]$. For each $s \leq t$, if $p_t > A_s$ then $A_s$ gets executed and we get a reward of $A_s$. Similarly, if $p_t < B_s$ then $B_s$ gets executed and we get a reward of... what?
+
+One option is to say that the reward for the bid side is $1-B_t$. But this will get us into trouble. This is like saying the secondary market (where we offload our positions) has a bid at 1 and an ask at 0. This is because getting a reward of $A_t$ upon getting our ask traded is equivalent to selling at $A_t$ and then offloading that position at 0. Offloading a short position at 0 means we are buying in the secondary market at 0, which means the ask on the secondary market must have been at 0. Similarly, saying that the reward on the bid side is $1-B_t$ is equivalent to saying that the bid on the secondary market is at 1. Bid at 1 and ask at 0 is an inverted market, which cannot exist. Moreover, if the secondary market is actually inverted then the swapping trick from the M3 algorithm fails to work. In particular, we no longer have the guarentee that swapping our bid with our ask whenever bid > ask does not increase the reward.
+
+Another option is to do something similar to what we did in our original paper and say the bid and ask on the secondary market are the same, i.e., we can offload both long and short positions at the same price. For example, we can, for simplicity, assume that the price on the secondary market is always 0. This is consistent with our earlier reward of $A_t$ for the ask side. However, for the bid side this leads to a reward of $-B_t$. But now the market making problem on the bid side becomes trivial. Since the reward on the bid side is always negative, we should simply always post $B_t = 0$, and run our delayed-reward-algorithm on the ask side only.
+
+This issue does not go away if we choose some other fixed price for the secondary market either. Consider the secondary market to always have a price of $1/2$ for both sides. Then we can just run two parallel delayed-reward-algorithms, one on each side, and with the extra step that whenever the algorithm that recomments an ask less than $1/2$ or a bid greater than $1/2$, we cap it back to $1/2$. This always improves the reward. Therefore solving the two sided version is still quite trivial given the subroutine for one side.
+
+The third option is to make the prices on the secondary market also adversarial. That is, assume that the oblivious adversary has not only a sequence $p_1,\cdots , p_t$, but also a sequence $m_1, \cdots, m_t$ of prices on the secondary market. At any point $t$, if an ask $A_s$ with $s\leq t$ gets traded, then we offload it at the price $m_t$ thus getting a reward $A_s - m_t$. Similary, for the bid side, we get the reward $m_t - B_s$. The crucial difference is that $m_t$ is now unknown and adversarially chosen at each $t$. In this case one can show that an $\Omega(T)$ regret appears even when $V_T = O(1/T)$. 
+
+To see this, suppose we are playing only the ask side, and consider the price sequence $p_t$ such that $p_t = 3/4$ always except for the last time step when $p_t = 3/4 + \epsilon$. Also, consider the sequence $m_t = 1/2$ always except for the last step where $m_T = 0$ or $m_T = 1$ with uniform probability. The learner will have no idea which of the two cases it is in until the very last step. If $m_T$ is going to be 1, then it is good to be able to offload at the time steps when $m_t = 1/2$ because $m_T = 1$ is a bad price to offload at (since reward is $A_s - m_T$). Thus it is better for the learner to post orders $A_t < 3/4$. This ensures that the orders get traded immediately and thus get offloaded immediately. On the other hand, if $m_T = 1$, then it is wise for the learner to post prices so that they all get traded at the same time at $T$, which happens if it posts $A_t$ to be between $3/4$ and $3/4 + \epsilon$. But since it does not know which world it is in, it cannot decide what to do, and making the wrond decision leads to a linear regret. Note that $V_T = (T-1)\epsilon$, thus picking $\epsilon = O(1/T^2)$, we get the desired result. 
+\end{document}
