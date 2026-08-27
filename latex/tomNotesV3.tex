@@ -1,0 +1,658 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\E}{\mathbb E}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\cU}{\mathcal U}
+\newcommand{\cO}{\mathcal O}
+\newcommand{\cV}{\mathcal V}
+\newcommand{\Rstar}{\mathfrak R}
+\DeclareMathOperator{\Unif}{Unif}
+
+\title{Tight dynamic regret for trading profit with estimates of the suffix maximum}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+At round $t$, the current price $p_t$ and an estimate $L_t$ of the suffix
+maximum $M_t$ are shown before the player posts a quote.  A quote $A_t>p_t$
+earns the net profit $A_t-p_t$ if a later price reaches $A_t$.  We measure
+dynamic regret against the profit of the best quote on every round.  If the
+total amounts by which the estimates are too low and too high are at most
+$u$ and $o$, respectively, the tight worst-case rate is
+\[
+  \Theta\!\left(
+    \min\left\{T-1,\,
+      u+\min\bigl\{(T-1)o,\sqrt{(T-1)o}\bigr\}
+    \right\}
+  \right).
+\]
+The fixed-quote minimax regret has the same rate.  There is no logarithmic
+term: exact estimates give zero dynamic regret on every sequence.  The term
+caused by overestimation is linear when $(T-1)o$ is small and has the usual
+square-root form once $(T-1)o$ is at least a constant.
+\end{abstract}
+
+\section{Model}
+
+Fix a horizon $T\ge 1$ and put $N:=T-1$.  The environment fixes prices
+$p_1,\ldots,p_T\in[0,1]$ and estimates $L_1,\ldots,L_N\in[0,1]$ before play.
+For $t=1,\ldots,T$, let
+\[
+  M_t:=\max_{t\le s\le T}p_s,
+\]
+the suffix maximum of the price sequence.
+
+At each round $t\le N$:
+\begin{enumerate}
+  \item the player is shown $p_t$ and an estimate $L_t$ of $M_t$;
+  \item the player either abstains or posts a quote $A_t\in(p_t,1]$;
+  \item the quote earns $A_t-p_t$ if $p_s\ge A_t$ for some $s>t$, and zero
+        otherwise.
+\end{enumerate}
+Different rounds are treated as separate trades; there is no restriction on
+the number of outstanding quotes.  The player may observe prices, fills, and
+past rewards as they occur.  The terminal price $p_T$ is revealed only to
+settle outstanding quotes; no new quote is posted at $T$.  An unfilled trade
+contributes zero and is not liquidated at the horizon.  Abstention is explicit
+because otherwise there would be no valid action when $p_t=1$.
+
+Both $p_t$ and the reported estimate are therefore available before $A_t$
+is chosen.  If the reported estimate is below $p_t$, the player replaces it
+by $p_t$.  Since $p_t\le M_t$, this moves the estimate closer to $M_t$ and
+cannot increase either underestimation or overestimation.  We reuse the
+symbol $L_t$ for the value after this preprocessing.  Thus, without loss of
+generality,
+\begin{equation}\label{eq:estimate-normalization}
+  p_t\le L_t\le1.
+\end{equation}
+
+Execution is non-strict: equality with a later price is enough.  A genuine
+quote $a>p_t$ executes if and only if
+\begin{equation}\label{eq:threshold-equivalence}
+  a\le M_t.
+\end{equation}
+Indeed, if the suffix maximum is at least $a$, it cannot be attained at
+round $t$ because $p_t<a$ and must be attained later.  We can therefore write
+the round-$t$ reward as
+\begin{equation}\label{eq:reward}
+  r_t(a):=(a-p_t)\ind\{p_t<a\le M_t\},
+\end{equation}
+with reward zero for abstention.  The strict inequality $p_t<a$ and the
+non-strict inequality $a\le M_t$ are both important.
+
+\paragraph{Dynamic benchmark and dynamic regret.}
+The largest profit attainable separately on round $t$ is $M_t-p_t$: quote
+$M_t$ when $M_t>p_t$, and abstain when $M_t=p_t$.  The optimal dynamic
+payoff is therefore
+\begin{equation}\label{eq:dynamic-payoff}
+  D_T(p):=\sum_{t=1}^{N}(M_t-p_t).
+\end{equation}
+This is the payoff of a clairvoyant player allowed to choose a different
+quote on every round.  No policy can earn more: every successful quote is at
+most $M_t$, and every failed quote earns zero.  For a randomized policy
+$\pi$, its dynamic regret is
+\begin{equation}\label{eq:dynamic-regret}
+  R_T^{\mathrm{dyn},\pi}(p,L)
+  :=D_T(p)-\E_\pi\sum_{t=1}^{N}r_t(A_t).
+\end{equation}
+This regret is nonnegative on every sequence.
+
+\paragraph{Fixed-quote benchmark.}
+For comparison, a fixed quote $a\in[0,1]$ is posted on rounds with $p_t<a$;
+on the other rounds it means abstention.  Its best payoff is
+\begin{equation}\label{eq:benchmark}
+  B_T(p):=\max_{a\in[0,1]}
+     \sum_{t=1}^{N}(a-p_t)\ind\{p_t<a\le M_t\}.
+\end{equation}
+This is a fixed absolute quote, not a fixed markup above $p_t$.  Since every
+term earned by a fixed quote is at most $M_t-p_t$,
+\begin{equation}\label{eq:benchmark-dominated}
+  B_T(p)\le D_T(p).
+\end{equation}
+Define the corresponding fixed-quote regret by
+\begin{equation}\label{eq:fixed-regret}
+  R_T^{\mathrm{fix},\pi}(p,L)
+  :=B_T(p)-\E_\pi\sum_{t=1}^{N}r_t(A_t).
+\end{equation}
+It can be negative because a changing policy can outperform every fixed
+quote.  Equations~\eqref{eq:dynamic-regret}--\eqref{eq:fixed-regret} give the
+pointwise comparison
+\begin{equation}\label{eq:regret-order}
+  R_T^{\mathrm{fix},\pi}(p,L)
+  \le R_T^{\mathrm{dyn},\pi}(p,L).
+\end{equation}
+
+\paragraph{Directional errors.}
+We use the same inclusive maximum $M_t$ as in the gross-revenue formulation:
+\begin{equation}\label{eq:errors}
+  \cU_T:=\sum_{t=1}^{N}(M_t-L_t)_+,
+  \qquad
+  \cO_T:=\sum_{t=1}^{N}(L_t-M_t)_+.
+\end{equation}
+Thus $\cU_T$ is total underestimation and $\cO_T$ is total overestimation.
+The normalization $L_t\ge p_t$ also gives
+\begin{equation}\label{eq:under-bounded-by-dynamic}
+  \cU_T\le\sum_{t=1}^{N}(M_t-p_t)=D_T.
+\end{equation}
+For $b\in\{\mathrm{dyn},\mathrm{fix}\}$ and $0\le u,o\le N$, let
+\begin{equation}\label{eq:minimax}
+  \Rstar_T^b(u,o)
+  :=\inf_\pi
+      \sup_{\substack{p,L:\ p_t\le L_t,\
+                       \cU_T\le u,\ \cO_T\le o}}
+      R_T^{b,\pi}(p,L).
+\end{equation}
+The policies in the infimum may know $T,u,o$.  In fact, the policies below
+use only $T$ and $o$.  The environment is oblivious: it fixes $(p,L)$ before
+seeing the player's random choices, although $L_t$ may depend on future
+prices.  By \eqref{eq:regret-order},
+\begin{equation}\label{eq:minimax-order}
+  \Rstar_T^{\mathrm{fix}}(u,o)
+  \le \Rstar_T^{\mathrm{dyn}}(u,o).
+\end{equation}
+When the policy is clear from context, we omit $\pi$ from the regret
+notation.
+
+\section{Policies and upper bounds}
+
+We use one of the following two policies.
+
+\paragraph{Full subtraction.}
+If the announced overestimation budget is $o$, propose
+\begin{equation}\label{eq:full-subtraction}
+  A_t=L_t-o
+\end{equation}
+when this value is above $p_t$; otherwise abstain.
+
+\paragraph{Random subtraction.}
+Fix $\gamma>0$.  Independently draw
+$Z_t\sim\Unif[0,\gamma]$ and post
+\begin{equation}\label{eq:random-subtraction}
+  A_t=L_t-Z_t
+\end{equation}
+when this value is above $p_t$; otherwise abstain.
+
+The full subtraction is best for very small $o$.  Random subtraction is
+better once the accumulated cost of subtracting $o$ on every round becomes
+large.
+
+\begin{theorem}[Upper bounds]\label{thm:upper}
+For every price and estimate sequence, the dynamic regret of random
+subtraction satisfies, for every $\gamma>0$,
+\begin{equation}\label{eq:random-upper}
+  R_T^{\mathrm{dyn}}
+  \le
+  \cU_T+\frac{N\gamma}{2}+\frac{\cO_T}{\gamma}.
+\end{equation}
+On the class $\cO_T\le o$, full subtraction satisfies
+\begin{equation}\label{eq:full-upper}
+  R_T^{\mathrm{dyn}}\le \cU_T+No.
+\end{equation}
+Consequently, for $N\ge1$,
+\begin{equation}\label{eq:minimax-upper}
+  \Rstar_T^{\mathrm{dyn}}(u,o)
+  \le
+  \min\left\{
+    N,\,
+    u+\min\bigl\{No,\sqrt{2No}\bigr\}
+  \right\}.
+\end{equation}
+When $o=0$, the full-subtraction policy uses no subtraction and satisfies
+$R_T^{\mathrm{dyn}}\le\cU_T$.
+\end{theorem}
+
+\begin{proof}
+We bound the shortfall from $D_T$ round by round.  We first prove
+\eqref{eq:random-upper}.  Fix a round and abbreviate
+$p=p_t$, $m=M_t$, $\ell=L_t$, and $Z=Z_t$.  The best round-by-round payoff
+is $d:=m-p$.  Notice that $\ell\ge p$.
+
+Suppose first that $\ell\le m$.  Whenever $\ell-Z>p$, the proposed quote is
+no larger than $m$ and therefore executes.  Its reward is
+$(\ell-Z-p)_+$, and
+\begin{equation}\label{eq:under-round}
+  d-(\ell-Z-p)_+
+  \le (m-\ell)+Z.
+\end{equation}
+
+Now suppose that $\ell>m$ and put $\delta:=\ell-m$.  If $Z\ge\delta$, the
+proposed quote is no larger than $m$.  If it is above $p$, it executes and the loss
+against $d$ is $Z-\delta$; if it is at or below $p$, the player abstains and
+$Z\ge \ell-p=\delta+d$, so the loss $d$ is again at most $Z-\delta$.  Thus the
+loss on $\{Z\ge\delta\}$ is at most $Z$.  On $\{Z<\delta\}$ the proposed
+quote exceeds $m$ and fails, but the loss is at most one.  If
+$\delta\le\gamma$, this gives
+\[
+  \E[\text{loss at round }t]
+  \le \E\bigl[Z\ind\{Z\ge\delta\}\bigr]+\Pr(Z<\delta)
+  \le \frac\gamma2+\frac\delta\gamma.
+\]
+If $\delta>\gamma$, the loss is at most one, which is at most
+$\delta/\gamma$.  Combining this with \eqref{eq:under-round},
+\[
+  d-\E r_t(A_t)
+  \le
+  (m-\ell)_++\frac\gamma2+\frac{(\ell-m)_+}{\gamma}.
+\]
+Summing over $t$ proves \eqref{eq:random-upper}.
+
+For full subtraction, $(L_t-M_t)_+\le\cO_T\le o$ on every round.  Therefore
+$L_t-o\le M_t$ whenever $L_t>M_t$, and the proposed quote is always safe
+when it is posted.  If $L_t-o>p_t$, the loss against $M_t-p_t$ is
+\[
+  M_t-L_t+o\le(M_t-L_t)_++o.
+\]
+If $L_t-o\le p_t$, the player abstains, and
+\[
+  M_t-p_t
+  \le (M_t-L_t)_++(L_t-p_t)
+  \le (M_t-L_t)_++o.
+\]
+Summing proves \eqref{eq:full-upper}.
+
+For $o>0$, set $\gamma=\sqrt{2o/N}$ in
+\eqref{eq:random-upper}; this gives
+$R_T^{\mathrm{dyn}}\le u+\sqrt{2No}$.  Use whichever of random subtraction
+and full subtraction has the smaller displayed guarantee.  Finally, every posted
+quote has nonnegative reward and $D_T\le N$, so the dynamic regret of either
+policy is also at most $N$.  This proves \eqref{eq:minimax-upper}.  The case
+$o=0$ follows directly from full subtraction.
+\end{proof}
+
+The absence of a logarithmic term is already visible when the estimates are
+exact.  If $L_t=M_t$ and $M_t>p_t$, quote $M_t$; by
+\eqref{eq:threshold-equivalence}, it executes later and earns $M_t-p_t$.
+If $M_t=p_t$, abstain.  This obtains $D_T$ itself and therefore dominates
+every fixed quote.  Its dynamic regret is zero and its fixed-quote regret is
+nonpositive.
+
+\section{Matching lower bound}
+
+Define, for $N\ge1$,
+\begin{equation}\label{eq:phi}
+  \phi_N(o):=\min\{No,\sqrt{No}\},
+\end{equation}
+and put $\phi_0(0):=0$.  The two terms in \eqref{eq:phi} correspond to two
+different ranges: $No$ is the smaller term when $No\le1$, and
+$\sqrt{No}$ is the smaller term when $No\ge1$.
+
+\begin{theorem}[Tight dynamic regret]\label{thm:matching}
+For every $T\ge2$, $N=T-1$, and $0\le u,o\le N$,
+\begin{equation}\label{eq:matching}
+  \frac{u+\phi_N(o)}{128}
+  \le \Rstar_T^{\mathrm{dyn}}(u,o)
+  \le
+  \min\left\{
+    N,\,
+    u+\min\bigl\{No,\sqrt{2No}\bigr\}
+  \right\}.
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:rate}
+  \Rstar_T^{\mathrm{dyn}}(u,o)
+  =\Theta\!\left(
+     \min\{N,\,u+\phi_N(o)\}
+   \right).
+\end{equation}
+Moreover, $\Rstar_T^{\mathrm{dyn}}(0,0)=0$ exactly.  When $T=1$, there are
+no trades and the value is zero.
+\end{theorem}
+
+The upper bound has already been proved.  For the lower bound, we prove the
+stronger statement for fixed-quote regret.  The ordering
+\eqref{eq:minimax-order} then transfers it immediately to dynamic regret.
+We handle underestimation and overestimation separately.
+
+\subsection{Underestimation}
+
+\begin{proposition}\label{prop:under-lower}
+For every $N\ge1$ and $0\le u\le N$,
+\[
+  \Rstar_T^{\mathrm{fix}}(u,0)\ge\frac u4.
+\]
+\end{proposition}
+
+\begin{proof}
+The claim is immediate for $u=0$, so suppose $u>0$.  Put
+\[
+  h:=\frac uN,
+  \qquad
+  \ell:=\frac h2.
+\]
+Consider two price sequences, chosen with equal probability.  Both have
+$p_1=\cdots=p_N=0$.  The terminal price is $p_T=\ell$ on the low sequence
+and $p_T=h$ on the high sequence.  Reveal $L_t=0$ on every quote round.
+
+On the sequence with terminal price $x\in\{\ell,h\}$, we have $M_t=x$ for
+all $t\le N$, so $\cU_T=Nx\le u$ and $\cO_T=0$.  The best fixed quote is
+$a=x$ and earns $Nx$; equality with the terminal price executes the orders.
+
+All observations and all fill information available before the terminal
+price are identical on the two sequences.  For any quote $a$ selected on a
+quote round, its average reward over the two sequences is at most
+$\ell$: if $a\le\ell$, it earns at most $\ell$ on both; if
+$\ell<a\le h$, it earns $a$ only on the high sequence and hence at most
+$h/2=\ell$ on average; and if $a>h$, it earns zero.  The same statement holds
+after averaging over a randomized policy.
+
+The player's expected total reward is therefore at most $N\ell=Nh/2$,
+whereas the average fixed-quote benchmark is
+\[
+  \frac{N\ell+Nh}{2}=\frac{3Nh}{4}.
+\]
+The average regret is at least $Nh/4=u/4$, so at least one of the two
+deterministic sequences has expected regret at least $u/4$.
+\end{proof}
+
+\subsection{Overestimation}
+
+The following construction will be used in both ranges of $o$.
+
+\newpage
+\begin{lemma}[Block construction]\label{lem:block}
+Let $n,r\ge1$ be integers satisfying
+\[
+  n(r+1)+1\le T,
+\]
+and let $d\in(0,1)$ satisfy $nd\le1/2$.  If $o\ge rd$, then every randomized
+policy has expected fixed-quote regret at least
+\begin{equation}\label{eq:block-result}
+  \frac{dnr}{4}
+\end{equation}
+on some deterministic sequence with $\cU_T=0$ and $\cO_T\le o$.
+\end{lemma}
+
+\begin{proof}
+Put $y:=1-d$.  Make $n$ blocks, each consisting of one marker followed by
+$r$ zero prices, and add one final marker:
+\[
+  q_1,\underbrace{0,\ldots,0}_{r},
+  q_2,\underbrace{0,\ldots,0}_{r},\ldots,
+  q_n,\underbrace{0,\ldots,0}_{r},q_{n+1}.
+\]
+If this uses fewer than $T$ prices, pad the sequence with copies of the last
+marker and reveal the exact estimate on every padding round.  There
+$p_t=M_t$, so neither the player nor any fixed quote can earn.
+
+On sequence $H$, every marker equals $1$.  For each $j\in\{1,\ldots,n\}$,
+sequence $J_j$ has markers $q_1,\ldots,q_j$ equal to $1$ and all later
+markers equal to $y$.  All non-marker prices remain zero.
+
+On $H$, reveal the exact value $L_t=M_t$.  On $J_j$, reveal $L_t=1$ up to and
+including all $r$ zero rounds in block $j$, and reveal the exact value $M_t$
+afterward.
+The estimates before block $j$ are already exact and equal to $1$.  At the
+marker starting block $j$, the current price is $p_t=M_t=1$, so its estimate
+$L_t=1$ is also exact even though all later markers equal $y$.  Only the $r$
+zero rounds in block $j$ have $M_t=y$ and $L_t=1$.  Hence
+\begin{equation}\label{eq:block-errors}
+  \cU_T=0,
+  \qquad
+  \cO_T=rd
+\end{equation}
+on $J_j$, while both errors vanish on $H$.
+
+We next verify the fixed-quote benchmark.  At every marker, including
+padding, $p_t=M_t$, so the strict requirement $p_t<a$ makes every genuine
+quote unsuccessful.  Fixed quotes therefore earn zero there.  On $H$, quote
+$1$ earns one on all $nr$ zero rounds, so
+\begin{equation}\label{eq:BH}
+  B_H=nr.
+\end{equation}
+On $J_j$, a quote $a\le y$ can earn on all zero rounds and is maximized at
+$a=y$, giving $nry$.  A quote $a>y$ can earn only on the $(j-1)r$ zero
+rounds before block $j$, and gives at most $(j-1)r$.  Since $nd\le1/2$
+implies $ny\ge n-1$, quote $y$ is optimal and
+\begin{equation}\label{eq:BJ}
+  B_{J_j}=nry.
+\end{equation}
+
+Up to every choice in block $j$, $H$ and $J_j$ reveal the same prices and
+estimates.  Quotes from earlier blocks encounter the same markers
+$q_2,\ldots,q_j=1$ and hence have identical fill and reward histories.  Quotes
+from block $j$ cannot fill before $q_{j+1}$, after all $r$ choices in the
+block.  On a zero round, encode abstention by setting $A=0$, and write
+$X:=1-A$.
+Let
+\[
+  G_j:=\sum_{t\text{ a zero round in block }j}
+         \Pr_H(X_t<d).
+\]
+The same probabilities apply on $J_j$ during this block.
+
+Write $R_H$ and $R_{J_j}$ for the expected fixed-quote regrets on the
+corresponding sequences.  On $H$, every quote placed at a zero price
+eventually executes, and quote $1$ is the benchmark.  Therefore
+\begin{equation}\label{eq:RH}
+  R_H=\sum_{t\text{ a zero round}}\E_H X_t.
+\end{equation}
+On $J_j$, each of the $(j-1)r$ earlier zero rounds can give the player a
+surplus of at most $d$ relative to quote $y$.  During block $j$, the event
+$X_t<d$ means $A_t>y$, so the quote fails and loses the benchmark reward
+$y$.  If $X_t\ge d$, then either the player abstains or $A_t\le y$; equality
+$X_t=d$ means $A_t=y$ and executes by the non-strict rule.  In all these
+cases the loss relative to quote $y$ is nonnegative.  All later losses are
+also nonnegative.  Thus
+\begin{equation}\label{eq:RJ}
+  R_{J_j}\ge yG_j-(j-1)rd.
+\end{equation}
+
+Let $R$ be the largest expected regret among
+$H,J_1,\ldots,J_n$.  Equation \eqref{eq:RJ} gives
+\[
+  G_j\le\frac{R+(j-1)rd}{y}.
+\]
+Also, $\E X_t\ge d\Pr(X_t\ge d)$, so \eqref{eq:RH} yields
+\begin{align*}
+  R
+  &\ge d\sum_{j=1}^n(r-G_j)\\
+  &\ge dnr-\frac{dn}{y}R
+       -\frac{d^2rn(n-1)}{2y}.
+\end{align*}
+Because $nd\le1/2$, we have $dn/y\le1$, and the last term is at most
+$dnr/2$.  It follows that
+\[
+  R\ge\frac{dnr}{2}-R,
+\]
+which proves \eqref{eq:block-result}.
+\end{proof}
+
+\begin{proposition}\label{prop:over-lower}
+For every $N\ge1$ and $0\le o\le N$,
+\[
+  \Rstar_T^{\mathrm{fix}}(0,o)\ge\frac{\phi_N(o)}{64}.
+\]
+\end{proposition}
+
+\begin{proof}
+The statement is immediate when $o=0$, so assume henceforth that $o>0$.
+First suppose $N\ge2$.  One choice
+that handles all small and intermediate values is
+\[
+  r=1,
+  \qquad
+  n=\left\lfloor\frac N2\right\rfloor,
+  \qquad
+  d=\min\left\{o,\frac1{2n}\right\}.
+\]
+Then $rd\le o$, $nd\le1/2$, and Lemma~\ref{lem:block} gives
+\begin{equation}\label{eq:small-o-lower}
+  R\ge\min\left\{\frac{no}{4},\frac18\right\}
+   \ge\min\left\{\frac{No}{12},\frac18\right\},
+\end{equation}
+where we used $n\ge N/3$.  If $No<64$, the last expression is at least
+$\phi_N(o)/64$.
+
+It remains to cover $s:=\sqrt{No}\ge8$.  Choose
+\[
+  r=\left\lfloor\frac s4\right\rfloor,
+  \qquad
+  n=\left\lfloor\frac{N}{r+1}\right\rfloor,
+  \qquad
+  d=\frac1{2n}.
+\]
+Since $o\le N$, we have $s\le N$.  Moreover,
+\[
+  r\ge\frac s8,
+  \qquad
+  r+1\le\frac{3s}{8}\le\frac N2,
+  \qquad
+  n\ge\frac{N}{2(r+1)}.
+\]
+The construction fits within the horizon, $nd=1/2$, and
+\[
+  rd=\frac r{2n}
+  \le\frac{r(r+1)}{N}
+  \le\frac{3s^2}{32N}
+  =\frac{3o}{32}
+  \le o.
+\]
+Lemma~\ref{lem:block} now gives
+\[
+  R\ge\frac r8\ge\frac s{64}
+   =\frac{\phi_N(o)}{64}.
+\]
+
+Finally suppose $N=1$ (and still $o>0$).  Compare two sequences with $p_1=0$.  On $H$, let
+$p_2=1$; on $J$, let $p_2=1-d$, where $d:=\min\{o,1/2\}$.  Reveal
+$L_1=1$ on both.  Thus $\cO_T=0$ on $H$ and $\cO_T=d\le o$ on $J$, with no
+underestimation.  Put $X=1-A_1$, again encoding abstention as $A_1=0$, and
+let $q=\Pr_H(X<d)$.  The histories before the only choice agree.  The regret
+on $H$ is at least $d(1-q)$, whereas on $J$ it is at least $(1-d)q$.
+If both quantities were smaller than $d(1-d)$, the first would imply $q>d$
+and the second $q<d$, a contradiction.  Their maximum is therefore at least
+$d(1-d)\ge o/4$.  Since
+$\phi_1(o)=o$ for $o\in[0,1]$, this proves the endpoint.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:matching}]
+The hard instances in Proposition~\ref{prop:under-lower} have
+$\cO_T=0\le o$, while those in Proposition~\ref{prop:over-lower} have
+$\cU_T=0\le u$.  Both families therefore lie in the class defining
+$\Rstar_T^{\mathrm{fix}}(u,o)$, and
+\[
+  \Rstar_T^{\mathrm{fix}}(u,o)
+  \ge\max\left\{\frac u4,\frac{\phi_N(o)}{64}\right\}
+  \ge\frac{u+\phi_N(o)}{128}.
+\]
+The minimax ordering \eqref{eq:minimax-order} and the dynamic upper bound in
+Theorem~\ref{thm:upper} now prove \eqref{eq:matching}.  Since
+$u,\phi_N(o)\le N$, replacing
+$u+\phi_N(o)$ by $\min\{N,u+\phi_N(o)\}$ changes it by at most a universal
+factor.  This proves \eqref{eq:rate}.
+
+When $u=o=0$, we have $L_t=M_t$.  Quoting $M_t$ when $M_t>p_t$ and
+abstaining otherwise earns $D_T$, so its dynamic regret is zero on every
+sequence.  A constant price sequence has $D_T=0$ and forces regret zero, so
+the worst-case value cannot be negative.  Hence
+$\Rstar_T^{\mathrm{dyn}}(0,0)=0$.
+\end{proof}
+
+\begin{corollary}[Fixed-quote regret]\label{cor:fixed}
+For every $T\ge2$ and $0\le u,o\le T-1$,
+\[
+  \Rstar_T^{\mathrm{fix}}(u,o)
+  =\Theta\!\left(
+     \min\{T-1,\,u+\phi_{T-1}(o)\}
+   \right).
+\]
+Moreover, $\Rstar_T^{\mathrm{fix}}(0,0)=0$ exactly.
+\end{corollary}
+
+\begin{proof}
+Propositions~\ref{prop:under-lower} and~\ref{prop:over-lower} give
+\[
+  \Rstar_T^{\mathrm{fix}}(u,o)
+  \ge \frac{u+\phi_{T-1}(o)}{128}.
+\]
+The upper bound follows from
+$\Rstar_T^{\mathrm{fix}}(u,o)\le\Rstar_T^{\mathrm{dyn}}(u,o)$ and
+Theorem~\ref{thm:matching}.  At $(u,o)=(0,0)$, the exact-estimate policy has
+fixed-quote regret at most zero on every sequence, while a constant price
+sequence forces regret zero.  Thus the minimax value is exactly zero.
+\end{proof}
+
+\section{Consequences and interpretation}
+
+\paragraph{No additional estimate.}
+Taking $L_t=p_t$ uses only the price already observed at the start of the
+round.  Then
+\[
+  \cU_T=\sum_{t=1}^{N}(M_t-p_t)=\cV_T,
+  \qquad
+  \cO_T=0.
+\]
+Consequently, for $0<v\le N$, the minimax value restricted to
+$L_t=p_t$ and $\cV_T\le v$ has, for either the dynamic or fixed-quote
+benchmark, the tight rate
+\begin{equation}\label{eq:variation-corollary}
+  \Theta\bigl(\min\{T-1,v\}\bigr).
+\end{equation}
+The simple dynamic-regret upper bound is obtained by always abstaining:
+$D_T=\cV_T$.  The fixed-quote upper bound follows because $B_T\le D_T$.
+The terminal-price construction in Proposition~\ref{prop:under-lower} has
+$B_T=D_T$ and gives the matching lower bound for both benchmarks.
+When $v=0$, both minimax regrets are exactly zero.
+
+\paragraph{One-sided estimates.}
+If $p_t\le L_t\le M_t$ and
+\[
+  W_T:=\sum_{t=1}^{N}(M_t-L_t),
+\]
+then $\cU_T=W_T$ and $\cO_T=0$.  Quoting $L_t$ whenever $L_t>p_t$ gives
+$R_T^{\mathrm{dyn}}\le W_T$, and hence also
+$R_T^{\mathrm{fix}}\le W_T$.  For $0<w\le N$, the minimax value
+restricted to these one-sided estimates and $W_T\le w$ has, for either
+benchmark, the tight rate
+\[
+  \Theta\bigl(\min\{T-1,w\}\bigr).
+\]
+When $w=0$, the estimates are exact and both minimax regrets are exactly
+zero.
+
+\paragraph{Why the old logarithmic term disappears.}
+In the lagged gross-revenue protocol, the estimate of $M_t$ arrived only
+after the quote at round $t$, and the player had to leave a multiplicative
+margin for the unknown drop in the maximum.  Here $p_t$ and $L_t$ are both
+known before the quote.  With an exact estimate, the player can take the
+best possible profit on every round, so even a constant logarithmic baseline
+would be false.
+
+\paragraph{Why the overestimation term has two ranges.}
+If the total overestimation is at most $o$, subtracting $o$ makes every quote
+safe and costs at most $No$.  Random subtraction spreads the protection over
+the rounds and costs order $\sqrt{No}$.  The block construction shows that
+the better of these two costs is unavoidable.  In particular, a square-root
+term alone cannot be tight as $o\downarrow0$, because exact estimates have
+zero regret.
+
+\begin{remark}[Knowledge of the budget]
+The optimized policy uses the announced upper bound $o$, as does the
+minimax definition \eqref{eq:minimax}.  This is not merely a proof
+convenience.  Already with one quote round, zero dynamic regret on an exact
+estimate can force one particular quote, while an arbitrarily close
+overestimate makes that same quote fail.  Concretely, take $T=2$, $p_1=0$,
+and $L_1=x$.  On the path $p_2=x$, zero regret forces $A_1=x$ almost surely.
+On the indistinguishable path $p_2=x-\delta$, that quote fails while both
+benchmarks equal $x-\delta$, although $\cO_T=\delta$.  Thus a single policy
+that does not know an error scale
+cannot retain both exact zero regret at $\cO_T=0$ and a guarantee tending
+continuously to zero with $\cO_T$.
+\end{remark}
+
+\end{document}
