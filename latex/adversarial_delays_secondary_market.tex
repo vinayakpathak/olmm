@@ -1,0 +1,824 @@
+\documentclass[11pt]{article}
+
+\usepackage[letterpaper,top=0.92in,bottom=0.88in,left=1in,right=1in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\allowdisplaybreaks
+
+\title{Adversarial delays with secondary-market prices}
+\author{Vinayak Pathak}
+\date{August 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Model and path parameters}
+\label{sec:model-and-path-parameters}
+
+The player's action space is $[0,1]$. Fix a horizon $T\ge 2$. The
+game is parameterized by two unknown deterministic sequences chosen by
+an oblivious adversary,
+\[
+    \boldsymbol{p}=(p_1,p_2,\ldots),
+    \qquad
+    \boldsymbol{m}=(m_1,m_2,\ldots),
+\]
+where $p_t,m_t\in[0,1]$. Let
+$\boldsymbol{p}_T:=(p_1,\ldots,p_T)$ and
+$\boldsymbol{m}_T:=(m_1,\ldots,m_T)$ denote their horizon-$T$ prefixes.
+All horizon-$T$ rewards and path parameters below depend only on these
+prefixes, so any finite construction may be extended arbitrarily after
+time $T$.
+The primary-price sequence defines the delay functions
+\[
+    d_t(a):=\min\bigl\{\tau\in\mathbb{N}_0:p_{t+\tau}>a\bigr\},
+\]
+where $\mathbb{N}_0=\{0,1,\ldots\}$, with $d_t(a)=\infty$ if the set is
+empty. We use the usual convention $t+\infty=\infty$. For notational
+convenience, set $m_\infty:=0$; this value is always multiplied by a zero
+execution indicator and never affects a reward.
+
+At time $t$:
+\begin{enumerate}
+    \item The player posts an offer $A_t\in[0,1]$, possibly using
+    randomization and the observations from times $1,\ldots,t-1$.
+    \item The environment reveals $p_t\in[0,1]$ and the secondary-market
+    price $m_t\in[0,1]$.
+    \item For each $s\le t$: if the offer $A_s$ is still outstanding and
+    $p_t>A_s$, then $A_s$ is executed. The market maker sells at $A_s$,
+    immediately buys at $m_t$, and receives reward $A_s-m_t$.
+\end{enumerate}
+
+The reward associated with an offer $a$ submitted at time $t$ is
+\[
+    r_t(a):=
+    \bigl(a-m_{t+d_t(a)}\bigr)
+    \mathbb{I}\bigl\{t+d_t(a)\le T\bigr\}.
+\]
+
+The benchmark obtained by posting the same offer on every round is
+\[
+    B_T(\boldsymbol{p}_T,\boldsymbol{m}_T)
+    :=
+    \sup_{a\in[0,1]}\sum_{t=1}^T r_t(a).
+\]
+
+The regret of a possibly randomized policy $\pi$ is
+\[
+    R_T^\pi(\boldsymbol{p}_T,\boldsymbol{m}_T)
+    :=
+    B_T(\boldsymbol{p}_T,\boldsymbol{m}_T)
+    -
+    \mathbb{E}_\pi\left[\sum_{t=1}^T r_t(A_t)\right],
+\]
+where $\mathbb{I}$ denotes the indicator function and
+$\mathbb{E}_\pi$ is only over the player's internal randomization. We
+write $R_T$ when the policy and paths are clear. Notice that
+$B_T(\boldsymbol{p}_T,\boldsymbol{m}_T)\ge0$, because the offer $a=1$
+never executes.
+
+For each $t\le T$, define the suffix maximum
+\[
+    M_t:=\max_{t\le s\le T}p_s.
+\]
+Then $M_1\ge M_2\ge\cdots\ge M_T$. By definition,
+\[
+    t+d_t(a)\le T
+\]
+if and only if $a<M_t$, and
+\[
+    \bigl\{a\in[0,1]:1\le d_t(a)\le T-t\bigr\}=[p_t,M_t).
+\]
+
+Let $U$ be uniformly distributed on $[0,1]$. Define the primary-price
+path complexity
+\[
+    \mathcal{V}_T
+    :=
+    \sum_{t=1}^{T-1}
+    \mathbb{P}\bigl(1\le d_t(U)\le T-t\bigr)
+    =
+    \sum_{t=1}^{T-1}(M_t-p_t).
+\]
+
+The new issue is that the liquidation price attached to a quote depends
+on the date at which that quote first executes.
+
+\subsection{Possible execution dates}
+\label{sec:possible-execution-dates}
+
+Fix a submission time $s$. Define
+\[
+    \mathcal{J}_s(\boldsymbol{p}_T)
+    :=
+    \bigl\{s+d_s(a):a\in[0,1],\ s+d_s(a)\le T\bigr\}.
+\]
+
+These are exactly the dates that can be the first execution time of some
+offer submitted at time $s$. Equivalently,
+\[
+    \mathcal{J}_s(\boldsymbol{p}_T)
+    =
+    \left\{
+        u\in\{s,\ldots,T\}:
+        p_u>
+        \max\bigl(\{0\}\cup\{p_v:s\le v<u\}\bigr)
+    \right\}.
+\]
+
+Indeed, if $u\in\mathcal{J}_s(\boldsymbol{p}_T)$, then one can choose
+\[
+    \max\bigl(\{0\}\cup\{p_v:s\le v<u\}\bigr)\le a<p_u,
+\]
+and this offer first executes at $u$. Conversely, a first execution can
+occur at $u$ only if $p_u$ is a strict running maximum since the offer
+was submitted.
+
+For $s\ge2$, define the execution-price exposure
+\[
+    \omega_s(\boldsymbol{p}_T,\boldsymbol{m}_T)
+    :=
+    \max_{u\in\mathcal{J}_s(\boldsymbol{p}_T)}
+    \bigl|m_u-m_{s-1}\bigr|,
+\]
+where the maximum is defined to be zero if
+$\mathcal{J}_s(\boldsymbol{p}_T)=\varnothing$.
+Finally, define
+\[
+    W_T(\boldsymbol{p}_T,\boldsymbol{m}_T)
+    :=
+    \sum_{s=2}^T
+    \omega_s(\boldsymbol{p}_T,\boldsymbol{m}_T).
+\]
+
+Throughout, when the underlying paths are clear, we suppress the path
+arguments of path-dependent quantities.
+
+The quantity $W_T$ depends only on the realized joint path
+$(\boldsymbol{p}_T,\boldsymbol{m}_T)$. It does not depend on the learner
+or on an auxiliary predictor.
+
+The interpretation is direct. When the offer at time $s$ is selected,
+the most recently observed secondary-market price is $m_{s-1}$.
+Depending on its level, that offer can first execute at any date in
+$\mathcal{J}_s$. Thus $\omega_s$ is the largest secondary-price movement
+to which the offer at $s$ could be exposed.
+
+For example, if $p_t$ is nonincreasing, an offer either executes
+immediately or never executes. Hence
+$\mathcal{J}_s\subseteq\{s\}$ and
+\[
+    W_T\le\sum_{s=2}^T|m_s-m_{s-1}|.
+\]
+Equality holds if $p_s>0$ for every $s=2,\ldots,T$.
+
+\section{Upper bound}
+\label{sec:upper-bound}
+
+For every $t=1,\ldots,T$, define
+\[
+    H_t:=\sum_{s=1}^t\frac1s.
+\]
+
+Write $(x)_+:=\max\{x,0\}$.
+
+Set
+\[
+    c_1:=1,
+    \qquad
+    c_t:=m_{t-1}\quad(t\ge2),
+\]
+and define the surrogate reward
+\[
+    \widetilde r_t(a):=(a-c_t)\mathbb{I}\{a<M_t\}.
+\]
+
+Let
+\[
+    \widetilde B_T
+    :=
+    \sup_{a\in[0,1]}
+    \sum_{t=1}^T\widetilde r_t(a).
+\]
+
+For every $t=1,\ldots,T$, define
+\[
+    C_t:=\sum_{s=1}^t c_s.
+\]
+
+\begin{lemma}
+\label{lem:surrogate-benchmark}
+For every pair of paths
+$\boldsymbol{p}_T,\boldsymbol{m}_T$,
+\[
+    \widetilde B_T
+    \le
+    \max\left\{
+        0,\,
+        \max_{1\le k\le T}(kM_k-C_k)
+    \right\}.
+\]
+\end{lemma}
+
+\begin{proof}
+For $a\in[0,1]$, let
+\[
+    N(a):=\max\{1\le t\le T:a<M_t\},
+\]
+with $N(a)=0$ if the set is empty. Since
+$M_1\ge M_2\ge\cdots\ge M_T$, if $N(a)\ge1$, then
+\[
+    \sum_{t=1}^T\widetilde r_t(a)
+    =
+    \sum_{t=1}^{N(a)}(a-c_t)
+    =
+    aN(a)-C_{N(a)}.
+\]
+Moreover, $a<M_{N(a)}$, and hence
+\[
+    aN(a)-C_{N(a)}
+    <
+    N(a)M_{N(a)}-C_{N(a)}
+    \le
+    \max_{1\le k\le T}(kM_k-C_k).
+\]
+If $N(a)=0$, the surrogate payoff is zero.
+Taking the supremum over $a$ concludes the proof.
+\end{proof}
+
+Define the clairvoyant actions
+\[
+    A_1^\star:=c_1
+\]
+and, for $t\ge2$,
+\[
+    A_t^\star
+    :=
+    c_t+\frac{t-1}{t}(M_{t-1}-c_t)_+.
+\]
+
+Let
+\[
+    S_t^\star:=\sum_{s=1}^t\widetilde r_s(A_s^\star).
+\]
+
+\begin{lemma}[Clairvoyant potential bound]
+\label{lem:clairvoyant-potential}
+For every $t=1,\ldots,T$,
+\[
+    S_t^\star\ge tM_t-C_t-H_t+1.
+\]
+Consequently,
+\[
+    S_T^\star\ge\widetilde B_T-(H_T-1).
+\]
+\end{lemma}
+
+\begin{proof}
+We prove the statement by induction on $t$. For $t=1$,
+\[
+    S_1^\star
+    =
+    \widetilde r_1(1)
+    =
+    0
+    \ge
+    M_1-C_1-H_1+1
+    =
+    M_1-1.
+\]
+
+Now fix $t\ge2$ and assume
+\[
+    S_{t-1}^\star
+    \ge
+    (t-1)M_{t-1}-C_{t-1}-H_{t-1}+1.
+\]
+
+There are two cases.
+\begin{enumerate}
+    \item If $A_t^\star<M_t$, then $M_{t-1}>c_t$, the offer executes by
+    time $T$, and
+    \[
+        \widetilde r_t(A_t^\star)
+        =
+        \frac{t-1}{t}(M_{t-1}-c_t).
+    \]
+    Therefore
+    \begin{align*}
+        S_t^\star
+        &\ge
+        (t-1)M_{t-1}-C_{t-1}-H_{t-1}+1
+        +\frac{t-1}{t}(M_{t-1}-c_t)
+        \\
+        &=
+        \left(t-\frac1t\right)M_{t-1}
+        -C_t-H_{t-1}+1+\frac{c_t}{t}
+        \\
+        &\ge
+        tM_t-C_t-H_t+1.
+    \end{align*}
+    For the last step, we used $M_{t-1}\ge M_t$ and
+    \[
+        \left(t-\frac1t\right)M_t
+        +\frac{c_t}{t}
+        +\frac1t
+        -tM_t
+        =
+        \frac{1+c_t-M_t}{t}
+        \ge0.
+    \]
+
+    \item If $A_t^\star\ge M_t$, then the offer does not execute by time
+    $T$ and $\widetilde r_t(A_t^\star)=0$. If
+    $M_{t-1}\le c_t$, then
+    \[
+        tM_t
+        \le
+        tM_{t-1}
+        \le
+        (t-1)M_{t-1}+c_t.
+    \]
+    If $M_{t-1}>c_t$, the case condition gives the same inequality.
+    Hence
+    \[
+        S_t^\star
+        =
+        S_{t-1}^\star
+        \ge
+        (t-1)M_{t-1}-C_{t-1}-H_{t-1}+1
+        \ge
+        tM_t-C_t-H_t+1.
+    \]
+\end{enumerate}
+
+This completes the induction. To prove the last statement, observe that
+every clairvoyant surrogate reward is nonnegative. If the outer maximum
+in Lemma~\ref{lem:surrogate-benchmark} is positive, choose $k$ achieving
+the inner maximum. Then
+\[
+    S_T^\star
+    \ge
+    S_k^\star
+    \ge
+    kM_k-C_k-H_k+1
+    \ge
+    \widetilde B_T-(H_T-1).
+\]
+If the outer maximum is zero,
+Lemma~\ref{lem:surrogate-benchmark} gives $\widetilde B_T=0$, while
+$S_T^\star\ge0$. The same conclusion follows, completing the proof.
+\end{proof}
+
+\begin{lemma}
+\label{lem:surrogate-one-sided-lipschitz}
+For every $t$ and every $c_t\le x\le y\le1$,
+\[
+    \widetilde r_t(x)
+    \ge
+    \widetilde r_t(y)-(y-x).
+\]
+\end{lemma}
+
+\begin{proof}
+If $y<M_t$, then also $x<M_t$, and
+\[
+    \widetilde r_t(x)
+    =
+    x-c_t
+    =
+    \widetilde r_t(y)-(y-x).
+\]
+If $y\ge M_t$, then $\widetilde r_t(y)=0$, and so
+$\widetilde r_t(y)-(y-x)\le0$, whereas
+$\widetilde r_t(x)\ge0$, concluding the proof.
+\end{proof}
+
+\begin{theorem}[Pathwise upper bound]
+\label{thm:pathwise-upper-bound}
+The deterministic policy
+\[
+    A_1=1,
+    \qquad
+    A_t
+    =
+    m_{t-1}
+    +
+    \frac{t-1}{t}(p_{t-1}-m_{t-1})_+
+    \quad(t\ge2)
+\]
+satisfies
+\[
+    R_T\le H_T+\mathcal{V}_T+2W_T.
+\]
+\end{theorem}
+
+\begin{proof}
+For $t\ge2$, one has $p_{t-1}\le M_{t-1}$, and therefore
+\[
+    c_t\le A_t\le A_t^\star.
+\]
+Applying Lemma~\ref{lem:surrogate-one-sided-lipschitz} gives
+\[
+    \widetilde r_t(A_t)
+    \ge
+    \widetilde r_t(A_t^\star)-(A_t^\star-A_t).
+\]
+Moreover,
+\begin{align*}
+    A_t^\star-A_t
+    &=
+    \frac{t-1}{t}
+    \left[
+        (M_{t-1}-c_t)_+
+        -
+        (p_{t-1}-c_t)_+
+    \right]
+    \\
+    &\le
+    \frac{t-1}{t}(M_{t-1}-p_{t-1}),
+\end{align*}
+because $x\mapsto(x-c_t)_+$ is $1$-Lipschitz. The same
+surrogate-reward inequality is trivial at $t=1$, because
+$A_1=A_1^\star=1$.
+
+We next compare surrogate and actual rewards. For $t\ge2$,
+\[
+    \left|r_t(a)-\widetilde r_t(a)\right|
+    =
+    \left|m_{t-1}-m_{t+d_t(a)}\right|
+    \mathbb{I}\{t+d_t(a)\le T\}
+    \le
+    \omega_t,
+\]
+because, whenever the offer executes by time $T$, its first execution
+date $t+d_t(a)$ belongs to $\mathcal{J}_t$. At $t=1$,
+\[
+    r_1(a)-\widetilde r_1(a)
+    =
+    \bigl(1-m_{1+d_1(a)}\bigr)
+    \mathbb{I}\{1+d_1(a)\le T\}
+    \le1.
+\]
+Thus, for every fixed offer $a$,
+\[
+    \sum_{t=1}^T r_t(a)
+    \le
+    \sum_{t=1}^T\widetilde r_t(a)+1+W_T,
+\]
+and therefore
+\[
+    B_T\le\widetilde B_T+1+W_T.
+\]
+
+For the learner, $A_1=1$ never executes and
+$r_1(A_1)=\widetilde r_1(A_1)=0$. Applying the preceding bound to the
+remaining offers and summing over $t$, we obtain
+\begin{align*}
+    \sum_{t=1}^T r_t(A_t)
+    &\ge
+    \sum_{t=1}^T\widetilde r_t(A_t)-W_T
+    \\
+    &\ge
+    S_T^\star
+    -
+    \sum_{t=2}^T
+    \frac{t-1}{t}(M_{t-1}-p_{t-1})
+    -
+    W_T
+    \\
+    &\ge
+    \widetilde B_T-(H_T-1)
+    -
+    \sum_{s=1}^{T-1}
+    \frac{s}{s+1}(M_s-p_s)
+    -
+    W_T
+    \\
+    &\ge
+    B_T-H_T
+    -
+    \sum_{s=1}^{T-1}
+    \frac{s}{s+1}(M_s-p_s)
+    -
+    2W_T
+    \\
+    &\ge
+    B_T-H_T-\mathcal{V}_T-2W_T.
+\end{align*}
+
+The third inequality uses
+Lemma~\ref{lem:clairvoyant-potential}, the fourth uses the preceding
+benchmark comparison, and the last one uses the definition of
+$\mathcal{V}_T$. Rearranging concludes the proof.
+\end{proof}
+
+\section{A matching lower bound for the new term}
+\label{sec:a-matching-lower-bound-for-the-new-term}
+
+The quantity $W_T$ is not merely an artifact of the upper-bound proof. A
+single secondary-price movement can create one unit of uncertainty for
+every old offer that could still be waiting in the book.
+
+\begin{theorem}[Necessity of $W_T$]
+\label{thm:necessity-w}
+Fix $T \ge 2$. For every possibly randomized learner and every
+\[
+    0 \le w \le \frac{T-1}{4},
+\]
+there exists a deterministic oblivious pair of sequences
+$(\boldsymbol{p},\boldsymbol{m})$ such that
+\[
+    W_T=w,
+    \qquad
+    \mathcal{V}_T=\frac{w}{4T},
+\]
+and
+\[
+    R_T\ge\frac{3}{8}w.
+\]
+Thus no algorithm can guarantee $o(W_T)$ regret uniformly, even on
+sequences satisfying
+\[
+    \mathcal{V}_T=O\left(\frac{W_T}{T}\right).
+\]
+\end{theorem}
+
+\begin{proof}
+Set
+\[
+    q:=\frac{3}{4},
+    \qquad
+    c:=\frac{1}{2},
+    \qquad
+    \delta:=\frac{w}{T-1},
+    \qquad
+    \epsilon:=\frac{\delta}{4T}.
+\]
+Use the primary-price sequence
+\[
+    p_t=q \quad (t<T),
+    \qquad
+    p_T=q+\epsilon.
+\]
+Consider two possible secondary-price sequences. In both worlds,
+\[
+    m_t=c \quad (t<T),
+\]
+whereas
+\[
+    m_T=
+    \begin{cases}
+        c-\delta & \text{in world L}\\
+        c+\delta & \text{in world H}
+    \end{cases}.
+\]
+Put the uniform prior on the two worlds. Before choosing $A_T$, the
+learner has observed the same history in both worlds. Hence every
+learner action is independent of the world.
+
+For any round, the learner's prior-expected reward is at most
+\[
+    q+\epsilon-c=\frac{1}{4}+\epsilon.
+\]
+Indeed, if $a<q$, it executes immediately and receives
+$a-c\le q-c$. If $q\le a<q+\epsilon$, it executes at $T$ and its
+prior-expected reward is $a-c\le q+\epsilon-c$. If
+$a\ge q+\epsilon$, it never executes. Thus the learner's expected
+cumulative reward is at most
+\[
+    T\left(\frac{1}{4}+\epsilon\right).
+\]
+
+In world L, the fixed comparator may quote just below $q+\epsilon$,
+wait until $T$, and obtain a payoff arbitrarily close to
+\[
+    T\left(\frac{1}{4}+\epsilon+\delta\right).
+\]
+In world H, the comparator may quote just below $q$. It executes
+immediately on the first $T-1$ rounds and at $T$ on the final round,
+obtaining a payoff arbitrarily close to
+\[
+    (T-1)\frac{1}{4}
+    +\left(\frac{1}{4}-\delta\right)
+    =\frac{T}{4}-\delta.
+\]
+Therefore the prior-averaged regret is at least
+\begin{align*}
+    &\frac{1}{2}
+    \left[
+        T\left(\frac{1}{4}+\epsilon+\delta\right)
+        +\left(\frac{T}{4}-\delta\right)
+    \right]
+    -T\left(\frac{1}{4}+\epsilon\right)\\
+    &\qquad=\frac{T-1}{2}\delta-\frac{T}{2}\epsilon\\
+    &\qquad=\frac{w}{2}-\frac{\delta}{8}\\
+    &\qquad\ge\frac{3}{8}w.
+\end{align*}
+By Yao's principle, one of the two deterministic worlds gives at least
+this expected regret against the original randomized learner.
+
+For every $s=2,\ldots,T$, both the immediate date $s$ and the terminal
+date $T$ are possible execution dates, and
+\[
+    \omega_s=\delta.
+\]
+Hence
+\[
+    W_T=(T-1)\delta=w.
+\]
+Finally,
+\[
+    \mathcal{V}_T=(T-1)\epsilon=\frac{w}{4T}.
+\]
+This completes the proof.
+\end{proof}
+
+\section{The harmonic and primary-price terms are also necessary}
+\label{sec:the-harmonic-and-primary-price-terms-are-also-necessary}
+
+The preceding theorem isolates the new secondary-price difficulty. The
+two terms inherited from the original problem are independently
+unavoidable as well.
+
+\begin{theorem}[Harmonic lower bound]
+\label{thm:harmonic-lower-bound}
+For every possibly randomized policy and every $T\ge2$, there exists a
+deterministic nonincreasing sequence
+$p_1\ge\cdots\ge p_T>0$ and the constant secondary-price sequence
+$m_t=0$ such that
+\[
+    \mathcal{V}_T=0,
+    \qquad
+    W_T=0,
+\]
+and
+\[
+    R_T\ge\frac{3}{16}(H_T-1).
+\]
+\end{theorem}
+
+\emph{Intuition.}
+Conditional on the current primary price being $x$, let the next price
+remain at $x$ with high probability and fall to
+$(1-\epsilon_t)x$ with probability $\epsilon_t$. Uncertainty about
+whether the fall occurs costs the learner about $\epsilon_t x$ at round
+$t$. The expected erosion of the final-price comparator is only of
+order $t\epsilon_t^2x$. Choosing $\epsilon_t=1/(2t)$ makes the net loss
+of order $x/t$. Meanwhile, $\sum_t\epsilon_t^2<\infty$, so the expected
+price stays bounded away from zero. Summing $1/t$ gives the logarithmic
+lower bound.
+
+\begin{proof}
+The random construction is only a proof device. Every realization is a
+deterministic oblivious sequence.
+
+Set $p_1=1$. Independently for every $t=2,\ldots,T$, conditional on
+$p_{t-1}=x$, let
+\[
+    p_t=
+    \begin{cases}
+        x & \text{with probability }1-\epsilon_t\\
+        (1-\epsilon_t)x & \text{with probability }\epsilon_t
+    \end{cases}
+    \qquad
+    \epsilon_t:=\frac{1}{2t}.
+\]
+Every realization is nonincreasing. Therefore $M_t=p_t$ and
+$\mathcal{V}_T=0$. Since $m_t=0$, we also have $W_T=0$.
+
+Conditional on $p_{t-1}=x$, the expected reward of any offer at round
+$t$ is at most
+\[
+    (1-\epsilon_t)x.
+\]
+To see this, first condition on a deterministic offer $a$. If
+$a<(1-\epsilon_t)x$, it executes in both states and earns at most
+$(1-\epsilon_t)x$. If $(1-\epsilon_t)x\le a<x$, it executes only when
+there is no drop and its expected reward is
+$(1-\epsilon_t)a\le(1-\epsilon_t)x$. If $a\ge x$, it earns zero.
+Randomized offers follow by averaging.
+
+Let
+\[
+    \mu_t:=\mathbb{E}[p_t],
+    \qquad
+    \mu_0=\mu_1=1,
+\]
+and set $\epsilon_1=0$. Then
+\[
+    \mu_t=(1-\epsilon_t^2)\mu_{t-1}.
+\]
+Moreover,
+\[
+    \mu_t
+    =\prod_{s=2}^t\left(1-\frac{1}{4s^2}\right)
+    \ge
+    1-\sum_{s=2}^{\infty}\frac{1}{4s^2}
+    \ge\frac{3}{4}.
+\]
+
+Because the path is nonincreasing, every fixed offer $a<p_T$ executes
+on every round. Hence the benchmark satisfies
+\[
+    B_T\ge Tp_T.
+\]
+The prior-averaged regret is therefore at least
+\[
+    T\mu_T-\sum_{t=1}^T(1-\epsilon_t)\mu_{t-1}.
+\]
+Using
+\[
+    \sum_{t=1}^T\mu_{t-1}-T\mu_T
+    =
+    \sum_{t=1}^Tt(\mu_{t-1}-\mu_t)
+\]
+and $\mu_{t-1}-\mu_t=\epsilon_t^2\mu_{t-1}$, we obtain
+\begin{align*}
+    \mathbb{E}[R_T]
+    &\ge
+    \sum_{t=1}^T
+    (\epsilon_t-t\epsilon_t^2)\mu_{t-1}\\
+    &=
+    \frac{1}{4}\sum_{t=2}^T\frac{\mu_{t-1}}{t}\\
+    &\ge
+    \frac{3}{16}(H_T-1).
+\end{align*}
+At least one deterministic realization in the support has at least this
+regret.
+\end{proof}
+
+\begin{theorem}[Primary-price lower bound]
+\label{thm:primary-price-lower-bound}
+Fix $T\ge2$ and $v\in(0,T-1]$. For every possibly randomized learner,
+there exists a deterministic pair
+$(\boldsymbol{p},\boldsymbol{m})$ such that
+\[
+    \mathcal{V}_T\le v,
+    \qquad
+    W_T=0,
+\]
+and
+\[
+    R_T\ge\frac{v}{e}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let
+\[
+    b:=\frac{v}{T-1}.
+\]
+Set $m_t=0$ for all $t$, and let
+\[
+    p_1=\cdots=p_{T-1}=0,
+    \qquad
+    p_T=X,
+\]
+where $X\in[0,b]$ has survival function
+\[
+    \mathbb{P}(X>x)=
+    \begin{cases}
+        1 & 0\le x<b/e\\
+        \dfrac{b}{ex} & b/e\le x<b\\
+        0 & x\ge b.
+    \end{cases}
+\]
+Then
+\[
+    \mathbb{E}[X]=\frac{2b}{e},
+\]
+and every offer $a$ satisfies
+\[
+    a\mathbb{P}(X>a)\le\frac{b}{e}.
+\]
+All learner decisions are made before $X$ is observed, so the learner's
+expected reward is at most $Tb/e$. The fixed comparator has payoff
+$TX$, whose expectation is $2Tb/e$. Thus the Bayes regret is at least
+\[
+    \frac{Tb}{e}
+    =
+    \frac{T}{e(T-1)}v
+    \ge
+    \frac{v}{e}.
+\]
+Consequently, one deterministic value of $X$ gives at least this much
+regret. For every realization,
+\[
+    \mathcal{V}_T=(T-1)X\le v,
+    \qquad
+    W_T=0.
+\]
+This proves the theorem.
+\end{proof}
+
+\end{document}
