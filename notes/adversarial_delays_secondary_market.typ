@@ -102,59 +102,27 @@ $ cal(V)_T := sum_(t = 1)^(T - 1) bb(P) (1 lt.eq d_t (U) lt.eq T - t)
 The new issue is that the liquidation price attached to a quote depends
 on the date at which that quote first executes.
 
-== Possible execution dates
-<possible-execution-dates>
-Fix a submission time $s$. Define
+For $s = 1 , dots.h , T - 1$, define the future secondary-price exposure
 
-$ cal(J)_s (bold(p)_T)
-  := {s + d_s (a) : a in [0 , 1] , s + d_s (a) lt.eq T} . $
+$ omega_s (bold(m)_T)
+  := max_(s < u lt.eq T) lr(|m_u - m_s|) , $
 
-These are exactly the dates that can be the first execution time of some
-offer submitted at time $s$. Equivalently,
+and define
 
-$ cal(J)_s (bold(p)_T)
-  = {u in {s , dots.h , T} : p_u > max ({0} union {p_v : s lt.eq v < u})} . $
-
-Indeed, if $u in cal(J)_s (bold(p)_T)$, then one can choose
-
-$ max ({0} union {p_v : s lt.eq v < u}) lt.eq a < p_u , $
-
-and this offer first executes at $u$. Conversely, a first execution can
-occur at $u$ only if $p_u$ is a strict running maximum since the offer
-was submitted.
-
-For $s gt.eq 2$, define the execution-price exposure
-
-$ omega_s (bold(p)_T , bold(m)_T)
-  := max_(u in cal(J)_s (bold(p)_T)) lr(|m_u - m_(s - 1)|) , $
-
-where the maximum is defined to be zero if
-$cal(J)_s (bold(p)_T) = emptyset$.
-Finally, define
-
-$ W_T (bold(p)_T , bold(m)_T)
-  := sum_(s = 2)^T omega_s (bold(p)_T , bold(m)_T) . $
+$ W_T (bold(m)_T)
+  := sum_(s = 1)^(T - 1) omega_s (bold(m)_T) . $
 
 Throughout, when the underlying paths are clear, we suppress the path
 arguments of path-dependent quantities.
 
-The quantity $W_T$ depends only on the realized joint path
-$(bold(p)_T , bold(m)_T)$. It does not depend on the learner or on an
-auxiliary predictor.
-
-The interpretation is direct. When the offer at time $s$ is selected,
-the most recently observed secondary-market price is $m_(s - 1)$.
-Depending on its level, that offer can first execute at any date in
-$cal(J)_s$. Thus $omega_s$ is the largest secondary-price movement to
-which the offer at $s$ could be exposed.
-
-For example, if $p_t$ is nonincreasing, an offer either executes
-immediately or never executes. Hence
-$cal(J)_s subset.eq {s}$ and
-
-$ W_T lt.eq sum_(s = 2)^T lr(|m_s - m_(s - 1)|) . $
-
-Equality holds if $p_s > 0$ for every $s = 2 , dots.h , T$.
+The quantity $W_T$ depends only on the realized secondary-price path
+$bold(m)_T$. It does not depend on the primary-price path, the learner,
+or an auxiliary predictor. When the offer at time $s + 1$ is selected,
+the most recently observed secondary-market price is $m_s$. Any eventual
+execution date $u$ of that offer satisfies $u > s$, so $omega_s$ bounds
+the largest secondary-price movement to which the offer could be exposed.
+The maximum ranges over all future dates, whether or not they can be the
+first execution date of an offer.
 
 = Upper bound
 <upper-bound>
@@ -337,10 +305,10 @@ We next compare surrogate and actual rewards. For $t gt.eq 2$,
 $ lr(|r_t (a) - tilde(r)_t (a)|)
   = lr(|m_(t - 1) - m_(t + d_t (a))|)
     bb(I) {t + d_t (a) lt.eq T}
-  lt.eq omega_t , $
+  lt.eq omega_(t - 1) , $
 
-because, whenever the offer executes by time $T$, its first execution
-date $t + d_t (a)$ belongs to $cal(J)_t$. At $t = 1$,
+because, whenever the offer executes by time $T$, its execution date
+$t + d_t (a)$ is strictly larger than $t - 1$. At $t = 1$,
 
 $ r_1 (a) - tilde(r)_1 (a)
   = (1 - m_(1 + d_1 (a))) bb(I) {1 + d_1 (a) lt.eq T}
@@ -377,9 +345,9 @@ $square.filled$
 
 = A matching lower bound for the new term
 <a-matching-lower-bound-for-the-new-term>
-The quantity $W_T$ is not merely an artifact of the upper-bound proof. A
-single secondary-price movement can create one unit of uncertainty for
-every old offer that could still be waiting in the book.
+Although $W_T$ maximizes over all future dates, the next construction
+shows that its linear contribution is unavoidable when one terminal
+secondary-price movement can affect every earlier offer.
 
 #strong[Theorem 2 \(Necessity of $W_T$).] Fix $T gt.eq 2$. For every
 possibly randomized learner and every
@@ -457,8 +425,8 @@ $  & 1 / 2 [T (1 / 4 + epsilon + delta) + (T / 4 - delta)] - T (1 / 4 + epsilon)
 By Yao’s principle, one of the two deterministic worlds gives at least
 this expected regret against the original randomized learner.
 
-For every $s = 2 , dots.h , T$, both the immediate date $s$ and the
-terminal date $T$ are possible execution dates, and
+For every $s = 1 , dots.h , T - 1$, one has $m_s = c$ and
+$lr(|m_T - m_s|) = delta$. Therefore
 
 $ omega_s = delta . $
 
